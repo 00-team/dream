@@ -1,0 +1,27 @@
+{
+    "name": "dream",
+    "module": "index.ts",
+    "type": "module",
+    "version": "0.1.4",
+    "description": "",
+    "main": "index.js",
+    "author": "00-team",
+    "license": "AGPL-3",
+    "scripts": {
+        "start": "vite -c vite.ts --host",
+        "build": "vite build -c vite.ts",
+        "build:dev": "vite build -c vite.ts --mode development",
+        "serve": "local_api_target=1 vite -c vite.ts"
+    },
+    "devDependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+        "sass": "^1.76.0",
+        "typescript": "^5.4.5",
+        "vite": "^5.2.11",
+        "vite-plugin-solid": "^2.10.2"
+    },
+    "dependencies": {
+        "@solidjs/router": "^0.13.3",
+        "solid-js": "^1.8.17"
+    }
+}
