@@ -1,0 +1,22 @@
+# name: Deploy 👻
+#
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - Cargo.toml
+#
+# jobs:
+#   deploy:
+#     name: Deploy 📦
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: connect/deploy
+#         uses: appleboy/ssh-action@v0.1.8
+#         with:
+#           host: ${{ secrets.HOST }}
+#           username: ${{ secrets.USERNAME }}
+#           key: ${{ secrets.KEY }}
+#           command_timeout: 1h
+#           script: bash /p/dream/config/deploy.sh
