@@ -1,0 +1,16 @@
+[Unit]
+Description=dream backend
+After=syslog.target
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/p/dream/
+EnvironmentFile=/p/dream/.secrets.env
+ExecStart=/p/dream/target/release/dream
+KillSignal=SIGQUIT
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
