@@ -1,3 +1,19 @@
+use std::{
+    fmt,
+    num::{ParseFloatError, ParseIntError},
+    string::FromUtf8Error,
+};
+
+use actix_web::{
+    body::BoxBody,
+    error::{JsonPayloadError, PayloadError},
+    http::StatusCode,
+    HttpResponse, ResponseError,
+};
+use awc::error::SendRequestError;
+use serde::Serialize;
+use tokio::io;
+use utoipa::ToSchema;
 
 #[derive(Clone, Serialize, Debug, ToSchema)]
 pub struct AppErr {
@@ -7,11 +23,17 @@ pub struct AppErr {
 
 impl AppErr {
     pub fn new(status: u16, message: &str) -> Self {
-        Self { status, message: message.to_string() }
+        Self {
+            status,
+            message: message.to_string(),
+        }
     }
 
     pub fn default() -> Self {
-        Self { status: 500, message: "Internal Server Error".to_string() }
+        Self {
+            status: 500,
+            message: "Internal Server Error".to_string(),
+        }
     }
 }
 
@@ -23,8 +45,7 @@ impl fmt::Display for AppErr {
 
 impl ResponseError for AppErr {
     fn status_code(&self) -> StatusCode {
-        StatusCode::from_u16(self.status)
-            .unwrap_or(StatusCode::INTERNAL_SERVER_ERROR)
+        StatusCode::from_u16(self.status).unwrap_or(StatusCode::INTERNAL_SERVER_ERROR)
     }
 
     fn error_response(&self) -> HttpResponse<BoxBody> {
@@ -35,18 +56,25 @@ impl ResponseError for AppErr {
 impl From<sqlx::Error> for AppErr {
     fn from(value: sqlx::Error) -> Self {
         match value {
-            sqlx::Error::RowNotFound => {
-                Self { status: 404, message: "not found".to_string() }
-            }
-            _ => Self { status: 500, message: "database error".to_string() },
+            sqlx::Error::RowNotFound => Self {
+                status: 404,
+                message: "not found".to_string(),
+            },
+            _ => Self {
+                status: 500,
+                message: "database error".to_string(),
+            },
         }
     }
 }
 
-impl From<error::Error> for AppErr {
-    fn from(value: error::Error) -> Self {
+impl From<actix_web::error::Error> for AppErr {
+    fn from(value: actix_web::error::Error) -> Self {
         let r = value.error_response();
-        Self { status: r.status().as_u16(), message: value.to_string() }
+        Self {
+            status: r.status().as_u16(),
+            message: value.to_string(),
+        }
     }
 }
 
@@ -56,7 +84,10 @@ macro_rules! impl_from_err {
             fn from(value: $ty) -> Self {
                 let value = value.to_string();
                 log::error!("{}", value);
-                Self { status: 500, message: value }
+                Self {
+                    status: 500,
+                    message: value,
+                }
             }
         }
     };

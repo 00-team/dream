@@ -1,7 +1,14 @@
 use std::ops;
 
+use actix_multipart::form::json::Json;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use sqlx::{encode::IsNull, sqlite::{SqliteArgumentValue, SqliteTypeInfo}, Sqlite};
+use sqlx::{
+    encode::IsNull,
+    sqlite::{SqliteArgumentValue, SqliteTypeInfo},
+    Sqlite,
+};
+
+pub type Response<T> = Result<Json<T>, super::AppErr>;
 
 #[derive(Deserialize)]
 pub struct ListInput {

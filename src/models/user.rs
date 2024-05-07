@@ -1,37 +1,17 @@
-use core::fmt;
-use std::{
-    future::Future,
-    io,
-    num::{ParseFloatError, ParseIntError},
-    ops,
-    pin::Pin,
-    string::FromUtf8Error,
-};
+use std::{future::Future, ops, pin::Pin};
 
 use actix_web::{
-    body::BoxBody,
     dev::Payload,
-    error::{self, PayloadError},
-    http::{
-        header::{self, AUTHORIZATION},
-        StatusCode,
-    },
-    web::{Data, Json},
-    FromRequest, HttpRequest, HttpResponse, ResponseError,
+    error,
+    http::header::{self, AUTHORIZATION},
+    web::Data,
+    FromRequest, HttpRequest,
 };
-use awc::error::{JsonPayloadError, SendRequestError};
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use sha2::Digest;
-use sqlx::{
-    encode::IsNull,
-    sqlite::{SqliteArgumentValue, SqliteTypeInfo},
-    Sqlite,
-};
 use utoipa::ToSchema;
 
 use crate::{utils::CutOff, AppState};
-
-
 
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema, Default)]
 pub struct User {
@@ -43,12 +23,10 @@ pub struct User {
     pub token: String,
     pub photo: Option<String>,
     pub admin: bool,
-    pub banned: bool
+    pub banned: bool,
 }
 
 pub struct Admin(pub User);
-
-pub type Response<T> = Result<Json<T>, AppErr>;
 
 impl ops::Deref for Admin {
     type Target = User;
@@ -195,8 +173,3 @@ impl FromRequest for Admin {
         })
     }
 }
-
-
-
-
-
