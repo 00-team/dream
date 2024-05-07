@@ -18,6 +18,16 @@ use crate::{
 };
 use models::{Action, Response};
 
+
+// create table if not exists verifications (
+//     id integer primary key not null,
+//     action text not null,
+//     phone text not null,
+//     code text not null,
+//     expires integer not null,
+//     tries integer not null default 0
+// );
+
 #[derive(OpenApi)]
 #[openapi(
     paths(verification),
