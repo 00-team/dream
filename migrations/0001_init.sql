@@ -31,7 +31,7 @@ create table if not exists orders (
     kind text not null,
     status integer not null default 0,
     data text not null default "{}",
-    timestamp integer not null,
+    timestamp integer not null
 );
 
 create table if not exists general (
