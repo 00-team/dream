@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from '@solidjs/router'
+import { Route, Router } from '@solidjs/router'
 import { lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 
@@ -19,9 +19,7 @@ export const App = () => {
     return (
         <>
             <Router>
-                <Routes>
-                    <Route path={'/'} component={Home} />
-                </Routes>
+                <Route path={'/'} component={Home} />
             </Router>
         </>
     )
