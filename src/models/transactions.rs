@@ -1,5 +1,7 @@
+use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 
-use crate::models::sql_enum;
+use super::sql_enum;
 
 sql_enum! {
     pub enum TransactionStatus {
