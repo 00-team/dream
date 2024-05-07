@@ -1,0 +1,25 @@
+main.home {
+    height: 100vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 7vh 5vw;
+
+    background-color: #93ebd9;
+    color: black;
+
+    position: relative;
+    isolation: isolate;
+
+    section.hero {
+        width: 100%;
+        min-height: 90vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
