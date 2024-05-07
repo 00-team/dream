@@ -8,7 +8,6 @@ create table if not exists users (
     token text not null,
     photo text,
     admin boolean not null default false,
-    addr text not null default "{}",
     banned boolean not null default false
 );
 
@@ -18,41 +17,21 @@ create table if not exists transactions (
     kind integer not null default 0, -- in OR out | withdrawl OR deposit
     status integer not null default 0, -- success | failed | in progress
     amount integer not null,
-    idpay_id text,
-    idpay_track_id integer,
-    card_no text,
-    hashed_card_no text,
+    vendor_id text,
+    vendor_track_id integer,
+    card text,
+    hashed_card text,
     date integer,
     bank_track_id integer
 );
 
-create table if not exists products (
+create table if not exists orders (
     id integer primary key not null,
-    title text not null,
-    detail text,
-    end integer not null,
-    start integer not null,
-    base_price integer not null default 0,
-    photos text not null default "{}",
-    buy_now_opens integer,
-    buy_now_price integer
-);
-
-create table if not exists offers (
-    id integer primary key not null,
-    product integer not null references products(id) on delete cascade,
-    user integer references users(id) on delete set null,
-    amount integer not null,
-    timestamp integer not null
-);
-
-create table if not exists verifications (
-    id integer primary key not null,
-    action text not null,
-    phone text not null,
-    code text not null,
-    expires integer not null,
-    tries integer not null default 0
+    user integer not null references users(id) on delete cascade,
+    kind text not null,
+    status integer not null default 0,
+    data text not null default "{}",
+    timestamp integer not null,
 );
 
 create table if not exists general (
