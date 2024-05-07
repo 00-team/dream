@@ -1,3 +1,8 @@
+use std::ops;
+
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use sqlx::{encode::IsNull, sqlite::{SqliteArgumentValue, SqliteTypeInfo}, Sqlite};
+
 #[derive(Deserialize)]
 pub struct ListInput {
     pub page: u32,
@@ -61,7 +66,7 @@ impl<T: DeserializeOwned + Default> From<String> for JsonStr<T> {
 
 macro_rules! sql_enum {
     ($vis:vis enum $name:ident { $($member:ident,)* }) => {
-        #[derive(Default, Clone, Debug, Serialize, Deserialize, ToSchema)]
+        #[derive(Default, Clone, Debug, serde::Serialize, serde::Deserialize, utoipa::ToSchema)]
         #[serde(rename_all = "snake_case")]
         $vis enum $name {
             #[default]
@@ -77,20 +82,22 @@ macro_rules! sql_enum {
             }
         }
 
-        impl sqlx::Type<Sqlite> for $name {
-            fn type_info() -> SqliteTypeInfo {
-                <i64 as sqlx::Type<Sqlite>>::type_info()
+        impl sqlx::Type<sqlx::Sqlite> for $name {
+            fn type_info() -> sqlx::sqlite::SqliteTypeInfo {
+                <i64 as sqlx::Type<sqlx::Sqlite>>::type_info()
             }
         }
 
-        impl<'q> sqlx::Encode<'q, Sqlite> for $name {
+        impl<'q> sqlx::Encode<'q, sqlx::Sqlite> for $name {
             fn encode_by_ref(
                 &self,
-                buf: &mut <Sqlite as sqlx::database::HasArguments<'q>>::ArgumentBuffer,
-            ) -> IsNull {
-                buf.push(SqliteArgumentValue::Int(self.clone() as i32));
-                IsNull::No
+                buf: &mut <sqlx::Sqlite as sqlx::database::HasArguments<'q>>::ArgumentBuffer,
+            ) -> sqlx::encode::IsNull {
+                buf.push(sqlx::sqlite::SqliteArgumentValue::Int(self.clone() as i32));
+                sqlx::encode::IsNull::No
             }
         }
     };
 }
+
+pub(crate) use sql_enum;
