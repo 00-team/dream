@@ -35,13 +35,13 @@ async fn index() -> impl Responder {
 #[get("/openapi.json")]
 async fn openapi() -> impl Responder {
     let mut doc = ApiDoc::openapi();
-    doc.merge(api::user::ApiUserDoc::openapi());
+    // doc.merge(api::user::ApiUserDoc::openapi());
     doc.merge(api::verification::ApiVerificationDoc::openapi());
-    doc.merge(api::product::Doc::openapi());
+    // doc.merge(api::product::Doc::openapi());
 
     let mut admin_doc = ApiDoc::openapi();
-    admin_doc.merge(admin::user::Doc::openapi());
-    admin_doc.merge(admin::product::Doc::openapi());
+    // admin_doc.merge(admin::user::Doc::openapi());
+    // admin_doc.merge(admin::product::Doc::openapi());
 
     doc_add_prefix(&mut admin_doc, "/admin", false);
 
@@ -103,14 +103,14 @@ async fn main() -> std::io::Result<()> {
             .service(index)
             .service(
                 scope("/api")
-                    .service(api::user::router())
-                    .service(api::product::router())
+                    // .service(api::user::router())
+                    // .service(api::product::router())
                     .service(api::verification::verification)
-                    .service(
-                        scope("/admin")
-                            .service(admin::user::router())
-                            .service(admin::product::router()),
-                    ),
+                    // .service(
+                    //     scope("/admin")
+                    //         .service(admin::user::router())
+                    //         .service(admin::product::router()),
+                    // ),
             )
     });
 

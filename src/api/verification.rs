@@ -16,8 +16,13 @@ use crate::{
     utils::{self, phone_validator},
     AppState,
 };
-use models::{Action, Response};
+use models::Response;
 
+#[derive(Debug, Clone, Deserialize, Serialize, ToSchema)]
+enum Action {
+    Login,
+    Delete
+}
 
 // create table if not exists verifications (
 //     id integer primary key not null,
@@ -57,7 +62,8 @@ struct VerificationResponse {
 /// Verification
 #[post("/verification/")]
 async fn verification(
-    body: Json<VerificationData>, state: Data<AppState>,
+    body: Json<VerificationData>,
+    state: Data<AppState>,
 ) -> Response<VerificationResponse> {
     phone_validator(&body.phone)?;
 
@@ -111,7 +117,9 @@ async fn verification(
         models::Verification,
         "insert into verifications (phone, action, code, expires) values(?, ?, ?, ?)",
         body.phone, action, code, expires
-    }.execute(&state.sql).await;
+    }
+    .execute(&state.sql)
+    .await;
 
     Ok(Json(VerificationResponse {
         expires: 180,
@@ -120,7 +128,10 @@ async fn verification(
 }
 
 pub async fn verify(
-    phone: &str, code: &str, action: Action, sql: &Pool<Sqlite>,
+    phone: &str,
+    code: &str,
+    action: Action,
+    sql: &Pool<Sqlite>,
 ) -> Result<(), Error> {
     let v = sql_unwrap(
         sqlx::query_as! {

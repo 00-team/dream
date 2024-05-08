@@ -1,8 +1,6 @@
 use actix_multipart::form::MultipartForm;
 use actix_web::web::{Data, Json, Query};
-use actix_web::{
-    delete, get, patch, post, put, HttpResponse, Responder, Scope,
-};
+use actix_web::{delete, get, patch, post, put, HttpResponse, Responder, Scope};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha512};
 use utoipa::{OpenApi, ToSchema};
@@ -10,13 +8,9 @@ use utoipa::{OpenApi, ToSchema};
 use crate::api::verification::verify;
 use crate::config::Config;
 use crate::docs::UpdatePaths;
-use crate::models::{
-    Action, Address, JsonStr, ListInput, Response, Transaction, UpdatePhoto,
-    User,
-};
+use crate::models::user::User;
 use crate::utils::{
-    get_random_bytes, get_random_string, remove_photo, save_photo, sql_unwrap,
-    CutOff,
+    get_random_bytes, get_random_string, remove_photo, save_photo, sql_unwrap, CutOff,
 };
 use crate::AppState;
 
@@ -28,7 +22,7 @@ use crate::AppState;
         user_delete_photo, user_wallet_test, user_transactions_list
     ),
     components(schemas(
-        User, LoginBody, UserUpdateBody, Address, UpdatePhoto, Transaction
+        User, LoginBody, UserUpdateBody, UpdatePhoto, Transaction
     )),
     servers((url = "/user")),
     modifiers(&UpdatePaths)
@@ -127,9 +121,7 @@ struct UserUpdateBody {
 )]
 /// Update User
 #[patch("/")]
-async fn user_update(
-    user: User, body: Json<UserUpdateBody>, state: Data<AppState>,
-) -> Json<User> {
+async fn user_update(user: User, body: Json<UserUpdateBody>, state: Data<AppState>) -> Json<User> {
     let mut user = user;
     let mut change = false;
     if let Some(n) = &body.name {
@@ -172,7 +164,9 @@ async fn user_update(
 /// Update Photo
 #[put("/photo/")]
 async fn user_update_photo(
-    user: User, form: MultipartForm<UpdatePhoto>, state: Data<AppState>,
+    user: User,
+    form: MultipartForm<UpdatePhoto>,
+    state: Data<AppState>,
 ) -> Response<User> {
     let mut user = user;
 
@@ -209,9 +203,7 @@ async fn user_update_photo(
 )]
 /// Delete Photo
 #[delete("/photo/")]
-async fn user_delete_photo(
-    user: User, state: Data<AppState>,
-) -> impl Responder {
+async fn user_delete_photo(user: User, state: Data<AppState>) -> impl Responder {
     let mut user = user;
 
     if user.photo.is_none() {
@@ -240,9 +232,7 @@ async fn user_delete_photo(
 )]
 /// Add Wallet
 #[post("/wallet/")]
-async fn user_wallet_test(
-    user: User, _state: Data<AppState>,
-) -> impl Responder {
+async fn user_wallet_test(user: User, _state: Data<AppState>) -> impl Responder {
     let client = awc::Client::new();
     let request = client
         .post("https://api.idpay.ir/v1.1/payment")
@@ -295,7 +285,9 @@ async fn user_wallet_test(
 /// Transaction List
 #[get("/transactions/")]
 async fn user_transactions_list(
-    user: User, query: Query<ListInput>, state: Data<AppState>,
+    user: User,
+    query: Query<ListInput>,
+    state: Data<AppState>,
 ) -> Response<Vec<Transaction>> {
     let offset = query.page * 30;
     let result = sql_unwrap(

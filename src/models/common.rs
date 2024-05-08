@@ -1,6 +1,6 @@
 use std::ops;
 
-use actix_multipart::form::json::Json;
+use actix_web::web::Json;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use sqlx::{
     encode::IsNull,
