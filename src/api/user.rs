@@ -235,47 +235,42 @@ async fn user_delete_photo(user: User, state: Data<AppState>) -> impl Responder 
 )]
 /// Add Wallet
 #[post("/wallet/")]
-async fn user_wallet_test(user: User, _state: Data<AppState>) -> impl Responder {
+async fn user_wallet_test(user: User, _state: Data<AppState>) -> Response<String> {
     let client = awc::Client::new();
-    let request = client
-        .post("https://api.idpay.ir/v1.1/payment")
-        .insert_header(("X-SANDBOX", "1"))
-        .insert_header(("X-API-KEY", "..."));
+    let request = client.post("https://api.zarinpal.com/pg/v4/payment/request.json");
 
     #[derive(Serialize, Debug)]
     struct Data {
-        order_id: String,
+        merchant_id: String,
         amount: u64,
-        name: Option<String>,
-        phone: String,
-        desc: String,
-        callback: String,
+        description: String,
+        callback_url: String,
     }
 
-    let result = request
+    let mut result = request
         .send_json(&Data {
-            order_id: "12".to_string(),
+            merchant_id: "zarinpal".to_string(),
             amount: 12002,
-            name: None,
-            phone: user.phone,
-            desc: "Adding to Wallet".to_string(),
-            callback: "http://127.0.0.1:7200/user/wallet/cb/".to_string(),
+            description: "Adding to Wallet".to_string(),
+            callback_url: "http://127.0.0.1:7200/user/wallet/cb/".to_string(),
         })
-        .await;
+        .await?;
 
-    match result {
-        Ok(mut v) => {
-            println!("status: {}", v.status());
-            let body = v.json::<serde_json::Value>().await;
-            println!("{:?} {:?}", v, body);
-        }
-        Err(e) => {
-            log::error!("{}", e);
-            return HttpResponse::InternalServerError();
-        }
-    }
+    log::info!("status: {:?}", result.status());
+    log::info!("body: {:?}", result.body().await?);
+    // match result {
+    //     Ok(mut v) => {
+    //         println!("status: {}", v.status());
+    //         let body = v.json::<serde_json::Value>().await;
+    //         println!("{:?} {:?}", v, body);
+    //     }
+    //     Err(e) => {
+    //         log::error!("{}", e);
+    //         return HttpResponse::InternalServerError();
+    //     }
+    // }
 
-    HttpResponse::Ok()
+    Ok(Json("hi".to_string()))
 }
 
 #[utoipa::path(
