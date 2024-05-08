@@ -5,4 +5,4 @@ pub mod user;
 mod error;
 
 pub use common::*;
-pub use error::AppErr;
+pub use error::{AppErr, AppErrForbidden, AppErrBadRequest};
