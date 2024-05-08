@@ -39,17 +39,18 @@
 .root {
     overflow: hidden;
     background-color: #121212;
+
     @media (prefers-color-scheme: dark) {
         body {
             @include theme.dark;
         }
-        background-color: var(--accent-color);
+        background-color: var(--sixty-percent);
     }
     @media (prefers-color-scheme: light) {
         body {
             @include theme.dark;
         }
-        background-color: var(--accent-color);
+        background-color: var(--sixty-percent);
     }
 }
 
@@ -61,8 +62,6 @@ body {
     // bottom: 0;
 
     height: 100vh;
-
-    background-color: var(--sixty-percent);
 
     overflow-x: hidden;
 
