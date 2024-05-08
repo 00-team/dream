@@ -8,6 +8,7 @@ const Home: Component<{}> = props => {
             <section class='hero-container'>
                 <iframe src='https://my.spline.design/dreampay-0a78cdac709ee611db084ccb679701db/'></iframe>
             </section>
+            <section class='about-us'></section>
         </main>
     )
 }
