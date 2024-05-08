@@ -17,7 +17,7 @@ create table if not exists transactions (
     kind integer not null default 0, -- in OR out | withdrawl OR deposit
     status integer not null default 0, -- success | failed | in progress
     amount integer not null,
-    vendor_id text,
+    vendor_order_id text,
     vendor_track_id integer,
     card text,
     hashed_card text,
