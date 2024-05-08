@@ -27,8 +27,8 @@ pub struct Transaction {
     pub amount: i64,
     pub vendor_order_id: Option<String>,
     pub vendor_track_id: Option<i64>,
-    pub card_number: Option<String>,
-    pub hashed_card_number: Option<String>,
+    pub card: Option<String>,
+    pub hashed_card: Option<String>,
     pub date: Option<i64>,
     pub bank_track_id: Option<i64>,
 }
