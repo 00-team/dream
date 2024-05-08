@@ -1,4 +1,6 @@
 use actix_multipart::form::MultipartForm;
+use actix_web::cookie::time::Duration;
+use actix_web::cookie::{Cookie, SameSite};
 use actix_web::web::{Data, Json, Query};
 use actix_web::{delete, get, patch, post, put, HttpResponse, Responder, Scope};
 use serde::{Deserialize, Serialize};
@@ -10,7 +12,7 @@ use crate::config::Config;
 use crate::docs::UpdatePaths;
 use crate::models::transactions::Transaction;
 use crate::models::user::{UpdatePhoto, User};
-use crate::models::{ListInput, Response};
+use crate::models::{AppErr, ListInput, Response};
 use crate::utils::{
     get_random_bytes, get_random_string, remove_photo, save_photo, sql_unwrap, CutOff,
 };
@@ -47,7 +49,7 @@ struct LoginBody {
 )]
 /// Login
 #[post("/login/")]
-async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Response<User> {
+async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Result<HttpResponse, AppErr> {
     verification::verify(&body.phone, &body.code, verification::Action::Login).await?;
 
     let token = get_random_string(Config::TOKEN_ABC, 69);
@@ -61,7 +63,7 @@ async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Response<User> {
     .fetch_one(&state.sql)
     .await;
 
-    let user: User = match result {
+    let mut user: User = match result {
         Ok(mut v) => {
             v.token = token;
 
@@ -93,7 +95,17 @@ async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Response<User> {
         }
     };
 
-    Ok(Json(user))
+    user.token = format!("{}:{}", user.id, user.token);
+
+    let cookie = Cookie::build("Authorization", format!("Bearer {}", user.token))
+        .path("/")
+        .secure(true)
+        .same_site(SameSite::Strict)
+        .http_only(true)
+        .max_age(Duration::weeks(12))
+        .finish();
+
+    Ok(HttpResponse::Ok().cookie(cookie).json(user))
 }
 
 #[utoipa::path(
