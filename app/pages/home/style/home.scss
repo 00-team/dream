@@ -1,5 +1,4 @@
 main.home {
-    height: 100vh;
     width: 100%;
 
     display: flex;
@@ -15,7 +14,8 @@ main.home {
 
     section.hero-container {
         width: 100%;
-        height: 90vh;
+        aspect-ratio: 16 / 9;
+        max-height: 90vh;
 
         display: flex;
         align-items: center;
@@ -25,10 +25,22 @@ main.home {
 
         background-color: var(--sixty-percent);
 
+        @media screen and (max-width: 425px) {
+            height: 50vh;
+        }
+
         iframe {
             border: none;
             width: 100%;
             height: 100%;
         }
+    }
+    section.about-us {
+        width: 100%;
+        height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
