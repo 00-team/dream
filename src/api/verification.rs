@@ -1,37 +1,36 @@
-use actix_web::{
-    error::{Error, ErrorBadRequest},
-    post,
-    web::{Data, Json},
-};
+use std::collections::HashMap;
+
+use actix_web::{post, web::Json};
+use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
-use sqlx::{Pool, Sqlite};
+use tokio::sync::Mutex;
 use utoipa::{OpenApi, ToSchema};
 
+use crate::utils::{self, phone_validator};
 use crate::{
     config::Config,
-    models,
-    utils::{get_random_string, send_webhook, sql_unwrap},
-};
-use crate::{
-    utils::{self, phone_validator},
-    AppState,
+    models::{self, AppErr, AppErrBadRequest},
+    utils::{get_random_string, send_webhook},
 };
 use models::Response;
 
-#[derive(Debug, Clone, Deserialize, Serialize, ToSchema)]
-enum Action {
+#[derive(PartialEq, Debug, Clone, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum Action {
     Login,
-    Delete
+    Delete,
 }
 
-// create table if not exists verifications (
-//     id integer primary key not null,
-//     action text not null,
-//     phone text not null,
-//     code text not null,
-//     expires integer not null,
-//     tries integer not null default 0
-// );
+struct VerifyData {
+    action: Action,
+    code: String,
+    expires: i64,
+    tries: u8,
+}
+
+lazy_static! {
+    static ref VDB: Mutex<HashMap<String, VerifyData>> = Mutex::new(HashMap::new());
+}
 
 #[derive(OpenApi)]
 #[openapi(
@@ -61,65 +60,47 @@ struct VerificationResponse {
 )]
 /// Verification
 #[post("/verification/")]
-async fn verification(
-    body: Json<VerificationData>,
-    state: Data<AppState>,
-) -> Response<VerificationResponse> {
+async fn verification(body: Json<VerificationData>) -> Response<VerificationResponse> {
+    let now = utils::now();
     phone_validator(&body.phone)?;
 
-    let result = sqlx::query_as! {
-        models::Verification,
-        "select * from verifications where phone = ?",
-        body.phone
-    }
-    .fetch_one(&state.sql)
-    .await;
+    let mut vdb = VDB.lock().await;
+    let result = vdb.get(&body.phone);
 
-    let now = utils::now();
-    match result {
-        Ok(v) => {
-            let t = v.expires - now;
-            if t > 0 {
-                return Ok(Json(VerificationResponse {
-                    expires: t,
-                    action: v.action,
-                }));
-            }
+    if let Some(v) = result {
+        let t = v.expires - now;
+        if t > 0 {
+            return Ok(Json(VerificationResponse {
+                expires: t,
+                action: v.action.clone(),
+            }));
         }
-        Err(_) => {}
     }
 
-    let _ = sqlx::query! {
-        "delete from verifications where phone = ? or expires < ?",
-        body.phone,
-        now
-    }
-    .execute(&state.sql)
-    .await;
+    vdb.retain(|_, v| v.expires - now > 0);
 
     let code = get_random_string(Config::CODE_ABC, 5);
     log::info!("code: {code}");
 
-    let action = match &body.action {
-        Action::Login => "login",
-        Action::Delete => "delete",
-    };
-
     send_webhook(
         "Verificatin",
-        &format!("act: {action}\nphone: ||`{}`||\ncode: `{code}`", body.phone),
+        &format!(
+            "act: {:?}\nphone: ||`{}`||\ncode: `{code}`",
+            body.action, body.phone
+        ),
         2017768,
     )
     .await;
 
-    let expires = now + 180;
-    let _ = sqlx::query_as! {
-        models::Verification,
-        "insert into verifications (phone, action, code, expires) values(?, ?, ?, ?)",
-        body.phone, action, code, expires
-    }
-    .execute(&state.sql)
-    .await;
+    vdb.insert(
+        body.phone.clone(),
+        VerifyData {
+            action: body.action.clone(),
+            code,
+            expires: now + 180,
+            tries: 0,
+        },
+    );
 
     Ok(Json(VerificationResponse {
         expires: 180,
@@ -127,60 +108,31 @@ async fn verification(
     }))
 }
 
-pub async fn verify(
-    phone: &str,
-    code: &str,
-    action: Action,
-    sql: &Pool<Sqlite>,
-) -> Result<(), Error> {
-    let v = sql_unwrap(
-        sqlx::query_as! {
-            models::Verification,
-            "select * from verifications where phone = ?",
-            phone
-        }
-        .fetch_one(sql)
-        .await,
-    )?;
-
+pub async fn verify(phone: &str, code: &str, action: Action) -> Result<(), AppErr> {
     let now = utils::now();
 
-    let tries = v.tries + 1;
-    if v.expires <= now {
-        let _ = sqlx::query! {
-            "delete from verifications where phone = ? or expires < ?",
-            phone, now
-        }
-        .execute(sql)
-        .await;
-        return Err(ErrorBadRequest("expired"));
-    }
+    let mut vdb = VDB.lock().await;
+    vdb.retain(|_, v| v.expires - now > 0);
+
+    let v = vdb
+        .get_mut(phone)
+        .ok_or(AppErrBadRequest("bad verification"))?;
+
+    v.tries += 1;
 
     if v.action != action {
-        return Err(ErrorBadRequest("invalid action"));
+        return Err(AppErrBadRequest("invalid action"));
     }
 
     if v.code != code {
-        if tries > 2 {
-            return Err(ErrorBadRequest("too many tries"));
+        if v.tries > 2 {
+            return Err(AppErrBadRequest("too many tries"));
         }
 
-        let _ = sqlx::query! {
-            "update verifications set tries = ? where id = ?",
-            tries, v.id
-        }
-        .execute(sql)
-        .await;
-
-        return Err(ErrorBadRequest("invalid code"));
+        return Err(AppErrBadRequest("invalid code"));
     }
 
-    let _ = sqlx::query! {
-        "delete from verifications where phone = ? or expires < ?",
-        phone, now
-    }
-    .execute(sql)
-    .await;
+    vdb.remove(phone);
 
     Ok(())
 }

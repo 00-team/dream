@@ -5,10 +5,12 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha512};
 use utoipa::{OpenApi, ToSchema};
 
-use crate::api::verification::verify;
+use crate::api::verification;
 use crate::config::Config;
 use crate::docs::UpdatePaths;
-use crate::models::user::User;
+use crate::models::transactions::Transaction;
+use crate::models::user::{UpdatePhoto, User};
+use crate::models::{ListInput, Response};
 use crate::utils::{
     get_random_bytes, get_random_string, remove_photo, save_photo, sql_unwrap, CutOff,
 };
@@ -46,7 +48,7 @@ struct LoginBody {
 /// Login
 #[post("/login/")]
 async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Response<User> {
-    verify(&body.phone, &body.code, Action::Login, &state.sql).await?;
+    verification::verify(&body.phone, &body.code, verification::Action::Login).await?;
 
     let token = get_random_string(Config::TOKEN_ABC, 69);
     let token_hashed = hex::encode(Sha512::digest(&token));
@@ -109,7 +111,6 @@ async fn user_get(user: User) -> Json<User> {
 #[derive(Deserialize, ToSchema)]
 struct UserUpdateBody {
     name: Option<String>,
-    addr: Option<Address>,
 }
 
 #[utoipa::path(
@@ -129,23 +130,13 @@ async fn user_update(user: User, body: Json<UserUpdateBody>, state: Data<AppStat
         user.name = Some(n.clone());
     };
 
-    if let Some(a) = &body.addr {
-        change = true;
-        user.addr = JsonStr(a.clone());
-    };
-
     if change {
         user.name.cut_off(100);
-        user.addr.country.cut_off(100);
-        user.addr.state.cut_off(100);
-        user.addr.city.cut_off(100);
-        user.addr.postal.cut_off(10);
-        user.addr.detail.cut_off(2048);
 
         let _ = sqlx::query_as! {
             User,
-            "update users set name = ? , addr = ? where id = ?",
-            user.name, user.addr, user.id
+            "update users set name = ? where id = ?",
+            user.name, user.id
         }
         .execute(&state.sql)
         .await;
