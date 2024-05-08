@@ -1,3 +1,4 @@
+use actix_multipart::form::{tempfile::TempFile, MultipartForm};
 use std::{future::Future, ops, pin::Pin};
 
 use actix_web::{
@@ -24,6 +25,13 @@ pub struct User {
     pub photo: Option<String>,
     pub admin: bool,
     pub banned: bool,
+}
+
+#[derive(Debug, MultipartForm, ToSchema)]
+pub struct UpdatePhoto {
+    #[schema(value_type = String, format = Binary)]
+    #[multipart(limit = "8 MiB")]
+    pub photo: TempFile,
 }
 
 pub struct Admin(pub User);
