@@ -1,22 +1,20 @@
 use actix_multipart::form::MultipartForm;
+use actix_web::cookie::time::Duration;
+use actix_web::cookie::{Cookie, SameSite};
 use actix_web::web::{Data, Json, Query};
-use actix_web::{
-    delete, get, patch, post, put, HttpResponse, Responder, Scope,
-};
+use actix_web::{delete, get, patch, post, put, HttpResponse, Responder, Scope};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha512};
 use utoipa::{OpenApi, ToSchema};
 
-use crate::api::verification::verify;
+use crate::api::verification;
 use crate::config::Config;
 use crate::docs::UpdatePaths;
-use crate::models::{
-    Action, Address, JsonStr, ListInput, Response, Transaction, UpdatePhoto,
-    User,
-};
+use crate::models::transactions::Transaction;
+use crate::models::user::{UpdatePhoto, User};
+use crate::models::{AppErr, ListInput, Response};
 use crate::utils::{
-    get_random_bytes, get_random_string, remove_photo, save_photo, sql_unwrap,
-    CutOff,
+    get_random_bytes, get_random_string, remove_photo, save_photo, sql_unwrap, CutOff,
 };
 use crate::AppState;
 
@@ -28,7 +26,7 @@ use crate::AppState;
         user_delete_photo, user_wallet_test, user_transactions_list
     ),
     components(schemas(
-        User, LoginBody, UserUpdateBody, Address, UpdatePhoto, Transaction
+        User, LoginBody, UserUpdateBody, UpdatePhoto, Transaction
     )),
     servers((url = "/user")),
     modifiers(&UpdatePaths)
@@ -51,8 +49,8 @@ struct LoginBody {
 )]
 /// Login
 #[post("/login/")]
-async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Response<User> {
-    verify(&body.phone, &body.code, Action::Login, &state.sql).await?;
+async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Result<HttpResponse, AppErr> {
+    verification::verify(&body.phone, &body.code, verification::Action::Login).await?;
 
     let token = get_random_string(Config::TOKEN_ABC, 69);
     let token_hashed = hex::encode(Sha512::digest(&token));
@@ -65,7 +63,7 @@ async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Response<User> {
     .fetch_one(&state.sql)
     .await;
 
-    let user: User = match result {
+    let mut user: User = match result {
         Ok(mut v) => {
             v.token = token;
 
@@ -97,7 +95,17 @@ async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Response<User> {
         }
     };
 
-    Ok(Json(user))
+    user.token = format!("{}:{}", user.id, user.token);
+
+    let cookie = Cookie::build("Authorization", format!("Bearer {}", user.token))
+        .path("/")
+        .secure(true)
+        .same_site(SameSite::Strict)
+        .http_only(true)
+        .max_age(Duration::weeks(12))
+        .finish();
+
+    Ok(HttpResponse::Ok().cookie(cookie).json(user))
 }
 
 #[utoipa::path(
@@ -115,7 +123,6 @@ async fn user_get(user: User) -> Json<User> {
 #[derive(Deserialize, ToSchema)]
 struct UserUpdateBody {
     name: Option<String>,
-    addr: Option<Address>,
 }
 
 #[utoipa::path(
@@ -127,9 +134,7 @@ struct UserUpdateBody {
 )]
 /// Update User
 #[patch("/")]
-async fn user_update(
-    user: User, body: Json<UserUpdateBody>, state: Data<AppState>,
-) -> Json<User> {
+async fn user_update(user: User, body: Json<UserUpdateBody>, state: Data<AppState>) -> Json<User> {
     let mut user = user;
     let mut change = false;
     if let Some(n) = &body.name {
@@ -137,23 +142,13 @@ async fn user_update(
         user.name = Some(n.clone());
     };
 
-    if let Some(a) = &body.addr {
-        change = true;
-        user.addr = JsonStr(a.clone());
-    };
-
     if change {
         user.name.cut_off(100);
-        user.addr.country.cut_off(100);
-        user.addr.state.cut_off(100);
-        user.addr.city.cut_off(100);
-        user.addr.postal.cut_off(10);
-        user.addr.detail.cut_off(2048);
 
         let _ = sqlx::query_as! {
             User,
-            "update users set name = ? , addr = ? where id = ?",
-            user.name, user.addr, user.id
+            "update users set name = ? where id = ?",
+            user.name, user.id
         }
         .execute(&state.sql)
         .await;
@@ -172,7 +167,9 @@ async fn user_update(
 /// Update Photo
 #[put("/photo/")]
 async fn user_update_photo(
-    user: User, form: MultipartForm<UpdatePhoto>, state: Data<AppState>,
+    user: User,
+    form: MultipartForm<UpdatePhoto>,
+    state: Data<AppState>,
 ) -> Response<User> {
     let mut user = user;
 
@@ -209,9 +206,7 @@ async fn user_update_photo(
 )]
 /// Delete Photo
 #[delete("/photo/")]
-async fn user_delete_photo(
-    user: User, state: Data<AppState>,
-) -> impl Responder {
+async fn user_delete_photo(user: User, state: Data<AppState>) -> impl Responder {
     let mut user = user;
 
     if user.photo.is_none() {
@@ -240,9 +235,7 @@ async fn user_delete_photo(
 )]
 /// Add Wallet
 #[post("/wallet/")]
-async fn user_wallet_test(
-    user: User, _state: Data<AppState>,
-) -> impl Responder {
+async fn user_wallet_test(user: User, _state: Data<AppState>) -> impl Responder {
     let client = awc::Client::new();
     let request = client
         .post("https://api.idpay.ir/v1.1/payment")
@@ -295,7 +288,9 @@ async fn user_wallet_test(
 /// Transaction List
 #[get("/transactions/")]
 async fn user_transactions_list(
-    user: User, query: Query<ListInput>, state: Data<AppState>,
+    user: User,
+    query: Query<ListInput>,
+    state: Data<AppState>,
 ) -> Response<Vec<Transaction>> {
     let offset = query.page * 30;
     let result = sql_unwrap(

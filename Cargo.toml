@@ -8,30 +8,23 @@ log = "0.4"
 rand = "0.8"
 sha2 = "0.10"
 hex = "0.4"
-awc = { version =  "3.4", features = ["openssl"]}
+lazy_static = "1.4"
+awc = { version = "3.4", features = ["openssl"] }
 image = "0.25"
-utoipa = { version = "4", features = ["actix_extras", "debug"] }
-actix-web = "4"
-actix-utils = "3"
+utoipa = { version = "4.2", features = ["actix_extras", "debug"] }
+actix-web = "4.5"
+actix-utils = "3.0"
 actix-web-httpauth = "0.8"
 actix-files = "0.6"
 actix-multipart = "0.6"
 dotenvy = "0.15"
 pretty_env_logger = "0.4"
-tokio = { version = "1", features = ["full"] }
-serde = "1"
-serde_json = "1"
+tokio = { version = "1.37", features = ["full"] }
+serde = "1.0"
+serde_json = "1.0"
 chrono = { version = "0.4", features = ["serde"] }
-sqlx-cli = { version = "0.7", features = ["sqlite", "completions"] }
+sqlx-cli = "0.7"
 
 [dependencies.sqlx]
 version = "0.7"
-features = [
-    "macros",
-    "migrate",
-    "sqlite",
-    "runtime-tokio",
-    "tls-native-tls",
-    "json",
-    "chrono",
-]
+features = ["sqlite", "runtime-tokio", "tls-native-tls", "chrono"]
