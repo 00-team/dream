@@ -39,17 +39,18 @@
 .root {
     overflow: hidden;
     background-color: #121212;
+
     @media (prefers-color-scheme: dark) {
         body {
             @include theme.dark;
         }
-        background-color: var(--accent-color);
+        background-color: var(--sixty-percent);
     }
     @media (prefers-color-scheme: light) {
         body {
             @include theme.dark;
         }
-        background-color: var(--accent-color);
+        background-color: var(--sixty-percent);
     }
 }
 
@@ -61,8 +62,6 @@ body {
     // bottom: 0;
 
     height: 100vh;
-
-    background-color: var(--sixty-percent);
 
     overflow-x: hidden;
 
@@ -93,13 +92,6 @@ body {
         background-color: var(--sixty-percent);
         color: var(--accent-color);
     }
-}
-
-span.logo-text {
-    color: var(--sixty-percent);
-}
-span.logo-text-white {
-    color: #009ad9;
 }
 
 .title_hero {
