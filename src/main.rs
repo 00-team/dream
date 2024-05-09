@@ -91,7 +91,7 @@ async fn main() -> std::io::Result<()> {
     .await
     .expect("sqlite pool initialization failed");
 
-    sqlx::migrate!().run(&pool).await.expect("migration failed");
+    // sqlx::migrate!().run(&pool).await.expect("migration failed");
 
     let server = HttpServer::new(move || {
         App::new()
