@@ -1,0 +1,14 @@
+[
+    {
+        "kind": "spotify.family",
+        "cost": 1200000
+    },
+    {
+        "kind": "spotify.single",
+        "cost": 900000
+    },
+    {
+        "kind": "netflix",
+        "cost": 850000
+    }
+]

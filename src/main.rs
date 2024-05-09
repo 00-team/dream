@@ -37,7 +37,7 @@ async fn openapi() -> impl Responder {
     let mut doc = ApiDoc::openapi();
     doc.merge(api::user::ApiUserDoc::openapi());
     doc.merge(api::verification::ApiVerificationDoc::openapi());
-    // doc.merge(api::product::Doc::openapi());
+    doc.merge(api::product::Doc::openapi());
 
     let mut admin_doc = ApiDoc::openapi();
     // admin_doc.merge(admin::user::Doc::openapi());
@@ -91,7 +91,7 @@ async fn main() -> std::io::Result<()> {
     .await
     .expect("sqlite pool initialization failed");
 
-    sqlx::migrate!().run(&pool).await.expect("migration failed");
+    // sqlx::migrate!().run(&pool).await.expect("migration failed");
 
     let server = HttpServer::new(move || {
         App::new()
@@ -104,7 +104,7 @@ async fn main() -> std::io::Result<()> {
             .service(
                 scope("/api")
                     .service(api::user::router())
-                    // .service(api::product::router())
+                    .service(api::product::router())
                     .service(api::verification::verification)
                     // .service(
                     //     scope("/admin")

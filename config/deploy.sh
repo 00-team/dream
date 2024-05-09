@@ -29,16 +29,15 @@ if check_diff "config/dream.service"; then
     echo $SPACER
 fi
 
-if [ ! -f db/main.db ]; then
+if [ ! -f main.db ]; then
     echo "$EG setup the database"
-    mkdir -p db
-    cargo sqlx database setup
+    cargo sqlx db setup
     echo $SPACER
 fi
 
 if check_diff "migrations/*"; then
     echo "$EG update the database"
-    cargo sqlx database setup
+    cargo sqlx db setup
     echo $SPACER
 fi
 
