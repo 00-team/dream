@@ -18,12 +18,20 @@ sql_enum! {
     }
 }
 
+sql_enum! {
+    pub enum TransactionVendor {
+        Zarinpal,
+        Zibal,
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema)]
 pub struct Transaction {
     pub id: i64,
     pub user: i64,
-    pub kind: TransactionKind,     // in OR out | withdrawl OR deposit
-    pub status: TransactionStatus, // success | failed | in progress
+    pub kind: TransactionKind,
+    pub status: TransactionStatus,
+    pub vendor: TransactionVendor,
     pub amount: i64,
     pub vendor_order_id: Option<String>,
     pub vendor_track_id: Option<i64>,
