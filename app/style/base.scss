@@ -14,10 +14,6 @@
     &:focus {
         outline: 0;
     }
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
 
 ::-webkit-scrollbar {
@@ -127,6 +123,10 @@ body {
 .icon {
     display: grid;
     place-items: center;
+}
+
+.logo {
+    font-family: 'Merienda', cursive;
 }
 
 .rtl {

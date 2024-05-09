@@ -1,4 +1,5 @@
 import { Component, onMount } from 'solid-js'
+import { About } from './about'
 
 import './style/home.scss'
 
@@ -8,6 +9,8 @@ const Home: Component<{}> = props => {
             <section class='hero-container'>
                 <iframe src='https://my.spline.design/dreampay-0a78cdac709ee611db084ccb679701db/'></iframe>
             </section>
+
+            <About />
         </main>
     )
 }
