@@ -1,0 +1,95 @@
+section.about-us {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 5vh 3vw;
+
+    background-image: linear-gradient(to bottom, #015fb6 0%, transparent 11%);
+
+    .header-texts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        h2.section_title {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            span {
+                background: linear-gradient(360deg, #ff6eff, #3fd3ff);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+
+                &:nth-child(1) {
+                    font-size: 2em;
+                    line-height: 1em;
+                }
+            }
+        }
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        position: absolute;
+
+        width: clamp(0px, 100%, 600px);
+        aspect-ratio: 1 / 1.2;
+
+        border-radius: 2rem;
+        background-color: #adadad;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        padding: 2.5em 1em;
+
+        will-change: transform;
+        transition: 0.5s;
+
+        .card-details {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            margin: auto 0;
+
+            .detail {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 0.5em;
+
+                padding: 1em 0;
+            }
+        }
+
+        &.right {
+            background-image: linear-gradient(227deg, #ff6eff, transparent);
+            background-color: #3fd3ff;
+
+            z-index: 2;
+        }
+
+        &.left {
+            .card-details {
+                .detail {
+                    svg {
+                        fill: #e20338;
+
+                        path {
+                            fill: #e20338;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
