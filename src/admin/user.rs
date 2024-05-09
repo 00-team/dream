@@ -5,7 +5,7 @@ use utoipa::{OpenApi, ToSchema};
 
 use crate::docs::UpdatePaths;
 use crate::models::{Admin, ListInput, Response, Transaction, User};
-use crate::utils::{sql_unwrap, CutOff};
+use crate::utils::CutOff;
 use crate::AppState;
 
 #[derive(OpenApi)]
@@ -32,15 +32,13 @@ async fn user_list(
 ) -> Response<Vec<User>> {
     let offset = i64::from(query.page) * 30;
 
-    let users = sql_unwrap(
-        sqlx::query_as! {
-            User,
-            "select * from users limit 30 offset ?",
-            offset
-        }
-        .fetch_all(&state.sql)
-        .await,
-    )?;
+    let users = sqlx::query_as! {
+        User,
+        "select * from users limit 30 offset ?",
+        offset
+    }
+    .fetch_all(&state.sql)
+    .await?;
 
     Ok(Json(users))
 }
@@ -59,15 +57,13 @@ async fn user_get(
 ) -> Response<User> {
     let (id,) = path.into_inner();
 
-    let user = sql_unwrap(
-        sqlx::query_as! {
-            User,
-            "select * from users where id = ?",
-            id
-        }
-        .fetch_one(&state.sql)
-        .await,
-    )?;
+    let user = sqlx::query_as! {
+        User,
+        "select * from users where id = ?",
+        id
+    }
+    .fetch_one(&state.sql)
+    .await?;
 
     Ok(Json(user))
 }
@@ -95,15 +91,13 @@ async fn user_update(
     let (id,) = path.into_inner();
     let mut change = false;
 
-    let mut user = sql_unwrap(
-        sqlx::query_as! {
-            User,
-            "select * from users where id = ?",
-            id
-        }
-        .fetch_one(&state.sql)
-        .await,
-    )?;
+    let mut user = sqlx::query_as! {
+        User,
+        "select * from users where id = ?",
+        id
+    }
+    .fetch_one(&state.sql)
+    .await?;
 
     if let Some(v) = &body.name {
         change = true;
@@ -120,15 +114,13 @@ async fn user_update(
     if change {
         user.name.cut_off(100);
 
-        sql_unwrap(
-            sqlx::query_as! {
-                User,
-                "update users set name = ?, banned = ? where id = ?",
-                user.name, user.banned, user.id
-            }
-            .execute(&state.sql)
-            .await,
-        )?;
+        sqlx::query_as! {
+            User,
+            "update users set name = ?, banned = ? where id = ?",
+            user.name, user.banned, user.id
+        }
+        .execute(&state.sql)
+        .await?;
     }
 
     Ok(Json(user))
@@ -148,15 +140,13 @@ async fn user_transactions_list(
     state: Data<AppState>,
 ) -> Response<Vec<Transaction>> {
     let offset = query.page * 30;
-    let transactions = sql_unwrap(
-        sqlx::query_as! {
-            Transaction,
-            "select * from transactions where user = ? limit 30 offset ?",
-            path.0, offset
-        }
-        .fetch_all(&state.sql)
-        .await,
-    )?;
+    let transactions = sqlx::query_as! {
+        Transaction,
+        "select * from transactions where user = ? limit 30 offset ?",
+        path.0, offset
+    }
+    .fetch_all(&state.sql)
+    .await?;
 
     Ok(Json(transactions))
 }

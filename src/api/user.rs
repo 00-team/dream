@@ -2,19 +2,22 @@ use actix_multipart::form::MultipartForm;
 use actix_web::cookie::time::Duration;
 use actix_web::cookie::{Cookie, SameSite};
 use actix_web::web::{Data, Json, Query};
-use actix_web::{delete, get, patch, post, put, HttpResponse, Responder, Scope};
+use actix_web::{
+    delete, get, patch, post, put, HttpResponse, Responder, Scope,
+};
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use sha2::{Digest, Sha512};
 use utoipa::{OpenApi, ToSchema};
 
 use crate::api::verification;
-use crate::config::Config;
+use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
-use crate::models::transactions::Transaction;
+use crate::models::transactions::{Transaction, TransactionVendor};
 use crate::models::user::{UpdatePhoto, User};
 use crate::models::{AppErr, ListInput, Response};
 use crate::utils::{
-    get_random_bytes, get_random_string, remove_photo, save_photo, sql_unwrap, CutOff,
+    get_random_bytes, get_random_string, remove_photo, save_photo, CutOff,
 };
 use crate::AppState;
 
@@ -49,8 +52,11 @@ struct LoginBody {
 )]
 /// Login
 #[post("/login/")]
-async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Result<HttpResponse, AppErr> {
-    verification::verify(&body.phone, &body.code, verification::Action::Login).await?;
+async fn login(
+    body: Json<LoginBody>, state: Data<AppState>,
+) -> Result<HttpResponse, AppErr> {
+    verification::verify(&body.phone, &body.code, verification::Action::Login)
+        .await?;
 
     let token = get_random_string(Config::TOKEN_ABC, 69);
     let token_hashed = hex::encode(Sha512::digest(&token));
@@ -97,13 +103,14 @@ async fn login(body: Json<LoginBody>, state: Data<AppState>) -> Result<HttpRespo
 
     user.token = format!("{}:{}", user.id, user.token);
 
-    let cookie = Cookie::build("Authorization", format!("Bearer {}", user.token))
-        .path("/")
-        .secure(true)
-        .same_site(SameSite::Strict)
-        .http_only(true)
-        .max_age(Duration::weeks(12))
-        .finish();
+    let cookie =
+        Cookie::build("Authorization", format!("Bearer {}", user.token))
+            .path("/")
+            .secure(true)
+            .same_site(SameSite::Strict)
+            .http_only(true)
+            .max_age(Duration::weeks(12))
+            .finish();
 
     Ok(HttpResponse::Ok().cookie(cookie).json(user))
 }
@@ -134,7 +141,9 @@ struct UserUpdateBody {
 )]
 /// Update User
 #[patch("/")]
-async fn user_update(user: User, body: Json<UserUpdateBody>, state: Data<AppState>) -> Json<User> {
+async fn user_update(
+    user: User, body: Json<UserUpdateBody>, state: Data<AppState>,
+) -> Json<User> {
     let mut user = user;
     let mut change = false;
     if let Some(n) = &body.name {
@@ -167,9 +176,7 @@ async fn user_update(user: User, body: Json<UserUpdateBody>, state: Data<AppStat
 /// Update Photo
 #[put("/photo/")]
 async fn user_update_photo(
-    user: User,
-    form: MultipartForm<UpdatePhoto>,
-    state: Data<AppState>,
+    user: User, form: MultipartForm<UpdatePhoto>, state: Data<AppState>,
 ) -> Response<User> {
     let mut user = user;
 
@@ -185,15 +192,13 @@ async fn user_update_photo(
 
     save_photo(form.photo.file.path(), &filename)?;
 
-    sql_unwrap(
-        sqlx::query_as! {
-            User,
-            "update users set photo = ? where id = ?",
-            user.photo, user.id
-        }
-        .execute(&state.sql)
-        .await,
-    )?;
+    sqlx::query_as! {
+        User,
+        "update users set photo = ? where id = ?",
+        user.photo, user.id
+    }
+    .execute(&state.sql)
+    .await?;
 
     Ok(Json(user))
 }
@@ -206,7 +211,9 @@ async fn user_update_photo(
 )]
 /// Delete Photo
 #[delete("/photo/")]
-async fn user_delete_photo(user: User, state: Data<AppState>) -> impl Responder {
+async fn user_delete_photo(
+    user: User, state: Data<AppState>,
+) -> impl Responder {
     let mut user = user;
 
     if user.photo.is_none() {
@@ -235,9 +242,12 @@ async fn user_delete_photo(user: User, state: Data<AppState>) -> impl Responder 
 )]
 /// Add Wallet
 #[post("/wallet/")]
-async fn user_wallet_test(user: User, _state: Data<AppState>) -> Response<String> {
+async fn user_wallet_test(
+    user: User, state: Data<AppState>,
+) -> Response<String> {
     let client = awc::Client::new();
-    let request = client.post("https://api.zarinpal.com/pg/v4/payment/request.json");
+    let request =
+        client.post("https://api.zarinpal.com/pg/v4/payment/request.json");
 
     #[derive(Serialize, Debug)]
     struct Data {
@@ -249,28 +259,27 @@ async fn user_wallet_test(user: User, _state: Data<AppState>) -> Response<String
 
     let mut result = request
         .send_json(&Data {
-            merchant_id: "zarinpal".to_string(),
+            merchant_id: config().zarinpal_merchant_id.clone(),
             amount: 12002,
             description: "Adding to Wallet".to_string(),
-            callback_url: "http://127.0.0.1:7200/user/wallet/cb/".to_string(),
+            callback_url: "https://dreampay.org/api/user/wallet-cb/"
+                .to_string(),
         })
         .await?;
 
-    log::info!("status: {:?}", result.status());
-    log::info!("body: {:?}", result.body().await?);
-    // match result {
-    //     Ok(mut v) => {
-    //         println!("status: {}", v.status());
-    //         let body = v.json::<serde_json::Value>().await;
-    //         println!("{:?} {:?}", v, body);
-    //     }
-    //     Err(e) => {
-    //         log::error!("{}", e);
-    //         return HttpResponse::InternalServerError();
-    //     }
-    // }
+    let data = result.json::<Value>().await?;
+    let data = data.as_object().unwrap().get("data").unwrap().as_object();
+    let authority = data.unwrap().get("authority").unwrap().as_str().unwrap();
 
-    Ok(Json("hi".to_string()))
+    sqlx::query! {
+        "insert into transactions (user, amount, vendor, vendor_order_id)
+        values(?, ?, ?, ?)",
+        user.id, 12, TransactionVendor::Zarinpal, authority
+    }
+    .execute(&state.sql)
+    .await?;
+
+    Ok(Json(format!("https://www.zarinpal.com/pg/StartPay/{authority}")))
 }
 
 #[utoipa::path(
@@ -283,20 +292,16 @@ async fn user_wallet_test(user: User, _state: Data<AppState>) -> Response<String
 /// Transaction List
 #[get("/transactions/")]
 async fn user_transactions_list(
-    user: User,
-    query: Query<ListInput>,
-    state: Data<AppState>,
+    user: User, query: Query<ListInput>, state: Data<AppState>,
 ) -> Response<Vec<Transaction>> {
     let offset = query.page * 30;
-    let result = sql_unwrap(
-        sqlx::query_as! {
-            Transaction,
-            "select * from transactions where user = ? limit 30 offset ?",
-            user.id, offset
-        }
-        .fetch_all(&state.sql)
-        .await,
-    )?;
+    let result = sqlx::query_as! {
+        Transaction,
+        "select * from transactions where user = ? limit 30 offset ?",
+        user.id, offset
+    }
+    .fetch_all(&state.sql)
+    .await?;
 
     Ok(Json(result))
 }

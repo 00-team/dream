@@ -7,9 +7,7 @@ use utoipa::{OpenApi, ToSchema};
 
 use crate::docs::UpdatePaths;
 use crate::models::{Admin, ListInput, Photos, Product, Response, UpdatePhoto};
-use crate::utils::{
-    get_random_bytes, remove_photo, save_photo, sql_unwrap, CutOff,
-};
+use crate::utils::{get_random_bytes, remove_photo, save_photo, CutOff};
 use crate::AppState;
 
 #[derive(OpenApi)]
@@ -39,15 +37,13 @@ async fn product_list(
 ) -> Response<Vec<Product>> {
     let offset = i64::from(query.page) * 30;
 
-    let products = sql_unwrap(
-        sqlx::query_as! {
-            Product,
-            "select * from products limit 30 offset ?",
-            offset
-        }
-        .fetch_all(&state.sql)
-        .await,
-    )?;
+    let products = sqlx::query_as! {
+        Product,
+        "select * from products limit 30 offset ?",
+        offset
+    }
+    .fetch_all(&state.sql)
+    .await?;
 
     Ok(Json(products))
 }
@@ -91,13 +87,13 @@ async fn product_add(
         return Err(ErrorBadRequest("invalid start and end times"));
     }
 
-    let result = sql_unwrap(sqlx::query_as! {
+    let result = sqlx::query_as! {
         Product,
         "insert into products(title, end, start, base_price) values(?, ?, ?, ?)",
         body.title, body.end, body.start, body.base_price
     }
     .execute(&state.sql)
-    .await)?;
+    .await?;
 
     Ok(Json(Product {
         id: result.last_insert_rowid(),
@@ -180,20 +176,18 @@ async fn product_update(
         product.title.cut_off(100);
         product.detail.cut_off(2048);
 
-        sql_unwrap(
-            sqlx::query_as! {
-                Product,
-                "update products set
+        sqlx::query_as! {
+            Product,
+            "update products set
                 title = ?, end = ?, start = ?, base_price = ?,
                 detail = ?, buy_now_price = ?, buy_now_opens = ?
                 where id = ?",
-                product.title, product.end, product.start, product.base_price,
-                product.detail, product.buy_now_price, product.buy_now_opens,
-                product.id
-            }
-            .execute(&state.sql)
-            .await,
-        )?;
+            product.title, product.end, product.start, product.base_price,
+            product.detail, product.buy_now_price, product.buy_now_opens,
+            product.id
+        }
+        .execute(&state.sql)
+        .await?;
     }
 
     Ok(Json(product))
@@ -211,15 +205,13 @@ async fn product_update(
 async fn product_delete(
     _: Admin, path: Path<(i64,)>, state: Data<AppState>,
 ) -> Result<&'static str, Error> {
-    sql_unwrap(
-        sqlx::query_as! {
-            Product,
-            "delete from products where id = ?",
-            path.0
-        }
-        .execute(&state.sql)
-        .await,
-    )?;
+    sqlx::query_as! {
+        Product,
+        "delete from products where id = ?",
+        path.0
+    }
+    .execute(&state.sql)
+    .await?;
 
     Ok("ok")
 }
@@ -252,15 +244,14 @@ async fn product_add_photo(
     let filename = format!("{}-{}", product.id, salt);
 
     save_photo(form.photo.file.path(), &filename)?;
-    sql_unwrap(
-        sqlx::query_as! {
-            Product,
-            "update products set photos = ? where id = ?",
-            product.photos, product.id
-        }
-        .execute(&state.sql)
-        .await,
-    )?;
+
+    sqlx::query_as! {
+        Product,
+        "update products set photos = ? where id = ?",
+        product.photos, product.id
+    }
+    .execute(&state.sql)
+    .await?;
 
     Ok(Json(product))
 }
@@ -289,15 +280,13 @@ async fn product_delete_photo(
     let salt = product.photos.salts.remove(idx);
     remove_photo(&format!("{}-{}", product.id, salt));
 
-    sql_unwrap(
-        sqlx::query_as! {
-            Product,
-            "update products set photos = ? where id = ?",
-            product.photos, product.id
-        }
-        .execute(&state.sql)
-        .await,
-    )?;
+    sqlx::query_as! {
+        Product,
+        "update products set photos = ? where id = ?",
+        product.photos, product.id
+    }
+    .execute(&state.sql)
+    .await?;
 
     Ok("photo was removed")
 }

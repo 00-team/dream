@@ -113,13 +113,3 @@ impl CutOff for Option<String> {
         }
     }
 }
-
-pub fn sql_unwrap<T>(value: Result<T, sqlx::Error>) -> Result<T, Error> {
-    match value {
-        Ok(v) => Ok(v),
-        Err(e) => match e {
-            sqlx::Error::RowNotFound => Err(ErrorNotFound("value not found")),
-            _ => Err(ErrorInternalServerError("database error")),
-        },
-    }
-}
