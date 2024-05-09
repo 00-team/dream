@@ -5,10 +5,12 @@ use actix_web::web::{Data, Json, Query};
 use actix_web::{
     delete, get, patch, post, put, HttpResponse, Responder, Scope,
 };
+use awc::http::header;
+use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sha2::{Digest, Sha512};
-use utoipa::{OpenApi, ToSchema};
+use utoipa::{IntoParams, OpenApi, ToSchema};
 
 use crate::api::verification;
 use crate::config::{config, Config};
@@ -25,8 +27,8 @@ use crate::AppState;
 #[openapi(
     tags((name = "api::user")),
     paths(
-        login, user_get, user_update, user_update_photo,
-        user_delete_photo, user_wallet_test, user_transactions_list
+        login, user_get, user_update, user_update_photo, user_delete_photo,
+        user_wallet_add, user_wallet_cb, user_transactions_list
     ),
     components(schemas(
         User, LoginBody, UserUpdateBody, UpdatePhoto, Transaction
@@ -234,16 +236,26 @@ async fn user_delete_photo(
     HttpResponse::Ok()
 }
 
+#[derive(Deserialize, Debug)]
+struct ZarinpalResponse<T> {
+    data: T,
+}
+
+#[derive(Deserialize)]
+struct AddWalletQuery {
+    amount: u32,
+}
+
 #[utoipa::path(
     post,
+    params(("amount" = u32, Query, example = 10000)),
     responses(
-        (status = 200)
+        (status = 200, body = String)
     )
 )]
-/// Add Wallet
-#[post("/wallet/")]
-async fn user_wallet_test(
-    user: User, state: Data<AppState>,
+#[post("/wallet-add/")]
+async fn user_wallet_add(
+    user: User, q: Query<AddWalletQuery>, state: Data<AppState>,
 ) -> Response<String> {
     let client = awc::Client::new();
     let request =
@@ -260,26 +272,100 @@ async fn user_wallet_test(
     let mut result = request
         .send_json(&Data {
             merchant_id: config().zarinpal_merchant_id.clone(),
-            amount: 12002,
+            amount: q.amount as u64,
             description: "Adding to Wallet".to_string(),
             callback_url: "https://dreampay.org/api/user/wallet-cb/"
                 .to_string(),
         })
         .await?;
 
-    let data = result.json::<Value>().await?;
-    let data = data.as_object().unwrap().get("data").unwrap().as_object();
-    let authority = data.unwrap().get("authority").unwrap().as_str().unwrap();
+    #[derive(Debug, Deserialize)]
+    struct RsData {
+        code: i64,
+        authority: String,
+        message: String,
+    }
+
+    let data = result.json::<ZarinpalResponse<RsData>>().await?.data;
 
     sqlx::query! {
         "insert into transactions (user, amount, vendor, vendor_order_id)
         values(?, ?, ?, ?)",
-        user.id, 12, TransactionVendor::Zarinpal, authority
+        user.id, q.amount, TransactionVendor::Zarinpal, data.authority
     }
     .execute(&state.sql)
     .await?;
 
-    Ok(Json(format!("https://www.zarinpal.com/pg/StartPay/{authority}")))
+    Ok(Json(format!("https://www.zarinpal.com/pg/StartPay/{}", data.authority)))
+}
+
+#[derive(Deserialize, IntoParams)]
+struct WalletCbQuery {
+    authority: String,
+    status: String,
+}
+
+#[utoipa::path(get, params(WalletCbQuery))]
+#[get("/wallet-cb/")]
+async fn user_wallet_cb(
+    user: User, q: Query<WalletCbQuery>, state: Data<AppState>,
+) -> HttpResponse {
+    let response =
+        HttpResponse::Found().insert_header((header::LOCATION, "/")).finish();
+
+    let transaction = sqlx::query_as! {
+        Transaction,
+        "select * from transactions where vendor_order_id = ? and user = ?",
+        q.authority, user.id
+    }
+    .fetch_one(&state.sql)
+    .await;
+
+    let is_ok = q.status.to_lowercase() == "ok";
+    if !is_ok || transaction.is_err() {
+        return response;
+    }
+
+    let transaction = transaction.unwrap();
+
+    if !cfg!(debug_assertions) {
+        #[derive(Serialize)]
+        struct Data {
+            merchant_id: String,
+            amount: i64,
+            authority: String,
+        }
+
+        let client = awc::Client::new();
+        let result = client
+            .post("https://api.zarinpal.com/pg/v4/payment/verify.json")
+            .send_json(&Data {
+                merchant_id: config().zarinpal_merchant_id.clone(),
+                amount: transaction.amount,
+                authority: q.authority.clone(),
+            })
+            .await;
+
+        if result.is_err() {
+            return response;
+        }
+
+        #[derive(Deserialize)]
+        struct RsData {
+            code: i64,
+            ref_id: i64,
+            card_pan: String,
+            card_hash: String,
+        }
+
+        let data = result.unwrap().json::<ZarinpalResponse<RsData>>().await;
+        if data.is_err() {
+            return response;
+        }
+        // data.unwrap().data.code
+    }
+
+    response
 }
 
 #[utoipa::path(
@@ -294,10 +380,10 @@ async fn user_wallet_test(
 async fn user_transactions_list(
     user: User, query: Query<ListInput>, state: Data<AppState>,
 ) -> Response<Vec<Transaction>> {
-    let offset = query.page * 30;
+    let offset = query.page * 32;
     let result = sqlx::query_as! {
         Transaction,
-        "select * from transactions where user = ? limit 30 offset ?",
+        "select * from transactions where user = ? limit 32 offset ?",
         user.id, offset
     }
     .fetch_all(&state.sql)
@@ -313,6 +399,7 @@ pub fn router() -> Scope {
         .service(user_update)
         .service(user_update_photo)
         .service(user_delete_photo)
-        .service(user_wallet_test)
+        .service(user_wallet_add)
+        .service(user_wallet_cb)
         .service(user_transactions_list)
 }
