@@ -76,12 +76,33 @@ section.about-us {
             background-color: #3fd3ff;
 
             z-index: 2;
+
+            .card-details {
+                .detail {
+                    &:hover {
+                        svg {
+                            transform: scale(1.7) rotate(10deg);
+                        }
+                    }
+
+                    svg {
+                        transition: 0.4s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+                    }
+                }
+            }
         }
 
         &.left {
             .card-details {
                 .detail {
+                    &:hover {
+                        svg {
+                            rotate: 180deg;
+                        }
+                    }
+
                     svg {
+                        transition: 0.4s cubic-bezier(0.45, 0.02, 0.09, 0.98);
                         fill: #e20338;
 
                         path {
