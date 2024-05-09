@@ -11,6 +11,8 @@ const Home: Component<{}> = props => {
             </section>
 
             <About />
+
+            <section class='services'></section>
         </main>
     )
 }
