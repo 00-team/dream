@@ -1,4 +1,7 @@
+import { CheckIcon, CrossIcon } from '!/icons/home'
 import { Component, onMount } from 'solid-js'
+
+import './style/about.scss'
 
 export const About: Component = props => {
     let aboutSection
@@ -17,14 +20,14 @@ export const About: Component = props => {
                         entry.intersectionRatio * 10,
                         4
                     )}deg)
-                        translateX(${Math.min(500, entry.intersectionRatio * 500)}px)
+                        translateX(${Math.min(470, entry.intersectionRatio * 500)}px)
                         `
 
                     leftImg.style.transform = `rotate(-${Math.min(
                         entry.intersectionRatio * 10,
                         4
                     )}deg)
-                        translateX(-${Math.min(500, entry.intersectionRatio * 500)}px)
+                        translateX(-${Math.min(470, entry.intersectionRatio * 500)}px)
                         `
                 }
             },
@@ -45,8 +48,64 @@ export const About: Component = props => {
                     <span>Pay</span>
                 </h2>
             </div>
-            <div class='card left'></div>
-            <div class='card right'></div>
+            <div class='card  left'>
+                <h5 class='title'>سرویس های دیگه</h5>
+                <div class='card-details title'>
+                    <div class='detail'>
+                        <CrossIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CrossIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CrossIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CrossIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CrossIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CrossIcon />
+                        سرعت انی در تحویل
+                    </div>
+                </div>
+            </div>
+            <div class='card right'>
+                <h5 class='logo title_hero'>Dream Pay</h5>
+                <div class='card-details title'>
+                    <div class='detail'>
+                        <CheckIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CheckIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CheckIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CheckIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CheckIcon />
+                        سرعت انی در تحویل
+                    </div>
+                    <div class='detail'>
+                        <CheckIcon />
+                        سرعت انی در تحویل
+                    </div>
+                </div>
+            </div>
         </section>
     )
 }
