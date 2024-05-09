@@ -63,5 +63,17 @@ main.home {
                 flex-direction: column;
             }
         }
+
+        .card {
+            position: absolute;
+            width: clamp(0px, 100%, 600px);
+            aspect-ratio: 1 / 1.2;
+            border-radius: 2rem;
+
+            background-color: grey;
+
+            will-change: transform;
+            transition: 0.3s;
+        }
     }
 }
