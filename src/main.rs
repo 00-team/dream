@@ -14,10 +14,10 @@ use sqlx::{Pool, Sqlite, SqlitePool};
 use utoipa::OpenApi;
 
 mod admin;
-mod general;
 mod api;
 mod config;
 mod docs;
+mod general;
 mod models;
 mod utils;
 
@@ -80,7 +80,7 @@ fn config_static(app: &mut web::ServiceConfig) {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    dotenvy::from_path("./.secrets.env").expect("could not read secrets.env");
+    dotenvy::from_path("./.secrets.env").expect("could not read .secrets.env");
     pretty_env_logger::init();
 
     let _ = std::fs::create_dir(Config::RECORD_DIR);
@@ -105,12 +105,11 @@ async fn main() -> std::io::Result<()> {
                 scope("/api")
                     .service(api::user::router())
                     .service(api::product::router())
-                    .service(api::verification::verification)
-                    // .service(
-                    //     scope("/admin")
-                    //         .service(admin::user::router())
-                    //         .service(admin::product::router()),
-                    // ),
+                    .service(api::verification::verification), // .service(
+                                                               //     scope("/admin")
+                                                               //         .service(admin::user::router())
+                                                               //         .service(admin::product::router()),
+                                                               // ),
             )
     });
 
@@ -118,7 +117,7 @@ async fn main() -> std::io::Result<()> {
         server.bind(("127.0.0.1", 7200)).unwrap()
     } else {
         const PATH: &'static str = "/usr/share/nginx/sockets/dream.sock";
-        let s = server.bind_uds(PATH).unwrap();
+        let s = server.bind_uds(PATH).expect("could not bind the server");
         std::fs::set_permissions(PATH, std::fs::Permissions::from_mode(0o777))?;
         s
     };
