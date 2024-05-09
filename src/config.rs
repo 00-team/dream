@@ -1,12 +1,16 @@
 use std::{fs::read_to_string, sync::OnceLock};
+use std::env::var as evar;
 
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 pub struct Product {
+    pub name: String,
     pub kind: String,
     pub cost: u64,
+    pub color: String,
+    pub image: String,
 }
 
 #[derive(Debug)]
@@ -14,6 +18,7 @@ pub struct Product {
 pub struct Config {
     pub discord_webhook: String,
     pub products: Vec<Product>,
+    pub zarinpal_merchant_id: String,
 }
 
 impl Config {
@@ -32,7 +37,8 @@ pub fn config() -> &'static Config {
     .expect("invalid products.json");
 
     STATE.get_or_init(|| Config {
-        discord_webhook: std::env::var("DISCORD_WEBHOOK").unwrap(),
+        discord_webhook: evar("DISCORD_WEBHOOK").unwrap(),
+        zarinpal_merchant_id: evar("ZARINPAL_MERCHANT_ID").unwrap(),
         products,
     })
 }

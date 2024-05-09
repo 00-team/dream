@@ -1,14 +1,23 @@
 [
     {
+        "name": "Spotify Family",
         "kind": "spotify.family",
-        "cost": 1200000
+        "cost": 1200000,
+        "color": "#1db954",
+        "image": "/static/spotify.png"
     },
     {
+        "name": "Spotify",
         "kind": "spotify.single",
-        "cost": 900000
+        "cost": 900000,
+        "color": "#1db954",
+        "image": "/static/spotify.png"
     },
     {
+        "name": "Netflix",
         "kind": "netflix",
-        "cost": 850000
+        "cost": 850000,
+        "color": "#e50914",
+        "image": "/static/netflix.png"
     }
 ]
