@@ -16,6 +16,14 @@ export const About: Component = props => {
         let transformMul = 520
         let rotateMul = 5
 
+        let transformMax = (): number => {
+            if (innerWidth >= 1440) return 470
+            if (innerWidth >= 1300) return 400
+            if (innerWidth >= 1100) return 380
+            if (innerWidth >= 1025) return 330
+            return 330
+        }
+
         var observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry && entry.isIntersecting) {
@@ -23,14 +31,14 @@ export const About: Component = props => {
                         entry.intersectionRatio * rotateMul,
                         4
                     )}deg)
-                        translateX(${Math.min(470, entry.intersectionRatio * transformMul)}px)
+                        translateX(${Math.min(transformMax(), entry.intersectionRatio * transformMul)}px)
                         `
 
                     leftImg.style.transform = `rotate(-${Math.min(
                         entry.intersectionRatio * rotateMul,
                         4
                     )}deg)
-                        translateX(-${Math.min(470, entry.intersectionRatio * transformMul)}px)
+                        translateX(-${Math.min(transformMax(), entry.intersectionRatio * transformMul)}px)
                         `
                 }
             },
