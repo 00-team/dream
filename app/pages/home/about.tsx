@@ -13,21 +13,24 @@ export const About: Component = props => {
         leftImg = document.querySelector<HTMLElement>('.card.left')
         rightImg = document.querySelector<HTMLElement>('.card.right')
 
+        let transformMul = 520
+        let rotateMul = 5
+
         var observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry && entry.isIntersecting) {
                     rightImg.style.transform = `rotate(${Math.min(
-                        entry.intersectionRatio * 10,
+                        entry.intersectionRatio * rotateMul,
                         4
                     )}deg)
-                        translateX(${Math.min(470, entry.intersectionRatio * 500)}px)
+                        translateX(${Math.min(470, entry.intersectionRatio * transformMul)}px)
                         `
 
                     leftImg.style.transform = `rotate(-${Math.min(
-                        entry.intersectionRatio * 10,
+                        entry.intersectionRatio * rotateMul,
                         4
                     )}deg)
-                        translateX(-${Math.min(470, entry.intersectionRatio * 500)}px)
+                        translateX(-${Math.min(470, entry.intersectionRatio * transformMul)}px)
                         `
                 }
             },
@@ -53,7 +56,15 @@ export const About: Component = props => {
                 <div class='card-details title'>
                     <div class='detail'>
                         <CrossIcon />
-                        سرعت انی در تحویل
+                        با واسطه، قیمت بالاتر{' '}
+                    </div>
+                    <div class='detail'>
+                        <CrossIcon />
+                        اکانت ها کرکی{' '}
+                    </div>
+                    <div class='detail'>
+                        <CrossIcon />
+                        پشتیبانی ضعیف{' '}
                     </div>
                     <div class='detail'>
                         <CrossIcon />
@@ -61,19 +72,11 @@ export const About: Component = props => {
                     </div>
                     <div class='detail'>
                         <CrossIcon />
-                        سرعت انی در تحویل
+                        درگاه های ناامن{' '}
                     </div>
                     <div class='detail'>
                         <CrossIcon />
-                        سرعت انی در تحویل
-                    </div>
-                    <div class='detail'>
-                        <CrossIcon />
-                        سرعت انی در تحویل
-                    </div>
-                    <div class='detail'>
-                        <CrossIcon />
-                        سرعت انی در تحویل
+                        پرداخت های فقط داخلی
                     </div>
                 </div>
             </div>
@@ -82,7 +85,15 @@ export const About: Component = props => {
                 <div class='card-details title'>
                     <div class='detail'>
                         <CheckIcon />
-                        سرعت انی در تحویل
+                        بدون واسط، کمترین قیمت{' '}
+                    </div>
+                    <div class='detail'>
+                        <CheckIcon />
+                        اکانت ها قانونی{' '}
+                    </div>
+                    <div class='detail'>
+                        <CheckIcon />
+                        پشتیبانی 24 / 7{' '}
                     </div>
                     <div class='detail'>
                         <CheckIcon />
@@ -90,19 +101,11 @@ export const About: Component = props => {
                     </div>
                     <div class='detail'>
                         <CheckIcon />
-                        سرعت انی در تحویل
+                        پرداخت امن{' '}
                     </div>
                     <div class='detail'>
                         <CheckIcon />
-                        سرعت انی در تحویل
-                    </div>
-                    <div class='detail'>
-                        <CheckIcon />
-                        سرعت انی در تحویل
-                    </div>
-                    <div class='detail'>
-                        <CheckIcon />
-                        سرعت انی در تحویل
+                        پرداخت با کارت های خارجی{' '}
                     </div>
                 </div>
             </div>
