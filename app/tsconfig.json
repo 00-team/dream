@@ -12,9 +12,6 @@
         "isolatedModules": true,
         "baseUrl": "./",
         "rootDir": "./",
-        "paths": {
-            "!/*": ["./*"]
-        },
         "resolveJsonModule": true
     }
 }

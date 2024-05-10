@@ -39,8 +39,5 @@ export default defineConfig(env => {
             assetsInlineLimit: 0,
             copyPublicDir: false,
         },
-        resolve: {
-            alias: { '!': resolve(__dirname, 'app') },
-        },
     }
 })
