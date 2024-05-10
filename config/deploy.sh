@@ -47,9 +47,15 @@ if check_diff "package.json"; then
     echo $SPACER
 fi
 
-if check_diff "app/* vite.ts"; then
+if check_diff "app/*"; then
     echo "$EG build the app!"
     npm run build
+    echo $SPACER
+fi
+
+if check_diff "admin/*"; then
+    echo "$EG build the app!"
+    npm run admin:build
     echo $SPACER
 fi
 
