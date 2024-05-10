@@ -26,9 +26,16 @@ pub struct AppState {
 }
 
 #[get("/")]
-async fn index() -> impl Responder {
-    let result = read_to_string("dist/index.html")
-        .unwrap_or("err reading index.html".to_string());
+async fn app_index() -> impl Responder {
+    let result = read_to_string("app/dist/index.html")
+        .unwrap_or("err reading app index.html".to_string());
+    HttpResponse::Ok().content_type(ContentType::html()).body(result)
+}
+
+#[get("/admin")]
+async fn admin_index() -> impl Responder {
+    let result = read_to_string("admin/dist/index.html")
+        .unwrap_or("err reading admin index.html".to_string());
     HttpResponse::Ok().content_type(ContentType::html()).body(result)
 }
 
@@ -73,7 +80,8 @@ async fn rapidoc() -> impl Responder {
 fn config_static(app: &mut web::ServiceConfig) {
     if cfg!(debug_assertions) {
         app.service(af::Files::new("/static", "./static"));
-        app.service(af::Files::new("/assets", "./dist/assets"));
+        app.service(af::Files::new("/app-assets", "app/dist/app-assets"));
+        app.service(af::Files::new("/admin-assets", "admin/dist/admin-assets"));
         app.service(af::Files::new("/record", Config::RECORD_DIR));
     }
 }
@@ -100,16 +108,13 @@ async fn main() -> std::io::Result<()> {
             .configure(config_static)
             .service(openapi)
             .service(rapidoc)
-            .service(index)
+            .service(app_index)
+            .service(admin_index)
             .service(
                 scope("/api")
                     .service(api::user::router())
                     .service(api::product::router())
-                    .service(api::verification::verification), // .service(
-                                                               //     scope("/admin")
-                                                               //         .service(admin::user::router())
-                                                               //         .service(admin::product::router()),
-                                                               // ),
+                    .service(api::verification::verification),
             )
     });
 
