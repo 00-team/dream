@@ -8,9 +8,9 @@
     "author": "00-team",
     "license": "AGPL-3",
     "scripts": {
-        "start": "vite -c vite.ts --host",
-        "build": "vite build -c vite.ts",
-        "serve": "local_api_target=1 vite -c vite.ts",
+        "start": "vite --host",
+        "build": "vite build",
+        "serve": "local_api_target=1 vite",
         "admin:start": "local_api_target=1 root=admin vite",
         "admin:build": "root=admin vite build"
     },
