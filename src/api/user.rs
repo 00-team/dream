@@ -6,18 +6,18 @@ use actix_web::{
     delete, get, patch, post, put, HttpResponse, Responder, Scope,
 };
 use awc::http::header;
-use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
 use sha2::{Digest, Sha512};
 use utoipa::{IntoParams, OpenApi, ToSchema};
 
 use crate::api::verification;
 use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
-use crate::models::transactions::{Transaction, TransactionVendor};
+use crate::models::transactions::{
+    Transaction, TransactionStatus, TransactionVendor,
+};
 use crate::models::user::{UpdatePhoto, User};
-use crate::models::{AppErr, ListInput, Response};
+use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
 use crate::utils::{
     get_random_bytes, get_random_string, remove_photo, save_photo, CutOff,
 };
@@ -257,6 +257,20 @@ struct AddWalletQuery {
 async fn user_wallet_add(
     user: User, q: Query<AddWalletQuery>, state: Data<AppState>,
 ) -> Response<String> {
+    if cfg!(debug_assertions) {
+        sqlx::query! {
+            "insert into transactions (user, amount, vendor, vendor_order_id)
+            values(?, ?, ?, ?)",
+            user.id, q.amount, TransactionVendor::Zarinpal, "debug"
+        }
+        .execute(&state.sql)
+        .await?;
+
+        return Ok(Json(
+            "/api/user/wallet-cb/?authority=debug&status=OK".to_string(),
+        ));
+    }
+
     let client = awc::Client::new();
     let request =
         client.post("https://api.zarinpal.com/pg/v4/payment/request.json");
@@ -283,10 +297,13 @@ async fn user_wallet_add(
     struct RsData {
         code: i64,
         authority: String,
-        message: String,
     }
 
     let data = result.json::<ZarinpalResponse<RsData>>().await?.data;
+    if data.code != 100 {
+        log::error!("payment failed: {:?}", result.body().await?);
+        return Err(AppErrBadRequest("payment request failed"));
+    }
 
     sqlx::query! {
         "insert into transactions (user, amount, vendor, vendor_order_id)
@@ -315,8 +332,10 @@ async fn user_wallet_cb(
 
     let transaction = sqlx::query_as! {
         Transaction,
-        "select * from transactions where vendor_order_id = ? and user = ?",
-        q.authority, user.id
+        "select * from transactions where
+        vendor_order_id = ? and user = ? and vendor = ? and status = ?",
+        q.authority, user.id,
+        TransactionVendor::Zarinpal, TransactionStatus::InProgress
     }
     .fetch_one(&state.sql)
     .await;
@@ -325,45 +344,89 @@ async fn user_wallet_cb(
     if !is_ok || transaction.is_err() {
         return response;
     }
-
     let transaction = transaction.unwrap();
+    let wallet = user.wallet + transaction.amount;
 
-    if !cfg!(debug_assertions) {
-        #[derive(Serialize)]
-        struct Data {
-            merchant_id: String,
-            amount: i64,
-            authority: String,
+    if cfg!(debug_assertions) {
+        let result = sqlx::query! {
+            "update users set wallet = ? where id = ?",
+            wallet, user.id
         }
-
-        let client = awc::Client::new();
-        let result = client
-            .post("https://api.zarinpal.com/pg/v4/payment/verify.json")
-            .send_json(&Data {
-                merchant_id: config().zarinpal_merchant_id.clone(),
-                amount: transaction.amount,
-                authority: q.authority.clone(),
-            })
-            .await;
+        .execute(&state.sql)
+        .await;
 
         if result.is_err() {
             return response;
         }
 
-        #[derive(Deserialize)]
-        struct RsData {
-            code: i64,
-            ref_id: i64,
-            card_pan: String,
-            card_hash: String,
+        let _ = sqlx::query! {
+            "update transactions set status = ? where id = ?",
+            TransactionStatus::Success, transaction.id
         }
+        .execute(&state.sql)
+        .await;
 
-        let data = result.unwrap().json::<ZarinpalResponse<RsData>>().await;
-        if data.is_err() {
-            return response;
-        }
-        // data.unwrap().data.code
+        return response;
     }
+
+    #[derive(Serialize)]
+    struct Data {
+        merchant_id: String,
+        amount: i64,
+        authority: String,
+    }
+
+    let client = awc::Client::new();
+    let result = client
+        .post("https://api.zarinpal.com/pg/v4/payment/verify.json")
+        .send_json(&Data {
+            merchant_id: config().zarinpal_merchant_id.clone(),
+            amount: transaction.amount,
+            authority: q.authority.clone(),
+        })
+        .await;
+
+    if result.is_err() {
+        return response;
+    }
+
+    #[derive(Deserialize)]
+    struct RsData {
+        code: i64,
+        ref_id: i64,
+        card_pan: String,
+        card_hash: String,
+    }
+
+    let data = result.unwrap().json::<ZarinpalResponse<RsData>>().await;
+    if data.is_err() {
+        return response;
+    }
+    let data = data.unwrap().data;
+    if data.code != 100 {
+        return response;
+    }
+
+    let result = sqlx::query! {
+        "update users set wallet = ? where id = ?",
+        wallet, user.id
+    }
+    .execute(&state.sql)
+    .await;
+
+    if result.is_err() {
+        return response;
+    }
+
+    let _ = sqlx::query! {
+        "update transactions set
+        status = ?, vendor_track_id = ?, card = ?, hashed_card = ?
+        where id = ?",
+        TransactionStatus::Success, data.ref_id, data.card_pan, data.card_hash,
+        transaction.id
+    }
+    .execute(&state.sql)
+    .await;
 
     response
 }
