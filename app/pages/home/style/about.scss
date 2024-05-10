@@ -53,6 +53,20 @@ section.about-us {
         will-change: transform;
         transition: 0.5s;
 
+        @media screen and (max-width: 1440px) {
+            width: clamp(0px, 100%, 500px);
+        }
+        @media screen and (max-width: 1250px) {
+            width: clamp(0px, 100%, 450px);
+        }
+        @media screen and (max-width: 1150px) {
+            width: clamp(0px, 100%, 400px);
+        }
+        @media screen and (max-width: 1024px) {
+            width: clamp(0px, 100%, 350px);
+            aspect-ratio: 1 / 1.4;
+        }
+
         .card-details {
             width: 100%;
             display: flex;
@@ -67,7 +81,11 @@ section.about-us {
                 align-items: center;
                 gap: 0.5em;
 
-                padding: 1em 0;
+                padding: 0.7em 0;
+
+                @media screen and (max-width: 1440px) {
+                    padding: 0.5em 0;
+                }
             }
         }
 
