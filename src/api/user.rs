@@ -13,7 +13,7 @@ use utoipa::{IntoParams, OpenApi, ToSchema};
 use crate::api::verification;
 use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
-use crate::models::transactions::{
+use crate::models::transaction::{
     Transaction, TransactionStatus, TransactionVendor,
 };
 use crate::models::user::{UpdatePhoto, User};
@@ -105,25 +105,18 @@ async fn login(
 
     user.token = format!("{}:{}", user.id, user.token);
 
-    let cookie =
-        Cookie::build("Authorization", format!("Bearer {}", user.token))
-            .path("/")
-            .secure(true)
-            .same_site(SameSite::Strict)
-            .http_only(true)
-            .max_age(Duration::weeks(12))
-            .finish();
+    let cook = Cookie::build("Authorization", format!("Bearer {}", user.token))
+        .path("/")
+        .secure(true)
+        .same_site(SameSite::Strict)
+        .http_only(true)
+        .max_age(Duration::weeks(12))
+        .finish();
 
-    Ok(HttpResponse::Ok().cookie(cookie).json(user))
+    Ok(HttpResponse::Ok().cookie(cook).json(user))
 }
 
-#[utoipa::path(
-    get,
-    responses(
-        (status = 200, body = User)
-    )
-)]
-/// Get User
+#[utoipa::path(get, responses((status = 200, body = User)))]
 #[get("/")]
 async fn user_get(user: User) -> Json<User> {
     Json(user)
