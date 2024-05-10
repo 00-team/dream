@@ -10,6 +10,9 @@ section.about-us {
 
     background-image: linear-gradient(to bottom, #015fb6 0%, transparent 11%);
 
+    position: relative;
+    isolation: isolate;
+
     @media screen and (max-width: 1024px) {
         flex-direction: column;
         height: auto;
@@ -44,7 +47,7 @@ section.about-us {
         height: 100%;
 
         position: absolute;
-        top: 25px;
+        top: 50px;
 
         display: flex;
         align-items: center;
