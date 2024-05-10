@@ -10,11 +10,13 @@
     "scripts": {
         "start": "vite -c vite.ts --host",
         "build": "vite build -c vite.ts",
-        "build:dev": "vite build -c vite.ts --mode development",
-        "serve": "local_api_target=1 vite -c vite.ts"
+        "serve": "local_api_target=1 vite -c vite.ts",
+        "admin:start": "local_api_target=1 root=admin vite",
+        "admin:build": "root=admin vite build"
     },
     "devDependencies": {
         "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+        "@types/node": "^20.12.11",
         "sass": "^1.76.0",
         "typescript": "^5.4.5",
         "vite": "^5.2.11",
