@@ -17,11 +17,11 @@ export const About: Component = props => {
         let rotateMul = 5
 
         let transformMax = (): number => {
-            if (innerWidth >= 1440) return 470
-            if (innerWidth >= 1300) return 400
-            if (innerWidth >= 1100) return 380
-            if (innerWidth >= 1025) return 330
-            return 330
+            if (innerWidth >= 1440) return 460
+            if (innerWidth >= 1300) return 390
+            if (innerWidth >= 1100) return 370
+            if (innerWidth >= 1025) return 320
+            return 320
         }
 
         var observer = new IntersectionObserver(
@@ -59,61 +59,63 @@ export const About: Component = props => {
                     <span>Pay</span>
                 </h2>
             </div>
-            <div class='card  left'>
-                <h5 class='title'>سرویس های دیگه</h5>
-                <div class='card-details title'>
-                    <div class='detail'>
-                        <CrossIcon />
-                        با واسطه، قیمت بالاتر{' '}
-                    </div>
-                    <div class='detail'>
-                        <CrossIcon />
-                        اکانت ها کرکی{' '}
-                    </div>
-                    <div class='detail'>
-                        <CrossIcon />
-                        پشتیبانی ضعیف{' '}
-                    </div>
-                    <div class='detail'>
-                        <CrossIcon />
-                        سرعت انی در تحویل
-                    </div>
-                    <div class='detail'>
-                        <CrossIcon />
-                        درگاه های ناامن{' '}
-                    </div>
-                    <div class='detail'>
-                        <CrossIcon />
-                        پرداخت های فقط داخلی
+            <div class='cards-container'>
+                <div class='card  left'>
+                    <h5 class='title'>سرویس های دیگه</h5>
+                    <div class='card-details title'>
+                        <div class='detail'>
+                            <CrossIcon />
+                            با واسطه، قیمت بالاتر{' '}
+                        </div>
+                        <div class='detail'>
+                            <CrossIcon />
+                            اکانت ها کرکی{' '}
+                        </div>
+                        <div class='detail'>
+                            <CrossIcon />
+                            پشتیبانی ضعیف{' '}
+                        </div>
+                        <div class='detail'>
+                            <CrossIcon />
+                            سرعت انی در تحویل
+                        </div>
+                        <div class='detail'>
+                            <CrossIcon />
+                            درگاه های ناامن{' '}
+                        </div>
+                        <div class='detail'>
+                            <CrossIcon />
+                            پرداخت های فقط داخلی
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class='card right'>
-                <h5 class='logo title_hero'>Dream Pay</h5>
-                <div class='card-details title'>
-                    <div class='detail'>
-                        <CheckIcon />
-                        بدون واسط، کمترین قیمت{' '}
-                    </div>
-                    <div class='detail'>
-                        <CheckIcon />
-                        اکانت ها قانونی{' '}
-                    </div>
-                    <div class='detail'>
-                        <CheckIcon />
-                        پشتیبانی 24 / 7{' '}
-                    </div>
-                    <div class='detail'>
-                        <CheckIcon />
-                        سرعت انی در تحویل
-                    </div>
-                    <div class='detail'>
-                        <CheckIcon />
-                        پرداخت امن{' '}
-                    </div>
-                    <div class='detail'>
-                        <CheckIcon />
-                        پرداخت با کارت های خارجی{' '}
+                <div class='card right'>
+                    <h5 class='logo title_hero'>Dream Pay</h5>
+                    <div class='card-details title'>
+                        <div class='detail'>
+                            <CheckIcon />
+                            بدون واسط، کمترین قیمت{' '}
+                        </div>
+                        <div class='detail'>
+                            <CheckIcon />
+                            اکانت ها قانونی{' '}
+                        </div>
+                        <div class='detail'>
+                            <CheckIcon />
+                            پشتیبانی 24 / 7{' '}
+                        </div>
+                        <div class='detail'>
+                            <CheckIcon />
+                            سرعت انی در تحویل
+                        </div>
+                        <div class='detail'>
+                            <CheckIcon />
+                            پرداخت امن{' '}
+                        </div>
+                        <div class='detail'>
+                            <CheckIcon />
+                            پرداخت با کارت های خارجی{' '}
+                        </div>
                     </div>
                 </div>
             </div>
