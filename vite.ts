@@ -3,6 +3,8 @@ import type { WatcherOptions } from 'rollup'
 import solidPlugin from 'vite-plugin-solid'
 import { resolve } from 'path'
 
+import tsconfigPaths from 'vite-tsconfig-paths'
+
 let target = 'https://dreampay.org'
 if (process.env.local_api_target) {
     target = 'http://127.0.0.1:7200'
@@ -19,7 +21,7 @@ export default defineConfig(env => {
     }
 
     return {
-        plugins: [solidPlugin({ hot: false })],
+        plugins: [tsconfigPaths(), solidPlugin({ hot: false })],
         server: {
             https: false,
             port: 8200,

@@ -1,4 +1,4 @@
-import { CheckIcon, CrossIcon } from '!/icons/home'
+import { CheckIcon, CrossIcon } from 'icons/home'
 import { Component, onMount } from 'solid-js'
 
 import './style/about.scss'
