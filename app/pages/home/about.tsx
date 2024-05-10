@@ -21,7 +21,8 @@ export const About: Component = props => {
             if (innerWidth >= 1300) return 390
             if (innerWidth >= 1100) return 370
             if (innerWidth >= 1025) return 320
-            return 320
+            if (innerWidth >= 768) return 160
+            return 20
         }
 
         var observer = new IntersectionObserver(
