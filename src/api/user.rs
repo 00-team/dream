@@ -48,10 +48,7 @@ struct LoginBody {
 #[utoipa::path(
     post,
     request_body = LoginBody,
-    responses(
-        (status = 200, body = User),
-        (status = 400, body = String)
-    )
+    responses((status = 200, body = User))
 )]
 /// Login
 #[post("/login/")]
@@ -119,6 +116,7 @@ async fn login(
 
 #[utoipa::path(get, responses((status = 200, body = User)))]
 #[get("/")]
+/// Get
 async fn user_get(user: User) -> Json<User> {
     Json(user)
 }
@@ -135,7 +133,7 @@ struct UserUpdateBody {
         (status = 200, body = User)
     )
 )]
-/// Update User
+/// Update
 #[patch("/")]
 async fn user_update(
     user: User, body: Json<UserUpdateBody>, state: Data<AppState>,
@@ -247,6 +245,7 @@ struct AddWalletQuery {
         (status = 200, body = String)
     )
 )]
+/// Wallet Add
 #[post("/wallet-add/")]
 async fn user_wallet_add(
     user: User, q: Query<AddWalletQuery>, state: Data<AppState>,
@@ -317,6 +316,7 @@ struct WalletCbQuery {
 }
 
 #[utoipa::path(get, params(WalletCbQuery))]
+/// Wallet Callback
 #[get("/wallet-cb/")]
 async fn user_wallet_cb(
     user: User, q: Query<WalletCbQuery>, state: Data<AppState>,
