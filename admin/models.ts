@@ -1,4 +1,4 @@
-export type Order = {
+export type OrderModel = {
     data: {
         contact?: string | null
         email?: string | null
@@ -13,7 +13,7 @@ export type Order = {
     user: number
 }
 
-export type User = {
+export type UserModel = {
     admin: boolean
     banned: boolean
     id: number
@@ -25,7 +25,7 @@ export type User = {
     wallet: number
 }
 
-export type Transaction = {
+export type TransactionModel = {
     amount: number
     bank_track_id?: number | null
     card?: string | null
