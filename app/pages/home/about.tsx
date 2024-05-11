@@ -1,17 +1,21 @@
 import { CheckIcon, CrossIcon } from 'icons/home'
 import { Component, onMount } from 'solid-js'
 
+import VanillaTilt from 'utils/tilt'
+
 import './style/about.scss'
 
 export const About: Component = props => {
-    let aboutSection
-    let leftImg
-    let rightImg
+    let aboutSection: HTMLElement
+    let leftImg: HTMLElement
+    let rightImg: HTMLElement
+    let headerTexts: HTMLElement
 
     onMount(() => {
         aboutSection = document.querySelector<HTMLElement>('section.about-us')
         leftImg = document.querySelector<HTMLElement>('.card.left')
         rightImg = document.querySelector<HTMLElement>('.card.right')
+        headerTexts = document.querySelector<HTMLElement>('.header-texts')
 
         let transformMul = 520
         let rotateMul = 5
@@ -41,6 +45,8 @@ export const About: Component = props => {
                     )}deg)
                         translateX(-${Math.min(transformMax(), entry.intersectionRatio * transformMul)}px)
                         `
+
+                    headerTexts.style.transform = `scale(${Math.min(entry.intersectionRatio, 1)}) rotate(${Math.min(0, entry.intersectionRatio * entry.intersectionRatio * 10 - 10)}deg)`
                 }
             },
             {
@@ -49,6 +55,20 @@ export const About: Component = props => {
         )
 
         observer.observe(aboutSection)
+    })
+
+    let Cards
+
+    onMount(() => {
+        Cards = document.querySelectorAll('div.card-wrapper')
+
+        VanillaTilt.init(Cards, {
+            perspective: 1400,
+            scale: 1,
+            gyroscopeMaxAngleY: 10,
+            gyroscopeMaxAngleX: 10,
+            max: 5,
+        })
     })
 
     return (
@@ -62,60 +82,74 @@ export const About: Component = props => {
             </div>
             <div class='cards-container'>
                 <div class='card  left'>
-                    <h5 class='title'>سرویس های دیگه</h5>
-                    <div class='card-details title'>
-                        <div class='detail'>
-                            <CrossIcon />
-                            با واسطه، قیمت بالاتر{' '}
-                        </div>
-                        <div class='detail'>
-                            <CrossIcon />
-                            اکانت ها کرکی{' '}
-                        </div>
-                        <div class='detail'>
-                            <CrossIcon />
-                            پشتیبانی ضعیف{' '}
-                        </div>
-                        <div class='detail'>
-                            <CrossIcon />
-                            سرعت انی در تحویل
-                        </div>
-                        <div class='detail'>
-                            <CrossIcon />
-                            درگاه های ناامن{' '}
-                        </div>
-                        <div class='detail'>
-                            <CrossIcon />
-                            پرداخت های فقط داخلی
+                    <div
+                        class='card-wrapper'
+                        // onMouseEnter={mouseEnter}
+                        // onmousemove={mouseMove}
+                        // onmouseleave={mouseLeave}
+                    >
+                        <h5 class='title'>سرویس های دیگه</h5>
+                        <div class='card-details title'>
+                            <div class='detail'>
+                                <CrossIcon />
+                                با واسطه، قیمت بالاتر{' '}
+                            </div>
+                            <div class='detail'>
+                                <CrossIcon />
+                                اکانت ها کرکی{' '}
+                            </div>
+                            <div class='detail'>
+                                <CrossIcon />
+                                پشتیبانی ضعیف{' '}
+                            </div>
+                            <div class='detail'>
+                                <CrossIcon />
+                                سرعت پایین در تحویل
+                            </div>
+                            <div class='detail'>
+                                <CrossIcon />
+                                درگاه های ناامن{' '}
+                            </div>
+                            <div class='detail'>
+                                <CrossIcon />
+                                پرداخت های فقط داخلی
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class='card right'>
-                    <h5 class='logo title_hero'>Dream Pay</h5>
-                    <div class='card-details title'>
-                        <div class='detail'>
-                            <CheckIcon />
-                            بدون واسط، کمترین قیمت{' '}
-                        </div>
-                        <div class='detail'>
-                            <CheckIcon />
-                            اکانت ها قانونی{' '}
-                        </div>
-                        <div class='detail'>
-                            <CheckIcon />
-                            پشتیبانی 24 / 7{' '}
-                        </div>
-                        <div class='detail'>
-                            <CheckIcon />
-                            سرعت انی در تحویل
-                        </div>
-                        <div class='detail'>
-                            <CheckIcon />
-                            پرداخت امن{' '}
-                        </div>
-                        <div class='detail'>
-                            <CheckIcon />
-                            پرداخت با کارت های خارجی{' '}
+                    <div
+                        class='card-wrapper'
+                        // onMouseEnter={mouseEnter}
+                        // onmousemove={mouseMove}
+                        // onmouseleave={mouseLeave}
+                    >
+                        <h5 class='logo title_hero'>Dream Pay</h5>
+                        <div class='card-details title'>
+                            <div class='detail'>
+                                <CheckIcon />
+                                بدون واسط، کمترین قیمت{' '}
+                            </div>
+                            <div class='detail'>
+                                <CheckIcon />
+                                اکانت ها قانونی{' '}
+                            </div>
+                            <div class='detail'>
+                                <CheckIcon />
+                                پشتیبانی 24 ساعته
+                            </div>
+                            <div class='detail'>
+                                <CheckIcon />
+                                سرعت انی در تحویل
+                            </div>
+                            <div class='detail'>
+                                <CheckIcon />
+                                پرداخت امن{' '}
+                            </div>
+                            <div class='detail'>
+                                <CheckIcon />
+                                پرداخت با کارت های خارجی{' '}
+                            </div>
                         </div>
                     </div>
                 </div>
