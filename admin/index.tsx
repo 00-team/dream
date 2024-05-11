@@ -9,8 +9,10 @@ const Orders = lazy(() => import('./layout/orders'))
 
 const Root = () => {
     createEffect(() => {
-        if ((import.meta.env.PROD && !self.loged_in) || !self.user.admin) {
-            location.replace('/login')
+        if (!self.loged_in || !self.user.admin) {
+            if (import.meta.env.PROD) {
+                location.replace('/login')
+            }
         }
     })
 

@@ -1,6 +1,6 @@
 import { createStore } from 'solid-js/store'
 import './style/orders.scss'
-import { OrderModel } from 'models'
+import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
 import { createEffect } from 'solid-js'
 import { httpx } from 'shared'
@@ -9,8 +9,12 @@ export default () => {
     const UP = useParams()
     const navigate = useNavigate()
 
+    type OrderInfo = OrderModel & {
+        user: UserModel
+    }
+
     type State = {
-        orders: OrderModel[]
+        orders: OrderInfo[]
         page: number
     }
 
@@ -33,7 +37,15 @@ export default () => {
             params: { page },
             method: 'GET',
             onLoad(x) {
-                setState({ orders: x.response, page })
+                let orders: OrderModel[] = x.response.orders
+                let users: UserModel[] = x.response.users
+
+                let orders_info = orders.map(o => ({
+                    ...o,
+                    user: users.find(u => u.id == o.user),
+                })) as OrderInfo[]
+
+                setState({ orders: orders_info, page })
             },
         })
     }
@@ -43,7 +55,7 @@ export default () => {
             <div class='order-list'>
                 {state.orders.map(o => (
                     <div class='order'>
-                        {o.kind} - {o.price}
+                        {o.kind} - {o.price} - {o.user.name} - {o.user.phone}
                     </div>
                 ))}
             </div>
