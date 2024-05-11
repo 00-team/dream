@@ -1,13 +1,14 @@
-use std::{env, fs::read_to_string, os::unix::fs::PermissionsExt};
+use std::{env, os::unix::fs::PermissionsExt};
 
 use crate::config::Config;
 use crate::docs::{doc_add_prefix, ApiDoc};
 use actix_files as af;
+use actix_web::web::ServiceConfig;
 use actix_web::{
     get,
     http::header::ContentType,
     middleware,
-    web::{self, scope, Data},
+    web::{scope, Data},
     App, HttpResponse, HttpServer, Responder,
 };
 use sqlx::{Pool, Sqlite, SqlitePool};
@@ -20,23 +21,10 @@ mod docs;
 mod general;
 mod models;
 mod utils;
+mod web;
 
 pub struct AppState {
     pub sql: Pool<Sqlite>,
-}
-
-#[get("/")]
-async fn app_index() -> impl Responder {
-    let result = read_to_string("app/dist/index.html")
-        .unwrap_or("err reading app index.html".to_string());
-    HttpResponse::Ok().content_type(ContentType::html()).body(result)
-}
-
-#[get("/admin")]
-async fn admin_index() -> impl Responder {
-    let result = read_to_string("admin/dist/index.html")
-        .unwrap_or("err reading admin index.html".to_string());
-    HttpResponse::Ok().content_type(ContentType::html()).body(result)
 }
 
 #[get("/openapi.json")]
@@ -76,7 +64,7 @@ async fn rapidoc() -> impl Responder {
     )
 }
 
-fn config_static(app: &mut web::ServiceConfig) {
+fn config_static(app: &mut ServiceConfig) {
     if cfg!(debug_assertions) {
         app.service(af::Files::new("/static", "./static"));
         app.service(af::Files::new("/app-assets", "app/dist/app-assets"));
@@ -107,8 +95,6 @@ async fn main() -> std::io::Result<()> {
             .configure(config_static)
             .service(openapi)
             .service(rapidoc)
-            .service(app_index)
-            .service(admin_index)
             .service(
                 scope("/api")
                     .service(api::user::router())
@@ -117,6 +103,7 @@ async fn main() -> std::io::Result<()> {
                     .service(api::verification::verification)
                     .service(scope("/admin").service(admin::order::router())),
             )
+            .service(web::router())
     });
 
     let server = if cfg!(debug_assertions) {
