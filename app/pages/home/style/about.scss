@@ -24,6 +24,10 @@ section.about-us {
         align-items: center;
         justify-content: center;
 
+        transform: scale(0.1) rotate(-10deg);
+        will-change: transform;
+        transition: 0.3s;
+
         h2.section_title {
             display: flex;
             align-items: center;
