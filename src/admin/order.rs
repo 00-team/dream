@@ -1,6 +1,7 @@
 use actix_web::web::{Data, Json, Query};
 use actix_web::{get, post, HttpResponse, Scope};
-use serde::Deserialize;
+use itertools::Itertools;
+use serde::{Deserialize, Serialize};
 use utoipa::{OpenApi, ToSchema};
 
 use crate::docs::UpdatePaths;
@@ -13,11 +14,17 @@ use crate::AppState;
 #[openapi(
     tags((name = "admin::order")),
     paths(order_list, order_get, order_update),
-    components(schemas(UpdateOrder)),
+    components(schemas(UpdateOrder, OrderList)),
     servers((url = "/orders")),
     modifiers(&UpdatePaths)
 )]
 pub struct ApiDoc;
+
+#[derive(Serialize, ToSchema)]
+struct OrderList {
+    orders: Vec<Order>,
+    users: Vec<User>,
+}
 
 #[utoipa::path(
     get,
@@ -28,7 +35,7 @@ pub struct ApiDoc;
 #[get("/")]
 async fn order_list(
     _: Admin, query: Query<ListInput>, state: Data<AppState>,
-) -> Response<Vec<Order>> {
+) -> Response<OrderList> {
     let offset = query.page * 32;
 
     let orders = sqlx::query_as! {
@@ -37,7 +44,17 @@ async fn order_list(
     .fetch_all(&state.sql)
     .await?;
 
-    Ok(Json(orders))
+    let user_ids = orders.iter().map(|o| o.user).unique().join(", ");
+
+    let mut users = sqlx::query_as! {
+        User, "select * from users where id in (?)", user_ids
+    }
+    .fetch_all(&state.sql)
+    .await?;
+
+    users.iter_mut().for_each(|user| user.token = String::new());
+
+    Ok(Json(OrderList { orders, users }))
 }
 
 #[utoipa::path(
