@@ -14,7 +14,7 @@ use crate::api::verification;
 use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
 use crate::models::transaction::{
-    Transaction, TransactionStatus, TransactionVendor,
+    Transaction, TransactionStatus, TransactionVendor, TransactionKind
 };
 use crate::models::user::{UpdatePhoto, User};
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
@@ -31,7 +31,8 @@ use crate::AppState;
         user_wallet_add, user_wallet_cb, user_transactions_list
     ),
     components(schemas(
-        User, LoginBody, UserUpdateBody, UpdatePhoto, Transaction
+        User, LoginBody, UserUpdateBody, UpdatePhoto,
+        Transaction, TransactionStatus, TransactionVendor, TransactionKind
     )),
     servers((url = "/user")),
     modifiers(&UpdatePaths)
