@@ -11,22 +11,22 @@ sql_enum! {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, ToSchema)]
+#[derive(Debug, Serialize, Deserialize, ToSchema, Default)]
 pub struct OrderData {
-    username: Option<String>,
-    password: Option<String>,
-    email: Option<String>,
-    contact: Option<String>
+    pub username: Option<String>,
+    pub password: Option<String>,
+    pub email: Option<String>,
+    pub contact: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema)]
 pub struct Order {
-    id: i64,
-    user: i64,
-    kind: String,
-    price: i64,
-    status: OrderStatus,
+    pub id: i64,
+    pub user: i64,
+    pub kind: String,
+    pub price: i64,
+    pub status: OrderStatus,
     #[schema(value_type = OrderData)]
-    data: JsonStr<OrderData>,
-    timestamp: i64,
+    pub data: JsonStr<OrderData>,
+    pub timestamp: i64,
 }
