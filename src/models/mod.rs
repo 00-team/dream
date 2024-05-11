@@ -1,5 +1,5 @@
 pub mod common;
-pub mod transactions;
+pub mod transaction;
 pub mod user;
 
 mod error;

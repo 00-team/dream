@@ -40,6 +40,7 @@ export default defineConfig(env => {
             watch,
             assetsInlineLimit: 0,
             copyPublicDir: false,
+            assetsDir: root + '-assets',
         },
     }
 })

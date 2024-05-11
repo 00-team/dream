@@ -15,6 +15,7 @@ sql_enum! {
     pub enum TransactionKind {
         In,
         Out,
+        Purchase,
     }
 }
 

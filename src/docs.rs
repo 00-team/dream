@@ -2,10 +2,12 @@ use utoipa::{
     openapi::{
         self,
         security::{Http, HttpAuthScheme, SecurityScheme},
-        Components, SecurityRequirement,
+        Components, Content, Response, SecurityRequirement,
     },
     Modify, OpenApi,
 };
+
+use crate::models::AppErr;
 
 pub struct AddSecurity;
 
@@ -48,6 +50,19 @@ pub fn doc_add_prefix(
                 });
             }
 
+            value.operations.iter_mut().for_each(|(_, op)| {
+                let mut response = Response::new("app err");
+                response.content.insert(
+                    "application/json".to_string(),
+                    Content::new(openapi::RefOr::Ref(openapi::Ref::new(
+                        "#/components/schemas/AppErr",
+                    ))),
+                );
+                op.responses
+                    .responses
+                    .insert("xxx".to_string(), openapi::RefOr::T(response));
+            });
+
             (path, value)
         })
         .collect();
@@ -72,6 +87,7 @@ impl Modify for UpdatePaths {
 #[derive(OpenApi)]
 #[openapi(
     servers((url = "/")),
-    modifiers(&AddSecurity)
+    modifiers(&AddSecurity),
+    components(schemas(AppErr))
 )]
 pub struct ApiDoc;
