@@ -11,7 +11,7 @@ sql_enum! {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, ToSchema, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, ToSchema, Default)]
 pub struct OrderData {
     pub username: Option<String>,
     pub password: Option<String>,
