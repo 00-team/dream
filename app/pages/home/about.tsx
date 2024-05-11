@@ -6,14 +6,16 @@ import VanillaTilt from 'utils/tilt'
 import './style/about.scss'
 
 export const About: Component = props => {
-    let aboutSection
-    let leftImg
-    let rightImg
+    let aboutSection: HTMLElement
+    let leftImg: HTMLElement
+    let rightImg: HTMLElement
+    let headerTexts: HTMLElement
 
     onMount(() => {
         aboutSection = document.querySelector<HTMLElement>('section.about-us')
         leftImg = document.querySelector<HTMLElement>('.card.left')
         rightImg = document.querySelector<HTMLElement>('.card.right')
+        headerTexts = document.querySelector<HTMLElement>('.header-texts')
 
         let transformMul = 520
         let rotateMul = 5
@@ -43,6 +45,8 @@ export const About: Component = props => {
                     )}deg)
                         translateX(-${Math.min(transformMax(), entry.intersectionRatio * transformMul)}px)
                         `
+
+                    headerTexts.style.transform = `scale(${Math.min(entry.intersectionRatio, 1)}) rotate(${Math.min(0, entry.intersectionRatio * entry.intersectionRatio * 10 - 10)}deg)`
                 }
             },
             {
@@ -52,50 +56,6 @@ export const About: Component = props => {
 
         observer.observe(aboutSection)
     })
-
-    // let mouseEnter = (
-    //     e: MouseEvent & {
-    //         currentTarget: HTMLDivElement
-    //         target: Element
-    //     }
-    // ) => {
-    //     const el = e.currentTarget
-
-    //     el.className += ' active'
-    // }
-
-    // let mouseMove = (
-    //     e: MouseEvent & {
-    //         currentTarget: HTMLDivElement
-    //         target: Element
-    //     }
-    // ) => {
-    //     e.stopPropagation()
-
-    //     const el = e.currentTarget
-    //     const pos = el.getBoundingClientRect()
-    //     const mx = e.clientX - pos.left - pos.width / 2
-    //     const my = e.clientY - pos.top - pos.height / 2
-
-    //     console.log('x:', mx)
-    //     console.log('y:', my)
-
-    //     el.style.transform = `rotate3d(${mx * -0.1}, ${my * -0.3}, 0, 12deg)`
-    // }
-    // let mouseLeave = (
-    //     e: MouseEvent & {
-    //         currentTarget: HTMLDivElement
-    //         target: Element
-    //     }
-    // ) => {
-    //     const el = e.currentTarget
-
-    //     let newClass = el.className.replace(' active', '')
-
-    //     el.className = newClass
-
-    //     el.style.transform = ''
-    // }
 
     let Cards
 
