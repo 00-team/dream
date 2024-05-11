@@ -1,5 +1,5 @@
 import { Route, Router } from '@solidjs/router'
-import { createEffect } from 'solid-js'
+import { createEffect, lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 import { self } from 'store/self'
 
@@ -13,16 +13,8 @@ const Root = () => {
     })
 
     return (
-        <Router>
-            <Route
-                path='/'
-                component={() => (
-                    <div class='main'>
-                        app 12345670 Saveg
-                        <button>Save</button>
-                    </div>
-                )}
-            />
+        <Router base='/admin'>
+            <Route path='/' component={lazy(() => import('./layout/orders'))} />
             <Route path='*' component={() => <span>not found</span>} />
         </Router>
     )
