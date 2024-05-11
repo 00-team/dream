@@ -1,5 +1,6 @@
-import { Component, onMount } from 'solid-js'
+import { Component } from 'solid-js'
 import { About } from './about'
+import { Services } from './services'
 
 import './style/home.scss'
 
@@ -12,7 +13,7 @@ const Home: Component<{}> = props => {
 
             <About />
 
-            <section class='services'></section>
+            <Services />
         </main>
     )
 }
