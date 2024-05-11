@@ -16,6 +16,8 @@ create table if not exists transactions (
     user integer not null references users(id) on delete cascade,
     kind integer not null default 0, -- in OR out | withdrawl OR deposit
     status integer not null default 0, -- success | failed | in progress
+    vendor integer not null default 0,
+    timestamp integer not null,
     amount integer not null,
     vendor_order_id text,
     vendor_track_id integer,
@@ -25,10 +27,12 @@ create table if not exists transactions (
     bank_track_id integer
 );
 
+
 create table if not exists orders (
     id integer primary key not null,
     user integer not null references users(id) on delete cascade,
     kind text not null,
+    price integer not null,
     status integer not null default 0,
     data text not null default "{}",
     timestamp integer not null
