@@ -13,7 +13,7 @@ use crate::AppState;
 #[openapi(
     tags((name = "admin::order")),
     paths(order_list, order_get, order_update),
-    components(schemas()),
+    components(schemas(UpdateOrder)),
     servers((url = "/orders")),
     modifiers(&UpdatePaths)
 )]
