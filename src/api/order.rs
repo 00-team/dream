@@ -6,7 +6,6 @@ use utoipa::{OpenApi, ToSchema};
 use crate::config::config;
 use crate::docs::UpdatePaths;
 use crate::models::order::{Order, OrderData, OrderStatus};
-use crate::models::transaction::{TransactionKind, TransactionStatus};
 use crate::models::user::User;
 use crate::models::{AppErr, JsonStr, ListInput, Response};
 use crate::utils;
@@ -79,11 +78,6 @@ async fn order_new(
 
     let wallet = user.wallet - price;
     let data = JsonStr(body.data.clone());
-
-    sqlx::query! {
-        "insert into transactions(user, kind, status, timestamp, amount) values(?, ?, ?, ?, ?)",
-        user.id, TransactionKind::Purchase, TransactionStatus::Success, now, price
-    }.execute(&state.sql).await?;
 
     sqlx::query! {
         "update users set wallet = ? where id = ?",
