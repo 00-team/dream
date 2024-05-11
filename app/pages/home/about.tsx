@@ -46,7 +46,8 @@ export const About: Component = props => {
                         translateX(-${Math.min(transformMax(), entry.intersectionRatio * transformMul)}px)
                         `
 
-                    headerTexts.style.transform = `scale(${Math.min(entry.intersectionRatio, 1)}) rotate(${Math.min(0, entry.intersectionRatio * entry.intersectionRatio * 10 - 10)}deg)`
+                    if (innerWidth >= 1024)
+                        headerTexts.style.transform = `scale(${Math.min(entry.intersectionRatio, 1)}) rotate(${Math.min(0, entry.intersectionRatio * entry.intersectionRatio * 10 - 10)}deg)`
                 }
             },
             {
