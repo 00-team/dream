@@ -1,4 +1,4 @@
-use actix_web::web::{Data, Json, Query};
+use actix_web::web::{Data, Json, Path, Query};
 use actix_web::{get, Scope};
 use utoipa::OpenApi;
 
@@ -12,7 +12,7 @@ use crate::AppState;
 #[openapi(
     tags((name = "admin::order")),
     paths(
-        order_list,
+        order_list, order_get
     ),
     components(schemas()),
     servers((url = "/orders")),
@@ -43,6 +43,27 @@ async fn order_list(
     Ok(Json(orders))
 }
 
+#[utoipa::path(
+    get,
+    params(("id" = i64, Path, example = 1)),
+    responses(
+        (status = 200, body = Order)
+    )
+)]
+/// Get
+#[get("/{id}/")]
+async fn order_get(
+    _: Admin, path: Path<(i64,)>, state: Data<AppState>,
+) -> Response<Order> {
+    let order = sqlx::query_as! {
+        Order, "select * from orders where id = ?", path.0
+    }
+    .fetch_one(&state.sql)
+    .await?;
+
+    Ok(Json(order))
+}
+
 pub fn router() -> Scope {
-    Scope::new("/orders").service(order_list)
+    Scope::new("/orders").service(order_list).service(order_get)
 }
