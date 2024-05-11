@@ -37,7 +37,7 @@ use crate::AppState;
     servers((url = "/user")),
     modifiers(&UpdatePaths)
 )]
-pub struct ApiUserDoc;
+pub struct ApiDoc;
 
 #[derive(Debug, Deserialize, ToSchema)]
 struct LoginBody {

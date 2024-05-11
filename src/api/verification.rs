@@ -37,7 +37,7 @@ lazy_static! {
     paths(verification),
     components(schemas(VerificationData, VerificationResponse, Action))
 )]
-pub struct ApiVerificationDoc;
+pub struct ApiDoc;
 
 #[derive(ToSchema, Deserialize, Debug)]
 struct VerificationData {

@@ -14,7 +14,7 @@ use crate::models::Response;
     servers((url = "/products")),
     modifiers(&UpdatePaths)
 )]
-pub struct Doc;
+pub struct ApiDoc;
 
 #[utoipa::path(
     get,
