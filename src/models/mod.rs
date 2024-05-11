@@ -1,6 +1,7 @@
 pub mod common;
 pub mod transaction;
 pub mod user;
+pub mod order;
 
 mod error;
 
