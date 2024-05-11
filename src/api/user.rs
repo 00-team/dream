@@ -19,7 +19,7 @@ use crate::models::transaction::{
 use crate::models::user::{UpdatePhoto, User};
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
 use crate::utils::{
-    get_random_bytes, get_random_string, remove_photo, save_photo, CutOff,
+    self, get_random_bytes, get_random_string, remove_photo, save_photo, CutOff
 };
 use crate::AppState;
 
@@ -250,11 +250,12 @@ struct AddWalletQuery {
 async fn user_wallet_add(
     user: User, q: Query<AddWalletQuery>, state: Data<AppState>,
 ) -> Response<String> {
+    let now = utils::now();
     if cfg!(debug_assertions) {
         sqlx::query! {
-            "insert into transactions (user, amount, vendor, vendor_order_id)
-            values(?, ?, ?, ?)",
-            user.id, q.amount, TransactionVendor::Zarinpal, "debug"
+            "insert into transactions(user, amount, timestamp, vendor, vendor_order_id)
+            values(?, ?, ?, ?, ?)",
+            user.id, q.amount, now, TransactionVendor::Zarinpal, "debug"
         }
         .execute(&state.sql)
         .await?;
@@ -299,9 +300,9 @@ async fn user_wallet_add(
     }
 
     sqlx::query! {
-        "insert into transactions (user, amount, vendor, vendor_order_id)
-        values(?, ?, ?, ?)",
-        user.id, q.amount, TransactionVendor::Zarinpal, data.authority
+        "insert into transactions(user, amount, timestamp, vendor, vendor_order_id)
+        values(?, ?, ?, ?, ?)",
+        user.id, q.amount, now, TransactionVendor::Zarinpal, data.authority
     }
     .execute(&state.sql)
     .await?;
