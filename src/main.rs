@@ -42,9 +42,10 @@ async fn admin_index() -> impl Responder {
 #[get("/openapi.json")]
 async fn openapi() -> impl Responder {
     let mut doc = ApiDoc::openapi();
-    doc.merge(api::user::ApiUserDoc::openapi());
-    doc.merge(api::verification::ApiVerificationDoc::openapi());
-    doc.merge(api::product::Doc::openapi());
+    doc.merge(api::user::ApiDoc::openapi());
+    doc.merge(api::verification::ApiDoc::openapi());
+    doc.merge(api::product::ApiDoc::openapi());
+    doc.merge(api::order::ApiDoc::openapi());
 
     let mut admin_doc = ApiDoc::openapi();
     // admin_doc.merge(admin::user::Doc::openapi());
@@ -66,8 +67,7 @@ async fn rapidoc() -> impl Responder {
     <html><head><meta charset="utf-8"><style>rapi-doc {
     --green: #00dc7d; --blue: #5199ff; --orange: #ff6b00;
     --red: #ec0f0f; --yellow: #ffd600; --purple: #782fef; }</style>
-    <script type="module" src="/static/rapidoc.js"></script></head><body>
-    <rapi-doc spec-url="/openapi.json" persist-auth="true"
+    <script type="module" src="/static/rapidoc.js"></script></head><body> <rapi-doc spec-url="/openapi.json" persist-auth="true"
     bg-color="#040404" text-color="#f2f2f2"
     header-color="#040404" primary-color="#ec0f0f"
     nav-text-color="#eee" font-size="largest"
@@ -114,6 +114,7 @@ async fn main() -> std::io::Result<()> {
                 scope("/api")
                     .service(api::user::router())
                     .service(api::product::router())
+                    .service(api::order::router())
                     .service(api::verification::verification),
             )
     });
