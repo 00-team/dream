@@ -441,7 +441,8 @@ async fn user_transactions_list(
     let offset = query.page * 32;
     let result = sqlx::query_as! {
         Transaction,
-        "select * from transactions where user = ? limit 32 offset ?",
+        "select * from transactions where user = ?
+         order by id desc limit 32 offset ?",
         user.id, offset
     }
     .fetch_all(&state.sql)

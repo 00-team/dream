@@ -39,7 +39,7 @@ async fn order_list(
     let offset = query.page * 32;
 
     let orders = sqlx::query_as! {
-        Order, "select * from orders limit 32 offset ?", offset
+        Order, "select * from orders order by id desc limit 32 offset ?", offset
     }
     .fetch_all(&state.sql)
     .await?;
