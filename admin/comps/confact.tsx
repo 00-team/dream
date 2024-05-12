@@ -6,7 +6,7 @@ import { Component, JSX, createSignal } from 'solid-js'
 type Props = {
     icon: () => JSX.Element
     timer_ms?: number
-    onDelete(): void
+    onAct(): void
 }
 const Confact: Component<Props> = P => {
     const [stage2, setStage2] = createSignal(false)
@@ -33,7 +33,7 @@ const Confact: Component<Props> = P => {
             }}
             onmouseup={() => {
                 if (stage2()) {
-                    P.onDelete()
+                    P.onAct()
                     setStage2(false)
                     return
                 }
