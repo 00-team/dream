@@ -2,7 +2,7 @@ import { createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
-import { createEffect } from 'solid-js'
+import { Show, createEffect } from 'solid-js'
 import { httpx } from 'shared'
 import { BanIcon, CircleCheckBigIcon, CircleCheckIcon } from 'icons'
 import { Confact } from 'comps'
@@ -52,29 +52,46 @@ export default () => {
         })
     }
 
+    type UOS = Exclude<OrderModel['status'], 'wating'>
+    function update_order(id: number, status: UOS) {
+        httpx({
+            url: `/api/admin/orders/${id}/`,
+            method: 'PATCH',
+            json: {
+                status,
+            },
+            onLoad(x) {
+                if (x.status == 200) {
+                    fetch_orders(state.page)
+                }
+            },
+        })
+    }
+
     return (
         <div class='orders-fnd'>
             <div class='order-list'>
                 {state.orders.map(o => (
                     <div class='order'>
                         <div class='icon'>
-                            {o.kind} - {o.price} - {o.user.name} -{' '}
-                            {o.user.phone}
+                            {o.kind} - {o.price} - {o.user.name}-{o.user.phone}
                         </div>
-                        <div class='actions'>
-                            <Confact
-                                color='var(--red)'
-                                timer_ms={1e3}
-                                icon={BanIcon}
-                                onAct={() => alert('refunded')}
-                            />
-                            <Confact
-                                color='var(--green)'
-                                timer_ms={1e3}
-                                icon={CircleCheckBigIcon}
-                                onAct={() => alert('done')}
-                            />
-                        </div>
+                        <Show when={o.status === 'wating'}>
+                            <div class='actions'>
+                                <Confact
+                                    color='var(--red)'
+                                    timer_ms={1e3}
+                                    icon={BanIcon}
+                                    onAct={() => update_order(o.id, 'refunded')}
+                                />
+                                <Confact
+                                    color='var(--green)'
+                                    timer_ms={1e3}
+                                    icon={CircleCheckBigIcon}
+                                    onAct={() => update_order(o.id, 'done')}
+                                />
+                            </div>
+                        </Show>
                     </div>
                 ))}
             </div>
