@@ -80,6 +80,10 @@ pub async fn send_webhook(title: &str, desc: &str, color: u32) {
         .await;
 }
 
+pub async fn send_sms(phone: &str, text: &str) {
+    let client = awc::Client::new();
+}
+
 pub trait CutOff {
     fn cut_off(&mut self, len: usize);
 }
