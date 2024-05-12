@@ -71,7 +71,7 @@ export default () => {
     return (
         <div class='orders-fnd'>
             <div class='order-list'>
-                {state.orders.map(o => (
+                {state.orders.map((o, i) => (
                     <div class='order'>
                         <div class='info'>
                             <div class='head'>
@@ -83,14 +83,16 @@ export default () => {
                                 </span>
 
                                 <div class='user'>
-                                    <Show
-                                        when={o.user.photo}
-                                        fallback={<UserIcon />}
-                                    >
-                                        <img
-                                            src={`/record/${o.user.id}:${o.user.photo}`}
-                                        />
-                                    </Show>
+                                    <div class='img'>
+                                        <Show
+                                            when={o.user.photo && i % 2}
+                                            fallback={<UserIcon />}
+                                        >
+                                            <img
+                                                src={`/record/${o.user.id}:${o.user.photo}`}
+                                            />
+                                        </Show>
+                                    </div>
                                     <span class='name'>
                                         {o.user.name || o.user.phone}
                                     </span>
@@ -101,17 +103,11 @@ export default () => {
                             </span>
 
                             <div class='data'>
-                                <span>{o.data.contact}</span>
+                                <textarea disabled>{o.data.contact}</textarea>
                                 <span>username: {o.data.username}</span>
                                 <span>password: {o.data.password}</span>
                                 <span>email: {o.data.email}</span>
                             </div>
-
-                            <span>{o.user.phone}</span>
-                            <span>{o.user.banned}</span>
-                            <span>{o.user.name}</span>
-                            <span>{o.user.photo}</span>
-                            <span>{o.user.wallet}</span>
                         </div>
                         <Show when={o.status === 'wating'}>
                             <div class='actions'>

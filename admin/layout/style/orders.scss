@@ -36,7 +36,41 @@
 
                 .head {
                     display: flex;
+                    align-items: center;
                     gap: 1rem;
+
+                    .user {
+                        border: 2px solid var(--cl);
+                        border-radius: var(--radius);
+                        padding: 0.2rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.3rem;
+                        cursor: pointer;
+                        transition: 200ms ease-in-out;
+                        transition-property: background-color, color;
+
+                        &:hover {
+                            background-color: var(--cl);
+                            color: var(--cd);
+                        }
+
+                        .img {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 50%;
+                            overflow: hidden;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
+                    }
                 }
 
                 .data {
