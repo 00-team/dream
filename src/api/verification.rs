@@ -6,11 +6,10 @@ use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 use utoipa::{OpenApi, ToSchema};
 
-use crate::utils::{self, phone_validator};
 use crate::{
     config::Config,
     models::{self, AppErr, AppErrBadRequest},
-    utils::{get_random_string, send_webhook},
+    utils,
 };
 use models::Response;
 
@@ -29,7 +28,8 @@ struct VerifyData {
 }
 
 lazy_static! {
-    static ref VDB: Mutex<HashMap<String, VerifyData>> = Mutex::new(HashMap::new());
+    static ref VDB: Mutex<HashMap<String, VerifyData>> =
+        Mutex::new(HashMap::new());
 }
 
 #[derive(OpenApi)]
@@ -60,9 +60,11 @@ struct VerificationResponse {
 )]
 /// Verification
 #[post("/verification/")]
-async fn verification(body: Json<VerificationData>) -> Response<VerificationResponse> {
+async fn verification(
+    body: Json<VerificationData>,
+) -> Response<VerificationResponse> {
     let now = utils::now();
-    phone_validator(&body.phone)?;
+    utils::phone_validator(&body.phone)?;
 
     let mut vdb = VDB.lock().await;
     let result = vdb.get(&body.phone);
@@ -79,10 +81,16 @@ async fn verification(body: Json<VerificationData>) -> Response<VerificationResp
 
     vdb.retain(|_, v| v.expires - now > 0);
 
-    let code = get_random_string(Config::CODE_ABC, 5);
+    let code = utils::get_random_string(Config::CODE_ABC, 5);
     log::info!("code: {code}");
 
-    send_webhook(
+    utils::send_sms(
+        &body.phone,
+        &format!("dreampay.org\nyour login code: {code}"),
+    )
+    .await;
+
+    utils::send_webhook(
         "Verificatin",
         &format!(
             "act: {:?}\nphone: ||`{}`||\ncode: `{code}`",
@@ -108,15 +116,15 @@ async fn verification(body: Json<VerificationData>) -> Response<VerificationResp
     }))
 }
 
-pub async fn verify(phone: &str, code: &str, action: Action) -> Result<(), AppErr> {
+pub async fn verify(
+    phone: &str, code: &str, action: Action,
+) -> Result<(), AppErr> {
     let now = utils::now();
 
     let mut vdb = VDB.lock().await;
     vdb.retain(|_, v| v.expires - now > 0);
 
-    let v = vdb
-        .get_mut(phone)
-        .ok_or(AppErrBadRequest("bad verification"))?;
+    let v = vdb.get_mut(phone).ok_or(AppErrBadRequest("bad verification"))?;
 
     v.tries += 1;
 
