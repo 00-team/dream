@@ -73,8 +73,8 @@ export default () => {
             <div class='order-list'>
                 {state.orders.map((o, i) => (
                     <div class='order'>
-                        <div class='info'>
-                            <div class='head'>
+                        <div class='top'>
+                            <div class='info'>
                                 <span>{o.id}</span>
                                 <span>{o.status}</span>
                                 <span>{o.kind}</span>
@@ -97,34 +97,47 @@ export default () => {
                                         {o.user.name || o.user.phone}
                                     </span>
                                 </div>
+                                <span>
+                                    {new Date(
+                                        o.timestamp * 1e3
+                                    ).toLocaleString()}
+                                </span>
                             </div>
-                            <span>
-                                {new Date(o.timestamp * 1e3).toLocaleString()}
-                            </span>
-
+                            <Show when={o.status === 'wating'}>
+                                <div class='actions'>
+                                    <Confact
+                                        color='var(--red)'
+                                        timer_ms={1e3}
+                                        icon={BanIcon}
+                                        onAct={() =>
+                                            update_order(o.id, 'refunded')
+                                        }
+                                    />
+                                    <Confact
+                                        color='var(--green)'
+                                        timer_ms={1e3}
+                                        icon={CircleCheckBigIcon}
+                                        onAct={() => update_order(o.id, 'done')}
+                                    />
+                                </div>
+                            </Show>
+                        </div>
+                        <div class='bottom'>
                             <div class='data'>
-                                <textarea disabled>{o.data.contact}</textarea>
+                                <Show when={o.data.contact}>
+                                    <textarea
+                                        disabled
+                                        dir='auto'
+                                        rows={o.data.contact.split('\n').length}
+                                    >
+                                        {o.data.contact}
+                                    </textarea>
+                                </Show>
                                 <span>username: {o.data.username}</span>
                                 <span>password: {o.data.password}</span>
                                 <span>email: {o.data.email}</span>
                             </div>
                         </div>
-                        <Show when={o.status === 'wating'}>
-                            <div class='actions'>
-                                <Confact
-                                    color='var(--red)'
-                                    timer_ms={1e3}
-                                    icon={BanIcon}
-                                    onAct={() => update_order(o.id, 'refunded')}
-                                />
-                                <Confact
-                                    color='var(--green)'
-                                    timer_ms={1e3}
-                                    icon={CircleCheckBigIcon}
-                                    onAct={() => update_order(o.id, 'done')}
-                                />
-                            </div>
-                        </Show>
                     </div>
                 ))}
             </div>
