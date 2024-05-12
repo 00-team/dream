@@ -5,6 +5,7 @@ import { useNavigate, useParams } from '@solidjs/router'
 import { createEffect } from 'solid-js'
 import { httpx } from 'shared'
 import { BanIcon, CircleCheckBigIcon, CircleCheckIcon } from 'icons'
+import { Confact } from 'comps'
 
 export default () => {
     const UP = useParams()
@@ -61,12 +62,18 @@ export default () => {
                             {o.user.phone}
                         </div>
                         <div class='actions'>
-                            <button class='refund icon'>
-                                <BanIcon />
-                            </button>
-                            <button class='done icon'>
-                                <CircleCheckBigIcon />
-                            </button>
+                            <Confact
+                                color='var(--red)'
+                                timer_ms={1e3}
+                                icon={BanIcon}
+                                onAct={() => alert('refunded')}
+                            />
+                            <Confact
+                                color='var(--green)'
+                                timer_ms={1e3}
+                                icon={CircleCheckBigIcon}
+                                onAct={() => alert('done')}
+                            />
                         </div>
                     </div>
                 ))}

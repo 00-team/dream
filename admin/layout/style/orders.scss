@@ -24,16 +24,17 @@
             .actions {
                 display: flex;
                 gap: 0.4rem;
+                --color: red;
 
-                .done {
-                    --color-1: var(--green);
-                    --color-2: var(--black);
-                }
-
-                .refund {
-                    --color-1: var(--red);
-                    --color-2: var(--black);
-                }
+                // .done {
+                //     --color-1: var(--green);
+                //     --color-2: var(--black);
+                // }
+                //
+                // .refund {
+                //     --color-1: var(--red);
+                //     --color-2: var(--black);
+                // }
             }
         }
     }
