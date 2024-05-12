@@ -7,7 +7,8 @@ export const Services: Component = props => {
         <section class='services-container'>
             <header class='section-header'>
                 <h3 class='title'>
-                    بهترین خدمات آنلاین را برای سرگرمی های خود کشف کنید{' '}
+                    <span>بهترین هارو</span>
+                    <span>با ما تجربه کن</span>
                 </h3>
                 <h4 class='title_small'>محصولات ما</h4>
             </header>
