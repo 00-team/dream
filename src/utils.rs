@@ -81,7 +81,8 @@ pub async fn send_webhook(title: &str, desc: &str, color: u32) {
 }
 
 pub async fn send_sms(phone: &str, text: &str) {
-    let client = awc::Client::new();
+    // let client = awc::Client::new();
+    log::info!("\nsending sms to {phone}:\n\n{text}\n");
 }
 
 pub trait CutOff {
