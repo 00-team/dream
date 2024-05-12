@@ -4,6 +4,7 @@ import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
 import { createEffect } from 'solid-js'
 import { httpx } from 'shared'
+import { BanIcon, CircleCheckBigIcon, CircleCheckIcon } from 'icons'
 
 export default () => {
     const UP = useParams()
@@ -55,7 +56,18 @@ export default () => {
             <div class='order-list'>
                 {state.orders.map(o => (
                     <div class='order'>
-                        {o.kind} - {o.price} - {o.user.name} - {o.user.phone}
+                        <div class='icon'>
+                            {o.kind} - {o.price} - {o.user.name} -{' '}
+                            {o.user.phone}
+                        </div>
+                        <div class='actions'>
+                            <button class='refund icon'>
+                                <BanIcon />
+                            </button>
+                            <button class='done icon'>
+                                <CircleCheckBigIcon />
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>
