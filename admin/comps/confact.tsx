@@ -7,6 +7,7 @@ type Props = {
     icon: () => JSX.Element
     timer_ms?: number
     onAct(): void
+    color: string
 }
 const Confact: Component<Props> = P => {
     const [stage2, setStage2] = createSignal(false)
@@ -14,7 +15,7 @@ const Confact: Component<Props> = P => {
 
     return (
         <button
-            style={{ '--tsd': (P.timer_ms || 1000) + 'ms' }}
+            style={{ '--tsd': (P.timer_ms || 1000) + 'ms', '--color': P.color }}
             class='cmp-confact icon'
             classList={{ stage2: stage2() }}
             oncontextmenu={e => {
