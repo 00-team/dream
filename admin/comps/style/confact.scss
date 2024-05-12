@@ -7,6 +7,17 @@
     position: relative;
     overflow: hidden;
     background-color: transparent;
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: 220ms ease-in-out;
+    transition-property: border-color, background-color, color;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius);
+
+    &:hover {
+        color: var(--color);
+    }
 
     &::before {
         z-index: -1;
@@ -21,6 +32,8 @@
 
     &:active {
         background-color: transparent;
+        color: var(--white);
+
         &::before {
             transition: height var(--tsd, 1s) linear;
             height: 100%;
@@ -30,6 +43,10 @@
     &.stage2 {
         &::before {
             height: 100%;
+        }
+
+        &:hover {
+            color: var(--white);
         }
     }
 }
