@@ -1,5 +1,5 @@
 use actix_web::web::{Data, Json, Query};
-use actix_web::{get, post, HttpResponse, Scope};
+use actix_web::{get, patch, HttpResponse, Scope};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use utoipa::{OpenApi, ToSchema};
@@ -8,7 +8,7 @@ use crate::docs::UpdatePaths;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::{Admin, User};
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
-use crate::AppState;
+use crate::{utils, AppState};
 
 #[derive(OpenApi)]
 #[openapi(
@@ -74,13 +74,13 @@ struct UpdateOrder {
 }
 
 #[utoipa::path(
-    post,
+    patch,
     request_body = UpdateOrder,
     params(("id" = i64, Path, example = 1)),
     responses((status = 200))
 )]
 /// Update
-#[post("/{id}/")]
+#[patch("/{id}/")]
 async fn order_update(
     _: Admin, order: Order, body: Json<UpdateOrder>, state: Data<AppState>,
 ) -> Result<HttpResponse, AppErr> {
@@ -92,15 +92,15 @@ async fn order_update(
         return Err(AppErrBadRequest("no change"));
     }
 
-    if body.status == OrderStatus::Refunded {
-        let user = sqlx::query_as! {
-            User,
-            "select * from users where id = ?",
-            order.user
-        }
-        .fetch_one(&state.sql)
-        .await?;
+    let user = sqlx::query_as! {
+        User,
+        "select * from users where id = ?",
+        order.user
+    }
+    .fetch_one(&state.sql)
+    .await?;
 
+    if body.status == OrderStatus::Refunded {
         let wallet = user.wallet + order.price;
 
         sqlx::query! {
@@ -109,6 +109,10 @@ async fn order_update(
         }
         .execute(&state.sql)
         .await?;
+
+        utils::send_sms(&user.phone, "dreampay.org\nyour order was refunded").await;
+    } else {
+        utils::send_sms(&user.phone, "dreampay.org\nyour order has finished").await;
     }
 
     sqlx::query! {
