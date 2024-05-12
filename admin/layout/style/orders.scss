@@ -18,12 +18,26 @@
         .order {
             border: 2px solid var(--cl);
             padding: 1rem;
+            gap: 1rem;
             display: flex;
             justify-content: space-between;
 
             .actions {
                 display: flex;
                 gap: 0.4rem;
+                flex-shrink: 0;
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                font-size: 18px;
+
+                .head {
+                    display: flex;
+                    gap: 1rem;
+                }
             }
         }
     }

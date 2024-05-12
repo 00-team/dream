@@ -4,14 +4,14 @@ import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
 import { Show, createEffect } from 'solid-js'
 import { httpx } from 'shared'
-import { BanIcon, CircleCheckBigIcon, CircleCheckIcon } from 'icons'
+import { BanIcon, CircleCheckBigIcon } from 'icons'
 import { Confact } from 'comps'
 
 export default () => {
     const UP = useParams()
     const navigate = useNavigate()
 
-    type OrderInfo = OrderModel & {
+    type OrderInfo = Omit<OrderModel, 'user'> & {
         user: UserModel
     }
 
@@ -45,7 +45,7 @@ export default () => {
                 let orders_info = orders.map(o => ({
                     ...o,
                     user: users.find(u => u.id == o.user),
-                })) as OrderInfo[]
+                }))
 
                 setState({ orders: orders_info, page })
             },
@@ -73,8 +73,32 @@ export default () => {
             <div class='order-list'>
                 {state.orders.map(o => (
                     <div class='order'>
-                        <div class='icon'>
-                            {o.kind} - {o.price} - {o.user.name}-{o.user.phone}
+                        <div class='info'>
+                            <div class='head'>
+                                <span>{o.id}</span>
+                                <span>{o.status}</span>
+                                <span>{o.kind}</span>
+                                <span>
+                                    {(~~(o.price / 10)).toLocaleString()}
+                                </span>
+                            </div>
+                            <span>
+                                {new Date(o.timestamp * 1e3).toLocaleString()}
+                            </span>
+
+                            <div class='data'>
+                                <span>{o.data.contact}</span>
+                                <span>username: {o.data.username}</span>
+                                <span>password: {o.data.password}</span>
+                                <span>email: {o.data.email}</span>
+                            </div>
+
+                            <span>{o.user.id}</span>
+                            <span>{o.user.phone}</span>
+                            <span>{o.user.banned}</span>
+                            <span>{o.user.name}</span>
+                            <span>{o.user.photo}</span>
+                            <span>{o.user.wallet}</span>
                         </div>
                         <Show when={o.status === 'wating'}>
                             <div class='actions'>
