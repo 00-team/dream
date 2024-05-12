@@ -38,6 +38,12 @@
                     display: flex;
                     gap: 1rem;
                 }
+
+                .data {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.2rem;
+                }
             }
         }
     }

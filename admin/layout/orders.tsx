@@ -4,7 +4,7 @@ import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
 import { Show, createEffect } from 'solid-js'
 import { httpx } from 'shared'
-import { BanIcon, CircleCheckBigIcon } from 'icons'
+import { BanIcon, CircleCheckBigIcon, UserIcon } from 'icons'
 import { Confact } from 'comps'
 
 export default () => {
@@ -81,6 +81,20 @@ export default () => {
                                 <span>
                                     {(~~(o.price / 10)).toLocaleString()}
                                 </span>
+
+                                <div class='user'>
+                                    <Show
+                                        when={o.user.photo}
+                                        fallback={<UserIcon />}
+                                    >
+                                        <img
+                                            src={`/record/${o.user.id}:${o.user.photo}`}
+                                        />
+                                    </Show>
+                                    <span class='name'>
+                                        {o.user.name || o.user.phone}
+                                    </span>
+                                </div>
                             </div>
                             <span>
                                 {new Date(o.timestamp * 1e3).toLocaleString()}
@@ -93,7 +107,6 @@ export default () => {
                                 <span>email: {o.data.email}</span>
                             </div>
 
-                            <span>{o.user.id}</span>
                             <span>{o.user.phone}</span>
                             <span>{o.user.banned}</span>
                             <span>{o.user.name}</span>
