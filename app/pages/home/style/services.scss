@@ -83,16 +83,8 @@
             align-items: center;
             justify-content: center;
 
-            will-change: left;
-
-            @keyframes icon-container-anim {
-                from {
-                    left: -10%;
-                }
-                to {
-                    left: 120%;
-                }
-            }
+            will-change: transform;
+            transition: 0.3s ease;
 
             .icon-wrapper {
                 display: flex;
@@ -104,22 +96,6 @@
 
                 width: 100%;
                 height: 100%;
-
-                // overflow: hidden;
-
-                will-change: transform;
-
-                @keyframes icon-wrapper-anim {
-                    0% {
-                        transform: translate(0, 0px);
-                    }
-                    50% {
-                        transform: translate(0, -75px);
-                    }
-                    100% {
-                        transform: translate(0, -0px);
-                    }
-                }
 
                 img {
                     border-radius: 100vmax;

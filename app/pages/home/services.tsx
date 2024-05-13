@@ -15,6 +15,18 @@ export const Services: Component = props => {
     let secHeader1: HTMLElement
     let secHeader2: HTMLElement
 
+    let icons: NodeListOf<HTMLElement>
+
+    function headerAnim() {
+        let top = headerContainer.getBoundingClientRect().top - innerHeight
+
+        if (top <= 0) {
+            secHeader1.style.transform = `translateX(${Math.max(50 + top / 10, -2.5)}vw)`
+
+            secHeader2.style.transform = `translateX(${Math.min(-(50 + top / 10), 2.5)}vw)`
+        }
+    }
+
     onMount(() => {
         secHeader1 = document.querySelector<HTMLElement>(
             'span.services-head#right'
@@ -26,13 +38,19 @@ export const Services: Component = props => {
             'h3.section_title#services_header'
         )
 
+        icons = document.querySelectorAll('.icon-container')
+
         window.onscroll = () => {
-            let top = headerContainer.getBoundingClientRect().top - innerHeight
+            headerAnim()
 
-            if (top <= 0) {
-                secHeader1.style.transform = `translateX(${Math.max(50 + top / 10, -2.5)}vw)`
+            let top =
+                headerContainer.getBoundingClientRect().top - innerHeight / 4
+            if (top >= 0 && top <= 500) {
+                let transform = top
 
-                secHeader2.style.transform = `translateX(${Math.min(-(50 + top / 10), 2.5)}vw)`
+                icons.forEach((elem: HTMLElement, index) => {
+                    elem.style.transform = `translateY(${transform / 5}px)`
+                })
             }
         }
     })
@@ -50,14 +68,14 @@ export const Services: Component = props => {
                 </h3>
             </header>
             <div class='icons-container'>
-                <ServiceIcon link='/#' delay={0} img={CanvaImg} />
-                <ServiceIcon link='/#' delay={2.6} img={discordImg} />
+                <ServiceIcon link='/#' img={CanvaImg} />
+                <ServiceIcon link='/#' img={discordImg} />
 
-                <ServiceIcon link='/#' delay={4.2} img={xboxImg} />
-                <ServiceIcon link='/#' delay={5.5} img={spotifyImg} />
-                <ServiceIcon link='/#' delay={3.9} img={psnImg} />
-                <ServiceIcon link='/#' delay={1.3} img={youtubeImg} />
-                <ServiceIcon link='/#' delay={1.3} img={appleMusicImg} />
+                <ServiceIcon link='/#' img={xboxImg} />
+                <ServiceIcon link='/#' img={spotifyImg} />
+                <ServiceIcon link='/#' img={psnImg} />
+                <ServiceIcon link='/#' img={youtubeImg} />
+                <ServiceIcon link='/#' img={appleMusicImg} />
             </div>
         </section>
     )
@@ -65,20 +83,29 @@ export const Services: Component = props => {
 
 interface ServiceIconProps {
     img: string
-    delay: number
     style?: JSX.CSSProperties
     link: string
 }
 
 const ServiceIcon: Component<ServiceIconProps> = P => {
+    let serviceSection: HTMLElement
+
+    onMount(() => {
+        serviceSection = document.querySelector<HTMLElement>(
+            'section.services-container'
+        )
+    })
+
     return (
-        <a
-            href={P.link}
-            class='icon-container'
-            style={{ 'animation-delay': `${P.delay}s`, ...P.style }}
-        >
+        <a href={P.link} class='icon-container' style={{ ...P.style }}>
             <div class='icon-wrapper'>
-                <img src={P.img} alt='' />
+                <img
+                    src={P.img}
+                    alt=''
+                    draggable={false}
+                    loading='lazy'
+                    decoding='async'
+                />
                 <div
                     class='reflect'
                     style={{ 'background-image': `url(${P.img})` }}
