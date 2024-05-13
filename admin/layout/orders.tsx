@@ -220,7 +220,13 @@ const User: Component<UserProps> = P => {
     }
 
     let dpy: HTMLDivElement
+    let sms_body: HTMLTextAreaElement
     onMount(() => update_xy(dpy.getBoundingClientRect()))
+
+    function send_sms() {
+        console.log('phone:', P.user.phone)
+        console.log('text:', sms_body.value)
+    }
 
     return (
         <div class='user' classList={{ active: P.show }}>
@@ -287,7 +293,17 @@ const User: Component<UserProps> = P => {
                 open={state.send_sms_fanel}
                 onClose={() => setState({ send_sms_fanel: false })}
             >
-                hi
+                <div class='send-sms-form'>
+                    <h2>sending sms to: {P.user.phone}</h2>
+                    <textarea
+                        ref={sms_body}
+                        dir='auto'
+                        placeholder='sms text'
+                    ></textarea>
+                    <button class='styled' onclick={send_sms}>
+                        Send
+                    </button>
+                </div>
             </Fanel>
         </div>
     )
