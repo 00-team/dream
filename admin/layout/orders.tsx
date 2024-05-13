@@ -20,7 +20,7 @@ import {
     UserIcon,
     XIcon,
 } from 'icons'
-import { Confact, Copiable } from 'comps'
+import { Confact, Copiable, Fanel } from 'comps'
 
 type OrderInfo = Omit<OrderModel, 'user'> & { user: UserModel }
 type UpdateOrderStatus = Exclude<OrderModel['status'], 'wating'>
@@ -38,7 +38,7 @@ export default () => {
     const [state, setState] = createStore<OrdersState>({
         orders: [],
         page: 0,
-        user_show: -1,
+        user_show: 0,
     })
 
     createEffect(() => {
@@ -202,8 +202,12 @@ const User: Component<UserProps> = P => {
     const CARD_HEIGHT = 440
     const PADDING = 10
 
-    type State = { x: number; y: number }
-    const [state, setState] = createStore<State>({ x: 0, y: 0 })
+    type State = { x: number; y: number; send_sms_fanel: boolean }
+    const [state, setState] = createStore<State>({
+        x: 0,
+        y: 0,
+        send_sms_fanel: P.show,
+    })
 
     function update_xy(rect: DOMRect) {
         setState({
@@ -270,9 +274,21 @@ const User: Component<UserProps> = P => {
                     <span>
                         wallet: {(~~(P.user.wallet / 10)).toLocaleString()}
                     </span>
-                    <button class='btn-send-sms styled'>Send SMS</button>
+                    <button
+                        class='btn-send-sms styled'
+                        onClick={() => setState({ send_sms_fanel: true })}
+                    >
+                        Send SMS
+                    </button>
                 </div>
             </div>
+
+            <Fanel
+                open={state.send_sms_fanel}
+                onClose={() => setState({ send_sms_fanel: false })}
+            >
+                hi
+            </Fanel>
         </div>
     )
 }
