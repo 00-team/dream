@@ -1,30 +1,36 @@
-import { createStore } from 'solid-js/store'
+import { SetStoreFunction, createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
-import { Component, Show, createEffect, onMount } from 'solid-js'
+import { Component, Show, createEffect, createSignal, onMount } from 'solid-js'
 import { httpx } from 'shared'
-import { BanIcon, CircleCheckBigIcon, UserIcon, XIcon } from 'icons'
+import {
+    BanIcon,
+    ChevronDownIcon,
+    ChevronUpIcon,
+    CircleCheckBigIcon,
+    UserIcon,
+    XIcon,
+} from 'icons'
 import { Confact, Copiable } from 'comps'
+
+type OrderInfo = Omit<OrderModel, 'user'> & { user: UserModel }
+type UpdateOrderStatus = Exclude<OrderModel['status'], 'wating'>
+
+type OrdersState = {
+    orders: OrderInfo[]
+    user_show: number
+    page: number
+}
 
 export default () => {
     const UP = useParams()
     const navigate = useNavigate()
 
-    type OrderInfo = Omit<OrderModel, 'user'> & {
-        user: UserModel
-    }
-
-    type State = {
-        orders: OrderInfo[]
-        user_show: number
-        page: number
-    }
-
-    const [state, setState] = createStore<State>({
+    const [state, setState] = createStore<OrdersState>({
         orders: [],
         page: 0,
-        user_show: 0,
+        user_show: -1,
     })
 
     createEffect(() => {
@@ -57,8 +63,7 @@ export default () => {
         })
     }
 
-    type UOS = Exclude<OrderModel['status'], 'wating'>
-    function update_order(id: number, status: UOS) {
+    function update_order(id: number, status: UpdateOrderStatus) {
         httpx({
             url: `/api/admin/orders/${id}/`,
             method: 'PATCH',
@@ -77,67 +82,90 @@ export default () => {
         <div class='orders-fnd'>
             <div class='order-list'>
                 {state.orders.map((o, i) => (
-                    <div class='order'>
-                        <div class='top'>
-                            <div class='info'>
-                                <span>{o.id}</span>
-                                <span>{o.status}</span>
-                                <span>{o.kind}</span>
-                                <span>
-                                    {(~~(o.price / 10)).toLocaleString()}
-                                </span>
-
-                                <User
-                                    user={o.user}
-                                    onShow={s => {
-                                        setState({ user_show: s ? i : -1 })
-                                    }}
-                                    show={state.user_show == i}
-                                />
-
-                                <span>
-                                    {new Date(
-                                        o.timestamp * 1e3
-                                    ).toLocaleString()}
-                                </span>
-                            </div>
-                            <Show when={o.status === 'wating'}>
-                                <div class='actions'>
-                                    <Confact
-                                        color='var(--red)'
-                                        timer_ms={1e3}
-                                        icon={BanIcon}
-                                        onAct={() =>
-                                            update_order(o.id, 'refunded')
-                                        }
-                                    />
-                                    <Confact
-                                        color='var(--green)'
-                                        timer_ms={1e3}
-                                        icon={CircleCheckBigIcon}
-                                        onAct={() => update_order(o.id, 'done')}
-                                    />
-                                </div>
-                            </Show>
-                        </div>
-                        <div class='bottom'>
-                            <div class='data'>
-                                <Show when={o.data.contact}>
-                                    <textarea
-                                        disabled
-                                        dir='auto'
-                                        rows={o.data.contact.split('\n').length}
-                                    >
-                                        {o.data.contact}
-                                    </textarea>
-                                </Show>
-                                <span>username: {o.data.username}</span>
-                                <span>password: {o.data.password}</span>
-                                <span>email: {o.data.email}</span>
-                            </div>
-                        </div>
-                    </div>
+                    <Order
+                        order={o}
+                        idx={i}
+                        update={update_order}
+                        state={state}
+                        setState={setState}
+                    />
                 ))}
+            </div>
+        </div>
+    )
+}
+
+type OrderProps = {
+    order: OrderInfo
+    idx: number
+    update(id: number, status: UpdateOrderStatus): void
+    state: OrdersState
+    setState: SetStoreFunction<OrdersState>
+}
+const Order: Component<OrderProps> = P => {
+    const [show_data, setShowData] = createSignal(false)
+
+    return (
+        <div class='order'>
+            <div class='top'>
+                <div class='info'>
+                    <span>{P.order.id}</span>
+                    <span>{P.order.status}</span>
+                    <span>{P.order.kind}</span>
+                    <span>{(~~(P.order.price / 10)).toLocaleString()}</span>
+
+                    <User
+                        user={P.order.user}
+                        onShow={s => {
+                            P.setState({ user_show: s ? P.idx : -1 })
+                        }}
+                        show={P.state.user_show == P.idx}
+                    />
+
+                    <span>
+                        {new Date(P.order.timestamp * 1e3).toLocaleString()}
+                    </span>
+                </div>
+                <div class='actions'>
+                    <button
+                        class='btn-show-data styled icon'
+                        onclick={() => setShowData(s => !s)}
+                    >
+                        <Show when={show_data()} fallback={<ChevronDownIcon />}>
+                            <ChevronUpIcon />
+                        </Show>
+                    </button>
+                    <Show when={P.order.status === 'wating'}>
+                        <Confact
+                            color='var(--red)'
+                            timer_ms={1e3}
+                            icon={BanIcon}
+                            onAct={() => P.update(P.order.id, 'refunded')}
+                        />
+                        <Confact
+                            color='var(--green)'
+                            timer_ms={1e3}
+                            icon={CircleCheckBigIcon}
+                            onAct={() => P.update(P.order.id, 'done')}
+                        />
+                    </Show>
+                </div>
+            </div>
+            <div class='bottom'>
+                <div class='data' classList={{ show: show_data() }}>
+                    <Show when={P.order.data.contact}>
+                        <textarea
+                            disabled
+                            dir='auto'
+                            rows={P.order.data.contact.split('\n').length}
+                        >
+                            {P.order.data.contact}
+                        </textarea>
+                    </Show>
+                    <span>username: {P.order.data.username}</span>
+                    <span>password: {P.order.data.password}</span>
+                    <span>email: {P.order.data.email}</span>
+                </div>
             </div>
         </div>
     )
