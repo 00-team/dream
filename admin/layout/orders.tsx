@@ -5,7 +5,7 @@ import { useNavigate, useParams } from '@solidjs/router'
 import { Component, Show, createEffect, onMount } from 'solid-js'
 import { httpx } from 'shared'
 import { BanIcon, CircleCheckBigIcon, UserIcon } from 'icons'
-import { Confact } from 'comps'
+import { Confact, Copiable } from 'comps'
 
 export default () => {
     const UP = useParams()
@@ -149,25 +149,24 @@ type UserProps = {
     onShow(show: boolean): void
 }
 const User: Component<UserProps> = P => {
-    const CARD_HEIGHT = 600
-    type State = {
-        x: number
-        y: number
-    }
+    const CARD_HEIGHT = 420
+    const PADDING = 10
 
+    type State = { x: number; y: number }
     const [state, setState] = createStore<State>({ x: 0, y: 0 })
-    let dpy: HTMLDivElement
 
-    onMount(() => {
-        let bb = dpy.getBoundingClientRect()
+    function update_xy(rect: DOMRect) {
         setState({
             y: Math.min(
-                Math.max(bb.y - CARD_HEIGHT / 2, 10),
-                innerHeight - CARD_HEIGHT - 10
+                Math.max(rect.y - CARD_HEIGHT / 2, PADDING),
+                innerHeight - CARD_HEIGHT - PADDING
             ),
-            x: bb.x + bb.width + 10,
+            x: rect.x + rect.width + PADDING,
         })
-    })
+    }
+
+    let dpy: HTMLDivElement
+    onMount(() => update_xy(dpy.getBoundingClientRect()))
 
     return (
         <div class='user' classList={{ active: P.show }}>
@@ -175,15 +174,8 @@ const User: Component<UserProps> = P => {
                 ref={dpy}
                 class='user-dpy'
                 onclick={e => {
-                    let bb = e.currentTarget.getBoundingClientRect()
-                    setState({
-                        y: Math.min(
-                            Math.max(e.y - CARD_HEIGHT / 2, 10),
-                            innerHeight - CARD_HEIGHT - 10
-                        ),
-                        x: bb.x + bb.width + 10,
-                    })
-                    P.onShow(true)
+                    update_xy(e.currentTarget.getBoundingClientRect())
+                    P.onShow(!P.show)
                 }}
             >
                 <div class='img'>
@@ -209,7 +201,12 @@ const User: Component<UserProps> = P => {
 
                 <div class='user-detail'>
                     <span>name: {P.user.name || '---'}</span>
-                    <span>phone: {P.user.phone}</span>
+                    <span>
+                        phone: <Copiable text={P.user.phone} />
+                    </span>
+                    <span>
+                        wallet: {(~~(P.user.wallet / 10)).toLocaleString()}
+                    </span>
                 </div>
             </div>
         </div>
