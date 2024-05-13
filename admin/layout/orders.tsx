@@ -38,7 +38,7 @@ export default () => {
     const [state, setState] = createStore<OrdersState>({
         orders: [],
         page: 0,
-        user_show: 0,
+        user_show: -1,
     })
 
     createEffect(() => {
@@ -206,7 +206,7 @@ const User: Component<UserProps> = P => {
     const [state, setState] = createStore<State>({
         x: 0,
         y: 0,
-        send_sms_fanel: P.show,
+        send_sms_fanel: false,
     })
 
     function update_xy(rect: DOMRect) {
