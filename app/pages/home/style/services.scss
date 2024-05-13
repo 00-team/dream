@@ -20,8 +20,7 @@
         align-items: center;
         flex-direction: column;
 
-        position: sticky;
-        top: 0;
+        margin-bottom: 1em;
 
         h3 {
             display: flex;
@@ -61,6 +60,94 @@
                 background-image: radial-gradient(transparent, white 69%);
 
                 z-index: 2;
+            }
+        }
+    }
+    .icons-container {
+        width: 100%;
+        height: 150px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3em;
+
+        position: relative;
+        isolation: isolate;
+
+        .icon-container {
+            width: 100px;
+            aspect-ratio: 1/1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            will-change: left;
+
+            @keyframes icon-container-anim {
+                from {
+                    left: -10%;
+                }
+                to {
+                    left: 120%;
+                }
+            }
+
+            .icon-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 100vmax;
+                box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
+
+                width: 100%;
+                height: 100%;
+
+                // overflow: hidden;
+
+                will-change: transform;
+
+                @keyframes icon-wrapper-anim {
+                    0% {
+                        transform: translate(0, 0px);
+                    }
+                    50% {
+                        transform: translate(0, -75px);
+                    }
+                    100% {
+                        transform: translate(0, -0px);
+                    }
+                }
+
+                img {
+                    border-radius: 100vmax;
+                    width: 101%;
+                    height: 101%;
+                    object-fit: cover;
+                }
+                .reflect {
+                    position: absolute;
+                    bottom: 0;
+
+                    width: inherit;
+                    height: inherit;
+
+                    transform: rotate(180deg) translateY(-100%);
+
+                    background-size: cover;
+                    background-position: center;
+                    border-radius: 100vmax;
+
+                    -webkit-mask-image: -webkit-gradient(
+                        linear,
+                        left 20%,
+                        left bottom,
+                        from(rgba(0, 0, 0, 0)),
+                        to(rgba(0, 0, 0, 0.3))
+                    );
+                }
             }
         }
     }
