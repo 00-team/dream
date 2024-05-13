@@ -1,5 +1,5 @@
 use actix_web::web::{Data, Json, Query};
-use actix_web::{get, patch, HttpResponse, Scope};
+use actix_web::{get, patch, post, HttpResponse, Scope};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use utoipa::{OpenApi, ToSchema};
@@ -13,7 +13,7 @@ use crate::{utils, AppState};
 #[derive(OpenApi)]
 #[openapi(
     tags((name = "admin::order")),
-    paths(order_list, order_get, order_update),
+    paths(order_list, order_get, order_update, send_sms),
     components(schemas(UpdateOrder, OrderList)),
     servers((url = "/orders")),
     modifiers(&UpdatePaths)
@@ -110,9 +110,11 @@ async fn order_update(
         .execute(&state.sql)
         .await?;
 
-        utils::send_sms(&user.phone, "dreampay.org\nyour order was refunded").await;
+        utils::send_sms(&user.phone, "dreampay.org\nyour order was refunded")
+            .await;
     } else {
-        utils::send_sms(&user.phone, "dreampay.org\nyour order has finished").await;
+        utils::send_sms(&user.phone, "dreampay.org\nyour order has finished")
+            .await;
     }
 
     sqlx::query! {
@@ -125,9 +127,32 @@ async fn order_update(
     Ok(HttpResponse::Ok().finish())
 }
 
+#[derive(Deserialize, ToSchema)]
+struct SendSms {
+    phone: String,
+    text: String,
+}
+
+#[utoipa::path(
+    post,
+    request_body = SendSms,
+    responses((status = 200))
+)]
+/// Send Sms
+#[post("/sms/")]
+async fn send_sms(
+    _: Admin, body: Json<SendSms>,
+) -> Result<HttpResponse, AppErr> {
+
+    utils::send_sms(&body.phone, &body.text).await;
+
+    Ok(HttpResponse::Ok().finish())
+}
+
 pub fn router() -> Scope {
     Scope::new("/orders")
         .service(order_list)
         .service(order_get)
         .service(order_update)
+        .service(send_sms)
 }
