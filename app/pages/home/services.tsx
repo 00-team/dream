@@ -78,7 +78,13 @@ const ServiceIcon: Component<ServiceIconProps> = P => {
             style={{ 'animation-delay': `${P.delay}s`, ...P.style }}
         >
             <div class='icon-wrapper'>
-                <img src={P.img} alt='' />
+                <img
+                    src={P.img}
+                    alt=''
+                    draggable={false}
+                    loading='lazy'
+                    decoding='async'
+                />
                 <div
                     class='reflect'
                     style={{ 'background-image': `url(${P.img})` }}
