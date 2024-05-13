@@ -1,7 +1,5 @@
 use crate::config::{config, Config};
-use actix_web::error::{
-    Error, ErrorBadRequest, ErrorInternalServerError, ErrorNotFound,
-};
+use crate::models::{AppErr, AppErrBadRequest};
 use image::io::Reader as ImageReader;
 use image::ImageFormat;
 use rand::Rng;
@@ -9,13 +7,13 @@ use serde::Serialize;
 use std::io;
 use std::path::Path;
 
-pub fn phone_validator(phone: &str) -> Result<(), Error> {
+pub fn phone_validator(phone: &str) -> Result<(), AppErr> {
     if phone.len() != 11 || !phone.starts_with("09") {
-        return Err(ErrorBadRequest("invalid phone number"));
+        return Err(AppErrBadRequest("invalid phone number"));
     }
 
     if phone.chars().any(|c| !c.is_ascii_digit()) {
-        return Err(ErrorBadRequest("phone number must be all digits"));
+        return Err(AppErrBadRequest("phone number must be all digits"));
     }
 
     Ok(())
@@ -80,6 +78,11 @@ pub async fn send_webhook(title: &str, desc: &str, color: u32) {
             }],
         })
         .await;
+}
+
+pub async fn send_sms(phone: &str, text: &str) {
+    // let client = awc::Client::new();
+    log::info!("\nsending sms to {phone}:\n\n{text}\n");
 }
 
 pub trait CutOff {

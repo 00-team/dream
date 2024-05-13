@@ -3,7 +3,6 @@ use std::{future::Future, ops, pin::Pin};
 
 use actix_web::{
     dev::Payload,
-    error,
     http::header::{self, AUTHORIZATION},
     web::Data,
     FromRequest, HttpRequest,
@@ -13,6 +12,8 @@ use sha2::Digest;
 use utoipa::ToSchema;
 
 use crate::{utils::CutOff, AppState};
+
+use super::{AppErr, AppErrForbidden};
 
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema, Default)]
 pub struct User {
@@ -121,7 +122,7 @@ fn extract_token(request: &HttpRequest) -> Option<String> {
 }
 
 impl FromRequest for User {
-    type Error = error::Error;
+    type Error = AppErr;
     type Future = Pin<Box<dyn Future<Output = Result<Self, Self::Error>>>>;
 
     fn from_request(req: &HttpRequest, _pl: &mut Payload) -> Self::Future {
@@ -132,41 +133,36 @@ impl FromRequest for User {
 
         Box::pin(async move {
             if token.is_none() {
-                return Err(error::ErrorForbidden("token was not found"));
+                return Err(AppErrForbidden("token was not found"));
             }
 
             let (id, token) = match parse_token(&token.unwrap()) {
                 Some(t) => t,
-                None => return Err(error::ErrorForbidden("invalid token")),
+                None => return Err(AppErrForbidden("invalid token")),
             };
 
             let token = hex::encode(sha2::Sha512::digest(&token));
 
-            let result = sqlx::query_as! {
+            let mut user = sqlx::query_as! {
                 User,
                 "select * from users where id = ? and token = ?",
                 id, token
             }
             .fetch_one(&pool)
-            .await;
+            .await?;
 
-            match result {
-                Ok(mut user) => {
-                    if user.banned {
-                        return Err(error::ErrorForbidden("banned"));
-                    }
-
-                    user.token.cut_off(32);
-                    Ok(user)
-                }
-                Err(_) => Err(error::ErrorForbidden("user not found")),
+            if user.banned {
+                return Err(AppErrForbidden("banned"));
             }
+
+            user.token.cut_off(32);
+            Ok(user)
         })
     }
 }
 
 impl FromRequest for Admin {
-    type Error = error::Error;
+    type Error = AppErr;
     type Future = Pin<Box<dyn Future<Output = Result<Self, Self::Error>>>>;
 
     fn from_request(req: &HttpRequest, payload: &mut Payload) -> Self::Future {
@@ -174,7 +170,7 @@ impl FromRequest for Admin {
         Box::pin(async {
             let user = user.await?;
             if !user.admin {
-                return Err(error::ErrorForbidden("invalid admin"));
+                return Err(AppErrForbidden("forbidden"));
             }
 
             Ok(Admin(user))

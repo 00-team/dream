@@ -1,13 +1,14 @@
-use std::{env, fs::read_to_string, os::unix::fs::PermissionsExt};
+use std::{env, os::unix::fs::PermissionsExt};
 
 use crate::config::Config;
 use crate::docs::{doc_add_prefix, ApiDoc};
 use actix_files as af;
+use actix_web::web::ServiceConfig;
 use actix_web::{
     get,
     http::header::ContentType,
     middleware,
-    web::{self, scope, Data},
+    web::{scope, Data},
     App, HttpResponse, HttpServer, Responder,
 };
 use sqlx::{Pool, Sqlite, SqlitePool};
@@ -20,35 +21,22 @@ mod docs;
 mod general;
 mod models;
 mod utils;
+mod web;
 
 pub struct AppState {
     pub sql: Pool<Sqlite>,
 }
 
-#[get("/")]
-async fn app_index() -> impl Responder {
-    let result = read_to_string("app/dist/index.html")
-        .unwrap_or("err reading app index.html".to_string());
-    HttpResponse::Ok().content_type(ContentType::html()).body(result)
-}
-
-#[get("/admin")]
-async fn admin_index() -> impl Responder {
-    let result = read_to_string("admin/dist/index.html")
-        .unwrap_or("err reading admin index.html".to_string());
-    HttpResponse::Ok().content_type(ContentType::html()).body(result)
-}
-
 #[get("/openapi.json")]
 async fn openapi() -> impl Responder {
     let mut doc = ApiDoc::openapi();
-    doc.merge(api::user::ApiUserDoc::openapi());
-    doc.merge(api::verification::ApiVerificationDoc::openapi());
-    doc.merge(api::product::Doc::openapi());
+    doc.merge(api::user::ApiDoc::openapi());
+    doc.merge(api::verification::ApiDoc::openapi());
+    doc.merge(api::product::ApiDoc::openapi());
+    doc.merge(api::order::ApiDoc::openapi());
 
     let mut admin_doc = ApiDoc::openapi();
-    // admin_doc.merge(admin::user::Doc::openapi());
-    // admin_doc.merge(admin::product::Doc::openapi());
+    admin_doc.merge(admin::order::ApiDoc::openapi());
 
     doc_add_prefix(&mut admin_doc, "/admin", false);
 
@@ -66,8 +54,7 @@ async fn rapidoc() -> impl Responder {
     <html><head><meta charset="utf-8"><style>rapi-doc {
     --green: #00dc7d; --blue: #5199ff; --orange: #ff6b00;
     --red: #ec0f0f; --yellow: #ffd600; --purple: #782fef; }</style>
-    <script type="module" src="/static/rapidoc.js"></script></head><body>
-    <rapi-doc spec-url="/openapi.json" persist-auth="true"
+    <script type="module" src="/static/rapidoc.js"></script></head><body> <rapi-doc spec-url="/openapi.json" persist-auth="true"
     bg-color="#040404" text-color="#f2f2f2"
     header-color="#040404" primary-color="#ec0f0f"
     nav-text-color="#eee" font-size="largest"
@@ -77,7 +64,7 @@ async fn rapidoc() -> impl Responder {
     )
 }
 
-fn config_static(app: &mut web::ServiceConfig) {
+fn config_static(app: &mut ServiceConfig) {
     if cfg!(debug_assertions) {
         app.service(af::Files::new("/static", "./static"));
         app.service(af::Files::new("/app-assets", "app/dist/app-assets"));
@@ -108,14 +95,15 @@ async fn main() -> std::io::Result<()> {
             .configure(config_static)
             .service(openapi)
             .service(rapidoc)
-            .service(app_index)
-            .service(admin_index)
             .service(
                 scope("/api")
                     .service(api::user::router())
                     .service(api::product::router())
-                    .service(api::verification::verification),
+                    .service(api::order::router())
+                    .service(api::verification::verification)
+                    .service(scope("/admin").service(admin::order::router())),
             )
+            .service(web::router())
     });
 
     let server = if cfg!(debug_assertions) {

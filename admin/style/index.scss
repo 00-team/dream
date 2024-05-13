@@ -1,0 +1,178 @@
+@import './fonts.scss';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color-scheme: dark;
+    background-color: var(--cd);
+    color: var(--white);
+
+    font-family: 'Titillium', sans-serif;
+
+    width: 100%;
+    height: 100vh;
+    // overflow: hidden;
+
+    .main {
+        height: 800px;
+        width: 100%;
+        display: flex;
+        padding: 1rem;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .root,
+    .root main {
+        width: 100%;
+        height: 100%;
+    }
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    code {
+        // background-color: var(--slate-1);
+        background-color: var(--black);
+        padding: 0.1rem 0.2rem;
+        border-radius: var(--radius);
+        font-size: 16px;
+    }
+
+    a {
+        color: var(--blue-9);
+        text-decoration: none;
+    }
+
+    img {
+        user-select: none;
+    }
+
+    label {
+        user-select: none;
+    }
+}
+
+input.styled {
+    background-color: var(--slate-2);
+    border: 2px solid var(--slate-4);
+    font-size: 18px;
+    border-radius: var(--radius);
+    padding: 0.25rem;
+    color: var(--white);
+
+    &:focus {
+        border-color: var(--blue-9);
+        outline: 0;
+    }
+}
+
+button.styled {
+    --color-1: var(--cl);
+    --color-2: var(--cd);
+
+    background-color: var(--color-2);
+    color: var(--white);
+    border: 2px;
+    border-color: var(--color-1);
+    border-style: solid;
+    border-radius: var(--radius);
+    font-size: 18px;
+    font-family: 'Titillium';
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: 220ms ease-in-out;
+    transition-property: border-color, background-color, color;
+
+    &.icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        width: 32px;
+        height: 32px;
+        border: 0;
+    }
+
+    &.trash,
+    &.remove {
+        --color-1: var(--red);
+        // --color-2: var(--red);
+    }
+
+    &:hover {
+        color: var(--color-2);
+        background-color: var(--color-1);
+    }
+
+    &:not(&.icon):active {
+        background-color: var(--color-2);
+        border-color: var(--color-1);
+        color: var(--color-1);
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    &:disabled {
+        pointer-events: none;
+        opacity: 0.6;
+        // border: 2px solid var(--bg-3);
+        // background-color: var(--bg-1);
+        outline: 0;
+        cursor: default;
+    }
+}
+
+:root {
+    --radius: 0.25rem;
+
+    --white: #f2f2f2;
+    --black: #040404;
+    --red: #e20338;
+    --blue: #51eaff;
+    --green: #00dc7d;
+    --yellow: #ffd600;
+    --cd: #524781;
+    --cl: #f9c586;
+
+    --scroll-bg: var(--cd);
+    --scorll-fg: var(--cl);
+    --scorll-hover: var(--cl);
+    --scorll-active: var(--cl);
+
+    --selection-fg: var(--black);
+    --selection-bg: var(--white);
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+    background-color: var(--scroll-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border: 2px solid var(--scroll-bg);
+    background-color: var(--scorll-fg);
+
+    &:hover {
+        background-color: var(--scorll-hover);
+    }
+
+    &:active {
+        background-color: var(--scorll-active);
+    }
+}
+
+::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+}

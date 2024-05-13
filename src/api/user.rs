@@ -14,12 +14,12 @@ use crate::api::verification;
 use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
 use crate::models::transaction::{
-    Transaction, TransactionStatus, TransactionVendor,
+    Transaction, TransactionStatus, TransactionVendor, TransactionKind
 };
 use crate::models::user::{UpdatePhoto, User};
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
 use crate::utils::{
-    get_random_bytes, get_random_string, remove_photo, save_photo, CutOff,
+    self, get_random_bytes, get_random_string, remove_photo, save_photo, CutOff
 };
 use crate::AppState;
 
@@ -31,12 +31,13 @@ use crate::AppState;
         user_wallet_add, user_wallet_cb, user_transactions_list
     ),
     components(schemas(
-        User, LoginBody, UserUpdateBody, UpdatePhoto, Transaction
+        User, LoginBody, UserUpdateBody, UpdatePhoto,
+        Transaction, TransactionStatus, TransactionVendor, TransactionKind
     )),
     servers((url = "/user")),
     modifiers(&UpdatePaths)
 )]
-pub struct ApiUserDoc;
+pub struct ApiDoc;
 
 #[derive(Debug, Deserialize, ToSchema)]
 struct LoginBody {
@@ -47,10 +48,7 @@ struct LoginBody {
 #[utoipa::path(
     post,
     request_body = LoginBody,
-    responses(
-        (status = 200, body = User),
-        (status = 400, body = String)
-    )
+    responses((status = 200, body = User))
 )]
 /// Login
 #[post("/login/")]
@@ -118,6 +116,7 @@ async fn login(
 
 #[utoipa::path(get, responses((status = 200, body = User)))]
 #[get("/")]
+/// Get
 async fn user_get(user: User) -> Json<User> {
     Json(user)
 }
@@ -134,7 +133,7 @@ struct UserUpdateBody {
         (status = 200, body = User)
     )
 )]
-/// Update User
+/// Update
 #[patch("/")]
 async fn user_update(
     user: User, body: Json<UserUpdateBody>, state: Data<AppState>,
@@ -246,15 +245,17 @@ struct AddWalletQuery {
         (status = 200, body = String)
     )
 )]
+/// Wallet Add
 #[post("/wallet-add/")]
 async fn user_wallet_add(
     user: User, q: Query<AddWalletQuery>, state: Data<AppState>,
 ) -> Response<String> {
+    let now = utils::now();
     if cfg!(debug_assertions) {
         sqlx::query! {
-            "insert into transactions (user, amount, vendor, vendor_order_id)
-            values(?, ?, ?, ?)",
-            user.id, q.amount, TransactionVendor::Zarinpal, "debug"
+            "insert into transactions(user, amount, timestamp, vendor, vendor_order_id)
+            values(?, ?, ?, ?, ?)",
+            user.id, q.amount, now, TransactionVendor::Zarinpal, "debug"
         }
         .execute(&state.sql)
         .await?;
@@ -299,9 +300,9 @@ async fn user_wallet_add(
     }
 
     sqlx::query! {
-        "insert into transactions (user, amount, vendor, vendor_order_id)
-        values(?, ?, ?, ?)",
-        user.id, q.amount, TransactionVendor::Zarinpal, data.authority
+        "insert into transactions(user, amount, timestamp, vendor, vendor_order_id)
+        values(?, ?, ?, ?, ?)",
+        user.id, q.amount, now, TransactionVendor::Zarinpal, data.authority
     }
     .execute(&state.sql)
     .await?;
@@ -316,6 +317,7 @@ struct WalletCbQuery {
 }
 
 #[utoipa::path(get, params(WalletCbQuery))]
+/// Wallet Callback
 #[get("/wallet-cb/")]
 async fn user_wallet_cb(
     user: User, q: Query<WalletCbQuery>, state: Data<AppState>,
@@ -439,7 +441,8 @@ async fn user_transactions_list(
     let offset = query.page * 32;
     let result = sqlx::query_as! {
         Transaction,
-        "select * from transactions where user = ? limit 32 offset ?",
+        "select * from transactions where user = ?
+         order by id desc limit 32 offset ?",
         user.id, offset
     }
     .fetch_all(&state.sql)
