@@ -52,6 +52,7 @@
                         cursor: pointer;
                         transition: 200ms ease-in-out;
                         transition-property: background-color, color;
+                        user-select: none;
 
                         &:hover {
                             background-color: var(--cl);
@@ -122,6 +123,7 @@
                     &.active {
                         .user-dpy {
                             background-color: var(--cl);
+                            color: var(--black);
                         }
 
                         .user-info {

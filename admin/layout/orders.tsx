@@ -103,7 +103,7 @@ type OrderProps = {
     setState: SetStoreFunction<OrdersState>
 }
 const Order: Component<OrderProps> = P => {
-    const [show_data, setShowData] = createSignal(false)
+    const [show_data, setShowData] = createSignal(P.order.status == 'wating')
 
     return (
         <div class='order'>
@@ -208,7 +208,10 @@ const User: Component<UserProps> = P => {
             >
                 <div class='img'>
                     <Show when={P.user.photo} fallback={<UserIcon />}>
-                        <img src={`/record/${P.user.id}:${P.user.photo}`} />
+                        <img
+                            draggable={false}
+                            src={`/record/${P.user.id}:${P.user.photo}`}
+                        />
                     </Show>
                 </div>
                 <span class='name'>{P.user.name || P.user.phone}</span>
@@ -230,7 +233,10 @@ const User: Component<UserProps> = P => {
 
                 <div class='img'>
                     <Show when={P.user.photo} fallback={<UserIcon />}>
-                        <img src={`/record/${P.user.id}:${P.user.photo}`} />
+                        <img
+                            draggable={false}
+                            src={`/record/${P.user.id}:${P.user.photo}`}
+                        />
                     </Show>
                 </div>
 
