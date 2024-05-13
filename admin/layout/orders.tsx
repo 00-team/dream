@@ -224,8 +224,14 @@ const User: Component<UserProps> = P => {
     onMount(() => update_xy(dpy.getBoundingClientRect()))
 
     function send_sms() {
-        console.log('phone:', P.user.phone)
-        console.log('text:', sms_body.value)
+        httpx({
+            url: '/api/admin/orders/sms/',
+            method: 'POST',
+            json: {
+                phone: P.user.phone,
+                text: sms_body.value,
+            },
+        })
     }
 
     return (
