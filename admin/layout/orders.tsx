@@ -2,7 +2,7 @@ import { createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
-import { Show, createEffect } from 'solid-js'
+import { Component, Show, createEffect } from 'solid-js'
 import { httpx } from 'shared'
 import { BanIcon, CircleCheckBigIcon, UserIcon } from 'icons'
 import { Confact } from 'comps'
@@ -17,10 +17,15 @@ export default () => {
 
     type State = {
         orders: OrderInfo[]
+        user_show: number
         page: number
     }
 
-    const [state, setState] = createStore<State>({ orders: [], page: 0 })
+    const [state, setState] = createStore<State>({
+        orders: [],
+        page: 0,
+        user_show: -1,
+    })
 
     createEffect(() => {
         let pid = parseInt(UP.page || '0')
@@ -82,21 +87,14 @@ export default () => {
                                     {(~~(o.price / 10)).toLocaleString()}
                                 </span>
 
-                                <div class='user'>
-                                    <div class='img'>
-                                        <Show
-                                            when={o.user.photo && i % 2}
-                                            fallback={<UserIcon />}
-                                        >
-                                            <img
-                                                src={`/record/${o.user.id}:${o.user.photo}`}
-                                            />
-                                        </Show>
-                                    </div>
-                                    <span class='name'>
-                                        {o.user.name || o.user.phone}
-                                    </span>
-                                </div>
+                                <User
+                                    user={o.user}
+                                    onShow={s => {
+                                        setState({ user_show: s ? i : -1 })
+                                    }}
+                                    show={state.user_show == i}
+                                />
+
                                 <span>
                                     {new Date(
                                         o.timestamp * 1e3
@@ -140,6 +138,50 @@ export default () => {
                         </div>
                     </div>
                 ))}
+            </div>
+        </div>
+    )
+}
+
+type UserProps = {
+    user: UserModel
+    show: boolean
+    onShow(show: boolean): void
+}
+const User: Component<UserProps> = P => {
+    type State = {
+        x: number
+        y: number
+    }
+
+    const [state, setState] = createStore<State>({ x: 0, y: 0 })
+
+    return (
+        <div class='user'>
+            <div
+                class='user-dpy'
+                onclick={e => {
+                    let bb = e.currentTarget.getBoundingClientRect()
+                    setState({
+                        y: Math.min(Math.max(e.y - 350, 10), innerHeight - 710),
+                        x: bb.x + bb.width + 10,
+                    })
+                    P.onShow(true)
+                }}
+            >
+                <div class='img'>
+                    <Show when={P.user.photo} fallback={<UserIcon />}>
+                        <img src={`/record/${P.user.id}:${P.user.photo}`} />
+                    </Show>
+                </div>
+                <span class='name'>{P.user.name || P.user.phone}</span>
+            </div>
+            <div
+                class='user-info'
+                classList={{ show: P.show }}
+                style={{ left: state.x + 'px', top: state.y + 'px' }}
+            >
+                user info
             </div>
         </div>
     )
