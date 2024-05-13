@@ -162,9 +162,15 @@ const Order: Component<OrderProps> = P => {
                             {P.order.data.contact}
                         </textarea>
                     </Show>
-                    <span>username: {P.order.data.username}</span>
-                    <span>password: {P.order.data.password}</span>
-                    <span>email: {P.order.data.email}</span>
+                    <span>
+                        username: <Copiable text={P.order.data.username} />
+                    </span>
+                    <span>
+                        password: <Copiable text={P.order.data.password} />
+                    </span>
+                    <span>
+                        email: <Copiable text={P.order.data.email} />
+                    </span>
                 </div>
             </div>
         </div>
