@@ -2,7 +2,7 @@ import { createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
-import { Component, Show, createEffect } from 'solid-js'
+import { Component, Show, createEffect, onMount } from 'solid-js'
 import { httpx } from 'shared'
 import { BanIcon, CircleCheckBigIcon, UserIcon } from 'icons'
 import { Confact } from 'comps'
@@ -24,7 +24,7 @@ export default () => {
     const [state, setState] = createStore<State>({
         orders: [],
         page: 0,
-        user_show: -1,
+        user_show: 0,
     })
 
     createEffect(() => {
@@ -149,21 +149,38 @@ type UserProps = {
     onShow(show: boolean): void
 }
 const User: Component<UserProps> = P => {
+    const CARD_HEIGHT = 600
     type State = {
         x: number
         y: number
     }
 
     const [state, setState] = createStore<State>({ x: 0, y: 0 })
+    let dpy: HTMLDivElement
+
+    onMount(() => {
+        let bb = dpy.getBoundingClientRect()
+        setState({
+            y: Math.min(
+                Math.max(bb.y - CARD_HEIGHT / 2, 10),
+                innerHeight - CARD_HEIGHT - 10
+            ),
+            x: bb.x + bb.width + 10,
+        })
+    })
 
     return (
-        <div class='user'>
+        <div class='user' classList={{ active: P.show }}>
             <div
+                ref={dpy}
                 class='user-dpy'
                 onclick={e => {
                     let bb = e.currentTarget.getBoundingClientRect()
                     setState({
-                        y: Math.min(Math.max(e.y - 350, 10), innerHeight - 710),
+                        y: Math.min(
+                            Math.max(e.y - CARD_HEIGHT / 2, 10),
+                            innerHeight - CARD_HEIGHT - 10
+                        ),
                         x: bb.x + bb.width + 10,
                     })
                     P.onShow(true)
@@ -178,10 +195,22 @@ const User: Component<UserProps> = P => {
             </div>
             <div
                 class='user-info'
-                classList={{ show: P.show }}
-                style={{ left: state.x + 'px', top: state.y + 'px' }}
+                style={{
+                    left: state.x + 'px',
+                    top: state.y + 'px',
+                    height: CARD_HEIGHT + 'px',
+                }}
             >
-                user info
+                <div class='img'>
+                    <Show when={P.user.photo} fallback={<UserIcon />}>
+                        <img src={`/record/${P.user.id}:${P.user.photo}`} />
+                    </Show>
+                </div>
+
+                <div class='user-detail'>
+                    <span>name: {P.user.name || '---'}</span>
+                    <span>phone: {P.user.phone}</span>
+                </div>
             </div>
         </div>
     )
