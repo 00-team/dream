@@ -14,7 +14,7 @@ export const Fanel: Component<Props> = P => {
             <div class='cmp-fanel-fnd'>
                 <div class='fanel'>
                     <button
-                        class='icon cmp-fanel-close-btn'
+                        class='styled icon cmp-fanel-btn-close'
                         onclick={P.onClose}
                     >
                         <XIcon />

@@ -11,16 +11,21 @@
     .fanel {
         position: relative;
         padding: 32px;
-        background-color: var(--slate-1);
+        background-color: var(--cd);
+        border: 2px solid var(--cl);
         border-radius: var(--radius);
         width: 80%;
         height: 80%;
 
-        .cmp-fanel-close-btn {
+        .cmp-fanel-btn-close {
             position: absolute;
             top: 0;
             right: 0;
             background-color: transparent;
+
+            &:hover {
+                color: var(--cl);
+            }
         }
     }
 }
