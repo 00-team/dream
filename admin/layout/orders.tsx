@@ -2,13 +2,21 @@ import { SetStoreFunction, createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
-import { Component, Show, createEffect, createSignal, onMount } from 'solid-js'
+import {
+    Component,
+    JSX,
+    Show,
+    createEffect,
+    createSignal,
+    onMount,
+} from 'solid-js'
 import { httpx } from 'shared'
 import {
     BanIcon,
     ChevronDownIcon,
     ChevronUpIcon,
     CircleCheckBigIcon,
+    HourglassIcon,
     UserIcon,
     XIcon,
 } from 'icons'
@@ -105,12 +113,20 @@ type OrderProps = {
 const Order: Component<OrderProps> = P => {
     const [show_data, setShowData] = createSignal(P.order.status == 'wating')
 
+    const STATUS_ICON: { [k in OrderModel['status']]: () => JSX.Element } = {
+        wating: HourglassIcon,
+        done: CircleCheckBigIcon,
+        refunded: BanIcon,
+    }
+
     return (
         <div class='order'>
             <div class='top'>
                 <div class='info'>
                     <span>{P.order.id}</span>
-                    <span>{P.order.status}</span>
+                    <span class='status' classList={{ [P.order.status]: true }}>
+                        {STATUS_ICON[P.order.status]()}
+                    </span>
                     <span>{P.order.kind}</span>
                     <span>{(~~(P.order.price / 10)).toLocaleString()}</span>
 
