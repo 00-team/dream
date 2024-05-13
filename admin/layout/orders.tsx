@@ -199,7 +199,7 @@ type UserProps = {
     onShow(show: boolean): void
 }
 const User: Component<UserProps> = P => {
-    const CARD_HEIGHT = 420
+    const CARD_HEIGHT = 440
     const PADDING = 10
 
     type State = { x: number; y: number }
@@ -270,6 +270,7 @@ const User: Component<UserProps> = P => {
                     <span>
                         wallet: {(~~(P.user.wallet / 10)).toLocaleString()}
                     </span>
+                    <button class='btn-send-sms styled'>Send SMS</button>
                 </div>
             </div>
         </div>
