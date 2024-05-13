@@ -14,7 +14,7 @@ use crate::{utils, AppState};
 #[openapi(
     tags((name = "admin::order")),
     paths(order_list, order_get, order_update, send_sms),
-    components(schemas(UpdateOrder, OrderList)),
+    components(schemas(UpdateOrder, OrderList, SendSms)),
     servers((url = "/orders")),
     modifiers(&UpdatePaths)
 )]
@@ -143,7 +143,7 @@ struct SendSms {
 async fn send_sms(
     _: Admin, body: Json<SendSms>,
 ) -> Result<HttpResponse, AppErr> {
-
+    utils::phone_validator(&body.phone)?;
     utils::send_sms(&body.phone, &body.text).await;
 
     Ok(HttpResponse::Ok().finish())
