@@ -4,7 +4,7 @@ import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
 import { Component, Show, createEffect, onMount } from 'solid-js'
 import { httpx } from 'shared'
-import { BanIcon, CircleCheckBigIcon, UserIcon } from 'icons'
+import { BanIcon, CircleCheckBigIcon, UserIcon, XIcon } from 'icons'
 import { Confact, Copiable } from 'comps'
 
 export default () => {
@@ -193,6 +193,13 @@ const User: Component<UserProps> = P => {
                     height: CARD_HEIGHT + 'px',
                 }}
             >
+                <button
+                    class='btn-close styled icon'
+                    onclick={() => P.onShow(false)}
+                >
+                    <XIcon />
+                </button>
+
                 <div class='img'>
                     <Show when={P.user.photo} fallback={<UserIcon />}>
                         <img src={`/record/${P.user.id}:${P.user.photo}`} />
