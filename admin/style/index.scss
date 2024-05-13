@@ -60,6 +60,18 @@ body {
     }
 }
 
+span.copiable {
+    cursor: pointer;
+
+    &:hover {
+        color: var(--blue);
+    }
+
+    &:active {
+        color: var(--cl);
+    }
+}
+
 input.styled {
     background-color: var(--slate-2);
     border: 2px solid var(--slate-4);
