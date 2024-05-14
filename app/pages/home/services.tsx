@@ -44,12 +44,13 @@ export const Services: Component = props => {
             headerAnim()
 
             let top =
-                headerContainer.getBoundingClientRect().top - innerHeight / 4
+                headerContainer.getBoundingClientRect().top - innerHeight / 3.5
+
             if (top >= 0 && top <= 500) {
                 let transform = top
 
                 icons.forEach((elem: HTMLElement, index) => {
-                    elem.style.transform = `translateY(${transform / 5}px)`
+                    elem.style.transform = `translateY(${Math.max(transform, 0)}px)`
                 })
             }
         }

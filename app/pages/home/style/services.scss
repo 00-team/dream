@@ -84,6 +84,7 @@
             justify-content: center;
 
             will-change: transform;
+            transform: translateY(200px);
             transition: 0.3s ease;
 
             .icon-wrapper {
