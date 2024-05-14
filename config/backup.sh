@@ -2,6 +2,7 @@
 
 BASE_URL="https://api.telegram.org/bot$TELOXIDE_TOKEN"
 BASE_NAME=dream-db-$(date +%s).tgz.
+HASH_FILENAME=".ignore.last_hash"
 
 mkdir .dbd
 
@@ -14,6 +15,15 @@ function send_msg {
     url="$BASE_URL/sendMessage?chat_id=$TELOXIDE_CHAT_ID"
     curl -s -X GET $url --data-urlencode "text=$1" -o /dev/null
 }
+
+if [ -f $HASH_FILENAME ]; then
+    if [[ $(cat $HASH_FILENAME) == $(sha256sum main.db) ]]; then
+        send_msg "database has not changed 🪐"
+        exit
+    fi
+fi
+
+sha256sum main.db > $HASH_FILENAME
 
 send_msg "Starting the backup $(date +'%F %T')"
 tar czvf - main.db | split -d -b 40MB - .dbd/$BASE_NAME
