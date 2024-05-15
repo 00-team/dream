@@ -15,8 +15,9 @@ import spotifyImg from 'static/imgs/spotify.png'
 import xboxImg from 'static/imgs/xbox.jpg'
 import youtubeImg from 'static/imgs/youtube.png'
 
-import spotifyBanner from 'static/imgs/banners/spotify.png'
+import { PlusIcon } from 'icons/home'
 import discordBanner from 'static/imgs/banners/discord.jpg'
+import spotifyBanner from 'static/imgs/banners/spotify.png'
 import tradingviewBanner from 'static/imgs/banners/tradingview.jpg'
 
 export const Services: Component = props => {
@@ -210,6 +211,21 @@ const ServicesWrapper: Component = () => {
                             <span>Discord Nitro</span>
                         </p>
 
+                        <div class='item-details title_smaller'>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                تضمین اصل بودن
+                            </p>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                تحویل سریع{' '}
+                            </p>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                پشتیبانی 24 ساعته
+                            </p>
+                        </div>
+
                         <a href='#about' class='cta title_smaller'>
                             <span>برو بریم</span>
                         </a>
@@ -220,6 +236,21 @@ const ServicesWrapper: Component = () => {
                         <p class='title item-title'>
                             <span>Spotify</span>
                         </p>
+
+                        <div class='item-details title_smaller'>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                تضمین اصل بودن
+                            </p>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                تحویل سریع{' '}
+                            </p>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                پشتیبانی 24 ساعته
+                            </p>
+                        </div>
 
                         <a href='#about' class='cta title_smaller special'>
                             <span>برو بریم</span>
@@ -235,6 +266,21 @@ const ServicesWrapper: Component = () => {
                         <p class='title item-title'>
                             <span>TradingView</span>
                         </p>
+
+                        <div class='item-details title_smaller'>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                تضمین اصل بودن
+                            </p>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                تحویل سریع{' '}
+                            </p>
+                            <p class='item-detail'>
+                                <PlusIcon size={15} />
+                                پشتیبانی 24 ساعته
+                            </p>
+                        </div>
 
                         <a href='#about' class='cta title_smaller'>
                             <span>برو بریم</span>
