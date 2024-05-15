@@ -194,7 +194,14 @@ const ServiceIcon: Component<ServiceIconProps> = P => {
 const ServicesWrapper: Component = () => {
     return (
         <div class='services-wrapper'>
-            <div class='services-items'></div>
+            <div class='services-items'>
+                <h4 class='title_hero'>اماده ای؟ بزن بریم</h4>
+                <h5 class='title'>پرفروش ترین هامون</h5>
+
+                <div class='items-wrapper'>
+                    <div class='item-service'></div>
+                </div>
+            </div>
             <div class='items-bg'>
                 <div class='services-item-row section_title'>
                     <div class='row apple'>
