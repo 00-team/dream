@@ -17,8 +17,7 @@
 
         .order {
             border: 2px solid var(--cl);
-            padding: 1rem;
-            gap: 0.4rem;
+            padding: 0.6rem 1rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -40,37 +39,145 @@
                 align-items: center;
                 width: 100%;
                 font-size: 18px;
-                gap: 1rem;
+                gap: 0.7rem;
+
+                .status {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &.done {
+                        color: var(--green);
+                    }
+                    &.refunded {
+                        color: var(--red);
+                    }
+                    &.wating {
+                        color: var(--yellow);
+                    }
+                }
 
                 .user {
-                    border: 2px solid var(--cl);
-                    border-radius: var(--radius);
-                    padding: 0.2rem;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.3rem;
-                    cursor: pointer;
-                    transition: 200ms ease-in-out;
-                    transition-property: background-color, color;
+                    .user-dpy {
+                        border: 2px solid var(--cl);
+                        border-radius: var(--radius);
+                        padding: 0.2rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.3rem;
+                        cursor: pointer;
+                        transition: 200ms ease-in-out;
+                        transition-property: background-color, color;
+                        user-select: none;
 
-                    &:hover {
-                        background-color: var(--cl);
-                        color: var(--cd);
+                        &:hover {
+                            background-color: var(--cl);
+                            color: var(--cd);
+                        }
+
+                        .img {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 50%;
+                            overflow: hidden;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
                     }
 
-                    .img {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        width: 32px;
-                        height: 32px;
-                        border-radius: 50%;
+                    .user-info {
+                        --w: 300px;
+                        width: var(--w);
+                        height: 700px;
+                        border: 2px solid var(--cl);
+                        background-color: var(--cd);
+                        position: absolute;
+                        border-radius: var(--radius);
+                        display: none;
                         overflow: hidden;
+                        flex-direction: column;
 
-                        img {
+                        .img {
+                            width: var(--w);
+                            height: var(--w);
+                            border-bottom: 2px solid var(--cl);
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+
+                        .user-detail {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.2rem;
+                            padding: 0.4rem;
                             width: 100%;
                             height: 100%;
-                            object-fit: cover;
+
+                            .btn-send-sms {
+                                padding: 0;
+                            }
+                        }
+
+                        .btn-close {
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+
+                            &:hover {
+                                background-color: transparent;
+                                color: var(--cl);
+                            }
+                        }
+                    }
+
+                    &.active {
+                        .user-dpy {
+                            background-color: var(--cl);
+                            color: var(--black);
+                        }
+
+                        .user-info {
+                            display: flex;
+                        }
+                    }
+
+                    .send-sms-form {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        width: 100%;
+                        height: 100%;
+                        gap: 1rem;
+
+                        h2 {
+                            width: 100%;
+                            text-align: center;
+                        }
+
+                        textarea {
+                            width: 100%;
+                            background-color: var(--cd);
+                            border: 2px solid var(--cl);
+                            height: 100%;
+                            padding: 1rem;
+                            border-radius: var(--radius);
+                            font-size: 18px;
+                            outline: 0;
+                        }
+
+                        button {
+                            width: 50%;
+                            max-width: 300px;
                         }
                     }
                 }
@@ -81,6 +188,8 @@
                     display: flex;
                     flex-direction: column;
                     gap: 0.2rem;
+                    height: 0;
+                    overflow: hidden;
 
                     textarea {
                         resize: none;
@@ -92,6 +201,10 @@
                         border-left: 4px solid var(--cl);
                         border-right: 4px solid var(--cl);
                         outline: 0;
+                    }
+
+                    &.show {
+                        height: auto;
                     }
                 }
             }

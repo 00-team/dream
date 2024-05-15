@@ -1,26 +1,45 @@
-import { createStore } from 'solid-js/store'
+import { SetStoreFunction, createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
 import { useNavigate, useParams } from '@solidjs/router'
-import { Show, createEffect } from 'solid-js'
+import {
+    Component,
+    JSX,
+    Show,
+    createEffect,
+    createSignal,
+    onMount,
+} from 'solid-js'
 import { httpx } from 'shared'
-import { BanIcon, CircleCheckBigIcon, UserIcon } from 'icons'
-import { Confact } from 'comps'
+import {
+    BanIcon,
+    ChevronDownIcon,
+    ChevronUpIcon,
+    CircleCheckBigIcon,
+    HourglassIcon,
+    UserIcon,
+    XIcon,
+} from 'icons'
+import { Confact, Copiable, Fanel } from 'comps'
+
+type OrderInfo = Omit<OrderModel, 'user'> & { user: UserModel }
+type UpdateOrderStatus = Exclude<OrderModel['status'], 'wating'>
+
+type OrdersState = {
+    orders: OrderInfo[]
+    user_show: number
+    page: number
+}
 
 export default () => {
     const UP = useParams()
     const navigate = useNavigate()
 
-    type OrderInfo = Omit<OrderModel, 'user'> & {
-        user: UserModel
-    }
-
-    type State = {
-        orders: OrderInfo[]
-        page: number
-    }
-
-    const [state, setState] = createStore<State>({ orders: [], page: 0 })
+    const [state, setState] = createStore<OrdersState>({
+        orders: [],
+        page: 0,
+        user_show: -1,
+    })
 
     createEffect(() => {
         let pid = parseInt(UP.page || '0')
@@ -52,8 +71,7 @@ export default () => {
         })
     }
 
-    type UOS = Exclude<OrderModel['status'], 'wating'>
-    function update_order(id: number, status: UOS) {
+    function update_order(id: number, status: UpdateOrderStatus) {
         httpx({
             url: `/api/admin/orders/${id}/`,
             method: 'PATCH',
@@ -72,75 +90,227 @@ export default () => {
         <div class='orders-fnd'>
             <div class='order-list'>
                 {state.orders.map((o, i) => (
-                    <div class='order'>
-                        <div class='top'>
-                            <div class='info'>
-                                <span>{o.id}</span>
-                                <span>{o.status}</span>
-                                <span>{o.kind}</span>
-                                <span>
-                                    {(~~(o.price / 10)).toLocaleString()}
-                                </span>
-
-                                <div class='user'>
-                                    <div class='img'>
-                                        <Show
-                                            when={o.user.photo && i % 2}
-                                            fallback={<UserIcon />}
-                                        >
-                                            <img
-                                                src={`/record/${o.user.id}:${o.user.photo}`}
-                                            />
-                                        </Show>
-                                    </div>
-                                    <span class='name'>
-                                        {o.user.name || o.user.phone}
-                                    </span>
-                                </div>
-                                <span>
-                                    {new Date(
-                                        o.timestamp * 1e3
-                                    ).toLocaleString()}
-                                </span>
-                            </div>
-                            <Show when={o.status === 'wating'}>
-                                <div class='actions'>
-                                    <Confact
-                                        color='var(--red)'
-                                        timer_ms={1e3}
-                                        icon={BanIcon}
-                                        onAct={() =>
-                                            update_order(o.id, 'refunded')
-                                        }
-                                    />
-                                    <Confact
-                                        color='var(--green)'
-                                        timer_ms={1e3}
-                                        icon={CircleCheckBigIcon}
-                                        onAct={() => update_order(o.id, 'done')}
-                                    />
-                                </div>
-                            </Show>
-                        </div>
-                        <div class='bottom'>
-                            <div class='data'>
-                                <Show when={o.data.contact}>
-                                    <textarea
-                                        disabled
-                                        dir='auto'
-                                        rows={o.data.contact.split('\n').length}
-                                    >
-                                        {o.data.contact}
-                                    </textarea>
-                                </Show>
-                                <span>username: {o.data.username}</span>
-                                <span>password: {o.data.password}</span>
-                                <span>email: {o.data.email}</span>
-                            </div>
-                        </div>
-                    </div>
+                    <Order
+                        order={o}
+                        idx={i}
+                        update={update_order}
+                        state={state}
+                        setState={setState}
+                    />
                 ))}
             </div>
+        </div>
+    )
+}
+
+type OrderProps = {
+    order: OrderInfo
+    idx: number
+    update(id: number, status: UpdateOrderStatus): void
+    state: OrdersState
+    setState: SetStoreFunction<OrdersState>
+}
+const Order: Component<OrderProps> = P => {
+    const [show_data, setShowData] = createSignal(P.order.status == 'wating')
+
+    const STATUS_ICON: { [k in OrderModel['status']]: () => JSX.Element } = {
+        wating: HourglassIcon,
+        done: CircleCheckBigIcon,
+        refunded: BanIcon,
+    }
+
+    return (
+        <div class='order'>
+            <div class='top'>
+                <div class='info'>
+                    <span>{P.order.id}</span>
+                    <span class='status' classList={{ [P.order.status]: true }}>
+                        {STATUS_ICON[P.order.status]()}
+                    </span>
+                    <span>{P.order.kind}</span>
+                    <span>{(~~(P.order.price / 10)).toLocaleString()}</span>
+
+                    <User
+                        user={P.order.user}
+                        onShow={s => {
+                            P.setState({ user_show: s ? P.idx : -1 })
+                        }}
+                        show={P.state.user_show == P.idx}
+                    />
+
+                    <span>
+                        {new Date(P.order.timestamp * 1e3).toLocaleString()}
+                    </span>
+                </div>
+                <div class='actions'>
+                    <button
+                        class='btn-show-data styled icon'
+                        onclick={() => setShowData(s => !s)}
+                    >
+                        <Show when={show_data()} fallback={<ChevronDownIcon />}>
+                            <ChevronUpIcon />
+                        </Show>
+                    </button>
+                    <Show when={P.order.status === 'wating'}>
+                        <Confact
+                            color='var(--red)'
+                            timer_ms={1e3}
+                            icon={BanIcon}
+                            onAct={() => P.update(P.order.id, 'refunded')}
+                        />
+                        <Confact
+                            color='var(--green)'
+                            timer_ms={1e3}
+                            icon={CircleCheckBigIcon}
+                            onAct={() => P.update(P.order.id, 'done')}
+                        />
+                    </Show>
+                </div>
+            </div>
+            <div class='bottom'>
+                <div class='data' classList={{ show: show_data() }}>
+                    <Show when={P.order.data.contact}>
+                        <textarea
+                            disabled
+                            dir='auto'
+                            rows={P.order.data.contact.split('\n').length}
+                        >
+                            {P.order.data.contact}
+                        </textarea>
+                    </Show>
+                    <span>
+                        username: <Copiable text={P.order.data.username} />
+                    </span>
+                    <span>
+                        password: <Copiable text={P.order.data.password} />
+                    </span>
+                    <span>
+                        email: <Copiable text={P.order.data.email} />
+                    </span>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+type UserProps = {
+    user: UserModel
+    show: boolean
+    onShow(show: boolean): void
+}
+const User: Component<UserProps> = P => {
+    const CARD_HEIGHT = 440
+    const PADDING = 10
+
+    type State = { x: number; y: number; send_sms_fanel: boolean }
+    const [state, setState] = createStore<State>({
+        x: 0,
+        y: 0,
+        send_sms_fanel: false,
+    })
+
+    function update_xy(rect: DOMRect) {
+        setState({
+            y: Math.min(
+                Math.max(rect.y - CARD_HEIGHT / 2, PADDING),
+                innerHeight - CARD_HEIGHT - PADDING
+            ),
+            x: rect.x + rect.width + PADDING,
+        })
+    }
+
+    let dpy: HTMLDivElement
+    let sms_body: HTMLTextAreaElement
+    onMount(() => update_xy(dpy.getBoundingClientRect()))
+
+    function send_sms() {
+        httpx({
+            url: '/api/admin/orders/sms/',
+            method: 'POST',
+            json: {
+                phone: P.user.phone,
+                text: sms_body.value,
+            },
+        })
+    }
+
+    return (
+        <div class='user' classList={{ active: P.show }}>
+            <div
+                ref={dpy}
+                class='user-dpy'
+                onclick={e => {
+                    update_xy(e.currentTarget.getBoundingClientRect())
+                    P.onShow(!P.show)
+                }}
+            >
+                <div class='img'>
+                    <Show when={P.user.photo} fallback={<UserIcon />}>
+                        <img
+                            draggable={false}
+                            src={`/record/${P.user.id}:${P.user.photo}`}
+                        />
+                    </Show>
+                </div>
+                <span class='name'>{P.user.name || P.user.phone}</span>
+            </div>
+            <div
+                class='user-info'
+                style={{
+                    left: state.x + 'px',
+                    top: state.y + 'px',
+                    height: CARD_HEIGHT + 'px',
+                }}
+            >
+                <button
+                    class='btn-close styled icon'
+                    onclick={() => P.onShow(false)}
+                >
+                    <XIcon />
+                </button>
+
+                <div class='img'>
+                    <Show when={P.user.photo} fallback={<UserIcon />}>
+                        <img
+                            draggable={false}
+                            src={`/record/${P.user.id}:${P.user.photo}`}
+                        />
+                    </Show>
+                </div>
+
+                <div class='user-detail'>
+                    <span>name: {P.user.name || '---'}</span>
+                    <span>
+                        phone: <Copiable text={P.user.phone} />
+                    </span>
+                    <span>
+                        wallet: {(~~(P.user.wallet / 10)).toLocaleString()}
+                    </span>
+                    <button
+                        class='btn-send-sms styled'
+                        onClick={() => setState({ send_sms_fanel: true })}
+                    >
+                        Send SMS
+                    </button>
+                </div>
+            </div>
+
+            <Fanel
+                open={state.send_sms_fanel}
+                onClose={() => setState({ send_sms_fanel: false })}
+            >
+                <div class='send-sms-form'>
+                    <h2>sending sms to: {P.user.phone}</h2>
+                    <textarea
+                        ref={sms_body}
+                        dir='auto'
+                        placeholder='sms text'
+                    ></textarea>
+                    <button class='styled' onclick={send_sms}>
+                        Send
+                    </button>
+                </div>
+            </Fanel>
         </div>
     )
 }

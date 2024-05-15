@@ -1,8 +1,22 @@
 [
     {
         "name": "Spotify Family",
-        "kind": "spotify.family",
+        "kind": "spotify.family.1",
         "cost": 1200000,
+        "color": "#1db954",
+        "image": "/static/spotify.png"
+    },
+    {
+        "name": "Spotify Family",
+        "kind": "spotify.family.3",
+        "cost": 4200000,
+        "color": "#1db954",
+        "image": "/static/spotify.png"
+    },
+    {
+        "name": "Spotify Family",
+        "kind": "spotify.family.6",
+        "cost": 10200000,
         "color": "#1db954",
         "image": "/static/spotify.png"
     },
