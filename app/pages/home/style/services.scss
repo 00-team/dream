@@ -157,7 +157,7 @@
         overflow: hidden;
 
         .services-items {
-            width: clamp(0px, 100%, 1500px);
+            width: clamp(0px, 100%, 1550px);
             aspect-ratio: 2 / 1;
 
             display: flex;
@@ -183,7 +183,7 @@
             }
 
             .title_hero {
-                margin-bottom: 1em;
+                margin-bottom: 0.5em;
             }
 
             .items-wrapper {
@@ -192,7 +192,7 @@
                 align-items: center;
                 justify-content: space-around;
 
-                margin-top: 4rem;
+                margin-top: 7rem;
 
                 .item-service {
                     width: clamp(0px, 100%, 350px);
@@ -201,6 +201,137 @@
                     border-radius: 1.5rem;
 
                     background-color: white;
+
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+
+                    padding: 1rem 0.9rem;
+
+                    &.main {
+                        scale: 1.1;
+                    }
+
+                    img {
+                        width: 100%;
+                        aspect-ratio: 16 / 9;
+                        object-fit: cover;
+
+                        border-radius: inherit;
+
+                        transform: translateY(-30%);
+                    }
+
+                    .item-title {
+                        width: 100%;
+
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        font-family: fantasy;
+
+                        &::before,
+                        &::after {
+                            content: '';
+                            width: 100%;
+                            height: 1px;
+                            background-color: black;
+                        }
+
+                        span {
+                            white-space: nowrap;
+                            padding: 0 0.5em;
+                        }
+                    }
+
+                    .cta {
+                        width: 100%;
+
+                        color: white;
+                        text-align: center;
+
+                        position: relative;
+                        isolation: isolate;
+
+                        padding: 1em 1.2em;
+                        $BORDER_RADIUS: 12px;
+
+                        border-radius: $BORDER_RADIUS;
+                        margin-top: auto;
+
+                        &.special {
+                            background-color: rgba(0, 0, 0, 1);
+
+                            .btn-bg {
+                                background-color: var(--sixty-percent);
+                                border-radius: $BORDER_RADIUS;
+                                opacity: 1;
+
+                                position: absolute;
+                                inset: 2px;
+                                z-index: 2;
+                            }
+
+                            .blur-wrapper {
+                                position: absolute;
+                                inset: 0;
+
+                                width: 100%;
+                                height: 100%;
+
+                                border-radius: inherit;
+
+                                z-index: 1;
+
+                                overflow: hidden;
+
+                                .bg-blur {
+                                    width: 100%;
+                                    height: 100%;
+
+                                    will-change: transform;
+
+                                    background: radial-gradient(
+                                        19.1205% 46.9112% at 50% 50%,
+                                        rgb(255, 255, 255) 0%,
+                                        rgba(255, 255, 255, 0) 100%
+                                    );
+
+                                    animation: blur-anim 3s linear infinite;
+
+                                    @keyframes blur-anim {
+                                        0% {
+                                            transform: translate(-50%, -50%);
+                                        }
+                                        25% {
+                                            transform: translate(50%, -50%);
+                                        }
+                                        50% {
+                                            transform: translate(50%, 50%);
+                                        }
+                                        75% {
+                                            transform: translate(-50%, 50%);
+                                        }
+                                        100% {
+                                            transform: translate(-50%, -50%);
+                                        }
+                                    }
+                                }
+                            }
+
+                            span {
+                                position: relative;
+                                z-index: 3;
+                            }
+                        }
+
+                        &:not(.special) {
+                            width: 100%;
+
+                            background-color: var(--sixty-percent);
+                        }
+                    }
                 }
             }
         }
