@@ -207,6 +207,7 @@
                 transform: scale(0.5) rotate3d(1, 1, 1, 45deg);
 
                 will-change: transform;
+                transition: 0.5s ease;
 
                 &.reverse {
                     flex-direction: column-reverse;
