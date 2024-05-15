@@ -198,7 +198,7 @@
                     width: clamp(0px, 100%, 350px);
                     aspect-ratio: 1 / 1.3;
 
-                    border-radius: 1.5rem;
+                    border-radius: 1rem;
 
                     background-color: white;
 
@@ -229,19 +229,57 @@
                         align-items: center;
                         justify-content: center;
 
-                        font-family: fantasy;
+                        margin-top: -1em;
+
+                        font-family: 'Poetsen One', sans-serif;
 
                         &::before,
                         &::after {
                             content: '';
                             width: 100%;
                             height: 1px;
-                            background-color: black;
+                        }
+
+                        &::before {
+                            background: linear-gradient(
+                                45deg,
+                                black 40%,
+                                transparent
+                            );
+                        }
+                        &::after {
+                            background: linear-gradient(
+                                -45deg,
+                                black,
+                                transparent
+                            );
                         }
 
                         span {
                             white-space: nowrap;
                             padding: 0 0.5em;
+                        }
+                    }
+
+                    .item-details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.7em;
+
+                        width: 100%;
+                        margin: auto 0;
+
+                        padding: 0 0.2em;
+
+                        .item-detail {
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5em;
+
+                            svg {
+                                color: green;
+                            }
                         }
                     }
 
@@ -255,7 +293,7 @@
                         isolation: isolate;
 
                         padding: 1em 1.2em;
-                        $BORDER_RADIUS: 12px;
+                        $BORDER_RADIUS: 8px;
 
                         border-radius: $BORDER_RADIUS;
                         margin-top: auto;
@@ -264,7 +302,11 @@
                             background-color: rgba(0, 0, 0, 1);
 
                             .btn-bg {
-                                background-color: var(--sixty-percent);
+                                background: linear-gradient(
+                                    45deg,
+                                    var(--sixty-percent),
+                                    red
+                                );
                                 border-radius: $BORDER_RADIUS;
                                 opacity: 1;
 
@@ -329,7 +371,11 @@
                         &:not(.special) {
                             width: 100%;
 
-                            background-color: var(--sixty-percent);
+                            background: linear-gradient(
+                                45deg,
+                                var(--sixty-percent),
+                                red
+                            );
                         }
                     }
                 }
