@@ -18,7 +18,7 @@ function send_msg {
 
 if [ -f $HASH_FILENAME ]; then
     if [[ $(cat $HASH_FILENAME) == $(sha256sum main.db) ]]; then
-        send_msg "database has not changed 🪐"
+        echo "database has not changed 🪐 $(date +'%F %T')"
         exit
     fi
 fi
