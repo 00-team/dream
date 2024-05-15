@@ -9,6 +9,11 @@ import psnImg from 'static/imgs/psn.jpg'
 import spotifyImg from 'static/imgs/spotify.png'
 import xboxImg from 'static/imgs/xbox.jpg'
 import youtubeImg from 'static/imgs/youtube.png'
+import HBOImg from 'static/imgs/hbo.png'
+import googleImg from 'static/imgs/google.png'
+import grammerlyImg from 'static/imgs/grammerly.png'
+import netflixImg from 'static/imgs/netflix.jpg'
+import primeImg from 'static/imgs/prime.png'
 
 export const Services: Component = props => {
     let headerContainer: HTMLElement
@@ -89,6 +94,8 @@ export const Services: Component = props => {
                 <ServiceIcon link='/#' img={youtubeImg} />
                 <ServiceIcon link='/#' img={appleMusicImg} />
             </div>
+
+            <ServicesWrapper />
         </section>
     )
 }
@@ -124,5 +131,82 @@ const ServiceIcon: Component<ServiceIconProps> = P => {
                 ></div>
             </div>
         </a>
+    )
+}
+
+const ServicesWrapper: Component = () => {
+    return (
+        <div class='services-wrapper'>
+            <div class='services-items'></div>
+            <div class='items-bg'>
+                <div class='item-row section_title'>
+                    <div class='row apple'>
+                        <img src={appleMusicImg} alt='' />
+                        <span>Apple Music</span>
+                    </div>
+                    <div class='row psn'>
+                        <img src={psnImg} alt='' />
+                        <span>PSN</span>
+                    </div>
+                    <div class='row xbox'>
+                        <img src={xboxImg} alt='' />
+                        <span>Xbox</span>
+                    </div>
+                    <div class='row canva'>
+                        <img src={CanvaImg} alt='' />
+                        <span>Canva</span>
+                    </div>
+                    <div class='row discord'>
+                        <img src={discordImg} alt='' />
+                        <span>Discord Nitro</span>
+                    </div>
+                </div>
+                <div class='item-row section_title reverse'>
+                    <div class='row prime'>
+                        <img src={primeImg} alt='' />
+                        <span>Prime Gaming</span>
+                    </div>
+
+                    <div class='row google'>
+                        <img src={googleImg} alt='' />
+                        <span>Google One</span>
+                    </div>
+                    <div class='row grammerly'>
+                        <img src={grammerlyImg} alt='' />
+                        <span>Grammerly</span>
+                    </div>
+                    <div class='row netflix'>
+                        <img src={netflixImg} alt='' />
+                        <span>Netflix</span>
+                    </div>
+                    <div class='row hbo'>
+                        <img src={HBOImg} alt='' />
+                        <span>Hbo Max</span>
+                    </div>
+                </div>
+                <div class='item-row section_title'>
+                    <div class='row apple'>
+                        <img src={appleMusicImg} alt='' />
+                        <span>Apple Music</span>
+                    </div>
+                    <div class='row psn'>
+                        <img src={psnImg} alt='' />
+                        <span>PSN</span>
+                    </div>
+                    <div class='row xbox'>
+                        <img src={xboxImg} alt='' />
+                        <span>Xbox</span>
+                    </div>
+                    <div class='row canva'>
+                        <img src={CanvaImg} alt='' />
+                        <span>Canva</span>
+                    </div>
+                    <div class='row discord'>
+                        <img src={discordImg} alt='' />
+                        <span>Discord Nitro</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
