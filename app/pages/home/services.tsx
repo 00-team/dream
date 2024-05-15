@@ -15,6 +15,10 @@ import spotifyImg from 'static/imgs/spotify.png'
 import xboxImg from 'static/imgs/xbox.jpg'
 import youtubeImg from 'static/imgs/youtube.png'
 
+import spotifyBanner from 'static/imgs/banners/spotify.png'
+import discordBanner from 'static/imgs/banners/discord.jpg'
+import tradingviewBanner from 'static/imgs/banners/tradingview.jpg'
+
 export const Services: Component = props => {
     let headerContainer: HTMLElement
     let secHeader1: HTMLElement
@@ -199,7 +203,43 @@ const ServicesWrapper: Component = () => {
                 <h5 class='title'>پرفروش ترین هامون</h5>
 
                 <div class='items-wrapper'>
-                    <div class='item-service'></div>
+                    <div class='item-service'>
+                        <img src={discordBanner} alt='' />
+
+                        <p class='title item-title'>
+                            <span>Discord Nitro</span>
+                        </p>
+
+                        <a href='#about' class='cta title_smaller'>
+                            <span>برو بریم</span>
+                        </a>
+                    </div>
+                    <div class='item-service main'>
+                        <img src={spotifyBanner} alt='' />
+
+                        <p class='title item-title'>
+                            <span>Spotify</span>
+                        </p>
+
+                        <a href='#about' class='cta title_smaller special'>
+                            <span>برو بریم</span>
+                            <div class='blur-wrapper'>
+                                <div class='bg-blur'></div>
+                            </div>
+                            <div class='btn-bg'></div>
+                        </a>
+                    </div>
+                    <div class='item-service'>
+                        <img src={tradingviewBanner} alt='' />
+
+                        <p class='title item-title'>
+                            <span>TradingView</span>
+                        </p>
+
+                        <a href='#about' class='cta title_smaller'>
+                            <span>برو بریم</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class='items-bg'>
