@@ -51,6 +51,17 @@ export const Services: Component = props => {
 
                 icons.forEach((elem: HTMLElement, index) => {
                     elem.style.transform = `translateY(${Math.max(transform, 0)}px)`
+
+                    if (index === 0 || index === 6) {
+                        return (elem.style.transitionDelay = '0.15s')
+                    }
+                    if (index === 1 || index === 5) {
+                        return (elem.style.transitionDelay = '0.1s')
+                    }
+                    if (index === 2 || index === 4) {
+                        return (elem.style.transitionDelay = '0.05s')
+                    }
+                    return (elem.style.transitionDelay = '0.0s')
                 })
             }
         }
