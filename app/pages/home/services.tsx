@@ -21,6 +21,8 @@ import spotifyBanner from 'static/imgs/banners/spotify.png'
 import tradingviewBanner from 'static/imgs/banners/tradingview.jpg'
 
 export const Services: Component = props => {
+    let section: HTMLElement
+
     let headerContainer: HTMLElement
     let secHeader1: HTMLElement
     let secHeader2: HTMLElement
@@ -67,6 +69,10 @@ export const Services: Component = props => {
     }
 
     onMount(() => {
+        section = document.querySelector<HTMLElement>(
+            'section.services-container'
+        )
+
         secHeader1 = document.querySelector<HTMLElement>(
             'span.services-head#right'
         )
@@ -129,6 +135,14 @@ export const Services: Component = props => {
                 if (rowScale >= 1) {
                     itemsBg.className += ' active'
                     servicesItems.className += ' active'
+                }
+
+                if (innerWidth <= 768 && rowScale >= 1) {
+                    servicesWrapper.style.minHeight = '100vh'
+                    servicesWrapper.style.height = 'auto'
+
+                    section.style.minHeight = '200vh'
+                    section.style.height = 'auto'
                 }
             }
         }
