@@ -1,5 +1,6 @@
 import { Component } from 'solid-js'
 import { About } from './about'
+import { Customers } from './customers'
 import { Services } from './services'
 
 import './style/home.scss'
@@ -14,6 +15,8 @@ const Home: Component<{}> = props => {
             <About />
 
             <Services />
+
+            <Customers />
         </main>
     )
 }
