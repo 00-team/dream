@@ -23,7 +23,7 @@ section.customers {
 
             transform-origin: center center;
 
-            animation: cursor-effect 10s ease-in-out backwards;
+            animation: cursor-effect 10s ease-in-out backwards infinite;
 
             @keyframes cursor-effect {
                 0% {
