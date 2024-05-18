@@ -8,10 +8,17 @@ section.customers {
 
     padding: 3vw 5vh;
 
+    background: linear-gradient(to top, #ff6eff, transparent);
+    overflow: hidden;
+
     h3.head {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        min-height: 2em;
+
+        margin-bottom: 3em;
 
         .cursor {
             width: 2px;
@@ -59,6 +66,56 @@ section.customers {
                 }
                 100% {
                     transform: scaleY(0);
+                }
+            }
+        }
+    }
+
+    .customer-cards {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+
+        .card-row {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+
+            .customer-card {
+                width: clamp(0px, 100%, 350px);
+                aspect-ratio: 1.5/ 1;
+
+                flex-shrink: 0;
+
+                background-color: white;
+                border-radius: 16px;
+
+                padding: 1em;
+
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+
+                .user-profile {
+                    width: 75px;
+                    aspect-ratio: 1/1;
+
+                    border-radius: 100vmax;
+
+                    transform: translateY(calc(-50% - 1em));
+                }
+
+                .user-name {
+                    margin-top: -1em;
+                    margin-bottom: 1em;
+                }
+                .user-review {
+                    text-align: center;
                 }
             }
         }
