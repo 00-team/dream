@@ -24,6 +24,8 @@ export const Customers: Component = props => {
         section = document.querySelector<HTMLElement>('section.customers')
         htmlWord = document.querySelector<HTMLElement>('span#type-effect')
 
+        let counter = 0
+
         document.onscroll = () => {
             let top = section.getBoundingClientRect().top - innerHeight + 100
 
@@ -31,20 +33,24 @@ export const Customers: Component = props => {
                 let currentScrollPosition = scrollY
 
                 if (currentScrollPosition > lastScrollPosition) {
+                    counter += 0.2
+
                     if (wordCount <= words[0].length + 1) {
                         let PauseAudio
 
                         clearTimeout(PauseAudio)
 
+                        console.log(counter.toFixed(0))
+
                         if (!(audio.duration > 0 && !audio.paused)) {
                             audio.play()
                         }
 
-                        let letter = Math.floor(-top / 20) - 1
+                        let letter = +counter.toFixed(0)
 
-                        if (letter === wordCount) return
+                        if (letter - 1 === wordCount) return
 
-                        wordCount = letter
+                        wordCount = letter - 1
 
                         typeMessage()
 
