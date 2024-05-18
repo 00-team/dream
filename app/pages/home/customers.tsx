@@ -40,8 +40,6 @@ export const Customers: Component = props => {
 
                         clearTimeout(PauseAudio)
 
-                        console.log(counter.toFixed(0))
-
                         if (!(audio.duration > 0 && !audio.paused)) {
                             audio.play()
                         }
@@ -88,6 +86,49 @@ export const Customers: Component = props => {
                     <div class='cursor'></div>
                 </h3>
             </header>
+            <CustomerCards />
         </section>
+    )
+}
+
+const CustomerCards: Component = () => {
+    return (
+        <div class='customer-cards'>
+            <div class='card-row one'>
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+            </div>
+            <div class='card-row two'>
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
+            </div>
+        </div>
+    )
+}
+
+const CustomerCard: Component = () => {
+    return (
+        <div class='customer-card'>
+            <img
+                class='user-profile'
+                loading='lazy'
+                decoding='async'
+                src='https://picsum.photos/200/200'
+            />
+            <h4 class='user-name title'>عباس نعمتی</h4>
+            <p class='user-review description'>
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                استفاده از طراحان گرافیک است
+            </p>
+        </div>
     )
 }
