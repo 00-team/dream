@@ -8,15 +8,28 @@ section.faq-container {
 
     background-image: linear-gradient(to bottom, #2196f3, transparent);
 
-    .header {
+    .faq-header {
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 2em;
 
-        .reverse {
-            transform: scaleX(-1);
+        .header-icon {
+            rotate: 20deg;
+
+            transform: translateY(50px);
+
+            will-change: transform;
+            transition: 0.5s;
+
+            &.reverse {
+                rotate: -20deg;
+
+                svg {
+                    transform: scaleX(-1);
+                }
+            }
         }
     }
 }
