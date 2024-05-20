@@ -86,6 +86,16 @@ section.customers {
             justify-content: center;
             gap: 5px;
 
+            will-change: transform;
+            transition: 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+
+            &.one {
+                justify-content: flex-start;
+            }
+            &.two {
+                justify-content: flex-end;
+            }
+
             .customer-card {
                 width: clamp(0px, 100%, 350px);
                 aspect-ratio: 1.5/ 1;
