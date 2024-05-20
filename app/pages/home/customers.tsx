@@ -92,9 +92,37 @@ export const Customers: Component = props => {
 }
 
 const CustomerCards: Component = () => {
+    let container: HTMLElement
+    let cardRowOne: HTMLElement
+    let cardRowTwo: HTMLElement
+
+    onMount(() => {
+        container = document.querySelector<HTMLElement>('.customer-cards')
+        cardRowOne = document.querySelector<HTMLElement>('.card-row.one')
+        cardRowTwo = document.querySelector<HTMLElement>('.card-row.two')
+
+        let oneMax = cardRowOne.getBoundingClientRect().right / 2
+        let twoMax = cardRowOne.getBoundingClientRect().left / 2
+
+        document.addEventListener('scroll', () => {
+            let top = container.getBoundingClientRect().top - innerHeight
+
+            let oneX = Math.min(oneMax, -top)
+            let twoX = Math.min(twoMax, top)
+
+            if (top <= 0 && top >= -innerHeight) {
+                cardRowOne.style.transform = `translateX(${Math.max(oneX, 0)}px)`
+                cardRowTwo.style.transform = `translateX(${Math.min(twoX, 0)}px)`
+            }
+        })
+    })
+
     return (
         <div class='customer-cards'>
             <div class='card-row one'>
+                <CustomerCard />
+                <CustomerCard />
+                <CustomerCard />
                 <CustomerCard />
                 <CustomerCard />
                 <CustomerCard />
@@ -116,13 +144,15 @@ const CustomerCards: Component = () => {
 }
 
 const CustomerCard: Component = () => {
+    let x = Math.floor(Math.random() * 10)
+    let y = Math.floor(Math.random() * 10)
     return (
         <div class='customer-card'>
             <img
                 class='user-profile'
                 loading='lazy'
                 decoding='async'
-                src='https://picsum.photos/200/200'
+                src={`https://picsum.photos/20${y}/20${x}`}
             />
             <h4 class='user-name title'>عباس نعمتی</h4>
             <p class='user-review description'>
