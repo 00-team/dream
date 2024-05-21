@@ -79,6 +79,8 @@
         position: relative;
         isolation: isolate;
 
+        overflow: hidden;
+
         z-index: 2;
 
         @media screen and (max-width: 768px) {
