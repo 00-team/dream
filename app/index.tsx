@@ -1,4 +1,5 @@
 import { Route, Router } from '@solidjs/router'
+import Footer from 'layout/footer'
 import { lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 
@@ -21,6 +22,8 @@ export const App = () => {
             <Router>
                 <Route path={'/'} component={Home} />
             </Router>
+
+            <Footer />
         </>
     )
 }
