@@ -73,7 +73,7 @@ export const About: Component = props => {
     })
 
     return (
-        <section class='about-us'>
+        <section class='about-us' id='about'>
             <div class='header-texts'>
                 <h3 class='section_title'>چرا</h3>
                 <h2 class='section_title logo'>
