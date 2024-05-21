@@ -1,5 +1,5 @@
-import { FaqIcon } from 'icons/home'
-import { Component, onMount } from 'solid-js'
+import { ArrowDownIcon, FaqIcon } from 'icons/home'
+import { Component, createSignal, onMount } from 'solid-js'
 
 import './style/faq.scss'
 
@@ -7,12 +7,15 @@ const Faq: Component = props => {
     let container: HTMLElement
     let header: HTMLElement
     let icons: NodeListOf<HTMLElement>
+    let faqs: NodeListOf<HTMLElement>
 
     onMount(() => {
         header = document.querySelector('.faq-header')
         icons = document.querySelectorAll('.header-icon')
 
-        var observer = new IntersectionObserver(
+        faqs = document.querySelectorAll('.faq-row')
+
+        var observer1 = new IntersectionObserver(
             ([entry]) => {
                 if (entry && entry.isIntersecting) {
                     let transform = Math.floor(entry.intersectionRatio * 50)
@@ -27,7 +30,21 @@ const Faq: Component = props => {
             }
         )
 
-        observer.observe(header)
+        observer1.observe(header)
+
+        var observer2 = new IntersectionObserver(
+            ([entry]) => {
+                if (entry && entry.isIntersecting) {
+                    entry.target.className += ' transform'
+                    observer2.unobserve(entry.target)
+                }
+            },
+            {
+                threshold: 1,
+            }
+        )
+
+        faqs.forEach((elem: HTMLElement) => observer2.observe(elem))
     })
 
     return (
@@ -41,8 +58,59 @@ const Faq: Component = props => {
                     <FaqIcon class='reverse' size={50} />
                 </div>
             </header>
-            <div class='faq-wrapper'></div>
+            <div class='faq-wrapper'>
+                <FaqRow
+                    q='چه روش های پرداختی را می پذیرید؟'
+                    a='لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است'
+                />
+                <FaqRow
+                    q='چگونه می توانم با پشتیبانی تماس بگیرم'
+                    a='
+                پشتیبانی دریم پی 24 ساعته روز، در هفت روز هفته در خدمت شماست و از بخش ارتباط با ما میتونید با ما در ارتباط باشید.'
+                />
+                <FaqRow
+                    q='چه روش های پرداختی را می پذیرید؟'
+                    a='لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است'
+                />
+                <FaqRow
+                    q='چگونه می توانم با پشتیبانی تماس بگیرم'
+                    a='
+                پشتیبانی دریم پی 24 ساعته روز، در هفت روز هفته در خدمت شماست و از بخش ارتباط با ما میتونید با ما در ارتباط باشید.'
+                />
+                <FaqRow
+                    q='چه روش های پرداختی را می پذیرید؟'
+                    a='لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است'
+                />
+                <FaqRow
+                    q='چگونه می توانم با پشتیبانی تماس بگیرم'
+                    a='
+                پشتیبانی دریم پی 24 ساعته روز، در هفت روز هفته در خدمت شماست و از بخش ارتباط با ما میتونید با ما در ارتباط باشید.'
+                />
+            </div>
         </section>
+    )
+}
+
+interface FaqRowProps {
+    q: string
+    a: string
+}
+
+export const FaqRow: Component<FaqRowProps> = P => {
+    const [open, setOpen] = createSignal(false)
+
+    return (
+        <div
+            class='faq-row'
+            classList={{ active: open() }}
+            onclick={() => setOpen(s => !s)}
+        >
+            <h4 class='title faq-title'>
+                <span>{P.q}</span>
+                <ArrowDownIcon />
+            </h4>
+            <p class='title_smaller faq-description'>{P.a}</p>
+        </div>
     )
 }
 
