@@ -17,6 +17,8 @@ section.faq-container {
         justify-content: center;
         gap: 2em;
 
+        margin-bottom: 4em;
+
         .header-icon {
             rotate: 20deg;
 
@@ -31,6 +33,75 @@ section.faq-container {
                 svg {
                     transform: scaleX(-1);
                 }
+            }
+        }
+    }
+
+    .faq-wrapper {
+        width: clamp(0px, 100%, 1000px);
+
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 2em;
+
+        .faq-row {
+            background-color: transparent;
+            color: black;
+
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+
+            padding-bottom: 2em;
+            border-bottom: 1px solid black;
+
+            max-height: 3.5em;
+            overflow: hidden;
+
+            cursor: pointer;
+
+            will-change: transform;
+            transition:
+                0.7s,
+                transform 0.3s ease-in-out;
+
+            &.active {
+                transition: 2s;
+                max-height: 100vh;
+
+                svg {
+                    transform: rotate(-180deg);
+                }
+            }
+            &.transform {
+                &:nth-child(odd) {
+                    transform: translateX(1em);
+                }
+                &:nth-child(even) {
+                    transform: translateX(-1em);
+                }
+            }
+
+            svg {
+                will-change: transform;
+                transition: 0.5s;
+            }
+
+            h4.faq-title {
+                width: 100%;
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                margin-bottom: 1em;
+            }
+            p.faq-description {
+                // text-wrap: balance;
+                width: clamp(0px, 100%, 700px);
+                line-height: 1.8em;
             }
         }
     }
