@@ -79,7 +79,7 @@ export const Customers: Component = props => {
     }
 
     return (
-        <section class='customers'>
+        <section class='customers' id='customers'>
             <header>
                 <h3 class='section_title head'>
                     <span id='type-effect'></span>
