@@ -149,7 +149,7 @@ export const Services: Component = props => {
     })
 
     return (
-        <section class='services-container'>
+        <section class='services-container' id='products'>
             <header class='section-header'>
                 <h3 class='section_title' id='services_header'>
                     <span class='services-head' id='right'>
