@@ -101,8 +101,14 @@ const CustomerCards: Component = () => {
         cardRowOne = document.querySelector<HTMLElement>('.card-row.one')
         cardRowTwo = document.querySelector<HTMLElement>('.card-row.two')
 
-        let oneMax = cardRowOne.getBoundingClientRect().right / 2
-        let twoMax = cardRowOne.getBoundingClientRect().left / 2
+        let oneMax =
+            innerWidth <= 768
+                ? 1000
+                : cardRowOne.getBoundingClientRect().right / 2
+        let twoMax =
+            innerWidth <= 768
+                ? 1000
+                : cardRowOne.getBoundingClientRect().left / 2
 
         document.addEventListener('scroll', () => {
             let top = container.getBoundingClientRect().top - innerHeight
@@ -110,7 +116,10 @@ const CustomerCards: Component = () => {
             let oneX = Math.min(oneMax, -top)
             let twoX = Math.min(twoMax, top)
 
-            if (top <= 0 && top >= -innerHeight) {
+            if (
+                top <= 0 &&
+                top >= (innerWidth <= 768 ? -innerHeight * 2 : -innerHeight)
+            ) {
                 cardRowOne.style.transform = `translateX(${Math.max(oneX, 0)}px)`
                 cardRowTwo.style.transform = `translateX(${Math.min(twoX, 0)}px)`
             }
