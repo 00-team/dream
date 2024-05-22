@@ -6,7 +6,7 @@ footer.footer-container {
 
     padding: 3em 2em;
 
-    background: radial-gradient(
+    background-image: radial-gradient(
         69.1205% 50% at 50% 0%,
         #2196f3 0%,
         rgba(255, 255, 255, 0) 70%
@@ -16,6 +16,14 @@ footer.footer-container {
     position: relative;
     isolation: isolate;
     overflow: hidden;
+
+    @media screen and (min-width: 768px) {
+        background-image: radial-gradient(
+            69.1205% 50% at 100% 0%,
+            #2196f3 0%,
+            rgba(255, 255, 255, 0) 70%
+        );
+    }
 
     .footer-wrapper {
         display: flex;
