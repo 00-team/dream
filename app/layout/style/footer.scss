@@ -40,6 +40,10 @@ footer.footer-container {
                 align-items: center;
                 gap: 0.5em;
 
+                @media screen and (max-width: 768px) {
+                    flex-direction: column;
+                }
+
                 img {
                     width: clamp(0px, 100%, 200px);
 
