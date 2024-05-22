@@ -1,9 +1,10 @@
 import { Route, Router } from '@solidjs/router'
-import Footer from 'layout/footer'
 import { lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 
 const Home = lazy(() => import('./pages/home'))
+const Footer = lazy(() => import('./layout/footer'))
+const Navbar = lazy(() => import('./layout/navbar'))
 
 import './style/base.scss'
 import './style/config.scss'
@@ -19,6 +20,7 @@ export const App = () => {
 
     return (
         <>
+            <Navbar />
             <Router>
                 <Route path={'/'} component={Home} />
             </Router>
