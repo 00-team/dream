@@ -136,14 +136,6 @@ export const Services: Component = props => {
                     itemsBg.className += ' active'
                     servicesItems.className += ' active'
                 }
-
-                if (innerWidth <= 768 && rowScale >= 1) {
-                    servicesWrapper.style.minHeight = '100vh'
-                    servicesWrapper.style.height = 'auto'
-
-                    section.style.minHeight = '200vh'
-                    section.style.height = 'auto'
-                }
             }
         }
     })
@@ -213,7 +205,10 @@ const ServiceIcon: Component<ServiceIconProps> = P => {
 const ServicesWrapper: Component = () => {
     return (
         <div class='services-wrapper'>
-            <div class='services-items'>
+            <div
+                class='services-items'
+                classList={{ active: innerWidth <= 768 }}
+            >
                 <h4 class='title_hero'>اماده ای؟ بزن بریم</h4>
                 <h5 class='title'>پرفروش ترین هامون</h5>
 
