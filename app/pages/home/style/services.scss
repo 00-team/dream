@@ -15,6 +15,10 @@
         padding-top: 50px;
     }
 
+    @media screen and (max-width: 768px) {
+        height: auto;
+    }
+
     .section-header {
         width: 100%;
 
@@ -85,6 +89,7 @@
 
         @media screen and (max-width: 768px) {
             justify-content: center;
+            overflow: visible;
         }
 
         .icon-container {
@@ -167,6 +172,12 @@
 
         isolation: isolate;
         overflow: hidden;
+
+        @media screen and (max-width: 768px) {
+            position: static;
+            min-height: 100vh;
+            height: auto;
+        }
 
         .services-items {
             width: clamp(0px, 100%, 1550px);
@@ -443,6 +454,10 @@
 
             transition: 0.5s ease-in-out;
 
+            @media screen and (max-width: 768px) {
+                display: none;
+            }
+
             &.active {
                 filter: blur(5px);
             }
@@ -461,6 +476,10 @@
 
                 will-change: transform;
                 transition: 0.5s ease;
+
+                @media screen and (max-width: 768px) {
+                    transition: none;
+                }
 
                 &.reverse {
                     flex-direction: column-reverse;
