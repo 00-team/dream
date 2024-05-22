@@ -1,2 +1,48 @@
-nav.nav-container {
+nav.nav-big-container {
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+
+    background-color: transparent;
+
+    z-index: 999;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+
+    isolation: isolate;
+
+    &::before {
+        content: '';
+
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background-color: white;
+
+        z-index: -1;
+
+        will-change: transform;
+        transform: translateY(-100%);
+
+        transition: 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+    }
+
+    &.active {
+        &::before {
+            transform: translateY(0);
+        }
+    }
+
+    .nav-logo {
+        width: 75px;
+        aspect-ratio: 1/1;
+    }
 }
