@@ -1,14 +1,15 @@
 section.faq-container {
     width: 100%;
-    height: 100vh;
 
-    padding: 3vw 5vh;
+    padding: 5vh 3vw;
 
     display: flex;
     align-items: center;
     flex-direction: column;
 
     background-image: linear-gradient(to bottom, #2196f3, transparent);
+
+    overflow: hidden;
 
     .faq-header {
         width: 100%;
@@ -45,6 +46,10 @@ section.faq-container {
         flex-direction: column;
         gap: 2em;
 
+        @media screen and (max-width: 768px) {
+            gap: 4em;
+        }
+
         .faq-row {
             background-color: transparent;
             color: black;
@@ -62,6 +67,10 @@ section.faq-container {
 
             cursor: pointer;
 
+            @media screen and (max-width: 768px) {
+                max-height: 4.5em;
+            }
+
             will-change: transform;
             transition:
                 0.7s,
@@ -71,22 +80,27 @@ section.faq-container {
                 transition: 2s;
                 max-height: 100vh;
 
+                p.faq-description {
+                    opacity: 1;
+                }
+
                 svg {
                     transform: rotate(-180deg);
                 }
             }
-            &.transform {
-                &:nth-child(odd) {
-                    transform: translateX(1em);
+            @media screen and (min-width: 768px) {
+                &.transform {
+                    &:nth-child(odd) {
+                        transform: translateX(1em);
+                    }
+                    &:nth-child(even) {
+                        transform: translateX(-1em);
+                    }
                 }
-                &:nth-child(even) {
-                    transform: translateX(-1em);
+                svg {
+                    will-change: transform;
+                    transition: 0.5s;
                 }
-            }
-
-            svg {
-                will-change: transform;
-                transition: 0.5s;
             }
 
             h4.faq-title {
@@ -97,11 +111,19 @@ section.faq-container {
                 justify-content: space-between;
 
                 margin-bottom: 1em;
+
+                span {
+                    line-height: 1.8em;
+                }
             }
             p.faq-description {
                 // text-wrap: balance;
                 width: clamp(0px, 100%, 700px);
                 line-height: 1.8em;
+
+                opacity: 0;
+
+                transition: 0.3s;
             }
         }
     }
