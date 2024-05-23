@@ -85,7 +85,7 @@ nav.nav-big-container {
             background-color: #3fd3ff;
 
             transform: scaleX(0);
-            transform-origin: right center;
+            transform-origin: left center;
 
             will-change: transform;
             transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
@@ -93,7 +93,7 @@ nav.nav-big-container {
             &.show {
                 transition-duration: 0.4s;
                 transform: scaleX(1);
-                transform-origin: left center;
+                transform-origin: right center;
             }
         }
     }
