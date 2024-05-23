@@ -40,7 +40,37 @@ const Contact: Component = props => {
                     باما در ارتباط باش!
                 </h5>
             </header>
-            <div class='contact-wrapper'></div>
+            <div class='contact-wrapper'>
+                <div class='email-us'>
+                    <h6 class='title_smaller'>پیام به ما</h6>
+                    <input
+                        type='text'
+                        class='username title_smaller'
+                        placeholder='نام...'
+                    />
+                    <input
+                        type='text'
+                        class='email title_smaller'
+                        placeholder='ایمیل...'
+                    />
+                    <textarea
+                        name=''
+                        id=''
+                        cols='30'
+                        rows='10'
+                        class='message title_smaller'
+                        placeholder='پیام شما...'
+                    ></textarea>
+                    <a class='cta title_smaller special'>
+                        <span>بفرست</span>
+                        <div class='blur-wrapper'>
+                            <div class='bg-blur'></div>
+                        </div>
+                        <div class='btn-bg'></div>
+                    </a>
+                </div>
+                <div class='socials'></div>
+            </div>
         </section>
     )
 }
