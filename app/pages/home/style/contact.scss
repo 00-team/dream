@@ -37,15 +37,14 @@ section.contact {
         margin-top: 4em;
 
         width: clamp(0px, 100%, 1500px);
-        aspect-ratio: 2 / 1;
 
         display: flex;
         align-items: center;
-        flex-direction: column;
+        justify-content: space-between;
 
         padding: 2.5em 2.5em;
         border-radius: 3rem;
-        background: rgb(229 243 255 / 68%);
+        background: rgb(177 222 255 / 80%);
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
         color: black;
@@ -84,6 +83,121 @@ section.contact {
                 #2196f3 0%,
                 rgba(255, 255, 255, 0) 45%
             );
+        }
+
+        .email-us {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: clamp(0px, 100%, 500px);
+
+            h6 {
+                margin-bottom: 1em;
+            }
+
+            input {
+                margin-bottom: 1em;
+
+                border: none;
+                border-radius: 0.7rem;
+
+                padding: 1em;
+                background-color: white;
+                color: black;
+            }
+            textarea {
+                margin-bottom: 1em;
+
+                background-color: white;
+                color: black;
+
+                padding: 1em;
+
+                border-radius: 0.7rem;
+                border: none;
+
+                resize: none;
+            }
+            a.special {
+                $BORDER_RADIUS: 0.7rem;
+
+                width: clamp(0px, 100%, 250px);
+
+                color: white;
+                text-align: center;
+
+                margin-top: 1em;
+                padding: 1em 1.2em;
+
+                border-radius: $BORDER_RADIUS;
+                background-color: rgba(0, 0, 0, 1);
+
+                position: relative;
+                isolation: isolate;
+
+                .btn-bg {
+                    background: linear-gradient(45deg, #2a78bd, #00ffd0);
+                    border-radius: $BORDER_RADIUS;
+                    opacity: 1;
+
+                    position: absolute;
+                    inset: 2px;
+                    z-index: 2;
+                }
+
+                span {
+                    color: white;
+                    position: relative;
+                    z-index: 3;
+                }
+
+                .blur-wrapper {
+                    position: absolute;
+                    inset: 0;
+
+                    width: 100%;
+                    height: 100%;
+
+                    border-radius: inherit;
+
+                    z-index: 1;
+
+                    overflow: hidden;
+
+                    .bg-blur {
+                        width: 100%;
+                        height: 100%;
+
+                        will-change: transform;
+
+                        background: radial-gradient(
+                            19.1205% 46.9112% at 50% 50%,
+                            rgb(255, 255, 255) 0%,
+                            rgba(255, 255, 255, 0) 100%
+                        );
+
+                        animation: blur-anim 3s linear infinite;
+
+                        @keyframes blur-anim {
+                            0% {
+                                transform: translate(-50%, -50%);
+                            }
+                            25% {
+                                transform: translate(50%, -50%);
+                            }
+                            50% {
+                                transform: translate(50%, 50%);
+                            }
+                            75% {
+                                transform: translate(-50%, 50%);
+                            }
+                            100% {
+                                transform: translate(-50%, -50%);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
