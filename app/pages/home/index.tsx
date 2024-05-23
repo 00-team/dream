@@ -1,5 +1,6 @@
 import { Component } from 'solid-js'
 import { About } from './about'
+import Contact from './contact'
 import { Customers } from './customers'
 import Faq from './faq'
 import { Services } from './services'
@@ -20,6 +21,8 @@ const Home: Component<{}> = props => {
             <Customers />
 
             <Faq />
+
+            <Contact />
         </main>
     )
 }
