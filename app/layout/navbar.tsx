@@ -2,7 +2,7 @@ import { Component, onMount } from 'solid-js'
 
 import './style/navbar.scss'
 
-import { FaqIcon } from 'icons/home'
+import { ArrowDownIcon, FaqIcon } from 'icons/home'
 import { HomeIcon, ProductsIcon, SupportIcon } from 'icons/navbar'
 import logo from 'static/imgs/logo.png'
 
@@ -28,13 +28,13 @@ const Navbar: Component = props => {
             }
         })
 
-        navLinks.forEach((link: HTMLElement) => {
+        navLinks.forEach((link: HTMLElement, index) => {
             link.addEventListener('mouseenter', () => {
                 let left = link.offsetLeft
 
                 console.log(left)
 
-                line.style.left = `calc(${left}px + 1em)`
+                line.style.left = `calc(${left}px + 1.${index * 2}em)`
                 line.style.width = `${link.getBoundingClientRect().width / 1.5}px`
             })
         })
@@ -59,7 +59,8 @@ const Navbar: Component = props => {
                     </a>
                     <a class='nav-link title_small'>
                         <ProductsIcon />
-                        محوصلات
+                        محصولات
+                        <ArrowDownIcon class='drop' />
                     </a>
                     <a class='nav-link title_small'>
                         <SupportIcon />
