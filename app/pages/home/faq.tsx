@@ -4,7 +4,6 @@ import { Component, createSignal, onMount } from 'solid-js'
 import './style/faq.scss'
 
 const Faq: Component = props => {
-    let container: HTMLElement
     let header: HTMLElement
     let icons: NodeListOf<HTMLElement>
     let faqs: NodeListOf<HTMLElement>
