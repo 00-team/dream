@@ -2,8 +2,8 @@ import { Component } from 'solid-js'
 
 import './style/footer.scss'
 
-import logo from 'static/imgs/logo.png'
 import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
+import logo from 'static/imgs/logo.png'
 
 const Footer: Component = props => {
     return (
@@ -97,16 +97,12 @@ const Footer: Component = props => {
                     </div>
                 </div>
             </div>
+            <div class='en title_smaller'>
+                © 2024 Dream Pay. All rights reserved.
+            </div>
+
             <div class='footer-00team title_smaller'>
-                <div class='fa'>
-                    طراحی، پیاده‌سازی و سئو توسط
-                    <a href='https://00-team.org/' class='team-00'>
-                        00-TEAM
-                    </a>
-                    <br />
-                    کلیه حقوق مادی و معنوی این وب سایت برای دیریم پی محفوظ است
-                </div>
-                <div class='en'>© 2024 Dream Pay. All rights reserved.</div>
+                <div>developed by 00 team</div>
             </div>
         </footer>
     )
