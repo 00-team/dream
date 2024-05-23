@@ -256,6 +256,10 @@ footer.footer-container {
         }
     }
 
+    .en {
+        margin-top: 2em;
+        direction: ltr;
+    }
     .footer-00team {
         width: 100%;
         margin-top: 2rem;
@@ -302,10 +306,6 @@ footer.footer-container {
                 color: black;
                 text-decoration: none;
             }
-        }
-
-        .en {
-            direction: ltr;
         }
     }
 }
