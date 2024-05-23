@@ -40,6 +40,7 @@ const Contact: Component = props => {
                     باما در ارتباط باش!
                 </h5>
             </header>
+            <div class='contact-wrapper'></div>
         </section>
     )
 }
