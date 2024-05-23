@@ -149,6 +149,10 @@ section.contact {
                 position: relative;
                 isolation: isolate;
 
+                @media screen and (max-width: 768px) {
+                    width: 100%;
+                }
+
                 .btn-bg {
                     background: linear-gradient(45deg, #2a78bd, #00ffd0);
                     border-radius: $BORDER_RADIUS;
