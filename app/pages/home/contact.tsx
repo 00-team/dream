@@ -56,12 +56,15 @@ const Contact: Component = props => {
                     const mx = e.clientX - pos.left - pos.width / 2
                     const my = e.clientY - pos.top - pos.height / 2
 
-                    elem.style.transform = `translate(${mx * 0.025}px ,${my * 0.05}px)`
+                    const valueX = mx * 0.025
+                    const valueY = my * 0.05
+
+                    elem.style.transform = `translate(${valueX}px ,${valueY}px)`
 
                     elem.childNodes.forEach((inner: HTMLElement) => {
                         // stickyButton.className += ' active'
 
-                        inner.style.transform = `translate(${mx * 0.0125}px ,${my * 0.025}px)`
+                        inner.style.transform = `translate(${valueX / 2}px ,${valueY / 2}px)`
                     })
                 })
             }}
