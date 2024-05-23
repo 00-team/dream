@@ -71,6 +71,10 @@ nav.nav-big-container {
             height: 100%;
 
             padding: 1.2em 1em;
+
+            .drop {
+                opacity: 0.7;
+            }
         }
         .line {
             content: '';
