@@ -89,15 +89,16 @@ body {
     }
 }
 
-main {
-    will-change: transform;
-    transition: 0.5s transform cubic-bezier(0.45, 0.02, 0.09, 0.98);
+@media screen and (max-width: 768px) {
+    main {
+        will-change: transform;
+        transition: 0.5s transform cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
-    &.show-small {
-        transform: translate3d(-50vw, 5vh, 0);
+        &.show-small {
+            transform: translate3d(-50vw, 5vh, 0);
+        }
     }
 }
-
 .title_hero {
     font-size: g.$TITLE_FONTSIZE_HERO;
     font-family: 'iranBold';
