@@ -39,13 +39,13 @@
         body {
             @include theme.dark;
         }
-        background-color: var(--sixty-percent);
+        background-color: var(--accent-color);
     }
     @media (prefers-color-scheme: light) {
         body {
             @include theme.dark;
         }
-        background-color: var(--sixty-percent);
+        background-color: var(--accent-color);
     }
 }
 
@@ -75,8 +75,8 @@ body {
         @include theme.dark;
     }
     main.home {
-        background-color: var(--sixty-percent);
-        color: var(--accent-color);
+        background-color: var(--accent-color);
+        // color: var(--accent-color);
     }
 }
 @media (prefers-color-scheme: light) {
@@ -84,8 +84,8 @@ body {
         @include theme.light;
     }
     main.home {
-        background-color: var(--sixty-percent);
-        color: var(--accent-color);
+        background-color: var(--accent-color);
+        // color: var(--accent-color);
     }
 }
 
