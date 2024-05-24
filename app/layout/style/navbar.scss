@@ -285,7 +285,7 @@ nav.nav-small-container {
 
 .show-small-nav {
     width: 50vw;
-    height: 100%;
+    height: 110%;
 
     position: fixed;
 
@@ -294,14 +294,21 @@ nav.nav-small-container {
     justify-content: center;
     flex-direction: column;
 
+    background: var(--accent-color);
+
     margin-top: -15%;
 
     will-change: transform;
     transform: translate3d(15vw, -7.5vh, 0);
     transition: 0.5s;
 
+    visibility: hidden;
+    opacity: 0;
+
     &.active {
         transform: none;
+        visibility: visible;
+        opacity: 1;
     }
 
     .nav-link {
@@ -320,13 +327,70 @@ nav.nav-small-container {
             opacity: 0.7;
         }
 
-        .dropdown {
+        .small-dropdown {
             width: 100%;
 
             position: absolute;
             top: 60px;
 
-            z-index: -1;
+            background-color: var(--accent-color);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            max-height: 0;
+            overflow: hidden;
+
+            z-index: 1;
+
+            will-change: height, max-height;
+            transition: 0.5s;
+            transition-delay: 0.7s;
+
+            &.active {
+                transition-delay: 0s;
+                max-height: 1000px;
+
+                .small-link {
+                    transform: translateX(0);
+                }
+            }
+
+            .small-link {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 1em;
+
+                padding: 0.7em 1em;
+
+                color: black;
+
+                transform: translateX(-100%);
+
+                position: relative;
+                isolation: isolate;
+                overflow: hidden;
+
+                will-change: transform;
+                transition: transform 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+
+                $delay: 0.05s;
+                @for $i from 1 through 50 {
+                    &:nth-child(#{$i}) {
+                        transition-delay: #{$delay * $i};
+                    }
+                }
+
+                .holder {
+                    img {
+                        width: 30px;
+                        aspect-ratio: 1/1;
+                    }
+                }
+            }
         }
     }
 }
