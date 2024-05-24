@@ -1,4 +1,4 @@
-import { Component, createSignal, onMount } from 'solid-js'
+import { Component, createEffect, createSignal, onMount } from 'solid-js'
 
 import './style/navbar.scss'
 
@@ -39,8 +39,6 @@ const Navbar: Component = props => {
         navLinks.forEach((link: HTMLElement, index) => {
             link.addEventListener('mouseenter', () => {
                 let left = link.offsetLeft
-
-                console.log(left)
 
                 line.style.left = `calc(${left}px + 1.${index * 2}em)`
                 line.style.width = `${link.getBoundingClientRect().width / 1.5}px`
@@ -96,38 +94,61 @@ interface dropdownProps {
 }
 
 const DropDown: Component<dropdownProps> = P => {
+    let links: NodeListOf<HTMLElement>
+
+    createEffect(() => {
+        links = document.querySelectorAll('.drop-link')
+
+        let height = links[0].getBoundingClientRect().height
+
+        if (P.show) {
+            links.forEach((link: HTMLElement, index) => {
+                if (index === 0) return
+
+                link.style.top = `${height * index - 3}px`
+                link.style.zIndex = `${100 - index}`
+            })
+        } else {
+            links.forEach((link: HTMLElement, index) => {
+                if (index === 0) return
+
+                link.style.top = `0px`
+                link.style.zIndex = `${0}`
+            })
+        }
+    })
     return (
         <div class='dropdown' classList={{ active: P.show }}>
-            <div class='drop-link title_smaller'>
-                <div class='holder icon'>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
                     <img src={discordImg} alt='' />
                 </div>
                 <div class='data'>دیسکورد</div>
-            </div>
-            <div class='drop-link title_smaller'>
-                <div class='holder icon'>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
                     <img src={spotifyImg} alt='' />
                 </div>
                 <div class='data'>اسپاتیفای</div>
-            </div>
-            <div class='drop-link title_smaller'>
-                <div class='holder icon'>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
                     <img src={CanvaImg} alt='' />
                 </div>
                 <div class='data'>کانوا</div>
-            </div>
-            <div class='drop-link title_smaller'>
-                <div class='holder icon'>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
                     <img src={youtubeImg} alt='' />
                 </div>
                 <div class='data'>یوتیوب</div>
-            </div>
-            <div class='drop-link title_smaller'>
-                <div class='holder icon'>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
                     <img src={appleMusicImg} alt='' />
                 </div>
                 <div class='data'>اپل موزیک</div>
-            </div>
+            </a>
         </div>
     )
 }
