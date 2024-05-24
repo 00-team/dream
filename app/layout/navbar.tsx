@@ -2,7 +2,7 @@ import { Component, createEffect, createSignal, onMount } from 'solid-js'
 
 import './style/navbar.scss'
 
-import { ArrowDownIcon, FaqIcon } from 'icons/home'
+import { ArrowDownIcon, CrossIcon, FaqIcon } from 'icons/home'
 import { HomeIcon, MenuIcon, ProductsIcon, SupportIcon } from 'icons/navbar'
 import logo from 'static/imgs/logo.png'
 
@@ -116,8 +116,14 @@ const SmallNav: Component = () => {
                         setshowNav(s => !s)
                     }}
                     class='open-small'
+                    classList={{ active: showNav() }}
                 >
-                    <MenuIcon size={30} />
+                    <div class='open'>
+                        <MenuIcon size={30} />
+                    </div>
+                    <div class='close'>
+                        <CrossIcon size={30} />
+                    </div>
                 </button>
                 <img class='nav-logo' src={logo} alt='' />
             </nav>
@@ -130,6 +136,7 @@ const SmallNav: Component = () => {
                     <ProductsIcon />
                     محصولات
                     <ArrowDownIcon class='drop' />
+                    <div class='dropdown'></div>
                 </a>
                 <a class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
