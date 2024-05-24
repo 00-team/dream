@@ -37,6 +37,7 @@ const Contact: Component = props => {
 
     return (
         <section
+            id='contact'
             class='contact'
             onmouseenter={() => {
                 socials.forEach((elem: HTMLElement) => {
