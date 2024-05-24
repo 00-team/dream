@@ -3,7 +3,7 @@ import { Component, createEffect, createSignal, onMount } from 'solid-js'
 import './style/navbar.scss'
 
 import { ArrowDownIcon, FaqIcon } from 'icons/home'
-import { HomeIcon, ProductsIcon, SupportIcon } from 'icons/navbar'
+import { HomeIcon, MenuIcon, ProductsIcon, SupportIcon } from 'icons/navbar'
 import logo from 'static/imgs/logo.png'
 
 import appleMusicImg from 'static/imgs/apple-music.png'
@@ -85,7 +85,13 @@ const Navbar: Component = props => {
                 </div>
                 <img class='nav-logo' src={logo} alt='' />
             </nav>
-            <nav class='nav-small-container'></nav>
+
+            <nav class='nav-small-container'>
+                <button onclick={() => {}} class='open-small'>
+                    <MenuIcon size={30} />
+                </button>
+                <img class='nav-logo' src={logo} alt='' />
+            </nav>
         </>
     )
 }
