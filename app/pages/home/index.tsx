@@ -1,4 +1,5 @@
 import { Component } from 'solid-js'
+import { showNav } from 'state/nav'
 import { About } from './about'
 import Contact from './contact'
 import { Customers } from './customers'
@@ -9,7 +10,7 @@ import './style/home.scss'
 
 const Home: Component<{}> = props => {
     return (
-        <main class='home'>
+        <main class='home' classList={{ 'show-small': showNav() }}>
             <section class='hero-container' id='hero'>
                 <iframe src='https://my.spline.design/dreampay-0a78cdac709ee611db084ccb679701db/'></iframe>
             </section>
