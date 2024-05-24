@@ -85,6 +85,7 @@ const Navbar: Component = props => {
                 </div>
                 <img class='nav-logo' src={logo} alt='' />
             </nav>
+            <nav class='nav-small-container'></nav>
         </>
     )
 }
