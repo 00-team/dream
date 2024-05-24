@@ -82,7 +82,7 @@ const BigNav: Component = () => {
                     <ProductsIcon />
                     محصولات
                     <ArrowDownIcon class='drop' />
-                    <DropDown show={dropdown()} />
+                    <DropDownBig show={dropdown()} />
                 </a>
                 <a class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
@@ -100,13 +100,7 @@ const BigNav: Component = () => {
 }
 
 const SmallNav: Component = () => {
-    let mainElem: HTMLElement
-
-    onMount(() => {
-        mainElem = document.querySelector('main')
-
-        console.log(mainElem)
-    })
+    const [showdrop, setshowDrop] = createSignal(false)
 
     return (
         <>
@@ -132,12 +126,15 @@ const SmallNav: Component = () => {
                     <HomeIcon />
                     خانه
                 </a>
-                <a class='nav-link title_small' href='/products'>
+                <div
+                    class='nav-link title_small'
+                    onclick={() => setshowDrop(s => !s)}
+                >
                     <ProductsIcon />
                     محصولات
                     <ArrowDownIcon class='drop' />
-                    <div class='dropdown'></div>
-                </a>
+                    <DropDownSmall show={showdrop()} />
+                </div>
                 <a class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
                     ارتباط با ما
@@ -155,7 +152,7 @@ interface dropdownProps {
     show: boolean
 }
 
-const DropDown: Component<dropdownProps> = P => {
+const DropDownBig: Component<dropdownProps> = P => {
     let links: NodeListOf<HTMLElement>
 
     createEffect(() => {
@@ -206,6 +203,43 @@ const DropDown: Component<dropdownProps> = P => {
                 <div class='data'>یوتیوب</div>
             </a>
             <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
+                    <img src={appleMusicImg} alt='' />
+                </div>
+                <div class='data'>اپل موزیک</div>
+            </a>
+        </div>
+    )
+}
+
+const DropDownSmall: Component<dropdownProps> = P => {
+    return (
+        <div class='small-dropdown' classList={{ active: P.show }}>
+            <a class='small-link title_small'>
+                <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
+                    <img src={discordImg} alt='' />
+                </div>
+                <div class='data'>دیسکورد</div>
+            </a>
+            <a class='small-link title_small'>
+                <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
+                    <img src={spotifyImg} alt='' />
+                </div>
+                <div class='data'>اسپاتیفای</div>
+            </a>
+            <a class='small-link title_small'>
+                <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
+                    <img src={CanvaImg} alt='' />
+                </div>
+                <div class='data'>کانوا</div>
+            </a>
+            <a class='small-link title_small'>
+                <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
+                    <img src={youtubeImg} alt='' />
+                </div>
+                <div class='data'>یوتیوب</div>
+            </a>
+            <a class='small-link title_small'>
                 <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
                     <img src={appleMusicImg} alt='' />
                 </div>
