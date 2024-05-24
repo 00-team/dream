@@ -90,6 +90,25 @@ nav.nav-big-container {
                 flex-direction: column;
 
                 border-radius: 10px;
+                filter: drop-shadow(2px 4px 6px black);
+
+                transform: translateY(-50px);
+                visibility: hidden;
+                opacity: 0;
+
+                transition: 1s ease;
+
+                &.active {
+                    transform: translateY(0);
+                    visibility: visible;
+                    opacity: 1;
+
+                    .drop-link {
+                        .holder {
+                            transform: translateX(0);
+                        }
+                    }
+                }
 
                 .drop-link {
                     width: 100%;
@@ -99,22 +118,56 @@ nav.nav-big-container {
 
                     padding: 1em 1em;
                     background-color: white;
-                    border-radius: 12px;
+                    // border-radius: 12px;
+                    // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+                    color: black;
 
                     position: relative;
                     isolation: isolate;
                     overflow: hidden;
+
+                    will-change: top;
+                    transition: top 0.5s;
+
+                    &:first-child {
+                        border-radius: 12px 12px 0 0;
+                    }
+                    &:last-child {
+                        border-radius: 0 0 12px 12px;
+                    }
 
                     &:not(:first-child) {
                         position: absolute;
                         z-index: -1;
                     }
 
-                    img {
-                        width: 30px;
-                        aspect-ratio: 1/1;
+                    &:first-child {
+                        z-index: 100;
+                    }
 
-                        object-fit: contain;
+                    $delay: 0.2s;
+
+                    .holder {
+                        transform: translateX(200%);
+
+                        will-change: transform;
+                        transition: 0.5s;
+
+                        $delay: 0.1s;
+
+                        @for $i from 1 through 50 {
+                            &:nth-child(#{$i}) {
+                                transition-delay: #{$delay * $i};
+                            }
+                        }
+
+                        img {
+                            width: 30px;
+                            aspect-ratio: 1/1;
+
+                            object-fit: contain;
+                        }
                     }
                 }
             }
