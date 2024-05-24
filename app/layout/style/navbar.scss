@@ -246,3 +246,17 @@ nav.nav-small-container {
         padding: 1.5rem;
     }
 }
+
+.show-small-nav {
+    width: 50vw;
+    height: 100%;
+
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    margin-top: -10%;
+}
