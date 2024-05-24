@@ -18,6 +18,10 @@ nav.nav-big-container {
 
     transition: 0.5s;
 
+    @media screen and (max-width: 1024px) {
+        padding: 0 0.5rem;
+    }
+
     &::before {
         content: '';
 
