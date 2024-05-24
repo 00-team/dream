@@ -47,6 +47,10 @@
         }
         background-color: var(--accent-color);
     }
+
+    @media screen and (max-width: 768px) {
+        overflow: hidden;
+    }
 }
 
 body {
