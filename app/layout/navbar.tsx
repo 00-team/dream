@@ -6,7 +6,7 @@ import { ArrowDownIcon, FaqIcon } from 'icons/home'
 import { HomeIcon, MenuIcon, ProductsIcon, SupportIcon } from 'icons/navbar'
 import logo from 'static/imgs/logo.png'
 
-import { setshowNav } from 'state/nav'
+import { setshowNav, showNav } from 'state/nav'
 import appleMusicImg from 'static/imgs/apple-music.png'
 import CanvaImg from 'static/imgs/canva.png'
 import discordImg from 'static/imgs/discord.png'
@@ -69,12 +69,13 @@ const BigNav: Component = () => {
                     line.className = 'line title_small'
                 }}
             >
-                <a class='nav-link title_small'>
+                <a class='nav-link title_small' href='/'>
                     <HomeIcon />
                     خانه
                 </a>
                 <a
                     class='nav-link title_small'
+                    href='/products'
                     onmouseenter={() => setDropdown(true)}
                     onmouseleave={() => setDropdown(false)}
                 >
@@ -83,11 +84,11 @@ const BigNav: Component = () => {
                     <ArrowDownIcon class='drop' />
                     <DropDown show={dropdown()} />
                 </a>
-                <a class='nav-link title_small'>
+                <a class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
                     ارتباط با ما
                 </a>
-                <a class='nav-link title_small'>
+                <a class='nav-link title_small' href='/#faq'>
                     <FaqIcon />
                     سوالات متداول
                 </a>
@@ -120,21 +121,21 @@ const SmallNav: Component = () => {
                 </button>
                 <img class='nav-logo' src={logo} alt='' />
             </nav>
-            <div class='show-small-nav'>
-                <a class='nav-link title_small'>
+            <div class='show-small-nav' classList={{ active: showNav() }}>
+                <a class='nav-link title_small' href='/'>
                     <HomeIcon />
                     خانه
                 </a>
-                <a class='nav-link title_small'>
+                <a class='nav-link title_small' href='/products'>
                     <ProductsIcon />
                     محصولات
                     <ArrowDownIcon class='drop' />
                 </a>
-                <a class='nav-link title_small'>
+                <a class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
                     ارتباط با ما
                 </a>
-                <a class='nav-link title_small'>
+                <a class='nav-link title_small' href='/#faq'>
                     <FaqIcon />
                     سوالات متداول
                 </a>
