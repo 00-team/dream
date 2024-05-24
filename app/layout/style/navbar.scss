@@ -221,7 +221,8 @@ nav.nav-small-container {
 
     background-color: white;
 
-    padding: 0 2rem;
+    padding: 0 0.5rem;
+    padding-right: 0;
 
     isolation: isolate;
 
@@ -229,5 +230,19 @@ nav.nav-small-container {
 
     @media screen and (min-width: 769px) {
         display: none;
+    }
+
+    .nav-logo {
+        height: 75px;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+    }
+
+    .open-small {
+        background-color: transparent;
+        color: black;
+
+        height: 100%;
+        padding: 1.5rem;
     }
 }
