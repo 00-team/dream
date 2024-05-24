@@ -121,10 +121,23 @@ const SmallNav: Component = () => {
                 <img class='nav-logo' src={logo} alt='' />
             </nav>
             <div class='show-small-nav'>
-                <div class='nav-link title_small'>1</div>
-                <div class='nav-link title_small'>2</div>
-                <div class='nav-link title_small'>3</div>
-                <div class='nav-link title_small'>4</div>
+                <a class='nav-link title_small'>
+                    <HomeIcon />
+                    خانه
+                </a>
+                <a class='nav-link title_small'>
+                    <ProductsIcon />
+                    محصولات
+                    <ArrowDownIcon class='drop' />
+                </a>
+                <a class='nav-link title_small'>
+                    <SupportIcon />
+                    ارتباط با ما
+                </a>
+                <a class='nav-link title_small'>
+                    <FaqIcon />
+                    سوالات متداول
+                </a>
             </div>
         </>
     )
