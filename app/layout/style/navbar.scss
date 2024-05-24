@@ -159,7 +159,7 @@ nav.nav-big-container {
                         transform: translateX(200%);
 
                         will-change: transform;
-                        transition: 0.5s;
+                        transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
                         $delay: 0.1s;
 
