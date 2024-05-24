@@ -251,7 +251,7 @@ nav.nav-small-container {
     width: 50vw;
     height: 100%;
 
-    position: absolute;
+    position: fixed;
 
     display: flex;
     align-items: center;
@@ -259,6 +259,14 @@ nav.nav-small-container {
     flex-direction: column;
 
     margin-top: -15%;
+
+    will-change: transform;
+    transform: translate3d(15vw, -7.5vh, 0);
+    transition: 0.5s;
+
+    &.active {
+        transform: none;
+    }
 
     .nav-link {
         display: flex;
