@@ -13,6 +13,16 @@ import spotifyImg from 'static/imgs/spotify.png'
 import youtubeImg from 'static/imgs/youtube.png'
 
 const Navbar: Component = props => {
+    return (
+        <>
+            <BigNav />
+
+            <SmallNav />
+        </>
+    )
+}
+
+const BigNav: Component = () => {
     const [dropdown, setDropdown] = createSignal(false)
 
     let bigNav: HTMLElement
@@ -46,46 +56,50 @@ const Navbar: Component = props => {
         })
     })
     return (
-        <>
-            <nav class='nav-big-container'>
-                <div
-                    class='nav-links'
-                    onmouseenter={() => {
-                        if (!line.classList.contains('show')) {
-                            line.className += ' show'
-                        }
-                    }}
-                    onMouseLeave={() => {
-                        line.className = 'line title_small'
-                    }}
+        <nav class='nav-big-container'>
+            <div
+                class='nav-links'
+                onmouseenter={() => {
+                    if (!line.classList.contains('show')) {
+                        line.className += ' show'
+                    }
+                }}
+                onMouseLeave={() => {
+                    line.className = 'line title_small'
+                }}
+            >
+                <a class='nav-link title_small'>
+                    <HomeIcon />
+                    خانه
+                </a>
+                <a
+                    class='nav-link title_small'
+                    onmouseenter={() => setDropdown(true)}
+                    onmouseleave={() => setDropdown(false)}
                 >
-                    <a class='nav-link title_small'>
-                        <HomeIcon />
-                        خانه
-                    </a>
-                    <a
-                        class='nav-link title_small'
-                        onmouseenter={() => setDropdown(true)}
-                        onmouseleave={() => setDropdown(false)}
-                    >
-                        <ProductsIcon />
-                        محصولات
-                        <ArrowDownIcon class='drop' />
-                        <DropDown show={dropdown()} />
-                    </a>
-                    <a class='nav-link title_small'>
-                        <SupportIcon />
-                        ارتباط با ما
-                    </a>
-                    <a class='nav-link title_small'>
-                        <FaqIcon />
-                        سوالات متداول
-                    </a>
-                    <div class='line title_small' id='nav'></div>
-                </div>
-                <img class='nav-logo' src={logo} alt='' />
-            </nav>
+                    <ProductsIcon />
+                    محصولات
+                    <ArrowDownIcon class='drop' />
+                    <DropDown show={dropdown()} />
+                </a>
+                <a class='nav-link title_small'>
+                    <SupportIcon />
+                    ارتباط با ما
+                </a>
+                <a class='nav-link title_small'>
+                    <FaqIcon />
+                    سوالات متداول
+                </a>
+                <div class='line title_small' id='nav'></div>
+            </div>
+            <img class='nav-logo' src={logo} alt='' />
+        </nav>
+    )
+}
 
+const SmallNav: Component = () => {
+    return (
+        <>
             <nav class='nav-small-container'>
                 <button onclick={() => {}} class='open-small'>
                     <MenuIcon size={30} />
