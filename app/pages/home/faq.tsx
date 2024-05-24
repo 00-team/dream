@@ -47,7 +47,7 @@ const Faq: Component = props => {
     })
 
     return (
-        <section class='faq-container'>
+        <section class='faq-container' id='faq'>
             <header class='faq-header'>
                 <div class='header-icon'>
                     <FaqIcon size={50} />
