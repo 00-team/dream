@@ -6,6 +6,7 @@ import { ArrowDownIcon, FaqIcon } from 'icons/home'
 import { HomeIcon, MenuIcon, ProductsIcon, SupportIcon } from 'icons/navbar'
 import logo from 'static/imgs/logo.png'
 
+import { setshowNav } from 'state/nav'
 import appleMusicImg from 'static/imgs/apple-music.png'
 import CanvaImg from 'static/imgs/canva.png'
 import discordImg from 'static/imgs/discord.png'
@@ -98,14 +99,33 @@ const BigNav: Component = () => {
 }
 
 const SmallNav: Component = () => {
+    let mainElem: HTMLElement
+
+    onMount(() => {
+        mainElem = document.querySelector('main')
+
+        console.log(mainElem)
+    })
+
     return (
         <>
             <nav class='nav-small-container'>
-                <button onclick={() => {}} class='open-small'>
+                <button
+                    onclick={() => {
+                        setshowNav(s => !s)
+                    }}
+                    class='open-small'
+                >
                     <MenuIcon size={30} />
                 </button>
                 <img class='nav-logo' src={logo} alt='' />
             </nav>
+            <div class='show-small-nav'>
+                <div class='nav-link title_small'>1</div>
+                <div class='nav-link title_small'>2</div>
+                <div class='nav-link title_small'>3</div>
+                <div class='nav-link title_small'>4</div>
+            </div>
         </>
     )
 }
