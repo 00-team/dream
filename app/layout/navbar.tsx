@@ -186,31 +186,33 @@ const SmallNav: Component = () => {
                 <img class='nav-logo' src={logo} alt='' />
             </nav>
             <div class='show-small-nav' classList={{ active: showNav() }}>
-                <a class='nav-link title_small' href='/'>
-                    <HomeIcon />
-                    خانه
-                </a>
-                <div
-                    class='nav-link title_small'
-                    onclick={() => setshowDrop(s => !s)}
-                >
-                    <ProductsIcon />
-                    محصولات
-                    <ArrowDownIcon class='drop' />
-                    <DropDownSmall show={showdrop()} />
+                <div class='nav-wrapper'>
+                    <a class='nav-link title_small' href='/'>
+                        <HomeIcon />
+                        خانه
+                    </a>
+                    <div
+                        class='nav-link title_small'
+                        onclick={() => setshowDrop(s => !s)}
+                    >
+                        <ProductsIcon />
+                        محصولات
+                        <ArrowDownIcon class='drop' />
+                        <DropDownSmall show={showdrop()} />
+                    </div>
+                    <a class='nav-link title_small' href='/#contact'>
+                        <AboutIcon />
+                        درباره ما
+                    </a>
+                    <a class='nav-link title_small' href='/#contact'>
+                        <SupportIcon />
+                        ارتباط با ما
+                    </a>
+                    <a class='nav-link title_small' href='/#faq'>
+                        <FaqIcon />
+                        سوالات متداول
+                    </a>
                 </div>
-                <a class='nav-link title_small' href='/#contact'>
-                    <AboutIcon />
-                    درباره ما
-                </a>
-                <a class='nav-link title_small' href='/#contact'>
-                    <SupportIcon />
-                    ارتباط با ما
-                </a>
-                <a class='nav-link title_small' href='/#faq'>
-                    <FaqIcon />
-                    سوالات متداول
-                </a>
             </div>
         </>
     )
