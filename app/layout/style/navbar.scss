@@ -220,7 +220,7 @@ nav.nav-small-container {
 
         &.active {
             .open {
-                transform: translate3d(-100px, 100px, 0px);
+                transform: translate3d(-100px, 0, 0px);
             }
             .close {
                 transform: none;
@@ -252,110 +252,131 @@ nav.nav-small-container {
 }
 
 .show-small-nav {
-    width: 50vw;
-    height: 110%;
-
-    position: fixed;
+    width: 100%;
+    height: 100%;
 
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
 
-    background: var(--accent-color);
-
-    margin-top: -15%;
+    position: fixed;
+    top: 0;
 
     will-change: transform;
-    transform: translate3d(15vw, -7.5vh, 0);
     transition: 0.5s;
 
     visibility: hidden;
     opacity: 0;
 
+    z-index: 998;
+
     &.active {
-        transform: none;
         visibility: visible;
         opacity: 1;
+
+        .nav-wrapper {
+            transform: none;
+            visibility: visible;
+            opacity: 1;
+        }
     }
 
-    .nav-link {
+    .nav-wrapper {
+        width: 60%;
+        height: 110%;
+
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        justify-content: center;
+        flex-direction: column;
 
-        width: 100%;
+        background: var(--accent-color);
 
-        padding: 1em 1em;
-        padding-right: 2em;
+        visibility: hidden;
+        opacity: 0;
 
-        position: relative;
+        will-change: transform;
+        transform: translate3d(15vw, 0, 0);
+        transition: 0.5s;
 
-        .drop {
-            opacity: 0.7;
-        }
-
-        .small-dropdown {
-            width: 100%;
-
-            position: absolute;
-            top: 60px;
-
-            background-color: var(--accent-color);
-
+        .nav-link {
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-direction: column;
+            gap: 0.5em;
 
-            max-height: 0;
-            overflow: hidden;
+            width: 100%;
 
-            z-index: 1;
+            padding: 1em 1em;
+            padding-right: 2em;
 
-            will-change: height, max-height;
-            transition: 0.5s;
-            transition-delay: 0.7s;
+            position: relative;
 
-            &.active {
-                transition-delay: 0s;
-                max-height: 1000px;
-
-                .small-link {
-                    transform: translateX(0);
-                }
+            .drop {
+                opacity: 0.7;
             }
 
-            .small-link {
+            .small-dropdown {
                 width: 100%;
+
+                position: absolute;
+                top: 60px;
+
+                background-color: var(--accent-color);
+
                 display: flex;
                 align-items: center;
-                gap: 1em;
+                justify-content: center;
+                flex-direction: column;
 
-                padding: 0.7em 1em;
-
-                color: black;
-
-                transform: translateX(-100%);
-
-                position: relative;
-                isolation: isolate;
+                max-height: 0;
                 overflow: hidden;
 
-                will-change: transform;
-                transition: transform 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+                z-index: 1;
 
-                $delay: 0.05s;
-                @for $i from 1 through 50 {
-                    &:nth-child(#{$i}) {
-                        transition-delay: #{$delay * $i};
+                will-change: height, max-height;
+                transition: 0.5s;
+                transition-delay: 0.7s;
+
+                &.active {
+                    transition-delay: 0s;
+                    max-height: 1000px;
+
+                    .small-link {
+                        transform: translateX(0);
                     }
                 }
 
-                .holder {
-                    img {
-                        width: 30px;
-                        aspect-ratio: 1/1;
+                .small-link {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    gap: 1em;
+
+                    padding: 0.7em 1em;
+
+                    color: black;
+
+                    transform: translateX(-100%);
+
+                    position: relative;
+                    isolation: isolate;
+                    overflow: hidden;
+
+                    will-change: transform;
+                    transition: transform 0.7s
+                        cubic-bezier(0.45, 0.02, 0.09, 0.98);
+
+                    $delay: 0.05s;
+                    @for $i from 1 through 50 {
+                        &:nth-child(#{$i}) {
+                            transition-delay: #{$delay * $i};
+                        }
+                    }
+
+                    .holder {
+                        img {
+                            width: 30px;
+                            aspect-ratio: 1/1;
+                        }
                     }
                 }
             }
