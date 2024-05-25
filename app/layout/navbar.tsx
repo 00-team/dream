@@ -218,7 +218,7 @@ const NavSvg: Component = () => {
                     x2='100%'
                     y2='50%'
                 >
-                    <stop offset='5%' stop-color='#3fd3ff'></stop>
+                    <stop offset='50%' stop-color='#3fd3ff'></stop>
                     <stop offset='95%' stop-color='#ff6eff'></stop>
                 </linearGradient>
             </defs>
