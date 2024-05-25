@@ -54,6 +54,11 @@ section.contact {
         @media screen and (max-width: 768px) {
             flex-direction: column;
             row-gap: 4em;
+
+            &::before,
+            &::after {
+                display: none;
+            }
         }
 
         &::before,
@@ -79,7 +84,7 @@ section.contact {
             );
         }
         &::after {
-            bottom: 0;
+            bottom: 100px;
             left: 0;
             transform: translate(-50%, 50%);
 
