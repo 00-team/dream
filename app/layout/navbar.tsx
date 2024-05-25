@@ -3,7 +3,13 @@ import { Component, createEffect, createSignal, onMount } from 'solid-js'
 import './style/navbar.scss'
 
 import { ArrowDownIcon, CrossIcon, FaqIcon } from 'icons/home'
-import { HomeIcon, MenuIcon, ProductsIcon, SupportIcon } from 'icons/navbar'
+import {
+    AboutIcon,
+    HomeIcon,
+    MenuIcon,
+    ProductsIcon,
+    SupportIcon,
+} from 'icons/navbar'
 import logo from 'static/imgs/logo.png'
 
 import { setshowNav, showNav } from 'state/nav'
@@ -139,6 +145,10 @@ const BigNav: Component = () => {
                     <DropDownBig show={dropdown()} />
                 </a>
                 <a class='nav-link title_small' href='/#contact'>
+                    <AboutIcon />
+                    درباره ما
+                </a>
+                <a class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
                     ارتباط با ما
                 </a>
@@ -189,6 +199,10 @@ const SmallNav: Component = () => {
                     <ArrowDownIcon class='drop' />
                     <DropDownSmall show={showdrop()} />
                 </div>
+                <a class='nav-link title_small' href='/#contact'>
+                    <AboutIcon />
+                    درباره ما
+                </a>
                 <a class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
                     ارتباط با ما
