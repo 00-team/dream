@@ -9,6 +9,8 @@
     padding-top: 200px;
     padding-bottom: 0;
 
+    position: relative;
+
     transition: 0.3s ease-in-out;
 
     @media screen and (max-width: 1024px) {
@@ -438,122 +440,26 @@
                 }
             }
         }
+    }
+    .services-bubble {
+        width: 100px;
+        aspect-ratio: 1/1;
 
-        .items-bg {
-            background: linear-gradient(201deg, #2196f3, transparent);
+        position: absolute;
 
-            position: absolute;
+        background-color: grey;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        z-index: 3;
 
-            width: 100%;
-            height: 100%;
+        transition: 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
-            transition: 0.5s ease-in-out;
-
-            @media screen and (max-width: 768px) {
-                display: none;
-            }
-
-            &.active {
-                filter: blur(5px);
-            }
-
-            .services-item-row {
-                width: calc(100% / 3);
-                min-width: 150px;
-
-                height: 100%;
-
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-
-                transform: scale(0.5) rotate3d(1, 1, 1, 45deg);
-
-                will-change: transform;
-                transition: 0.5s ease;
-
-                @media screen and (max-width: 768px) {
-                    transition: none;
-                }
-
-                &.reverse {
-                    flex-direction: column-reverse;
-                }
-
-                .row {
-                    display: flex;
-                    align-items: center;
-                    justify-content: flex-start;
-                    gap: 2em;
-
-                    padding-left: 1em;
-
-                    width: 100%;
-                    height: 200px;
-
-                    font: inherit;
-
-                    overflow: hidden;
-
-                    direction: ltr;
-
-                    &.apple {
-                        background-color: #fa3b53;
-                    }
-                    &.psn {
-                        background-color: #004098;
-                    }
-                    &.xbox {
-                        background-color: #107c0f;
-                    }
-                    &.canva {
-                        background-color: #4c55e4;
-                    }
-                    &.discord {
-                        background-color: #5f70be;
-                    }
-                    &.hbo {
-                        background-color: #3b23a8;
-                    }
-                    &.netflix {
-                        background-color: #e50913;
-                    }
-                    &.grammerly {
-                        background-color: #2ab677;
-                    }
-                    &.google {
-                        background-color: whitesmoke;
-
-                        span {
-                            color: black;
-                        }
-                    }
-                    &.prime {
-                        background-color: #cba5ff;
-
-                        span {
-                            color: black;
-                        }
-                    }
-
-                    img {
-                        width: 100px;
-                        aspect-ratio: 1/1;
-                        border-radius: 100vmax;
-                        object-fit: contain;
-                    }
-
-                    span {
-                        font-family: fantasy;
-                        white-space: nowrap;
-                        color: white;
-                    }
-                }
-            }
+        &#bubble-one {
+            bottom: 40%;
+            right: 10%;
+        }
+        &#bubble-two {
+            bottom: 25%;
+            left: 10%;
         }
     }
 }
