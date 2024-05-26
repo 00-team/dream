@@ -15,6 +15,8 @@ import discordBanner from 'static/imgs/banners/discord.jpg'
 import spotifyBanner from 'static/imgs/banners/spotify.png'
 import tradingviewBanner from 'static/imgs/banners/tradingview.jpg'
 
+import logo from 'static/imgs/logo.png'
+
 export const Services: Component = props => {
     let section: HTMLElement
 
@@ -119,8 +121,14 @@ export const Services: Component = props => {
 
             <ServicesWrapper />
 
-            <div class='services-bubble' id='bubble-one'></div>
-            <div class='services-bubble' id='bubble-two'></div>
+            <div class='services-bubble' id='bubble-one'>
+                <div class='dot'></div>
+                <img src={logo} class='bubble-logo' alt='' />
+            </div>
+            <div class='services-bubble' id='bubble-two'>
+                <div class='dot'></div>
+                <img src={logo} class='bubble-logo' alt='' />
+            </div>
         </section>
     )
 }
