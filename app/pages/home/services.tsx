@@ -118,6 +118,9 @@ export const Services: Component = props => {
             </div>
 
             <ServicesWrapper />
+
+            <div class='services-bubble' id='bubble-one'></div>
+            <div class='services-bubble' id='bubble-two'></div>
         </section>
     )
 }
