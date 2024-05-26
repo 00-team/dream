@@ -447,11 +447,37 @@
 
         position: absolute;
 
-        background-color: grey;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        z-index: 3;
+        background-color: rgb(255 255 255 / 20%);
+        backdrop-filter: blur(2px);
+
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        border-radius: 100vmax;
 
         transition: 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+        z-index: 3;
+
+        .dot {
+            position: absolute;
+            top: 20%;
+            right: 20%;
+
+            height: 10%;
+            width: 10%;
+            border-radius: 100vmax;
+            background: rgba(255, 255, 255, 0.5);
+
+            z-index: 2;
+        }
+
+        .bubble-logo {
+            width: 70%;
+
+            object-fit: contain;
+        }
 
         &#bubble-one {
             bottom: 40%;
@@ -459,7 +485,7 @@
         }
         &#bubble-two {
             bottom: 25%;
-            left: 10%;
+            left: 15%;
         }
     }
 }
