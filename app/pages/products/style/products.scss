@@ -147,9 +147,10 @@ main.products {
             }
 
             @for $i from 1 through 10 {
-                transform: translateY(50px);
-                opacity: 0;
                 &:nth-child(#{$i}) {
+                    transform: translateY(50px);
+                    opacity: 0;
+
                     animation: 0.5s
                         card-fadein
                         cubic-bezier(0.45, 0.02, 0.09, 0.98)
@@ -407,10 +408,49 @@ main.products {
         width: 100%;
         height: 100%;
 
-        position: absolute;
+        position: fixed;
+        top: 0;
         inset: 0;
         z-index: 2;
 
         backdrop-filter: blur(2px);
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 100px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        scroll-behavior: contain;
+
+        .popup-wrapper {
+            width: clamp(0px, 100%, 1200px);
+            aspect-ratio: 16 / 9;
+
+            background-color: white;
+            clip-path: polygon(
+                0 10%,
+                5% 0,
+                95% 0,
+                100% 10%,
+                100% 92%,
+                95% 100%,
+                5% 100%,
+                0 92%
+            );
+
+            z-index: 2;
+        }
+        .close-popup {
+            width: 100%;
+            height: 100%;
+
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            z-index: 1;
+        }
     }
 }
