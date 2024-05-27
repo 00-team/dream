@@ -201,8 +201,52 @@ main.products {
                     );
                 }
             }
-            &.netflix {
+            &.youtube {
+                &::before {
+                    background: radial-gradient(
+                        350px circle at var(--mouse-x) var(--mouse-y),
+                        rgba(206, 32, 31, 0.6),
+                        transparent 40%
+                    );
+                }
             }
+            &.applemusic {
+                &::before {
+                    background: radial-gradient(
+                        350px circle at var(--mouse-x) var(--mouse-y),
+                        rgb(251 34 61 / 70%),
+                        transparent 40%
+                    );
+                }
+            }
+            &.xbox {
+                &::before {
+                    background: radial-gradient(
+                        350px circle at var(--mouse-x) var(--mouse-y),
+                        rgb(16 124 15 / 70%),
+                        transparent 40%
+                    );
+                }
+            }
+            &.psn {
+                &::before {
+                    background: radial-gradient(
+                        350px circle at var(--mouse-x) var(--mouse-y),
+                        rgb(0 41 127 / 70%),
+                        transparent 40%
+                    );
+                }
+            }
+            &.canva {
+                &::before {
+                    background: radial-gradient(
+                        350px circle at var(--mouse-x) var(--mouse-y),
+                        rgb(13, 174, 207, 0.7),
+                        transparent 40%
+                    );
+                }
+            }
+
             &.tradingview {
                 &::before {
                     background: radial-gradient(
