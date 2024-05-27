@@ -18,6 +18,9 @@ import tradingviewBanner from 'static/imgs/banners/tradingview.jpg'
 import logo from 'static/imgs/logo.png'
 
 export const Services: Component = props => {
+    let lastScrollPosition = scrollY
+    let bubblesTransform = 0
+
     let section: HTMLElement
 
     let headerContainer: HTMLElement
@@ -28,6 +31,8 @@ export const Services: Component = props => {
     let servicesItems: HTMLElement
     let serviceRows: NodeListOf<HTMLElement>
     let itemsBg: HTMLElement
+
+    let bubbles: NodeListOf<HTMLElement>
 
     let icons: NodeListOf<HTMLElement>
 
@@ -80,19 +85,39 @@ export const Services: Component = props => {
             'h3.section_title#services_header'
         )
 
+        bubbles = document.querySelectorAll('.services-bubble')
+
         servicesWrapper =
             document.querySelector<HTMLElement>('.services-wrapper')
 
         icons = document.querySelectorAll('.icon-container')
 
-        let lastScrollPosition = scrollY
-        let rowScale = 0.5
-        let rowRotate = 45
-
         window.onscroll = () => {
+            let currentScrollPosition = scrollY
+
             headerAnim()
 
             IconsAnim()
+
+            let inSection =
+                scrollY >= section.offsetTop &&
+                scrollY <= section.offsetTop + innerHeight * 2
+
+            console.log(inSection)
+
+            if (inSection) {
+                if (currentScrollPosition > lastScrollPosition) {
+                    bubblesTransform -= 1
+                } else {
+                    bubblesTransform += 1
+                }
+
+                bubbles.forEach((elem: HTMLElement) => {
+                    elem.style.transform = `translateY(${bubblesTransform}px)`
+                })
+
+                lastScrollPosition = currentScrollPosition
+            }
         }
     })
 
