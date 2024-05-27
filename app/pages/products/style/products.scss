@@ -180,6 +180,28 @@ main.products {
                     );
                 }
             }
+            .card-buy {
+                width: 100%;
+                padding: 1rem;
+
+                margin-top: auto;
+                background-color: #0137ee;
+
+                border-radius: 10px;
+
+                transform: translateY(-13%);
+
+                clip-path: polygon(
+                    0% 0%,
+                    3% 0%,
+                    100% 0%,
+                    100% 30%,
+                    100% 42%,
+                    93% 100%,
+                    9% 100%,
+                    0% 42%
+                );
+            }
         }
     }
 }
