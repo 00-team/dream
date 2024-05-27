@@ -47,6 +47,36 @@ const Products: Component = props => {
                     title='تریدینگ ویو'
                     img={tradingviewbanner}
                 />
+                <ProductCard
+                    product='discord'
+                    title='دیسکورد'
+                    img={discordbanner}
+                />
+                <ProductCard
+                    product='spotify'
+                    title='اسپاتیفای'
+                    img={spotifybanner}
+                />
+                <ProductCard
+                    product='tradingview'
+                    title='تریدینگ ویو'
+                    img={tradingviewbanner}
+                />
+                <ProductCard
+                    product='discord'
+                    title='دیسکورد'
+                    img={discordbanner}
+                />
+                <ProductCard
+                    product='spotify'
+                    title='اسپاتیفای'
+                    img={spotifybanner}
+                />
+                <ProductCard
+                    product='tradingview'
+                    title='تریدینگ ویو'
+                    img={tradingviewbanner}
+                />
             </div>
         </main>
     )
