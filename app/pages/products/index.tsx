@@ -84,6 +84,7 @@ const Products: Component = props => {
                 <ProductCard product='xbox' title='گیم پس' img={xboxbanner} />
                 <ProductCard product='psn' title='پی اس ان' img={psnbanner} />
             </div>
+            <ProductPopUp />
         </main>
     )
 }
@@ -120,6 +121,12 @@ const ProductCard: Component<ProductCardProps> = P => {
             <button class='card-buy title_smaller'>خرید</button>
         </figure>
     )
+}
+
+interface ProductPopUpProps {}
+
+const ProductPopUp: Component<ProductPopUpProps> = P => {
+    return <div class='product-popup'></div>
 }
 
 export default Products
