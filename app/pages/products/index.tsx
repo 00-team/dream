@@ -96,7 +96,7 @@ interface ProductCardProps {
     product: string
 }
 
-const options = ['تضمین اصل بودن', 'تحویل فوری']
+const options = ['تضمین اصل بودن', 'تحویل فوری', 'درگاه معتبر']
 
 const ProductCard: Component<ProductCardProps> = P => {
     return (
