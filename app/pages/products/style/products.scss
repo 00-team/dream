@@ -137,9 +137,14 @@ main.products {
             position: relative;
             isolation: isolate;
 
+            will-change: filter, transform;
             transition: 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
             $delay: 0.05s;
+
+            &.fadeout {
+                filter: blur(2px);
+            }
 
             @for $i from 1 through 10 {
                 transform: translateY(50px);
