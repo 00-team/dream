@@ -3,7 +3,7 @@ import { Component, onMount } from 'solid-js'
 import './style/products.scss'
 
 import { CheckIcon } from 'icons/home'
-import { setpopup } from 'state/products'
+import { popup, setpopup } from 'state/products'
 import applemusicbanner from 'static/imgs/banners/applemusic.jpg'
 import canvabanner from 'static/imgs/banners/canva.png'
 import discordbanner from 'static/imgs/banners/discord.jpg'
@@ -133,7 +133,7 @@ interface ProductPopUpProps {}
 
 const ProductPopUp: Component<ProductPopUpProps> = P => {
     return (
-        <div class='product-popup'>
+        <div class='product-popup' classList={{ active: popup.show }}>
             <div
                 class='close-popup'
                 onclick={() => setpopup({ show: false })}
