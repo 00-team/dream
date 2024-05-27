@@ -422,7 +422,25 @@ main.products {
         justify-content: center;
         flex-direction: column;
 
-        scroll-behavior: contain;
+        visibility: hidden;
+        opacity: 0;
+
+        transition: 0.5s ease-in-out;
+        transition-delay: 0.5s;
+
+        &.active {
+            visibility: visible;
+            opacity: 1;
+
+            transition-delay: 0s;
+
+            .popup-wrapper {
+                max-height: 100%;
+                transform: rotateX(0deg);
+
+                transition-delay: 0.5s;
+            }
+        }
 
         .popup-wrapper {
             width: clamp(0px, 100%, 1200px);
@@ -441,6 +459,11 @@ main.products {
             );
 
             z-index: 2;
+
+            max-height: 0px;
+            transform: rotateX(40deg);
+
+            transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
         }
         .close-popup {
             width: 100%;
