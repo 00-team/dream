@@ -138,7 +138,10 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                 class='close-popup'
                 onclick={() => setpopup({ show: false })}
             ></div>
-            <div class='popup-wrapper'></div>
+            <div class='popup-wrapper'>
+                <aside class='popup-img'></aside>
+                <aside class='popup-data'></aside>
+            </div>
         </div>
     )
 }
