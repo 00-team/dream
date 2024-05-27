@@ -121,7 +121,13 @@ const ProductCard: Component<ProductCardProps> = P => {
 
             <button
                 class='card-buy title_smaller'
-                onclick={() => setpopup({ show: true })}
+                onclick={() =>
+                    setpopup({
+                        show: true,
+                        title: P.title,
+                        category: P.product,
+                    })
+                }
             >
                 خرید
             </button>
@@ -140,7 +146,11 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
             ></div>
             <div class='popup-wrapper'>
                 <aside class='popup-img'></aside>
-                <aside class='popup-data'></aside>
+                <aside class='popup-data'>
+                    <h2 class='item-title title'>
+                        <span>{popup.title}</span>
+                    </h2>
+                </aside>
             </div>
         </div>
     )
