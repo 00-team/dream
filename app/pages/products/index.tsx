@@ -3,9 +3,14 @@ import { Component, onMount } from 'solid-js'
 import './style/products.scss'
 
 import { CheckIcon } from 'icons/home'
+import applemusicbanner from 'static/imgs/banners/applemusic.jpg'
+import canvabanner from 'static/imgs/banners/canva.png'
 import discordbanner from 'static/imgs/banners/discord.jpg'
+import psnbanner from 'static/imgs/banners/psn.webp'
 import spotifybanner from 'static/imgs/banners/spotify.png'
 import tradingviewbanner from 'static/imgs/banners/tradingview.jpg'
+import xboxbanner from 'static/imgs/banners/xbox.jpg'
+import youtubebanner from 'static/imgs/banners/youtube.png'
 
 const Products: Component = props => {
     let cards: NodeListOf<HTMLElement>
@@ -27,7 +32,7 @@ const Products: Component = props => {
                 cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
                     if (card_id !== card) {
                         card_id.className = card_id.className.replace(
-                            'fadeout',
+                            ' fadeout',
                             ''
                         )
                     }
@@ -35,8 +40,6 @@ const Products: Component = props => {
             })
 
             card.onmousemove = e => {
-                const { currentTarget: target } = e
-
                 const rect = card.getBoundingClientRect()
 
                 let x = e.clientX - rect.left
@@ -67,36 +70,19 @@ const Products: Component = props => {
                     title='تریدینگ ویو'
                     img={tradingviewbanner}
                 />
+                <ProductCard product='canva' title='کانوا' img={canvabanner} />
                 <ProductCard
-                    product='discord'
-                    title='دیسکورد'
-                    img={discordbanner}
+                    product='applemusic'
+                    title='اپل موزیک'
+                    img={applemusicbanner}
                 />
                 <ProductCard
-                    product='spotify'
-                    title='اسپاتیفای'
-                    img={spotifybanner}
+                    product='youtube'
+                    title='یوتیوب'
+                    img={youtubebanner}
                 />
-                <ProductCard
-                    product='tradingview'
-                    title='تریدینگ ویو'
-                    img={tradingviewbanner}
-                />
-                <ProductCard
-                    product='discord'
-                    title='دیسکورد'
-                    img={discordbanner}
-                />
-                <ProductCard
-                    product='spotify'
-                    title='اسپاتیفای'
-                    img={spotifybanner}
-                />
-                <ProductCard
-                    product='tradingview'
-                    title='تریدینگ ویو'
-                    img={tradingviewbanner}
-                />
+                <ProductCard product='xbox' title='گیم پس' img={xboxbanner} />
+                <ProductCard product='psn' title='پی اس ان' img={psnbanner} />
             </div>
         </main>
     )
