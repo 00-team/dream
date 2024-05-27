@@ -1,6 +1,6 @@
 main.products {
     width: 100%;
-    // height: 100vh;
+    min-height: 100vh;
 
     display: flex;
     align-items: center;
@@ -201,6 +201,35 @@ main.products {
                     9% 100%,
                     0% 42%
                 );
+            }
+            .card-title {
+                width: 100%;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                margin-top: 1em;
+
+                &::before,
+                &::after {
+                    content: '';
+
+                    width: 100%;
+                    height: 1px;
+                }
+
+                &::after {
+                    background: linear-gradient(-45deg, black, transparent);
+                }
+                &::before {
+                    background: linear-gradient(45deg, black, transparent);
+                }
+
+                span {
+                    padding: 0 12px;
+                    white-space: nowrap;
+                }
             }
         }
     }
