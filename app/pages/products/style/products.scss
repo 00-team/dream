@@ -139,6 +139,32 @@ main.products {
 
             transition: 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
+            $delay: 0.05s;
+
+            @for $i from 1 through 10 {
+                transform: translateY(50px);
+                opacity: 0;
+                &:nth-child(#{$i}) {
+                    animation: 0.5s
+                        card-fadein
+                        cubic-bezier(0.45, 0.02, 0.09, 0.98)
+                        forwards;
+
+                    animation-delay: #{0.7 + $delay * $i};
+                }
+            }
+
+            @keyframes card-fadein {
+                from {
+                    transform: translateY(50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
             &::before {
                 content: '';
 
