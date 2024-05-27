@@ -457,7 +457,7 @@
         border: 2px solid rgba(255, 255, 255, 0.7);
         border-radius: 100vmax;
 
-        transition: 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+        transition: 2s ease-in-out;
         z-index: 3;
 
         .dot {
