@@ -132,7 +132,15 @@ const ProductCard: Component<ProductCardProps> = P => {
 interface ProductPopUpProps {}
 
 const ProductPopUp: Component<ProductPopUpProps> = P => {
-    return <div class='product-popup'></div>
+    return (
+        <div class='product-popup'>
+            <div
+                class='close-popup'
+                onclick={() => setpopup({ show: false })}
+            ></div>
+            <div class='popup-wrapper'></div>
+        </div>
+    )
 }
 
 export default Products
