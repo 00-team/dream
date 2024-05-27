@@ -29,6 +29,7 @@ const ProductCard: Component<ProductCardProps> = P => {
             <div class='img-wrapper'>
                 <img src={P.img} class='card-img' alt='' />
             </div>
+            <button class='card-buy title_smaller'>خرید</button>
         </div>
     )
 }
