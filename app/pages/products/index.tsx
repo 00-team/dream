@@ -9,11 +9,31 @@ import tradingviewbanner from 'static/imgs/banners/tradingview.jpg'
 
 const Products: Component = props => {
     let cards: NodeListOf<HTMLElement>
+    let cardsWrapper: HTMLElement
 
     onMount(() => {
+        cardsWrapper = document.querySelector('.products-wrapper')
         cards = document.querySelectorAll('.product-card')
 
         cards.forEach((card: HTMLElement) => {
+            card.addEventListener('mouseenter', () => {
+                cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
+                    if (card_id !== card) {
+                        card_id.className += ' fadeout'
+                    }
+                })
+            })
+            card.addEventListener('mouseleave', () => {
+                cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
+                    if (card_id !== card) {
+                        card_id.className = card_id.className.replace(
+                            'fadeout',
+                            ''
+                        )
+                    }
+                })
+            })
+
             card.onmousemove = e => {
                 const { currentTarget: target } = e
 
