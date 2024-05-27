@@ -11,9 +11,9 @@ const Products: Component = props => {
         <main class='products'>
             <header class='products-header'></header>
             <div class='products-wrapper'>
-                <ProductCard img={discordbanner} />
-                <ProductCard img={spotifybanner} />
-                <ProductCard img={tradingviewbanner} />
+                <ProductCard title='دیسکورد' img={discordbanner} />
+                <ProductCard title='اسپاتیفای' img={spotifybanner} />
+                <ProductCard title='تریدینگ ویو' img={tradingviewbanner} />
             </div>
         </main>
     )
@@ -21,16 +21,20 @@ const Products: Component = props => {
 
 interface ProductCardProps {
     img: string
-    // title:string
+    title: string
 }
 const ProductCard: Component<ProductCardProps> = P => {
     return (
-        <div class='product-card'>
+        <figure class='product-card'>
             <div class='img-wrapper'>
                 <img src={P.img} class='card-img' alt='' />
             </div>
+            <div class='card-title title_small'>
+                <span>{P.title}</span>
+            </div>
+
             <button class='card-buy title_smaller'>خرید</button>
-        </div>
+        </figure>
     )
 }
 
