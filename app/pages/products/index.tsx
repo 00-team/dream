@@ -3,6 +3,7 @@ import { Component, onMount } from 'solid-js'
 import './style/products.scss'
 
 import { CheckIcon } from 'icons/home'
+import { setpopup } from 'state/products'
 import applemusicbanner from 'static/imgs/banners/applemusic.jpg'
 import canvabanner from 'static/imgs/banners/canva.png'
 import discordbanner from 'static/imgs/banners/discord.jpg'
@@ -118,7 +119,12 @@ const ProductCard: Component<ProductCardProps> = P => {
                 })}
             </div>
 
-            <button class='card-buy title_smaller'>خرید</button>
+            <button
+                class='card-buy title_smaller'
+                onclick={() => setpopup({ show: true })}
+            >
+                خرید
+            </button>
         </figure>
     )
 }
