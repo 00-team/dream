@@ -3,6 +3,8 @@ import { Component, onMount } from 'solid-js'
 import './style/products.scss'
 
 import { CheckIcon } from 'icons/home'
+import { SupportIcon } from 'icons/navbar'
+import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { popup, setpopup } from 'state/products'
 import applemusicbanner from 'static/imgs/banners/applemusic.jpg'
 import canvabanner from 'static/imgs/banners/canva.png'
@@ -156,12 +158,22 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                         <span>{popup.title}</span>
                     </h2>
                     <div class='items-options'>
-                        {options.map(option => (
-                            <div class='option title_small'>
-                                <CheckIcon />
-                                {option}
-                            </div>
-                        ))}
+                        <div class='option title_small'>
+                            <CheckIcon />
+                            تضمین اصل بودن
+                        </div>
+                        <div class='option title_small'>
+                            <TimerIcon />
+                            تحویل فوری
+                        </div>
+                        <div class='option title_small'>
+                            <CreditCardIcon />
+                            درگاه معتبر
+                        </div>
+                        <div class='option title_small'>
+                            <SupportIcon />
+                            پشتیبانی 24 ساعت
+                        </div>
                     </div>
                 </aside>
                 <aside class='popup-img'>

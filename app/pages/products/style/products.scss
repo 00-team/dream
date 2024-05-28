@@ -528,6 +528,12 @@ main.products {
                         transform: translateY(50%);
                         opacity: 0;
 
+                        svg {
+                            * {
+                                fill: black;
+                            }
+                        }
+
                         @for $i from 1 through 10 {
                             &:nth-child(#{$i}) {
                                 animation-delay: calc(1s + #{$i} * 100ms);
