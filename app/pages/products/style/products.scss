@@ -552,6 +552,66 @@ main.products {
                         }
                     }
                 }
+
+                .buy-cta {
+                    width: 100%;
+
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    margin-top: auto;
+
+                    &:hover {
+                        .price {
+                            &::before,
+                            &::after {
+                                width: 0;
+                            }
+                        }
+                    }
+
+                    .price {
+                        width: 100%;
+
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        span {
+                            white-space: nowrap;
+                            padding: 0 1em;
+                        }
+
+                        &::before,
+                        &::after {
+                            content: '';
+
+                            width: 100%;
+                            height: 1px;
+
+                            transition: 0.7s ease-in-out;
+                        }
+
+                        &::after {
+                            background: linear-gradient(
+                                -45deg,
+                                black,
+                                transparent
+                            );
+                        }
+                        &::before {
+                            background: linear-gradient(
+                                45deg,
+                                black,
+                                transparent
+                            );
+                        }
+                    }
+                    .special {
+                        width: 100%;
+                    }
+                }
             }
 
             .popup-img {
