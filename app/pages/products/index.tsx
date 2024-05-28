@@ -96,7 +96,12 @@ interface ProductCardProps {
     product: string
 }
 
-const options = ['تضمین اصل بودن', 'تحویل فوری', 'درگاه معتبر']
+const options = [
+    'تضمین اصل بودن',
+    'تحویل فوری',
+    'درگاه معتبر',
+    'پشتیبانی 24 ساعت',
+]
 
 const ProductCard: Component<ProductCardProps> = P => {
     return (
@@ -109,7 +114,8 @@ const ProductCard: Component<ProductCardProps> = P => {
             </div>
 
             <div class='product-options'>
-                {options.map(text => {
+                {options.map((text, index) => {
+                    if (index >= 3) return
                     return (
                         <div class='product-option description'>
                             <CheckIcon />
@@ -144,14 +150,22 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                 class='close-popup'
                 onclick={() => setpopup({ show: false })}
             ></div>
-            <div class='popup-wrapper'>
-                <aside class='popup-img'>
-                    <img src={popup.img} alt='' />
-                </aside>
+            <div class={`popup-wrapper ${popup.category || ''}`}>
                 <aside class='popup-data'>
                     <h2 class='item-title title'>
                         <span>{popup.title}</span>
                     </h2>
+                    <div class='items-options'>
+                        {options.map(option => (
+                            <div class='option title_small'>
+                                <CheckIcon />
+                                {option}
+                            </div>
+                        ))}
+                    </div>
+                </aside>
+                <aside class='popup-img'>
+                    <img src={popup.img} alt='' />
                 </aside>
             </div>
         </div>
