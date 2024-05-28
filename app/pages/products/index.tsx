@@ -14,6 +14,7 @@ import spotifybanner from 'static/imgs/banners/spotify.png'
 import tradingviewbanner from 'static/imgs/banners/tradingview.jpg'
 import xboxbanner from 'static/imgs/banners/xbox.jpg'
 import youtubebanner from 'static/imgs/banners/youtube.png'
+import { Special } from 'components'
 
 const Products: Component = props => {
     let cards: NodeListOf<HTMLElement>
@@ -174,6 +175,13 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                             <SupportIcon />
                             پشتیبانی 24 ساعت
                         </div>
+                    </div>
+                    <div class='plan'></div>
+                    <div class='buy-cta title_small'>
+                        <span class='number price'>
+                            <span>121,000</span>
+                        </span>
+                        <Special text='خرید' />
                     </div>
                 </aside>
                 <aside class='popup-img'>
