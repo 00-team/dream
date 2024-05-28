@@ -16,6 +16,7 @@ import spotifyBanner from 'static/imgs/banners/spotify.png'
 import tradingviewBanner from 'static/imgs/banners/tradingview.jpg'
 
 import logo from 'static/imgs/logo.png'
+import { Special } from 'components'
 
 export const Services: Component = props => {
     let lastScrollPosition = scrollY
@@ -251,13 +252,7 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <a href='#about' class='cta title_smaller special'>
-                            <span>برو بریم</span>
-                            <div class='blur-wrapper'>
-                                <div class='bg-blur'></div>
-                            </div>
-                            <div class='btn-bg'></div>
-                        </a>
+                        <Special text='برو بریم'/>
                     </div>
                     <div class='item-service'>
                         <img src={tradingviewBanner} alt='' />
