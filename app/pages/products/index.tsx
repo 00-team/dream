@@ -145,7 +145,9 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                 onclick={() => setpopup({ show: false })}
             ></div>
             <div class='popup-wrapper'>
-                <aside class='popup-img'></aside>
+                <aside class='popup-img'>
+                    <img src={popup.img} alt='' />
+                </aside>
                 <aside class='popup-data'>
                     <h2 class='item-title title'>
                         <span>{popup.title}</span>
