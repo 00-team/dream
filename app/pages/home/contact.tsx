@@ -1,3 +1,4 @@
+import { Special } from 'components'
 import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 import { Component, onMount } from 'solid-js'
 
@@ -114,13 +115,7 @@ const Contact: Component = props => {
                         class='message title_smaller'
                         placeholder='پیام شما...'
                     ></textarea>
-                    <a class='cta title_smaller special'>
-                        <span>بفرست</span>
-                        <div class='blur-wrapper'>
-                            <div class='bg-blur'></div>
-                        </div>
-                        <div class='btn-bg'></div>
-                    </a>
+                    <Special text='بفرست'/>
                 </div>
                 <div class='socials'>
                     <a
