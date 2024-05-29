@@ -488,31 +488,103 @@ main.products {
             transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
             &.netflix {
-                background-image: linear-gradient(45deg, #360000, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #360000,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #5f70be;
+                }
             }
             &.spotify {
-                background-image: linear-gradient(45deg, #083600, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #1cbb00,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #1cbb00;
+                }
             }
             &.youtube {
-                background-image: linear-gradient(45deg, #a70000, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #a70000,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #a70000;
+                }
             }
             &.applemusic {
-                background-image: linear-gradient(45deg, #5e0000, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #5e0000,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #5e0000;
+                }
             }
             &.xbox {
-                background-image: linear-gradient(45deg, #083600, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #083600,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #083600;
+                }
             }
             &.psn {
-                background-image: linear-gradient(45deg, #002a64, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #002a64,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #002a64;
+                }
             }
             &.canva {
-                background-image: linear-gradient(45deg, #060036, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #060036,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #17a5d4;
+                }
             }
             &.tradingview {
-                background-image: linear-gradient(45deg, #030036, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #030036,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #030036;
+                }
             }
             &.discord {
-                background-image: linear-gradient(45deg, #001b36, transparent);
+                background-image: linear-gradient(
+                    45deg,
+                    #001b36,
+                    transparent 50%
+                );
+
+                .plan {
+                    border-bottom: 3px solid #001b36;
+                }
             }
 
             .popup-data {
@@ -593,10 +665,100 @@ main.products {
 
                 .plan {
                     width: 100%;
-                    height: 100px;
-                    background-color: grey;
 
-                    margin: auto 0;
+                    margin-top: 2em;
+
+                    position: relative;
+                    isolation: isolate;
+
+                    display: flex;
+                    flex-direction: column;
+
+                    z-index: 1;
+
+                    &.active {
+                        .plan-options {
+                            visibility: visible;
+                            opacity: 1;
+
+                            .plan-option {
+                                transform: translateX(0);
+                            }
+                        }
+                    }
+
+                    .selected {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        padding: 1em;
+
+                        background-color: transparent;
+                        color: black;
+                    }
+
+                    .plan-options {
+                        position: absolute;
+                        top: 150px;
+                        right: 0;
+
+                        max-height: 300px;
+                        width: 100%;
+
+                        display: flex;
+                        align-items: center;
+                        flex-direction: column;
+
+                        border-radius: 10px;
+
+                        filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.377));
+                        transform: translateY(-50px);
+
+                        visibility: hidden;
+                        opacity: 0;
+                        transition: 0.5s ease;
+
+                        overflow: auto;
+
+                        .plan-option {
+                            display: flex;
+                            width: 100%;
+                            background: white;
+                            text-align: right;
+                            padding: 1.54em 1em;
+
+                            position: relative;
+                            isolation: isolate;
+
+                            cursor: pointer;
+
+                            transform: translateX(100%);
+                            will-change: transform;
+                            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+
+                            @for $i from 1 through 20 {
+                                &:nth-child(#{$i}) {
+                                    transition-delay: calc(#{$i} * 100ms);
+                                }
+                            }
+
+                            &:not(:last-child) {
+                                &::before {
+                                    content: '';
+                                    width: 90%;
+                                    height: 1px;
+
+                                    background-color: black;
+
+                                    position: absolute;
+                                    bottom: 0;
+                                    right: 0;
+                                }
+                            }
+                        }
+                    }
                 }
                 .buy-cta {
                     width: 100%;
