@@ -9,7 +9,7 @@ import {
 import './style/products.scss'
 
 import { Special } from 'components'
-import { ArrowDownIcon, CheckIcon } from 'icons/home'
+import { ArrowDownIcon, CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { popup, setpopup } from 'state/products'
@@ -341,24 +341,27 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                 onclick={() => setpopup({ show: false })}
             ></div>
             <div class={`popup-wrapper ${popup.category || ''}`}>
+                <button class='close' onclick={() => setpopup({ show: false })}>
+                    <CrossIcon size={30} />
+                </button>
                 <aside class='popup-data'>
                     <h2 class='item-title title'>
                         <span>{popup.title}</span>
                     </h2>
                     <div class='items-options'>
-                        <div class='option title_small'>
+                        <div class='option title_smaller'>
                             <CheckIcon />
                             تضمین اصل بودن
                         </div>
-                        <div class='option title_small'>
+                        <div class='option title_smaller'>
                             <TimerIcon />
                             تحویل فوری
                         </div>
-                        <div class='option title_small'>
+                        <div class='option title_smaller'>
                             <CreditCardIcon />
                             درگاه معتبر
                         </div>
-                        <div class='option title_small'>
+                        <div class='option title_smaller'>
                             <SupportIcon />
                             پشتیبانی 24 ساعت
                         </div>
@@ -392,8 +395,9 @@ const ProductPlan: Component = P => {
     return (
         <div
             class='plan'
-            onmouseenter={() => setshowdrop(true)}
-            onmouseleave={() => setshowdrop(false)}
+            onmouseenter={() => innerWidth > 1024 && setshowdrop(true)}
+            onmouseleave={() => innerWidth > 1024 && setshowdrop(false)}
+            onclick={() => innerWidth <= 1024 && setshowdrop(s => !s)}
             classList={{ active: showdrop() }}
         >
             <button class='selected title_small'>
