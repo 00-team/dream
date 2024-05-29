@@ -435,7 +435,8 @@ main.products {
             transition-delay: 0s;
 
             .popup-wrapper {
-                max-height: 100%;
+                visibility: visible;
+                opacity: 1;
                 transform: rotateX(0deg);
 
                 transition-delay: 0.5s;
@@ -472,7 +473,8 @@ main.products {
 
             z-index: 2;
 
-            max-height: 0px;
+            visibility: hidden;
+            opacity: 0;
             transform: rotateX(40deg);
 
             transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
