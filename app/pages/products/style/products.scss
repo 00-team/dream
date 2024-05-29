@@ -424,6 +424,7 @@ main.products {
 
         backdrop-filter: blur(2px);
         background-color: rgba(0, 0, 0, 0.4);
+        padding: 0 3vw;
         padding-top: 100px;
 
         display: flex;
@@ -436,6 +437,11 @@ main.products {
 
         transition: 0.5s ease-in-out;
         transition-delay: 0.5s;
+
+        @media screen and (max-width: 768px) {
+            padding: 2vh 3vw;
+            padding-top: 70px;
+        }
 
         &.active {
             visibility: visible;
@@ -488,12 +494,37 @@ main.products {
 
             transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
+            overflow: hidden;
+
+            @media screen and (max-width: 1024px) {
+                aspect-ratio: 13 / 9;
+            }
+            @media screen and (max-width: 900px) {
+                aspect-ratio: 11 / 9;
+            }
+            @media screen and (max-width: 768px) {
+                height: 90%;
+                aspect-ratio: unset;
+                flex-direction: column-reverse;
+
+                clip-path: none;
+                border-radius: 1rem;
+            }
+
             &.netflix {
                 background-image: linear-gradient(
                     45deg,
                     #360000,
                     transparent 50%
                 );
+
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #360000,
+                        transparent 50%
+                    );
+                }
 
                 .plan {
                     border-bottom: 3px solid #e50914;
@@ -506,6 +537,14 @@ main.products {
                     transparent 50%
                 );
 
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #62af54,
+                        transparent 50%
+                    );
+                }
+
                 .plan {
                     border-bottom: 3px solid #1cbb00;
                 }
@@ -517,6 +556,14 @@ main.products {
                     transparent 50%
                 );
 
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #a70000,
+                        transparent 50%
+                    );
+                }
+
                 .plan {
                     border-bottom: 3px solid #a70000;
                 }
@@ -527,6 +574,13 @@ main.products {
                     #5e0000,
                     transparent 50%
                 );
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #5e0000,
+                        transparent 50%
+                    );
+                }
 
                 .plan {
                     border-bottom: 3px solid #5e0000;
@@ -539,6 +593,14 @@ main.products {
                     transparent 50%
                 );
 
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #083600,
+                        transparent 50%
+                    );
+                }
+
                 .plan {
                     border-bottom: 3px solid #083600;
                 }
@@ -549,6 +611,14 @@ main.products {
                     #002a64,
                     transparent 50%
                 );
+
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #002a64,
+                        transparent 50%
+                    );
+                }
 
                 .plan {
                     border-bottom: 3px solid #002a64;
@@ -561,6 +631,14 @@ main.products {
                     transparent 50%
                 );
 
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #060036,
+                        transparent 50%
+                    );
+                }
+
                 .plan {
                     border-bottom: 3px solid #17a5d4;
                 }
@@ -571,6 +649,14 @@ main.products {
                     #030036,
                     transparent 50%
                 );
+
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #030036,
+                        transparent 50%
+                    );
+                }
 
                 .plan {
                     border-bottom: 3px solid #030036;
@@ -583,8 +669,35 @@ main.products {
                     transparent 50%
                 );
 
+                @media screen and (max-width: 768px) {
+                    background-image: linear-gradient(
+                        172deg,
+                        #001b36,
+                        transparent 50%
+                    );
+                }
+
                 .plan {
                     border-bottom: 3px solid #001b36;
+                }
+            }
+
+            .close {
+                position: absolute;
+                top: 0;
+                right: 50px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.5em;
+
+                background-color: transparent;
+                color: var(--alert-error);
+
+                @media screen and (max-width: 768px) {
+                    top: 10px;
+                    right: 10px;
                 }
             }
 
@@ -596,6 +709,20 @@ main.products {
                 flex-direction: column;
 
                 padding: 3rem 3.5rem;
+
+                @media screen and (max-width: 1200px) {
+                    width: clamp(0px, 100%, 550px);
+
+                    padding-bottom: 1em;
+                }
+                @media screen and (max-width: 1000px) {
+                    width: clamp(0px, 100%, 450px);
+                }
+                @media screen and (max-width: 768px) {
+                    width: 100%;
+                    padding: 3rem 1.5rem;
+                    padding-bottom: 1em;
+                }
 
                 .item-title {
                     width: 100%;
@@ -629,8 +756,12 @@ main.products {
                     column-gap: 3vw;
                     row-gap: 1.5em;
 
+                    @media screen and (max-width: 768px) {
+                        justify-content: center;
+                    }
+
                     .option {
-                        width: clamp(0px, 250px, 100%);
+                        width: 45%;
                         display: flex;
                         align-items: center;
                         gap: 0.5em;
@@ -722,6 +853,13 @@ main.products {
                         transition: 0.5s ease;
 
                         overflow: auto;
+
+                        @media screen and (max-width: 1200px) {
+                            top: 0;
+                        }
+                        @media screen and (max-width: 768px) {
+                            top: -100px;
+                        }
 
                         .plan-option {
                             display: flex;
@@ -826,6 +964,15 @@ main.products {
                 flex: 1 0 0;
 
                 height: 100%;
+
+                @media screen and (max-width: 768px) {
+                    width: 100%;
+                    height: 150px;
+                }
+                @media screen and (max-width: 600px) {
+                    width: 100%;
+                    height: 100px;
+                }
 
                 img {
                     width: 100%;
