@@ -1,9 +1,15 @@
-import { Component, createEffect, onCleanup, onMount } from 'solid-js'
+import {
+    Component,
+    createEffect,
+    createSignal,
+    onCleanup,
+    onMount,
+} from 'solid-js'
 
 import './style/products.scss'
 
 import { Special } from 'components'
-import { CheckIcon } from 'icons/home'
+import { ArrowDownIcon, CheckIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { popup, setpopup } from 'state/products'
@@ -258,7 +264,7 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                         },
                         move: {
                             enable: true,
-                            speed: 6,
+                            speed: 3,
                             direction: 'none',
                             random: false,
                             straight: false,
@@ -357,7 +363,9 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                             پشتیبانی 24 ساعت
                         </div>
                     </div>
-                    <div class='plan'></div>
+
+                    <ProductPlan />
+
                     <div class='buy-cta title_small'>
                         <span class='number price'>
                             <span>121,000</span>
@@ -373,6 +381,34 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                         style={{ width: '100%', height: '100%' }}
                     ></div>
                 </aside>
+            </div>
+        </div>
+    )
+}
+
+const ProductPlan: Component = P => {
+    const [showdrop, setshowdrop] = createSignal(false)
+
+    return (
+        <div
+            class='plan'
+            onmouseenter={() => setshowdrop(true)}
+            onmouseleave={() => setshowdrop(false)}
+            classList={{ active: showdrop() }}
+        >
+            <button class='selected title_small'>
+                <div class='holder'>لورم ایپسوم</div>
+                <div class='arrow'>
+                    <ArrowDownIcon />
+                </div>
+            </button>
+            <div class='plan-options'>
+                <div class='plan-option title_smaller'>لورم ایپسوم</div>
+                <div class='plan-option title_smaller'>لورم ایپسوم</div>
+                <div class='plan-option title_smaller'>لورم ایپسوم</div>
+                <div class='plan-option title_smaller'>لورم ایپسوم</div>
+                <div class='plan-option title_smaller'>لورم ایپسوم</div>
+                <div class='plan-option title_smaller'>لورم ایپسوم</div>
             </div>
         </div>
     )
