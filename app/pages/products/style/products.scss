@@ -247,7 +247,15 @@ main.products {
                     );
                 }
             }
-
+            &.netflix {
+                &::before {
+                    background: radial-gradient(
+                        350px circle at var(--mouse-x) var(--mouse-y),
+                        rgb(182 15 24 / 72%),
+                        transparent 40%
+                    );
+                }
+            }
             &.tradingview {
                 &::before {
                     background: radial-gradient(
@@ -308,7 +316,7 @@ main.products {
 
                     background-image: linear-gradient(
                         to top,
-                        var(--accent-color),
+                        var(--accent-color) 20%,
                         transparent
                     );
                     z-index: 1;
@@ -478,6 +486,34 @@ main.products {
             transform: rotateX(40deg);
 
             transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+
+            &.netflix {
+                background-image: linear-gradient(45deg, #360000, transparent);
+            }
+            &.spotify {
+                background-image: linear-gradient(45deg, #083600, transparent);
+            }
+            &.youtube {
+                background-image: linear-gradient(45deg, #a70000, transparent);
+            }
+            &.applemusic {
+                background-image: linear-gradient(45deg, #5e0000, transparent);
+            }
+            &.xbox {
+                background-image: linear-gradient(45deg, #083600, transparent);
+            }
+            &.psn {
+                background-image: linear-gradient(45deg, #002a64, transparent);
+            }
+            &.canva {
+                background-image: linear-gradient(45deg, #060036, transparent);
+            }
+            &.tradingview {
+                background-image: linear-gradient(45deg, #030036, transparent);
+            }
+            &.discord {
+                background-image: linear-gradient(45deg, #001b36, transparent);
+            }
 
             .popup-data {
                 width: clamp(0px, 100%, 700px);
