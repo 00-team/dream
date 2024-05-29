@@ -81,6 +81,7 @@ main.products {
         linear-gradient(90deg, rgb(71, 69, 135), rgb(26, 138, 241));
     background-blend-mode: overlay, overlay, overlay, normal;
 
+    z-index: 2;
     animation: bg-anim 1s cubic-bezier(0.45, 0.02, 0.09, 0.98) forwards;
 
     @keyframes bg-anim {
