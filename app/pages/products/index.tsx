@@ -10,6 +10,7 @@ import { popup, setpopup } from 'state/products'
 import applemusicbanner from 'static/imgs/banners/applemusic.jpg'
 import canvabanner from 'static/imgs/banners/canva.png'
 import discordbanner from 'static/imgs/banners/discord.jpg'
+import netflixbanner from 'static/imgs/banners/netflix.jpg'
 import psnbanner from 'static/imgs/banners/psn.webp'
 import spotifybanner from 'static/imgs/banners/spotify.png'
 import tradingviewbanner from 'static/imgs/banners/tradingview.jpg'
@@ -101,6 +102,11 @@ const Products: Component = props => {
                 />
                 <ProductCard product='xbox' title='گیم پس' img={xboxbanner} />
                 <ProductCard product='psn' title='پی اس ان' img={psnbanner} />
+                <ProductCard
+                    product='netflix'
+                    title='نتفیلیکس'
+                    img={netflixbanner}
+                />
             </div>
             <ProductPopUp />
         </main>
@@ -193,7 +199,7 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                 {
                     particles: {
                         number: {
-                            value: 80,
+                            value: 70,
                             density: {
                                 enable: true,
                                 value_area: 800,
@@ -203,18 +209,24 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                             value: '#2a78bd',
                         },
                         shape: {
-                            type: 'circle',
-                            stroke: {
-                                width: 0,
-                                color: '#2a78bd',
-                            },
-                            polygon: {
-                                nb_sides: 5,
-                            },
+                            // type: 'circle',
+                            // stroke: {
+                            //     width: 0,
+                            //     color: '#2a78bd',
+                            // },
+                            // polygon: {
+                            //     nb_sides: 5,
+                            // },
+                            // image: {
+                            //     src: discord,
+                            //     width: 100,
+                            //     height: 100,
+                            // },
+                            type: 'image',
                             image: {
-                                src: tradingview,
-                                width: 100,
-                                height: 100,
+                                src: popup.img,
+                                width: 5000,
+                                height: 5000,
                             },
                         },
                         opacity: {
@@ -228,7 +240,7 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                             },
                         },
                         size: {
-                            value: 5,
+                            value: 50,
                             random: true,
                             anim: {
                                 enable: false,
@@ -238,7 +250,7 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                             },
                         },
                         line_linked: {
-                            enable: true,
+                            enable: false,
                             distance: 150,
                             color: '#2a78bd',
                             opacity: 0.4,
@@ -286,7 +298,7 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                                 speed: 3,
                             },
                             repulse: {
-                                distance: 200,
+                                distance: 100,
                             },
                             push: {
                                 particles_nb: 4,
