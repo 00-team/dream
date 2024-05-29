@@ -25,6 +25,7 @@ export const App = () => {
             <Router>
                 <Route path={'/'} component={Home} />
                 <Route path={'/products'} component={Products} />
+                <Route path={'/login'} component={Products} />
             </Router>
 
             <Footer />
