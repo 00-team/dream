@@ -501,7 +501,7 @@ main.products {
             &.spotify {
                 background-image: linear-gradient(
                     45deg,
-                    #1cbb00,
+                    #62af54,
                     transparent 50%
                 );
 
@@ -626,7 +626,7 @@ main.products {
                     flex-wrap: wrap;
 
                     column-gap: 3vw;
-                    row-gap: 1em;
+                    row-gap: 1.5em;
 
                     .option {
                         width: clamp(0px, 250px, 100%);
