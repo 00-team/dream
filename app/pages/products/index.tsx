@@ -2,6 +2,7 @@ import { Component, onMount } from 'solid-js'
 
 import './style/products.scss'
 
+import { Special } from 'components'
 import { CheckIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
@@ -14,7 +15,20 @@ import spotifybanner from 'static/imgs/banners/spotify.png'
 import tradingviewbanner from 'static/imgs/banners/tradingview.jpg'
 import xboxbanner from 'static/imgs/banners/xbox.jpg'
 import youtubebanner from 'static/imgs/banners/youtube.png'
-import { Special } from 'components'
+
+import applemusic from 'static/imgs/apple-music.png'
+import canva from 'static/imgs/canva.png'
+import discord from 'static/imgs/discord.png'
+import google from 'static/imgs/google.png'
+import grammerly from 'static/imgs/grammerly.png'
+import hbo from 'static/imgs/hbo.png'
+import netflix from 'static/imgs/netflix.jpg'
+import prime from 'static/imgs/prime.png'
+import psn from 'static/imgs/psn.jpg'
+import spotify from 'static/imgs/spotify.png'
+import tradingview from 'static/imgs/tradingview.png'
+import xbox from 'static/imgs/xbox.jpg'
+import youtube from 'static/imgs/youtube.png'
 
 const Products: Component = props => {
     let cards: NodeListOf<HTMLElement>
@@ -106,6 +120,22 @@ const options = [
     'پشتیبانی 24 ساعت',
 ]
 
+const imgs = {
+    xbox: xbox,
+    applemusic: applemusic,
+    canva: canva,
+    discord: discord,
+    psn: psn,
+    spotify: spotify,
+    tradingview: tradingview,
+    youtube: youtube,
+    netflix: netflix,
+    google: google,
+    grammerly: grammerly,
+    hbo: hbo,
+    prime: prime,
+}
+
 const ProductCard: Component<ProductCardProps> = P => {
     return (
         <figure class={`product-card ${P.product || ''}`}>
@@ -135,6 +165,7 @@ const ProductCard: Component<ProductCardProps> = P => {
                         show: true,
                         title: P.title,
                         category: P.product,
+                        img: imgs[P.product],
                     })
                 }
             >
@@ -147,6 +178,130 @@ const ProductCard: Component<ProductCardProps> = P => {
 interface ProductPopUpProps {}
 
 const ProductPopUp: Component<ProductPopUpProps> = P => {
+    onMount(() => {
+        // @ts-ignore
+        particlesJS(
+            'particles-js',
+
+            {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800,
+                        },
+                    },
+                    color: {
+                        value: '#2a78bd',
+                    },
+                    shape: {
+                        type: 'circle',
+                        stroke: {
+                            width: 0,
+                            color: '#2a78bd',
+                        },
+                        polygon: {
+                            nb_sides: 5,
+                        },
+                        image: {
+                            src: tradingview,
+                            width: 100,
+                            height: 100,
+                        },
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false,
+                        anim: {
+                            enable: false,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false,
+                        },
+                    },
+                    size: {
+                        value: 5,
+                        random: true,
+                        anim: {
+                            enable: false,
+                            speed: 40,
+                            size_min: 0.1,
+                            sync: false,
+                        },
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#2a78bd',
+                        opacity: 0.4,
+                        width: 1,
+                    },
+                    move: {
+                        enable: true,
+                        speed: 6,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200,
+                        },
+                    },
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'repulse',
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push',
+                        },
+                        resize: true,
+                    },
+                    modes: {
+                        grab: {
+                            distance: 400,
+                            line_linked: {
+                                opacity: 1,
+                            },
+                        },
+                        bubble: {
+                            distance: 400,
+                            size: 40,
+                            duration: 2,
+                            opacity: 8,
+                            speed: 3,
+                        },
+                        repulse: {
+                            distance: 200,
+                        },
+                        push: {
+                            particles_nb: 4,
+                        },
+                        remove: {
+                            particles_nb: 2,
+                        },
+                    },
+                },
+                retina_detect: true,
+                config_demo: {
+                    hide_card: false,
+                    background_color: '#b61924',
+                    background_image: '',
+                    background_position: '50% 50%',
+                    background_repeat: 'no-repeat',
+                    background_size: 'cover',
+                },
+            }
+        )
+    })
+
     return (
         <div class='product-popup' classList={{ active: popup.show }}>
             <div
@@ -185,7 +340,12 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                     </div>
                 </aside>
                 <aside class='popup-img'>
-                    <img src={popup.img} alt='' />
+                    {/* <img src={popup.img} alt='' /> */}
+                    <div
+                        id='particles-js'
+                        class='particles-js'
+                        style={{ width: '100%', height: '100%' }}
+                    ></div>
                 </aside>
             </div>
         </div>
