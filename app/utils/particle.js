@@ -105,7 +105,7 @@ var pJS = function (tag_id, params) {
                     duration: 0.4,
                 },
                 repulse: {
-                    distance: 200,
+                    distance: 10,
                     duration: 0.4,
                 },
                 push: {
