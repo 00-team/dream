@@ -130,10 +130,10 @@ const BigNav: Component = () => {
                     line.className = 'line title_small'
                 }}
             >
-                <a class='nav-link title_small' href='/'>
+                <A class='nav-link title_small' href='/'>
                     <HomeIcon />
                     خانه
-                </a>
+                </A>
                 <A
                     class='nav-link title_small'
                     href='/products'
@@ -145,18 +145,18 @@ const BigNav: Component = () => {
                     <ArrowDownIcon class='drop' />
                     <DropDownBig show={dropdown()} />
                 </A>
-                <a class='nav-link title_small' href='/#contact'>
+                <A class='nav-link title_small' href='/#about'>
                     <AboutIcon />
                     درباره ما
-                </a>
-                <a class='nav-link title_small' href='/#contact'>
+                </A>
+                <A class='nav-link title_small' href='/#contact'>
                     <SupportIcon />
                     ارتباط با ما
-                </a>
-                <a class='nav-link title_small' href='/#faq'>
+                </A>
+                <A class='nav-link title_small' href='/#faq'>
                     <FaqIcon />
                     سوالات متداول
-                </a>
+                </A>
                 <div class='line title_small' id='nav'></div>
             </div>
             <img class='nav-logo' src={logo} alt='' />
@@ -188,10 +188,10 @@ const SmallNav: Component = () => {
             </nav>
             <div class='show-small-nav' classList={{ active: showNav() }}>
                 <div class='nav-wrapper'>
-                    <a class='nav-link title_small' href='/'>
+                    <A class='nav-link title_small' href='/'>
                         <HomeIcon />
                         خانه
-                    </a>
+                    </A>
                     <div
                         class='nav-link title_small'
                         onclick={() => setshowDrop(s => !s)}
@@ -201,18 +201,18 @@ const SmallNav: Component = () => {
                         <ArrowDownIcon class='drop' />
                         <DropDownSmall show={showdrop()} />
                     </div>
-                    <a class='nav-link title_small' href='/#contact'>
+                    <A class='nav-link title_small' href='/#about'>
                         <AboutIcon />
                         درباره ما
-                    </a>
-                    <a class='nav-link title_small' href='/#contact'>
+                    </A>
+                    <A class='nav-link title_small' href='/#contact'>
                         <SupportIcon />
                         ارتباط با ما
-                    </a>
-                    <a class='nav-link title_small' href='/#faq'>
+                    </A>
+                    <A class='nav-link title_small' href='/#faq'>
                         <FaqIcon />
                         سوالات متداول
-                    </a>
+                    </A>
                 </div>
             </div>
         </>
