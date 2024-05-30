@@ -44,6 +44,18 @@ main.login {
 
         color: white;
 
+        .back-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1.2em 1.2em;
+
+            cursor: pointer;
+
+            color: white;
+            background-color: transparent;
+        }
+
         h2 {
             font-family: 'Merienda', cursive;
 
@@ -73,7 +85,7 @@ main.login {
                 align-items: center;
                 gap: 0.5em;
 
-                margin-bottom: 0.5em;
+                margin-bottom: 1em;
             }
 
             input {
