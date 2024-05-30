@@ -18,6 +18,7 @@ import CanvaImg from 'static/imgs/canva.png'
 import discordImg from 'static/imgs/discord.png'
 import spotifyImg from 'static/imgs/spotify.png'
 import youtubeImg from 'static/imgs/youtube.png'
+import { A } from '@solidjs/router'
 
 const Navbar: Component = props => {
     return (
@@ -133,7 +134,7 @@ const BigNav: Component = () => {
                     <HomeIcon />
                     خانه
                 </a>
-                <a
+                <A
                     class='nav-link title_small'
                     href='/products'
                     onmouseenter={() => setDropdown(true)}
@@ -143,7 +144,7 @@ const BigNav: Component = () => {
                     محصولات
                     <ArrowDownIcon class='drop' />
                     <DropDownBig show={dropdown()} />
-                </a>
+                </A>
                 <a class='nav-link title_small' href='/#contact'>
                     <AboutIcon />
                     درباره ما
