@@ -1,4 +1,4 @@
-import { PhoneIcon } from 'icons/login'
+import { GoBackIcon, PhoneIcon } from 'icons/login'
 import { Component } from 'solid-js'
 import { createStore } from 'solid-js/store'
 
@@ -42,6 +42,12 @@ const Login: Component = props => {
         <main class='login'>
             <iframe src='https://my.spline.design/untitled-51a258c8798e70e51855f9dd800ffa1c/'></iframe>
             <div class='login-wrapper'>
+                <button
+                    class='back-icon'
+                    onclick={() => setlogin({ stage: 'code' })}
+                >
+                    <GoBackIcon size={30} />
+                </button>
                 <h2 class='title'>Dream Pay</h2>
                 <h3 class='title_small'>ورود</h3>
 
