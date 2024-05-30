@@ -32,6 +32,7 @@ export default defineConfig(env => {
                     changeOrigin: true,
                 },
                 '/record/': target,
+                '/static/': target,
             },
         },
         root,

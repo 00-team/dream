@@ -4,34 +4,39 @@
         "kind": "spotify.family.1",
         "cost": 1200000,
         "color": "#1db954",
-        "image": "/static/spotify.png"
+        "logo": "/static/image/logo/spotify.png",
+        "image": "/static/image/banner/spotify.png"
     },
     {
         "name": "Spotify Family",
         "kind": "spotify.family.3",
         "cost": 4200000,
         "color": "#1db954",
-        "image": "/static/spotify.png"
+        "logo": "/static/image/logo/spotify.png",
+        "image": "/static/image/banner/spotify.png"
     },
     {
         "name": "Spotify Family",
         "kind": "spotify.family.6",
         "cost": 10200000,
         "color": "#1db954",
-        "image": "/static/spotify.png"
+        "logo": "/static/image/logo/spotify.png",
+        "image": "/static/image/banner/spotify.png"
     },
     {
         "name": "Spotify",
         "kind": "spotify.single",
         "cost": 900000,
         "color": "#1db954",
-        "image": "/static/spotify.png"
+        "logo": "/static/image/logo/spotify.png",
+        "image": "/static/image/banner/spotify.png"
     },
     {
         "name": "Netflix",
         "kind": "netflix",
         "cost": 850000,
         "color": "#e50914",
-        "image": "/static/netflix.png"
+        "logo": "/static/image/logo/netflix.jpg",
+        "image": "/static/image/banner/netflix.jpg"
     }
 ]

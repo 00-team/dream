@@ -9,6 +9,7 @@ pub struct Product {
     pub name: String,
     pub kind: String,
     pub cost: u64,
+    pub logo: String,
     pub color: String,
     pub image: String,
 }

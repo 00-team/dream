@@ -8,38 +8,23 @@ import {
 
 import './style/products.scss'
 
-import { Special } from 'components'
+import { Special } from 'comps'
 import { ArrowDownIcon, CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { popup, setpopup } from 'state/products'
-import applemusicbanner from 'static/imgs/banners/applemusic.jpg'
-import canvabanner from 'static/imgs/banners/canva.png'
-import discordbanner from 'static/imgs/banners/discord.jpg'
-import netflixbanner from 'static/imgs/banners/netflix.jpg'
-import psnbanner from 'static/imgs/banners/psn.webp'
-import spotifybanner from 'static/imgs/banners/spotify.png'
-import tradingviewbanner from 'static/imgs/banners/tradingview.jpg'
-import xboxbanner from 'static/imgs/banners/xbox.jpg'
-import youtubebanner from 'static/imgs/banners/youtube.png'
+import { createStore } from 'solid-js/store'
+import { Product } from 'models'
+import { httpx } from 'shared'
 
-import applemusic from 'static/imgs/apple-music.png'
-import canva from 'static/imgs/canva.png'
-import discord from 'static/imgs/discord.png'
-import google from 'static/imgs/google.png'
-import grammerly from 'static/imgs/grammerly.png'
-import hbo from 'static/imgs/hbo.png'
-import netflix from 'static/imgs/netflix.jpg'
-import prime from 'static/imgs/prime.png'
-import psn from 'static/imgs/psn.jpg'
-import spotify from 'static/imgs/spotify.png'
-import tradingview from 'static/imgs/tradingview.png'
-import xbox from 'static/imgs/xbox.jpg'
-import youtube from 'static/imgs/youtube.png'
-
-const Products: Component = props => {
+const Products: Component = () => {
     let cards: NodeListOf<HTMLElement>
     let cardsWrapper: HTMLElement
+
+    type State = {
+        products: { [k: string]: [Product, ...Product[]] }
+    }
+    const [state, setState] = createStore<State>({ products: {} })
 
     onMount(() => {
         cardsWrapper = document.querySelector('.products-wrapper')
@@ -74,55 +59,40 @@ const Products: Component = props => {
                 card.style.setProperty('--mouse-y', `${y}px`)
             }
         })
+
+        httpx({
+            url: '/api/products/',
+            method: 'GET',
+            onLoad(x) {
+                if (x.status != 200) return
+
+                let products: State['products'] = {}
+                let result = x.response as Product[]
+                result.forEach(p => {
+                    let [item] = p.kind.split('.')
+                    if (item in products) {
+                        products[item].push(p)
+                    } else {
+                        products[item] = [p]
+                    }
+                })
+
+                setState({ products })
+            },
+        })
     })
 
     return (
         <main class='products'>
             <header class='products-header'></header>
             <div class='products-wrapper'>
-                <ProductCard
-                    product='discord'
-                    title='دیسکورد'
-                    img={discordbanner}
-                />
-                <ProductCard
-                    product='spotify'
-                    title='اسپاتیفای'
-                    img={spotifybanner}
-                />
-                <ProductCard
-                    product='tradingview'
-                    title='تریدینگ ویو'
-                    img={tradingviewbanner}
-                />
-                <ProductCard product='canva' title='کانوا' img={canvabanner} />
-                <ProductCard
-                    product='applemusic'
-                    title='اپل موزیک'
-                    img={applemusicbanner}
-                />
-                <ProductCard
-                    product='youtube'
-                    title='یوتیوب'
-                    img={youtubebanner}
-                />
-                <ProductCard product='xbox' title='گیم پس' img={xboxbanner} />
-                <ProductCard product='psn' title='پی اس ان' img={psnbanner} />
-                <ProductCard
-                    product='netflix'
-                    title='نتفیلیکس'
-                    img={netflixbanner}
-                />
+                {Object.entries(state.products).map(([k, v]) => (
+                    <ProductCard product={v} item={k} />
+                ))}
             </div>
             <ProductPopUp />
         </main>
     )
-}
-
-interface ProductCardProps {
-    img: string
-    title: string
-    product: string
 }
 
 const options = [
@@ -132,30 +102,18 @@ const options = [
     'پشتیبانی 24 ساعت',
 ]
 
-const imgs = {
-    xbox: xbox,
-    applemusic: applemusic,
-    canva: canva,
-    discord: discord,
-    psn: psn,
-    spotify: spotify,
-    tradingview: tradingview,
-    youtube: youtube,
-    netflix: netflix,
-    google: google,
-    grammerly: grammerly,
-    hbo: hbo,
-    prime: prime,
+interface ProductCardProps {
+    item: string
+    product: [Product, ...Product[]]
 }
-
 const ProductCard: Component<ProductCardProps> = P => {
     return (
         <figure class={`product-card ${P.product || ''}`}>
             <div class='img-wrapper'>
-                <img src={P.img} class='card-img' alt='' />
+                <img src={P.product[0].image} class='card-img' alt='' />
             </div>
             <div class='card-title title_small'>
-                <span>{P.title}</span>
+                <span>{P.product[0].name}</span>
             </div>
 
             <div class='product-options'>
@@ -175,9 +133,9 @@ const ProductCard: Component<ProductCardProps> = P => {
                 onclick={() =>
                     setpopup({
                         show: true,
-                        title: P.title,
-                        category: P.product,
-                        img: imgs[P.product],
+                        title: P.product[0].name,
+                        category: P.item,
+                        img: P.product[0].logo,
                     })
                 }
             >
@@ -326,12 +284,12 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                 }
             )
         } else {
-            particles.childNodes[0].remove()
+            particles.childNodes.forEach(e => e.remove())
         }
     })
 
     onCleanup(() => {
-        particles.childNodes[0].remove()
+        particles.childNodes.forEach(e => e.remove())
     })
 
     return (

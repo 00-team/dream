@@ -1,5 +1,5 @@
-import { Route, Router } from '@solidjs/router'
-import { lazy } from 'solid-js'
+import { Route, RouteSectionProps, Router } from '@solidjs/router'
+import { Component, lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 
 const Home = lazy(() => import('./pages/home'))
@@ -7,13 +7,14 @@ const Products = lazy(() => import('./pages/products'))
 const Login = lazy(() => import('./pages/auth/login'))
 const Footer = lazy(() => import('./layout/footer'))
 const Navbar = lazy(() => import('./layout/navbar'))
+import { Alert } from 'comps'
 
 import './style/base.scss'
 import './style/config.scss'
 import './style/font/imports.scss'
 import './style/theme.scss'
 
-export const App = () => {
+const App: Component<RouteSectionProps> = P => {
     // onMount(() => {
     //     if ('serviceWorker' in navigator) {
     //         navigator.serviceWorker.register('/sw.js')
@@ -23,15 +24,23 @@ export const App = () => {
     return (
         <>
             <Navbar />
-            <Router>
-                <Route path={'/'} component={Home} />
-                <Route path={'/products'} component={Products} />
-                <Route path={'/login'} component={Login} />
-            </Router>
-
+            {P.children}
             <Footer />
+            <Alert />
         </>
     )
 }
 
-render(() => <App />, document.getElementById('root'))
+const Root = () => {
+    return (
+        <Router>
+            <Route component={App}>
+                <Route path='/' component={Home} />
+                <Route path='/products' component={Products} />
+                <Route path='/login' component={Login} />
+            </Route>
+        </Router>
+    )
+}
+
+render(() => <Root />, document.getElementById('root'))

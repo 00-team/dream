@@ -1,6 +1,6 @@
 import { Component } from 'solid-js'
 
-import "./style/special.scss"
+import './style/special.scss'
 
 interface SpecialProps {
     text: string

@@ -2,7 +2,7 @@ import { Component, onMount } from 'solid-js'
 
 import './style/customers.scss'
 
-import AudioFile from 'static/audio/type.mp3'
+import AudioFile from 'assets/audio/type.mp3'
 
 export const Customers: Component = props => {
     let section: HTMLElement
