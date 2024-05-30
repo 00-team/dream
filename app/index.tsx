@@ -36,8 +36,8 @@ const Root = () => {
         <Router>
             <Route component={App}>
                 <Route path='/' component={Home} />
-                <Route path='/products' component={Products} />
-                <Route path='/login' component={Login} />
+                <Route path='/products/' component={Products} />
+                <Route path='/login/' component={Login} />
             </Route>
         </Router>
     )
