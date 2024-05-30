@@ -75,10 +75,13 @@ main.login {
         .inp {
             display: flex;
             flex-direction: column;
-
             margin: auto 0;
-
             width: 100%;
+
+            &.disabled {
+                pointer-events: none;
+                opacity: 0.5;
+            }
 
             .holder {
                 display: flex;

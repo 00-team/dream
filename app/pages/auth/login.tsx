@@ -1,42 +1,81 @@
 import { GoBackIcon, PhoneIcon } from 'icons/login'
-import { Component } from 'solid-js'
 import { createStore } from 'solid-js/store'
 
 import './style/login.scss'
-
-type loginState = {
-    stage: 'phone' | 'code'
-    phone: string
-    code: string
-    error: string
-}
+import { httpx } from 'shared'
+import { Show } from 'solid-js'
+import { setSelf } from 'store/self'
+import { useNavigate } from '@solidjs/router'
 
 let phoneRegex = /^(0|09|09[0-9]{1,9})$/
 
-const Login: Component = props => {
-    const [login, setlogin] = createStore<loginState>({
+const Login = () => {
+    type State = {
+        stage: 'phone' | 'code'
+        phone: string
+        code: string
+        error: string
+        expires: number
+    }
+    const [state, setState] = createStore<State>({
         stage: 'phone',
+        expires: 0,
         phone: '',
         code: '',
         error: '',
     })
 
-    function CheckPhone() {
-        if (login.phone.length !== 11)
-            return setlogin({ error: 'شماره تلفن خود را به درستی وارد کنید!' })
+    const nav = useNavigate()
 
-        if (login.phone[0] !== '0')
-            return setlogin({
+    function verification() {
+        if (state.phone.length !== 11)
+            return setState({ error: 'شماره تلفن خود را به درستی وارد کنید!' })
+
+        if (state.phone[0] !== '0')
+            return setState({
                 error: 'شماره تلفن خود را با پیش شماره 0 وارد کنید',
             })
 
-        if (!phoneRegex.test(login.phone))
+        if (!phoneRegex.test(state.phone))
             return alert('شماره تلفن خود را به درستی وارد کنید!')
 
-        return setlogin({ stage: 'code' })
+        httpx({
+            url: '/api/verification/',
+            method: 'POST',
+            json: {
+                action: 'login',
+                phone: state.phone,
+            },
+            onLoad(x) {
+                if (x.status == 200) {
+                    setState({ stage: 'code', expires: x.response.expires })
+                } else {
+                    setState({ error: x.response.message })
+                }
+            },
+        })
     }
 
-    function CheckCode() {}
+    function login() {
+        if (state.code.length != 5) return
+
+        httpx({
+            url: '/api/user/login/',
+            method: 'POST',
+            json: {
+                code: state.code,
+                phone: state.phone,
+            },
+            onLoad(x) {
+                if (x.status == 200) {
+                    setSelf({ loged_in: true, fetch: false, user: x.response })
+                    nav('/')
+                } else {
+                    setState({ error: x.response.message })
+                }
+            },
+        })
+    }
 
     return (
         <main class='login'>
@@ -44,14 +83,17 @@ const Login: Component = props => {
             <div class='login-wrapper'>
                 <button
                     class='back-icon'
-                    onclick={() => setlogin({ stage: 'code' })}
+                    onclick={() => setState({ stage: 'code' })}
                 >
                     <GoBackIcon size={30} />
                 </button>
                 <h2 class='title'>Dream Pay</h2>
                 <h3 class='title_small'>ورود</h3>
 
-                <div class='inp phone'>
+                <div
+                    class='inp phone'
+                    classList={{ disabled: state.stage != 'phone' }}
+                >
                     <h3 class='holder title_smaller'>
                         <PhoneIcon />
                         شماره تلفن
@@ -61,15 +103,38 @@ const Login: Component = props => {
                         type={'number'}
                         inputmode={'numeric'}
                         maxlength='11'
-                        classList={{ inpError: login.error !== '' }}
+                        classList={{ inpError: state.error !== '' }}
                         placeholder='مثال: 09123456789'
-                        value={login.phone}
-                        oninput={e => {
-                            if (login.error) setlogin({ error: '' })
+                        value={state.phone}
+                        dir='ltr'
+                        onInput={e => {
+                            if (state.error) setState({ error: '' })
+                            setState({ phone: e.currentTarget.value })
+                        }}
+                    />
+                </div>
 
-                            return setlogin({
-                                phone: e.currentTarget.value,
-                            })
+                <div
+                    class='inp code'
+                    classList={{ disabled: state.stage != 'code' }}
+                >
+                    <h3 class='holder title_smaller'>
+                        <PhoneIcon />
+                        کد
+                    </h3>
+                    <input
+                        class='phone-inp title_small'
+                        type={'number'}
+                        inputmode={'numeric'}
+                        maxlength='11'
+                        classList={{ inpError: state.error !== '' }}
+                        maxLength={5}
+                        placeholder='مثال: 12345'
+                        value={state.code}
+                        dir='ltr'
+                        onInput={e => {
+                            if (state.error) setState({ error: '' })
+                            setState({ code: e.currentTarget.value })
                         }}
                     />
                 </div>
@@ -77,11 +142,13 @@ const Login: Component = props => {
                 <button
                     class='title_smaller cta'
                     onclick={() => {
-                        if (login.stage === 'phone') CheckPhone()
-                        else CheckCode()
+                        if (state.stage === 'phone') verification()
+                        else login()
                     }}
                 >
-                    ارسال کد
+                    <Show when={state.stage == 'phone'} fallback='تایید کد'>
+                        ارسال کد
+                    </Show>
                 </button>
             </div>
         </main>
