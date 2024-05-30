@@ -326,12 +326,12 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
                 }
             )
         } else {
-            particles.childNodes[0].remove()
+            particles.childNodes.forEach(e => e.remove())
         }
     })
 
     onCleanup(() => {
-        particles.childNodes[0].remove()
+        particles.childNodes.forEach(e => e.remove())
     })
 
     return (
