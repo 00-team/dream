@@ -87,46 +87,8 @@ const Products: Component = () => {
             <header class='products-header'></header>
             <div class='products-wrapper'>
                 {Object.entries(state.products).map(([k, v]) => (
-                    <ProductCard
-                        product={k}
-                        title={v[0].name}
-                        img={v[0].image}
-                    />
+                    <ProductCard product={v} item={k} />
                 ))}
-                {/*
-                <ProductCard
-                    product='discord'
-                    title='دیسکورد'
-                    img={discordbanner}
-                />
-                <ProductCard
-                    product='spotify'
-                    title='اسپاتیفای'
-                    img={spotifybanner}
-                />
-                <ProductCard
-                    product='tradingview'
-                    title='تریدینگ ویو'
-                    img={tradingviewbanner}
-                />
-                <ProductCard product='canva' title='کانوا' img={canvabanner} />
-                <ProductCard
-                    product='applemusic'
-                    title='اپل موزیک'
-                    img={applemusicbanner}
-                />
-                <ProductCard
-                    product='youtube'
-                    title='یوتیوب'
-                    img={youtubebanner}
-                />
-                <ProductCard product='xbox' title='گیم پس' img={xboxbanner} />
-                <ProductCard product='psn' title='پی اس ان' img={psnbanner} />
-                <ProductCard
-                    product='netflix'
-                    title='نتفیلیکس'
-                    img={netflixbanner}
-                />*/}
             </div>
             <ProductPopUp />
         </main>
@@ -140,34 +102,18 @@ const options = [
     'پشتیبانی 24 ساعت',
 ]
 
-// const imgs = {
-//     xbox: xbox,
-//     applemusic: applemusic,
-//     canva: canva,
-//     discord: discord,
-//     psn: psn,
-//     spotify: spotify,
-//     tradingview: tradingview,
-//     youtube: youtube,
-//     netflix: netflix,
-//     google: google,
-//     grammerly: grammerly,
-//     hbo: hbo,
-//     prime: prime,
-// }
 interface ProductCardProps {
-    img: string
-    title: string
-    product: string
+    item: string
+    product: [Product, ...Product[]]
 }
 const ProductCard: Component<ProductCardProps> = P => {
     return (
         <figure class={`product-card ${P.product || ''}`}>
             <div class='img-wrapper'>
-                <img src={P.img} class='card-img' alt='' />
+                <img src={P.product[0].image} class='card-img' alt='' />
             </div>
             <div class='card-title title_small'>
-                <span>{P.title}</span>
+                <span>{P.product[0].name}</span>
             </div>
 
             <div class='product-options'>
@@ -187,9 +133,9 @@ const ProductCard: Component<ProductCardProps> = P => {
                 onclick={() =>
                     setpopup({
                         show: true,
-                        title: P.title,
-                        category: P.product,
-                        img: '',
+                        title: P.product[0].name,
+                        category: P.item,
+                        img: P.product[0].logo,
                     })
                 }
             >
