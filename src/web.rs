@@ -6,7 +6,8 @@ use std::fs::read_to_string;
 
 #[routes]
 #[get("/")]
-#[get("/login")]
+#[get("/login/")]
+#[get("/products/")]
 async fn app_index() -> HttpResponse {
     let result = read_to_string("app/dist/index.html")
         .unwrap_or("err reading app index.html".to_string());
