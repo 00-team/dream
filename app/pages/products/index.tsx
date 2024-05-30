@@ -8,7 +8,7 @@ import {
 
 import './style/products.scss'
 
-import { Special } from 'components'
+import { Special } from 'comps'
 import { ArrowDownIcon, CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
