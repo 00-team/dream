@@ -73,9 +73,6 @@ const Products: Component = () => {
         //         })
         //     })
         //
-        //     card.onmousemove = e => {
-
-        //     }
         // })
     })
 
