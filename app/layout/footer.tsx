@@ -3,7 +3,7 @@ import { Component } from 'solid-js'
 import './style/footer.scss'
 
 import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
-import logo from 'static/imgs/logo.png'
+import logo from 'assets/image/logo.png'
 
 const Footer: Component = props => {
     return (

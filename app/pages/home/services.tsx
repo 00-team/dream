@@ -2,20 +2,9 @@ import { Component, JSX, onMount } from 'solid-js'
 
 import './style/services.scss'
 
-import appleMusicImg from 'static/imgs/apple-music.png'
-import CanvaImg from 'static/imgs/canva.png'
-import discordImg from 'static/imgs/discord.png'
-import psnImg from 'static/imgs/psn.jpg'
-import spotifyImg from 'static/imgs/spotify.png'
-import xboxImg from 'static/imgs/xbox.jpg'
-import youtubeImg from 'static/imgs/youtube.png'
-
 import { PlusIcon } from 'icons/home'
-import discordBanner from 'static/imgs/banners/discord.jpg'
-import spotifyBanner from 'static/imgs/banners/spotify.png'
-import tradingviewBanner from 'static/imgs/banners/tradingview.jpg'
 
-import logo from 'static/imgs/logo.png'
+import logo from 'assets/image/logo.png'
 import { Special } from 'comps'
 
 export const Services: Component = props => {
@@ -134,7 +123,7 @@ export const Services: Component = props => {
                     </span>
                 </h3>
             </header>
-            <div class='icons-container'>
+            {/*<div class='icons-container'>
                 <ServiceIcon link='/#' img={CanvaImg} />
                 <ServiceIcon link='/#' img={discordImg} />
 
@@ -143,7 +132,7 @@ export const Services: Component = props => {
                 <ServiceIcon link='/#' img={psnImg} />
                 <ServiceIcon link='/#' img={youtubeImg} />
                 <ServiceIcon link='/#' img={appleMusicImg} />
-            </div>
+            </div>*/}
 
             <ServicesWrapper />
 
@@ -205,7 +194,7 @@ const ServicesWrapper: Component = () => {
 
                 <div class='items-wrapper'>
                     <div class='item-service'>
-                        <img src={discordBanner} alt='' />
+                        <img src='/static/image/banner/discord.jpg' alt='' />
 
                         <p class='title item-title'>
                             <span>Discord Nitro</span>
@@ -231,7 +220,7 @@ const ServicesWrapper: Component = () => {
                         </a>
                     </div>
                     <div class='item-service main'>
-                        <img src={spotifyBanner} alt='' />
+                        <img src={'/static/image/banner/spotify.png'} alt='' />
 
                         <p class='title item-title'>
                             <span>Spotify</span>
@@ -255,7 +244,10 @@ const ServicesWrapper: Component = () => {
                         <Special text='برو بریم' />
                     </div>
                     <div class='item-service'>
-                        <img src={tradingviewBanner} alt='' />
+                        <img
+                            src={'/static/image/banner/tradingview.jpg'}
+                            alt=''
+                        />
 
                         <p class='title item-title'>
                             <span>TradingView</span>
