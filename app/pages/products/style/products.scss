@@ -182,7 +182,7 @@ main.products {
 
                 background: radial-gradient(
                     350px circle at var(--mouse-x) var(--mouse-y),
-                    rgba(255, 255, 255, 0.06),
+                    rgba(var(--color), 70%),
                     transparent 40%
                 );
 
@@ -192,88 +192,6 @@ main.products {
                 transition: opacity 500ms;
 
                 z-index: -1;
-            }
-
-            &.spotify {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgba(75, 233, 158, 0.639),
-                        transparent 40%
-                    );
-                }
-            }
-            &.youtube {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgba(206, 32, 31, 0.6),
-                        transparent 40%
-                    );
-                }
-            }
-            &.applemusic {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgb(251 34 61 / 70%),
-                        transparent 40%
-                    );
-                }
-            }
-            &.xbox {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgb(16 124 15 / 70%),
-                        transparent 40%
-                    );
-                }
-            }
-            &.psn {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgb(0 41 127 / 70%),
-                        transparent 40%
-                    );
-                }
-            }
-            &.canva {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgb(13, 174, 207, 0.7),
-                        transparent 40%
-                    );
-                }
-            }
-            &.netflix {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgb(182 15 24 / 72%),
-                        transparent 40%
-                    );
-                }
-            }
-            &.tradingview {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgba(0, 70, 77, 0.341),
-                        transparent 40%
-                    );
-                }
-            }
-            &.discord {
-                &::before {
-                    background: radial-gradient(
-                        350px circle at var(--mouse-x) var(--mouse-y),
-                        rgb(111 122 239 / 70%),
-                        transparent 40%
-                    );
-                }
             }
 
             &:hover {
@@ -475,6 +393,11 @@ main.products {
             align-items: center;
 
             background-color: white;
+            background-image: linear-gradient(
+                45deg,
+                var(--color),
+                transparent 50%
+            );
             clip-path: polygon(
                 0 10%,
                 5% 0,
@@ -509,178 +432,183 @@ main.products {
 
                 clip-path: none;
                 border-radius: 1rem;
-            }
-
-            &.netflix {
                 background-image: linear-gradient(
-                    45deg,
-                    #360000,
+                    172deg,
+                    var(--color),
                     transparent 50%
                 );
-
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #360000,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #e50914;
-                }
             }
-            &.spotify {
-                background-image: linear-gradient(
-                    45deg,
-                    #62af54,
-                    transparent 50%
-                );
 
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #62af54,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #1cbb00;
-                }
-            }
-            &.youtube {
-                background-image: linear-gradient(
-                    45deg,
-                    #a70000,
-                    transparent 50%
-                );
-
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #a70000,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #a70000;
-                }
-            }
-            &.applemusic {
-                background-image: linear-gradient(
-                    45deg,
-                    #5e0000,
-                    transparent 50%
-                );
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #5e0000,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #5e0000;
-                }
-            }
-            &.xbox {
-                background-image: linear-gradient(
-                    45deg,
-                    #083600,
-                    transparent 50%
-                );
-
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #083600,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #083600;
-                }
-            }
-            &.psn {
-                background-image: linear-gradient(
-                    45deg,
-                    #002a64,
-                    transparent 50%
-                );
-
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #002a64,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #002a64;
-                }
-            }
-            &.canva {
-                background-image: linear-gradient(
-                    45deg,
-                    #060036,
-                    transparent 50%
-                );
-
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #060036,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #17a5d4;
-                }
-            }
-            &.tradingview {
-                background-image: linear-gradient(
-                    45deg,
-                    #030036,
-                    transparent 50%
-                );
-
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #030036,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #030036;
-                }
-            }
-            &.discord {
-                background-image: linear-gradient(
-                    45deg,
-                    #001b36,
-                    transparent 50%
-                );
-
-                @media screen and (max-width: 768px) {
-                    background-image: linear-gradient(
-                        172deg,
-                        #001b36,
-                        transparent 50%
-                    );
-                }
-
-                .plan {
-                    border-bottom: 3px solid #001b36;
-                }
-            }
+            // &.netflix {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #360000,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #360000,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #e50914;
+            //     }
+            // }
+            // &.spotify {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #62af54,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #62af54,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #1cbb00;
+            //     }
+            // }
+            // &.youtube {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #a70000,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #a70000,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #a70000;
+            //     }
+            // }
+            // &.applemusic {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #5e0000,
+            //         transparent 50%
+            //     );
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #5e0000,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #5e0000;
+            //     }
+            // }
+            // &.xbox {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #083600,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #083600,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #083600;
+            //     }
+            // }
+            // &.psn {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #002a64,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #002a64,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #002a64;
+            //     }
+            // }
+            // &.canva {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #060036,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #060036,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #17a5d4;
+            //     }
+            // }
+            // &.tradingview {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #030036,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #030036,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #030036;
+            //     }
+            // }
+            // &.discord {
+            //     background-image: linear-gradient(
+            //         45deg,
+            //         #001b36,
+            //         transparent 50%
+            //     );
+            //
+            //     @media screen and (max-width: 768px) {
+            //         background-image: linear-gradient(
+            //             172deg,
+            //             #001b36,
+            //             transparent 50%
+            //         );
+            //     }
+            //
+            //     .plan {
+            //         border-bottom: 3px solid #001b36;
+            //     }
+            // }
 
             .close {
                 position: absolute;
@@ -802,6 +730,7 @@ main.products {
 
                     position: relative;
                     isolation: isolate;
+                    border-bottom: 3px solid var(--color);
 
                     display: flex;
                     flex-direction: column;

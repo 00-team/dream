@@ -15,51 +15,15 @@ import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { popup, setpopup } from 'state/products'
 import { createStore } from 'solid-js/store'
 import { Product } from 'models'
-import { httpx } from 'shared'
+import { hex_to_rgb, httpx } from 'shared'
 
 const Products: Component = () => {
-    let cards: NodeListOf<HTMLElement>
-    let cardsWrapper: HTMLElement
-
     type State = {
         products: { [k: string]: [Product, ...Product[]] }
     }
     const [state, setState] = createStore<State>({ products: {} })
 
     onMount(() => {
-        cardsWrapper = document.querySelector('.products-wrapper')
-        cards = document.querySelectorAll('.product-card')
-
-        cards.forEach((card: HTMLElement) => {
-            card.addEventListener('mouseenter', () => {
-                cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
-                    if (card_id !== card) {
-                        card_id.className += ' fadeout'
-                    }
-                })
-            })
-            card.addEventListener('mouseleave', () => {
-                cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
-                    if (card_id !== card) {
-                        card_id.className = card_id.className.replace(
-                            ' fadeout',
-                            ''
-                        )
-                    }
-                })
-            })
-
-            card.onmousemove = e => {
-                const rect = card.getBoundingClientRect()
-
-                let x = e.clientX - rect.left
-                let y = e.clientY - rect.top
-
-                card.style.setProperty('--mouse-x', `${x}px`)
-                card.style.setProperty('--mouse-y', `${y}px`)
-            }
-        })
-
         httpx({
             url: '/api/products/',
             method: 'GET',
@@ -82,10 +46,43 @@ const Products: Component = () => {
         })
     })
 
+    let products_wrapper: HTMLDivElement
+    createEffect(() => {
+        // cardsWrapper = document.querySelector('.products-wrapper')
+        // cards = document.querySelectorAll('.product-card')
+        //
+        let cards =
+            products_wrapper.querySelectorAll<HTMLDivElement>('.product-card')
+
+        // cards.forEach((card: HTMLElement) => {
+        //     card.addEventListener('mouseenter', () => {
+        //         products_wrapper.childNodes.forEach((card_id: HTMLElement) => {
+        //             if (card_id !== card) {
+        //                 card_id.className += ' fadeout'
+        //             }
+        //         })
+        //     })
+        //     card.addEventListener('mouseleave', () => {
+        //         cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
+        //             if (card_id !== card) {
+        //                 card_id.className = card_id.className.replace(
+        //                     ' fadeout',
+        //                     ''
+        //                 )
+        //             }
+        //         })
+        //     })
+        //
+        //     card.onmousemove = e => {
+
+        //     }
+        // })
+    })
+
     return (
         <main class='products'>
             <header class='products-header'></header>
-            <div class='products-wrapper'>
+            <div class='products-wrapper' ref={products_wrapper}>
                 {Object.entries(state.products).map(([k, v]) => (
                     <ProductCard product={v} item={k} />
                 ))}
@@ -108,7 +105,20 @@ interface ProductCardProps {
 }
 const ProductCard: Component<ProductCardProps> = P => {
     return (
-        <figure class={`product-card ${P.product || ''}`}>
+        <figure
+            class='product-card'
+            onMouseMove={e => {
+                let el = e.currentTarget
+                const rect = el.getBoundingClientRect()
+
+                let x = e.clientX - rect.left
+                let y = e.clientY - rect.top
+
+                el.style.setProperty('--mouse-x', `${x}px`)
+                el.style.setProperty('--mouse-y', `${y}px`)
+            }}
+            style={{ '--color': hex_to_rgb(P.product[0].color) }}
+        >
             <div class='img-wrapper'>
                 <img src={P.product[0].image} class='card-img' alt='' />
             </div>
@@ -136,6 +146,7 @@ const ProductCard: Component<ProductCardProps> = P => {
                         title: P.product[0].name,
                         category: P.item,
                         img: P.product[0].logo,
+                        color: P.product[0].color,
                     })
                 }
             >
@@ -293,7 +304,11 @@ const ProductPopUp: Component<ProductPopUpProps> = P => {
     })
 
     return (
-        <div class='product-popup' classList={{ active: popup.show }}>
+        <div
+            class='product-popup'
+            classList={{ active: popup.show }}
+            style={{ '--color': popup.color }}
+        >
             <div
                 class='close-popup'
                 onclick={() => setpopup({ show: false })}

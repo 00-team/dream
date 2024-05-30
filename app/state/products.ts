@@ -5,6 +5,7 @@ const [popup, setpopup] = createStore({
     title: '',
     category: '',
     img: '',
+    color: '',
 })
 
 export { popup, setpopup }
