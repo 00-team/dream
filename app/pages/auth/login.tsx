@@ -3,8 +3,8 @@ import { createStore } from 'solid-js/store'
 
 import './style/login.scss'
 import { httpx } from 'shared'
-import { Show } from 'solid-js'
-import { setSelf } from 'store/self'
+import { Show, createEffect } from 'solid-js'
+import { self, setSelf } from 'store/self'
 import { useNavigate } from '@solidjs/router'
 
 let phoneRegex = /^(0|09|09[0-9]{1,9})$/
@@ -24,8 +24,11 @@ const Login = () => {
         code: '',
         error: '',
     })
-
     const nav = useNavigate()
+
+    createEffect(() => {
+        if (self.loged_in) nav('/')
+    })
 
     function verification() {
         if (state.phone.length !== 11)
