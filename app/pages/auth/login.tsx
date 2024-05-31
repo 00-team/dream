@@ -122,7 +122,7 @@ const Login = () => {
                 <button
                     class='back-icon'
                     type={'reset'}
-                    onclick={() => setState({ stage: 'phone' })}
+                    onclick={() => setState({ stage: 'phone', phone: '' })}
                 >
                     <GoBackIcon size={30} />
                 </button>
