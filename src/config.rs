@@ -14,7 +14,7 @@ pub struct Product {
     pub plans: HashMap<String, (u64, String)>,
 }
 
-type Products = HashMap<String, Product>;
+pub type Products = HashMap<String, Product>;
 
 #[derive(Debug)]
 /// Main Config
