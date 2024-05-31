@@ -1,10 +1,9 @@
-export type Product = {
-    kind: string
-    name: string
-    cost: number
+export type ProductModel = {
     logo: string
+    data: string[]
     color: string
     image: string
+    plans: { [k: string]: [number, string] }
 }
 
 export type UserModel = {
