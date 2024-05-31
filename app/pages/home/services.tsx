@@ -219,7 +219,7 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <a href='#about' class='cta title_smaller'>
+                        <a href='/products' class='cta title_smaller'>
                             <span>برو بریم</span>
                         </a>
                     </div>
@@ -245,7 +245,7 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <Special text='برو بریم' />
+                        <Special link='products' text='برو بریم' />
                     </div>
                     <div class='item-service'>
                         <img
@@ -272,7 +272,7 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <a href='#about' class='cta title_smaller'>
+                        <a href='/products' class='cta title_smaller'>
                             <span>برو بریم</span>
                         </a>
                     </div>

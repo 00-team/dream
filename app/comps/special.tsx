@@ -5,11 +5,15 @@ import './style/special.scss'
 interface SpecialProps {
     text: string
     class?: string
+    link?: string
 }
 
 export const Special: Component<SpecialProps> = P => {
     return (
-        <a href='#about' class={`special title_smaller ${P.class || ''}`}>
+        <a
+            href={P.link ? P.link : ''}
+            class={`special title_smaller ${P.class || ''}`}
+        >
             <span>{P.text}</span>
             <div class='blur-wrapper'>
                 <div class='bg-blur'></div>
