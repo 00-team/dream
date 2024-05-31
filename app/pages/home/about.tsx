@@ -1,7 +1,7 @@
 import { CheckIcon, CrossIcon } from 'icons/home'
 import { Component, onMount } from 'solid-js'
 
-import VanillaTilt from 'utils/tilt'
+import VanillaTilt from 'shared/tilt'
 
 import './style/about.scss'
 
