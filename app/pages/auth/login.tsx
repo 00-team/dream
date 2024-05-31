@@ -98,7 +98,7 @@ const Login = () => {
                     setState({ loading: false })
                     nav('/')
                 } else {
-                    setState({ error: x.response.message })
+                    setState({ error: x.response.message, loading: false })
                 }
             },
         })
@@ -157,7 +157,10 @@ const Login = () => {
                         )}
                     </div>
 
-                    <div class='inp code'>
+                    <div
+                        class='inp code'
+                        classList={{ error: state.error !== '' }}
+                    >
                         <h3 class='holder title_smaller'>
                             <PhoneIcon />
                             کد فعالسازی
@@ -177,6 +180,9 @@ const Login = () => {
                                 setState({ code: e.currentTarget.value })
                             }}
                         />
+                        {state.error && (
+                            <p class='error title_smaller'>{state.error}</p>
+                        )}
 
                         <p class='title_smaller desc'>
                             کد 5 رقمی برای شماره {state.phone} ارسال شد.
