@@ -22,10 +22,12 @@
         flex-direction: column;
         gap: 5vh;
 
-        background-color: #3fd3ff;
+        background-color: #84e3ff;
+        border-top-left-radius: 70px;
+        border-bottom-left-radius: 70px;
 
         padding: 3vh 0;
-        padding-top: 6vh;
+        padding-top: 120px;
 
         @media screen and (max-width: 1024px) {
             width: 100%;
@@ -45,10 +47,20 @@
             position: relative;
 
             .profile-avatar {
-                object-fit: cover;
                 width: 100px;
                 aspect-ratio: 1/1;
+
                 border-radius: 100vmax;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
             }
             .name-avatar {
                 display: flex;
@@ -61,7 +73,8 @@
 
                 overflow: hidden;
 
-                span {
+                span,
+                h2 {
                     padding: 0 20px;
 
                     display: inline-block;
