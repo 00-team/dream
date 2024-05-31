@@ -1,4 +1,5 @@
 export type ProductModel = {
+    name: string
     logo: string
     data: string[]
     color: string

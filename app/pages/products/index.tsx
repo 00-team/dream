@@ -117,7 +117,7 @@ const ProductCard: Component<ProductCardProps> = P => {
                 <img src={P.product.image} class='card-img' alt='' />
             </div>
             <div class='card-title title_small'>
-                <span>Name...</span>
+                <span>{P.product.name}</span>
             </div>
 
             <div class='product-options'>
@@ -137,7 +137,7 @@ const ProductCard: Component<ProductCardProps> = P => {
                 onclick={() =>
                     setpopup({
                         show: true,
-                        title: 'no name',
+                        title: P.product.name,
                         category: P.item,
                         img: P.product.logo,
                         color: P.product.color,

@@ -7,6 +7,7 @@ use utoipa::ToSchema;
 
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 pub struct Product {
+    pub name: String,
     pub logo: String,
     pub data: Vec<String>,
     pub color: String,

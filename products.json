@@ -1,5 +1,6 @@
 {
     "spotify": {
+        "name": "اسپاتیفای",
         "logo": "/static/image/logo/spotify.png",
         "data": ["username", "password"],
         "color": "#1db954",
@@ -14,6 +15,7 @@
         }
     },
     "netflix": {
+        "name": "نتفلیکس",
         "logo": "/static/image/logo/netflix.jpg",
         "data": ["email", "password"],
         "color": "#e50914",

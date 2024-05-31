@@ -21,6 +21,7 @@ pub struct ApiDoc;
     responses(
         (status = 200, body = HashMap<String, Product>, example = json!({
             "spotify": {
+                "name": "اسپاتیفای",
                 "logo": "/static/image/logo/spotify.png",
                 "data": ["username", "password"],
                 "color": "#1db954",
