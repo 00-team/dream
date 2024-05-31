@@ -123,16 +123,20 @@ export const Services: Component = props => {
                     </span>
                 </h3>
             </header>
-            {/*<div class='icons-container'>
-                <ServiceIcon link='/#' img={CanvaImg} />
-                <ServiceIcon link='/#' img={discordImg} />
 
-                <ServiceIcon link='/#' img={xboxImg} />
-                <ServiceIcon link='/#' img={spotifyImg} />
-                <ServiceIcon link='/#' img={psnImg} />
-                <ServiceIcon link='/#' img={youtubeImg} />
-                <ServiceIcon link='/#' img={appleMusicImg} />
-            </div>*/}
+            <div class='icons-container'>
+                <ServiceIcon link='/#' img={'/static/image/logo/canva.png'} />
+                <ServiceIcon link='/#' img={'/static/image/logo/discord.png'} />
+
+                <ServiceIcon link='/#' img={'/static/image/logo/xbox.jpg'} />
+                <ServiceIcon link='/#' img={'/static/image/logo/spotify.png'} />
+                <ServiceIcon link='/#' img={'/static/image/logo/psn.jpg'} />
+                <ServiceIcon link='/#' img={'/static/image/logo/youtube.png'} />
+                <ServiceIcon
+                    link='/#'
+                    img={'/static/image/logo/apple-music.png'}
+                />
+            </div>
 
             <ServicesWrapper />
 
@@ -215,7 +219,7 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <a href='#about' class='cta title_smaller'>
+                        <a href='/products' class='cta title_smaller'>
                             <span>برو بریم</span>
                         </a>
                     </div>
@@ -241,7 +245,7 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <Special text='برو بریم' />
+                        <Special link='products' text='برو بریم' />
                     </div>
                     <div class='item-service'>
                         <img
@@ -268,7 +272,7 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <a href='#about' class='cta title_smaller'>
+                        <a href='/products' class='cta title_smaller'>
                             <span>برو بریم</span>
                         </a>
                     </div>

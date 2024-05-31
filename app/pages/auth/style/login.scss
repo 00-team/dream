@@ -9,6 +9,8 @@ main.login {
     align-items: center;
     justify-content: center;
 
+    padding: 5vh 3vw;
+
     background-color: #0e0e0e;
 
     overflow: hidden;
@@ -34,7 +36,7 @@ main.login {
         align-items: center;
         flex-direction: column;
 
-        padding: 2em;
+        padding: 2em 1.5em;
 
         background: rgb(21 210 255 / 21%);
         border-radius: 16px;
@@ -43,6 +45,15 @@ main.login {
         border: 1px solid rgb(0 253 255 / 30%);
 
         color: white;
+
+        overflow: hidden;
+
+        @media screen and (max-width: 768px) {
+            padding: 0.8em;
+        }
+        @media screen and (max-width: 425px) {
+            aspect-ratio: 1 / 1.6;
+        }
 
         .back-icon {
             position: absolute;
@@ -72,32 +83,80 @@ main.login {
             margin: 0;
         }
 
-        .inp {
+        .inps {
             display: flex;
-            flex-direction: column;
-            margin: auto 0;
+            align-items: center;
+            justify-content: center;
             width: 100%;
 
-            &.disabled {
-                pointer-events: none;
-                opacity: 0.5;
+            margin: auto 0;
+
+            position: relative;
+            isolation: isolate;
+
+            &.code {
+                .inp {
+                    &.phone {
+                        transform: translateX(-200%);
+                    }
+                    &.code {
+                        transform: translateX(0);
+                    }
+                }
             }
 
-            .holder {
+            .inp {
                 display: flex;
-                align-items: center;
-                gap: 0.5em;
+                flex-direction: column;
+                width: 100%;
 
-                margin-bottom: 1em;
-            }
+                transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
-            input {
-                background-color: white;
-                border: none;
-                border-radius: 0.5rem;
-                padding: 0.5em;
+                &.error {
+                    input {
+                        border: 2px solid var(--alert-error);
+                    }
+                }
 
-                color: black;
+                &.disabled {
+                    pointer-events: none;
+                    opacity: 0.5;
+                }
+
+                &.code {
+                    position: absolute;
+                    inset: 0;
+
+                    transform: translateX(200%);
+                }
+
+                .error {
+                    border-bottom: 1px solid red;
+                    padding-bottom: 0.5em;
+                    margin-top: 1em;
+                }
+                .desc {
+                    margin-top: 1em;
+                }
+
+                .holder {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5em;
+
+                    margin-bottom: 1em;
+
+                    font-family: 'yekanBold';
+                }
+
+                input {
+                    background-color: white;
+                    border: none;
+                    border-radius: 0.5rem;
+                    padding: 0.5em;
+
+                    color: black;
+                }
             }
         }
 
@@ -110,6 +169,49 @@ main.login {
             background-image: linear-gradient(45deg, #ff6eff 50%, #3fd3ff);
             color: black;
             border-radius: 0.7em 0.5rem;
+
+            position: relative;
+            isolation: isolate;
+
+            // overflow: hidden;
+
+            /* HTML: <div class="loading"></div> */
+            .loading-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: inherit;
+
+                background-image: linear-gradient(45deg, #ff6eff 50%, #3fd3ff);
+
+                width: 100%;
+                height: 100%;
+
+                padding: 10px;
+
+                position: absolute;
+                inset: 0;
+
+                z-index: 1;
+
+                img {
+                    height: 100%;
+                    aspect-ratio: 1/1;
+                    object-fit: contain;
+
+                    animation: bounce 0.5s alternate infinite;
+
+                    @keyframes bounce {
+                        from {
+                            transform: scaleX(1.3);
+                        }
+                        to {
+                            transform: translateY(-100%) scaleX(1);
+                        }
+                    }
+                }
+            }
         }
     }
 }
