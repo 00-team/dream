@@ -7,6 +7,8 @@ import { createEffect, Show } from 'solid-js'
 import { self, setSelf } from 'store/self'
 import './style/login.scss'
 
+import logo from 'assets/image/logo.png'
+
 let phoneRegex = /^(0|09|09[0-9]{1,9})$/
 
 const Login = () => {
@@ -16,6 +18,7 @@ const Login = () => {
         code: string
         error: string
         expires: number
+        loading: boolean
     }
     const [state, setState] = createStore<State>({
         stage: 'phone',
@@ -23,6 +26,7 @@ const Login = () => {
         phone: '',
         code: '',
         error: '',
+        loading: false,
     })
     const nav = useNavigate()
 
@@ -30,17 +34,28 @@ const Login = () => {
         if (self.loged_in) nav('/')
     })
 
+    createEffect(() => {
+        console.log(state.loading)
+    })
+
     function verification() {
         if (state.phone.length !== 11)
-            return setState({ error: 'شماره تلفن خود را به درستی وارد کنید!' })
+            return setState({
+                error: 'شماره تلفن خود را به درستی وارد کنید!',
+                loading: false,
+            })
 
         if (state.phone[0] !== '0')
             return setState({
                 error: 'شماره تلفن خود را با پیش شماره 0 وارد کنید',
+                loading: false,
             })
 
         if (!phoneRegex.test(state.phone))
-            return alert('شماره تلفن خود را به درستی وارد کنید!')
+            return setState({
+                error: 'شماره تلفن خود را به درستی وارد کنید!',
+                loading: false,
+            })
 
         httpx({
             url: '/api/verification/',
@@ -51,16 +66,24 @@ const Login = () => {
             },
             onLoad(x) {
                 if (x.status == 200) {
-                    setState({ stage: 'code', expires: x.response.expires })
+                    setState({
+                        stage: 'code',
+                        loading: false,
+                        expires: x.response.expires,
+                    })
                 } else {
-                    setState({ error: x.response.message })
+                    setState({ error: x.response.message, loading: false })
                 }
             },
         })
     }
 
     function login() {
-        if (state.code.length != 5) return
+        if (state.code.length != 5)
+            return setState({
+                loading: false,
+                error: 'کد را به درستی وارد کنید!',
+            })
 
         httpx({
             url: '/api/user/login/',
@@ -72,6 +95,7 @@ const Login = () => {
             onLoad(x) {
                 if (x.status == 200) {
                     setSelf({ loged_in: true, fetch: false, user: x.response })
+                    setState({ loading: false })
                     nav('/')
                 } else {
                     setState({ error: x.response.message })
@@ -86,6 +110,10 @@ const Login = () => {
             <form
                 onsubmit={e => {
                     e.preventDefault()
+                    if (state.loading) return
+
+                    setState({ loading: true })
+
                     if (state.stage === 'phone') verification()
                     else login()
                 }}
@@ -93,6 +121,7 @@ const Login = () => {
             >
                 <button
                     class='back-icon'
+                    type={'reset'}
                     onclick={() => setState({ stage: 'phone' })}
                 >
                     <GoBackIcon size={30} />
@@ -156,7 +185,12 @@ const Login = () => {
                 </div>
 
                 <button class='title_smaller cta' type={'submit'}>
-                    <Show when={state.stage == 'phone'} fallback='تایید کد'>
+                    {state.loading && (
+                        <div class='loading-wrapper'>
+                            <img src={logo} alt='' />
+                        </div>
+                    )}
+                    <Show when={state.stage == 'phone'} fallback='ورود'>
                         ارسال کد
                     </Show>
                 </button>
