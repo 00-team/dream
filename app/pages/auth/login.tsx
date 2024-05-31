@@ -1,11 +1,11 @@
 import { GoBackIcon, PhoneIcon } from 'icons/login'
 import { createStore } from 'solid-js/store'
 
-import './style/login.scss'
-import { httpx } from 'shared'
-import { Show, createEffect } from 'solid-js'
-import { self, setSelf } from 'store/self'
 import { useNavigate } from '@solidjs/router'
+import { httpx } from 'shared'
+import { createEffect, Show } from 'solid-js'
+import { self, setSelf } from 'store/self'
+import './style/login.scss'
 
 let phoneRegex = /^(0|09|09[0-9]{1,9})$/
 
@@ -83,77 +83,84 @@ const Login = () => {
     return (
         <main class='login'>
             <iframe src='https://my.spline.design/untitled-51a258c8798e70e51855f9dd800ffa1c/'></iframe>
-            <div class='login-wrapper'>
+            <form
+                onsubmit={e => {
+                    e.preventDefault()
+                    if (state.stage === 'phone') verification()
+                    else login()
+                }}
+                class='login-wrapper'
+            >
                 <button
                     class='back-icon'
-                    onclick={() => setState({ stage: 'code' })}
+                    onclick={() => setState({ stage: 'phone' })}
                 >
                     <GoBackIcon size={30} />
                 </button>
                 <h2 class='title'>Dream Pay</h2>
                 <h3 class='title_small'>ورود</h3>
 
-                <div
-                    class='inp phone'
-                    classList={{ disabled: state.stage != 'phone' }}
-                >
-                    <h3 class='holder title_smaller'>
-                        <PhoneIcon />
-                        شماره تلفن
-                    </h3>
-                    <input
-                        class='phone-inp title_small'
-                        type={'number'}
-                        inputmode={'numeric'}
-                        maxlength='11'
-                        classList={{ inpError: state.error !== '' }}
-                        placeholder='مثال: 09123456789'
-                        value={state.phone}
-                        dir='ltr'
-                        onInput={e => {
-                            if (state.error) setState({ error: '' })
-                            setState({ phone: e.currentTarget.value })
-                        }}
-                    />
+                <div class='inps' classList={{ code: state.stage === 'code' }}>
+                    <div
+                        class='inp phone'
+                        classList={{ error: state.error !== '' }}
+                    >
+                        <h3 class='holder title_smaller'>
+                            <PhoneIcon />
+                            شماره تلفن
+                        </h3>
+                        <input
+                            class='phone-inp title_small'
+                            type={'number'}
+                            inputmode={'numeric'}
+                            maxlength='11'
+                            classList={{ inpError: state.error !== '' }}
+                            placeholder='مثال: 09123456789'
+                            value={state.phone}
+                            dir='ltr'
+                            onInput={e => {
+                                if (state.error) setState({ error: '' })
+                                setState({ phone: e.currentTarget.value })
+                            }}
+                        />
+                        {state.error && (
+                            <p class='error title_smaller'>{state.error}</p>
+                        )}
+                    </div>
+
+                    <div class='inp code'>
+                        <h3 class='holder title_smaller'>
+                            <PhoneIcon />
+                            کد فعالسازی
+                        </h3>
+                        <input
+                            class='phone-inp title_small'
+                            type={'number'}
+                            inputmode={'numeric'}
+                            maxlength='11'
+                            classList={{ inpError: state.error !== '' }}
+                            maxLength={5}
+                            placeholder='مثال: 12345'
+                            value={state.code}
+                            dir='ltr'
+                            onInput={e => {
+                                if (state.error) setState({ error: '' })
+                                setState({ code: e.currentTarget.value })
+                            }}
+                        />
+
+                        <p class='title_smaller desc'>
+                            کد 5 رقمی برای شماره {state.phone} ارسال شد.
+                        </p>
+                    </div>
                 </div>
 
-                <div
-                    class='inp code'
-                    classList={{ disabled: state.stage != 'code' }}
-                >
-                    <h3 class='holder title_smaller'>
-                        <PhoneIcon />
-                        کد
-                    </h3>
-                    <input
-                        class='phone-inp title_small'
-                        type={'number'}
-                        inputmode={'numeric'}
-                        maxlength='11'
-                        classList={{ inpError: state.error !== '' }}
-                        maxLength={5}
-                        placeholder='مثال: 12345'
-                        value={state.code}
-                        dir='ltr'
-                        onInput={e => {
-                            if (state.error) setState({ error: '' })
-                            setState({ code: e.currentTarget.value })
-                        }}
-                    />
-                </div>
-
-                <button
-                    class='title_smaller cta'
-                    onclick={() => {
-                        if (state.stage === 'phone') verification()
-                        else login()
-                    }}
-                >
+                <button class='title_smaller cta' type={'submit'}>
                     <Show when={state.stage == 'phone'} fallback='تایید کد'>
                         ارسال کد
                     </Show>
                 </button>
-            </div>
+            </form>
         </main>
     )
 }
