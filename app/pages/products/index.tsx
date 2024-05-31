@@ -12,10 +12,10 @@ import { Special } from 'comps'
 import { ArrowDownIcon, CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
-import { popup, setpopup } from 'state/products'
-import { createStore } from 'solid-js/store'
 import { Product } from 'models'
 import { hex_to_rgb, httpx } from 'shared'
+import { createStore } from 'solid-js/store'
+import { popup, setpopup } from 'state/products'
 
 const Products: Component = () => {
     type State = {
@@ -32,8 +32,10 @@ const Products: Component = () => {
 
                 let products: State['products'] = {}
                 let result = x.response as Product[]
+
                 result.forEach(p => {
                     let [item] = p.kind.split('.')
+
                     if (item in products) {
                         products[item].push(p)
                     } else {
@@ -87,6 +89,15 @@ const Products: Component = () => {
             <ProductPopUp />
         </main>
     )
+}
+
+let plans = {
+    '1': 'یک ماهه',
+    '2': 'دو ماهه',
+    '3': 'سه ماهه',
+    '6': 'شیش ماهه',
+    '12': 'یک ساله',
+    '24': 'دو ساله',
 }
 
 const options = [
@@ -377,12 +388,9 @@ const ProductPlan: Component = P => {
                 </div>
             </button>
             <div class='plan-options'>
-                <div class='plan-option title_smaller'>لورم ایپسوم</div>
-                <div class='plan-option title_smaller'>لورم ایپسوم</div>
-                <div class='plan-option title_smaller'>لورم ایپسوم</div>
-                <div class='plan-option title_smaller'>لورم ایپسوم</div>
-                <div class='plan-option title_smaller'>لورم ایپسوم</div>
-                <div class='plan-option title_smaller'>لورم ایپسوم</div>
+                <div class='plan-option title_smaller'>یک ماه </div>
+                <div class='plan-option title_smaller'>سه ماه </div>
+                <div class='plan-option title_smaller'>یک سال </div>
             </div>
         </div>
     )
