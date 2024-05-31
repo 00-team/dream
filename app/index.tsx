@@ -5,6 +5,7 @@ import { render } from 'solid-js/web'
 const Home = lazy(() => import('./pages/home'))
 const Products = lazy(() => import('./pages/products'))
 const Login = lazy(() => import('./pages/auth/login'))
+const Dashboard = lazy(() => import('./pages/dashboard'))
 const Footer = lazy(() => import('./layout/footer'))
 const Navbar = lazy(() => import('./layout/navbar'))
 import { Alert } from 'comps'
@@ -38,6 +39,7 @@ const Root = () => {
                 <Route path='/' component={Home} />
                 <Route path='/products/' component={Products} />
                 <Route path='/login/' component={Login} />
+                <Route path='/dashboard/' component={Dashboard} />
             </Route>
         </Router>
     )
