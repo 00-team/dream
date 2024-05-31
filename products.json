@@ -1,32 +1,30 @@
-[
-    {
-        "item": "spotify",
-        "color": "#1db954",
+{
+    "spotify": {
         "logo": "/static/image/logo/spotify.png",
-        "image": "/static/image/banner/spotify.png",
         "data": ["username", "password"],
-        "variants": [
-            { "kind": "family.1", "cost": 1200000, "name": "خانواده ۱ ماهه" },
-            { "kind": "family.3", "cost": 3200000, "name": "خانواده ۳ ماهه" },
-            { "kind": "family.6", "cost": 6200000, "name": "خانواده ۶ ماهه" },
-            { "kind": "single.1", "cost": 6200000, "name": "۱ ماهه" },
-            { "kind": "single.3", "cost": 6200000, "name": "۳ ماهه" },
-            { "kind": "single.6", "cost": 6200000, "name": "۶ ماهه" }
-        ]
+        "color": "#1db954",
+        "image": "/static/image/banner/spotify.png",
+        "plans": {
+            "family.1": [1200000, "خانواده ۱ ماهه"],
+            "family.3": [3200000, "خانواده ۳ ماهه"],
+            "family.6": [6200000, "خانواده ۶ ماهه"],
+            "single.1": [6200000, "۱ ماهه"],
+            "single.3": [6200000, "۳ ماهه"],
+            "single.6": [6200000, "۶ ماهه"]
+        }
     },
-    {
-        "item": "netflix",
-        "color": "#e50914",
+    "netflix": {
         "logo": "/static/image/logo/netflix.jpg",
-        "image": "/static/image/banner/netflix.jpg",
         "data": ["email", "password"],
-        "variants": [
-            { "kind": "family.1", "cost": 1200000, "name": "خانواده ۱ ماهه" },
-            { "kind": "family.3", "cost": 3200000, "name": "خانواده ۳ ماهه" },
-            { "kind": "family.6", "cost": 6200000, "name": "خانواده ۶ ماهه" },
-            { "kind": "single.1", "cost": 6200000, "name": "۱ ماهه" },
-            { "kind": "single.3", "cost": 6200000, "name": "۳ ماهه" },
-            { "kind": "single.6", "cost": 6200000, "name": "۶ ماهه" }
-        ]
+        "color": "#e50914",
+        "image": "/static/image/banner/netflix.jpg",
+        "plans": {
+            "family.1": [1200000, "خانواده ۱ ماهه"],
+            "family.3": [3200000, "خانواده ۳ ماهه"],
+            "family.6": [6200000, "خانواده ۶ ماهه"],
+            "single.1": [6200000, "۱ ماهه"],
+            "single.3": [6200000, "۳ ماهه"],
+            "single.6": [6200000, "۶ ماهه"]
+        }
     }
-]
+}

@@ -1,24 +1,26 @@
-use std::{fs::read_to_string, sync::OnceLock};
+use std::collections::HashMap;
 use std::env::var as evar;
+use std::{fs::read_to_string, sync::OnceLock};
 
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 pub struct Product {
-    pub name: String,
-    pub kind: String,
-    pub cost: u64,
     pub logo: String,
+    pub data: Vec<String>,
     pub color: String,
     pub image: String,
+    pub plans: HashMap<String, (u64, String)>,
 }
+
+type Products = HashMap<String, Product>;
 
 #[derive(Debug)]
 /// Main Config
 pub struct Config {
     pub discord_webhook: String,
-    pub products: Vec<Product>,
+    pub products: Products,
     pub zarinpal_merchant_id: String,
 }
 
@@ -32,7 +34,7 @@ impl Config {
 pub fn config() -> &'static Config {
     static STATE: OnceLock<Config> = OnceLock::new();
 
-    let products = serde_json::from_str::<Vec<Product>>(
+    let products = serde_json::from_str::<Products>(
         &read_to_string("./products.json").expect("fail to read products.json"),
     )
     .expect("invalid products.json");

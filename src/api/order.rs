@@ -48,6 +48,7 @@ async fn order_list(
 #[derive(Debug, Deserialize, ToSchema)]
 struct NewOrder {
     kind: String,
+    plan: String,
     data: OrderData,
 }
 
@@ -65,12 +66,16 @@ async fn order_new(
 ) -> Response<Order> {
     let product = config()
         .products
-        .iter()
-        .find(|p| p.kind == body.kind)
+        .get(&body.kind)
         .ok_or(AppErr::new(404, "product not found"))?;
 
+    let plan = product
+        .plans
+        .get(&body.plan)
+        .ok_or(AppErr::new(404, "plan not found"))?;
+
     let now = utils::now();
-    let price = product.cost as i64;
+    let price = plan.0 as i64;
 
     if user.wallet < price {
         return Err(AppErr::new(400, "Not Enough money in the wallet"));
@@ -86,9 +91,11 @@ async fn order_new(
     .execute(&state.sql)
     .await?;
 
+    let kind = format!("{}.{}", body.kind, body.plan);
+
     let result = sqlx::query! {
         "insert into orders(user, price, timestamp, kind, data) values(?, ?, ?, ?, ?)",
-        user.id, price, now, product.kind, data
+        user.id, price, now, kind, data
     }.execute(&state.sql).await?;
 
     let order = Order {
@@ -96,7 +103,7 @@ async fn order_new(
         id: result.last_insert_rowid(),
         price,
         timestamp: now,
-        kind: product.kind.clone(),
+        kind,
         data,
         status: OrderStatus::Wating,
     };
