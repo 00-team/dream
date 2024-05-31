@@ -2,6 +2,7 @@ import { Component, createEffect, createSignal, onMount } from 'solid-js'
 
 import './style/navbar.scss'
 
+import logo from 'assets/image/logo.png'
 import { ArrowDownIcon, CrossIcon, FaqIcon } from 'icons/home'
 import {
     AboutIcon,
@@ -10,7 +11,6 @@ import {
     ProductsIcon,
     SupportIcon,
 } from 'icons/navbar'
-import logo from 'assets/image/logo.png'
 
 import { setshowNav, showNav } from 'state/nav'
 // import appleMusicImg from 'static/imgs/apple-music.png'
@@ -142,7 +142,7 @@ const BigNav: Component = () => {
                     <ProductsIcon />
                     محصولات
                     <ArrowDownIcon class='drop' />
-                    {/*<DropDownBig show={dropdown()} />*/}
+                    <DropDownBig show={dropdown()} />
                 </A>
                 <A class='nav-link title_small' href='/#about'>
                     <AboutIcon />
@@ -198,7 +198,7 @@ const SmallNav: Component = () => {
                         <ProductsIcon />
                         محصولات
                         <ArrowDownIcon class='drop' />
-                        {/*<DropDownSmall show={showdrop()} />*/}
+                        <DropDownSmall show={showdrop()} />
                     </div>
                     <A class='nav-link title_small' href='/#about'>
                         <AboutIcon />
@@ -272,105 +272,105 @@ const NavSvg: Component = () => {
     )
 }
 
-// interface dropdownProps {
-//     show: boolean
-// }
+interface dropdownProps {
+    show: boolean
+}
 
-// const DropDownBig: Component<dropdownProps> = P => {
-//     let links: NodeListOf<HTMLElement>
-//
-//     createEffect(() => {
-//         links = document.querySelectorAll('.drop-link')
-//
-//         let height = links[0].getBoundingClientRect().height
-//
-//         if (P.show) {
-//             links.forEach((link: HTMLElement, index) => {
-//                 if (index === 0) return
-//
-//                 link.style.top = `${height * index - 3}px`
-//                 link.style.zIndex = `${100 - index}`
-//             })
-//         } else {
-//             links.forEach((link: HTMLElement, index) => {
-//                 if (index === 0) return
-//
-//                 link.style.top = `0px`
-//                 link.style.zIndex = `${0}`
-//             })
-//         }
-//     })
-//     return (
-//         <div class='dropdown' classList={{ active: P.show }}>
-//             <a class='drop-link title_smaller'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
-//                     <img src={discordImg} alt='' />
-//                 </div>
-//                 <div class='data'>دیسکورد</div>
-//             </a>
-//             <a class='drop-link title_smaller'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
-//                     <img src={spotifyImg} alt='' />
-//                 </div>
-//                 <div class='data'>اسپاتیفای</div>
-//             </a>
-//             <a class='drop-link title_smaller'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
-//                     <img src={CanvaImg} alt='' />
-//                 </div>
-//                 <div class='data'>کانوا</div>
-//             </a>
-//             <a class='drop-link title_smaller'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
-//                     <img src={youtubeImg} alt='' />
-//                 </div>
-//                 <div class='data'>یوتیوب</div>
-//             </a>
-//             <a class='drop-link title_smaller'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
-//                     <img src={appleMusicImg} alt='' />
-//                 </div>
-//                 <div class='data'>اپل موزیک</div>
-//             </a>
-//         </div>
-//     )
-// }
-//
-// const DropDownSmall: Component<dropdownProps> = P => {
-//     return (
-//         <div class='small-dropdown' classList={{ active: P.show }}>
-//             <a class='small-link title_small'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
-//                     <img src={discordImg} alt='' />
-//                 </div>
-//                 <div class='data'>دیسکورد</div>
-//             </a>
-//             <a class='small-link title_small'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
-//                     <img src={spotifyImg} alt='' />
-//                 </div>
-//                 <div class='data'>اسپاتیفای</div>
-//             </a>
-//             <a class='small-link title_small'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
-//                     <img src={CanvaImg} alt='' />
-//                 </div>
-//                 <div class='data'>کانوا</div>
-//             </a>
-//             <a class='small-link title_small'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
-//                     <img src={youtubeImg} alt='' />
-//                 </div>
-//                 <div class='data'>یوتیوب</div>
-//             </a>
-//             <a class='small-link title_small'>
-//                 <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
-//                     <img src={appleMusicImg} alt='' />
-//                 </div>
-//                 <div class='data'>اپل موزیک</div>
-//             </a>
-//         </div>
-//     )
-// }
+const DropDownBig: Component<dropdownProps> = P => {
+    let links: NodeListOf<HTMLElement>
+
+    createEffect(() => {
+        links = document.querySelectorAll('.drop-link')
+
+        let height = links[0].getBoundingClientRect().height
+
+        if (P.show) {
+            links.forEach((link: HTMLElement, index) => {
+                if (index === 0) return
+
+                link.style.top = `${height * index - 3}px`
+                link.style.zIndex = `${100 - index}`
+            })
+        } else {
+            links.forEach((link: HTMLElement, index) => {
+                if (index === 0) return
+
+                link.style.top = `0px`
+                link.style.zIndex = `${0}`
+            })
+        }
+    })
+    return (
+        <div class='dropdown' classList={{ active: P.show }}>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
+                    <img src={'/static/image/logo/discord.png'} alt='' />
+                </div>
+                <div class='data'>دیسکورد</div>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
+                    <img src={'/static/image/logo/spotify.png'} alt='' />
+                </div>
+                <div class='data'>اسپاتیفای</div>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
+                    <img src={'/static/image/logo/canva.png'} alt='' />
+                </div>
+                <div class='data'>کانوا</div>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
+                    <img src={'/static/image/logo/youtube.png'} alt='' />
+                </div>
+                <div class='data'>یوتیوب</div>
+            </a>
+            <a class='drop-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
+                    <img src={'/static/image/logo/apple-music.png'} alt='' />
+                </div>
+                <div class='data'>اپل موزیک</div>
+            </a>
+        </div>
+    )
+}
+
+const DropDownSmall: Component<dropdownProps> = P => {
+    return (
+        <div class='small-dropdown' classList={{ active: P.show }}>
+            <a class='small-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
+                    <img src={'/static/image/logo/discord.png'} alt='' />
+                </div>
+                <div class='data'>دیسکورد</div>
+            </a>
+            <a class='small-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
+                    <img src={'/static/image/logo/spotify.png'} alt='' />
+                </div>
+                <div class='data'>اسپاتیفای</div>
+            </a>
+            <a class='small-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
+                    <img src={'/static/image/logo/canva.png'} alt='' />
+                </div>
+                <div class='data'>کانوا</div>
+            </a>
+            <a class='small-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
+                    <img src={'/static/image/logo/youtube.png'} alt='' />
+                </div>
+                <div class='data'>یوتیوب</div>
+            </a>
+            <a class='small-link title_smaller'>
+                <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
+                    <img src={'/static/image/logo/apple-music.png'} alt='' />
+                </div>
+                <div class='data'>اپل موزیک</div>
+            </a>
+        </div>
+    )
+}
 
 export default Navbar
