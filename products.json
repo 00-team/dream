@@ -1,42 +1,32 @@
 [
     {
-        "name": "Spotify Family",
-        "kind": "spotify.family.1",
-        "cost": 1200000,
+        "item": "spotify",
         "color": "#1db954",
         "logo": "/static/image/logo/spotify.png",
-        "image": "/static/image/banner/spotify.png"
+        "image": "/static/image/banner/spotify.png",
+        "data": ["username", "password"],
+        "variants": [
+            { "kind": "family.1", "cost": 1200000, "name": "خانواده ۱ ماهه" },
+            { "kind": "family.3", "cost": 3200000, "name": "خانواده ۳ ماهه" },
+            { "kind": "family.6", "cost": 6200000, "name": "خانواده ۶ ماهه" },
+            { "kind": "single.1", "cost": 6200000, "name": "۱ ماهه" },
+            { "kind": "single.3", "cost": 6200000, "name": "۳ ماهه" },
+            { "kind": "single.6", "cost": 6200000, "name": "۶ ماهه" }
+        ]
     },
     {
-        "name": "Spotify Family",
-        "kind": "spotify.family.3",
-        "cost": 4200000,
-        "color": "#1db954",
-        "logo": "/static/image/logo/spotify.png",
-        "image": "/static/image/banner/spotify.png"
-    },
-    {
-        "name": "Spotify Family",
-        "kind": "spotify.family.6",
-        "cost": 10200000,
-        "color": "#1db954",
-        "logo": "/static/image/logo/spotify.png",
-        "image": "/static/image/banner/spotify.png"
-    },
-    {
-        "name": "Spotify",
-        "kind": "spotify.single",
-        "cost": 900000,
-        "color": "#1db954",
-        "logo": "/static/image/logo/spotify.png",
-        "image": "/static/image/banner/spotify.png"
-    },
-    {
-        "name": "Netflix",
-        "kind": "netflix",
-        "cost": 850000,
+        "item": "netflix",
         "color": "#e50914",
         "logo": "/static/image/logo/netflix.jpg",
-        "image": "/static/image/banner/netflix.jpg"
+        "image": "/static/image/banner/netflix.jpg",
+        "data": ["email", "password"],
+        "variants": [
+            { "kind": "family.1", "cost": 1200000, "name": "خانواده ۱ ماهه" },
+            { "kind": "family.3", "cost": 3200000, "name": "خانواده ۳ ماهه" },
+            { "kind": "family.6", "cost": 6200000, "name": "خانواده ۶ ماهه" },
+            { "kind": "single.1", "cost": 6200000, "name": "۱ ماهه" },
+            { "kind": "single.3", "cost": 6200000, "name": "۳ ماهه" },
+            { "kind": "single.6", "cost": 6200000, "name": "۶ ماهه" }
+        ]
     }
 ]
