@@ -12,7 +12,7 @@ import { Alert } from 'comps'
 
 import './style/base.scss'
 import './style/config.scss'
-import './style/font/imports.scss'
+import './style/fonts/imports.scss'
 import './style/theme.scss'
 
 const App: Component<RouteSectionProps> = P => {

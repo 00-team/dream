@@ -1,36 +1,35 @@
 @font-face {
     font-family: 'iranLight';
-
     src: url('./iranSans/iran-light.woff2') format('woff2');
 }
+
 @font-face {
     font-family: 'iranBold';
-
     src: url('./iranSans/iran-bold.woff2') format('woff2');
 }
+
 @font-face {
     font-family: 'yekanBold';
-
     src: url('./iranYekan/IRANYekanWebBold.woff') format('woff2');
 }
+
 @font-face {
     font-family: 'yekan';
-
     src: url('./iranYekan/IRANYekanWebRegular.woff') format('woff2');
 }
+
 @font-face {
     font-family: 'arvand';
-
     src: url('./arvand/arvand.ttf') format('woff2');
 }
+
 @font-face {
     font-family: 'arvandBold';
-
     src: url('./arvand/Arvand-Bold.ttf') format('woff2');
 }
+
 @font-face {
     font-family: 'ordibehesht';
-
     src: url('./ordibehesht/Ordibehesht.TTF') format('truetype');
 }
 
@@ -54,4 +53,19 @@
     unicode-range: U+0030-0039, U+0660-0669;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@font-face {
+    font-family: 'Merienda';
+    font-style: normal;
+    font-weight: 300 900;
+    font-display: swap;
+    src: url('./Merienda-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poetsen One';
+    font-style: normal;
+    font-display: swap;
+    src: url('./PoetsenOne.ttf') format('truetype');
+}
+
+// @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
