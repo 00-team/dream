@@ -12,14 +12,14 @@ import { Special } from 'comps'
 import { ArrowDownIcon, CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
-import { Product } from 'models'
+import { ProductModel } from 'models'
 import { hex_to_rgb, httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { popup, setpopup } from 'state/products'
 
 const Products: Component = () => {
     type State = {
-        products: { [k: string]: [Product, ...Product[]] }
+        products: { [k: string]: ProductModel }
     }
     const [state, setState] = createStore<State>({ products: {} })
 
@@ -29,21 +29,7 @@ const Products: Component = () => {
             method: 'GET',
             onLoad(x) {
                 if (x.status != 200) return
-
-                let products: State['products'] = {}
-                let result = x.response as Product[]
-
-                result.forEach(p => {
-                    let [item] = p.kind.split('.')
-
-                    if (item in products) {
-                        products[item].push(p)
-                    } else {
-                        products[item] = [p]
-                    }
-                })
-
-                setState({ products })
+                setState({ products: x.response })
             },
         })
     })
@@ -109,7 +95,7 @@ const options = [
 
 interface ProductCardProps {
     item: string
-    product: [Product, ...Product[]]
+    product: ProductModel
 }
 const ProductCard: Component<ProductCardProps> = P => {
     return (
@@ -125,13 +111,13 @@ const ProductCard: Component<ProductCardProps> = P => {
                 el.style.setProperty('--mouse-x', `${x}px`)
                 el.style.setProperty('--mouse-y', `${y}px`)
             }}
-            style={{ '--color': hex_to_rgb(P.product[0].color) }}
+            style={{ '--color': hex_to_rgb(P.product.color) }}
         >
             <div class='img-wrapper'>
-                <img src={P.product[0].image} class='card-img' alt='' />
+                <img src={P.product.image} class='card-img' alt='' />
             </div>
             <div class='card-title title_small'>
-                <span>{P.product[0].name}</span>
+                <span>Name...</span>
             </div>
 
             <div class='product-options'>
@@ -151,10 +137,10 @@ const ProductCard: Component<ProductCardProps> = P => {
                 onclick={() =>
                     setpopup({
                         show: true,
-                        title: P.product[0].name,
+                        title: 'no name',
                         category: P.item,
-                        img: P.product[0].logo,
-                        color: P.product[0].color,
+                        img: P.product.logo,
+                        color: P.product.color,
                     })
                 }
             >
