@@ -44,6 +44,8 @@ main.login {
 
         color: white;
 
+        overflow: hidden;
+
         .back-icon {
             position: absolute;
             top: 0;
@@ -72,32 +74,80 @@ main.login {
             margin: 0;
         }
 
-        .inp {
+        .inps {
             display: flex;
-            flex-direction: column;
-            margin: auto 0;
+            align-items: center;
+            justify-content: center;
             width: 100%;
 
-            &.disabled {
-                pointer-events: none;
-                opacity: 0.5;
+            margin: auto 0;
+
+            position: relative;
+            isolation: isolate;
+
+            &.code {
+                .inp {
+                    &.phone {
+                        transform: translateX(-200%);
+                    }
+                    &.code {
+                        transform: translateX(0);
+                    }
+                }
             }
 
-            .holder {
+            .inp {
                 display: flex;
-                align-items: center;
-                gap: 0.5em;
+                flex-direction: column;
+                width: 100%;
 
-                margin-bottom: 1em;
-            }
+                transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
-            input {
-                background-color: white;
-                border: none;
-                border-radius: 0.5rem;
-                padding: 0.5em;
+                &.error {
+                    input {
+                        border: 2px solid var(--alert-error);
+                    }
+                }
 
-                color: black;
+                &.disabled {
+                    pointer-events: none;
+                    opacity: 0.5;
+                }
+
+                &.code {
+                    position: absolute;
+                    inset: 0;
+
+                    transform: translateX(200%);
+                }
+
+                .error {
+                    border-bottom: 1px solid red;
+                    padding-bottom: 0.5em;
+                    margin-top: 1em;
+                }
+                .desc {
+                    margin-top: 1em;
+                }
+
+                .holder {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5em;
+
+                    margin-bottom: 1em;
+
+                    font-family: 'yekanBold';
+                }
+
+                input {
+                    background-color: white;
+                    border: none;
+                    border-radius: 0.5rem;
+                    padding: 0.5em;
+
+                    color: black;
+                }
             }
         }
 
