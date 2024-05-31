@@ -9,6 +9,8 @@ main.login {
     align-items: center;
     justify-content: center;
 
+    padding: 5vh 3vw;
+
     background-color: #0e0e0e;
 
     overflow: hidden;
@@ -34,7 +36,7 @@ main.login {
         align-items: center;
         flex-direction: column;
 
-        padding: 2em;
+        padding: 2em 1.5em;
 
         background: rgb(21 210 255 / 21%);
         border-radius: 16px;
@@ -45,6 +47,13 @@ main.login {
         color: white;
 
         overflow: hidden;
+
+        @media screen and (max-width: 768px) {
+            padding: 0.8em;
+        }
+        @media screen and (max-width: 425px) {
+            aspect-ratio: 1 / 1.6;
+        }
 
         .back-icon {
             position: absolute;
