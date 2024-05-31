@@ -98,8 +98,6 @@ main.products {
         overflow: hidden;
     }
 
-    header.products-header {
-    }
     .products-wrapper {
         width: 100%;
         height: 100%;
@@ -782,6 +780,7 @@ main.products {
                         transition: 0.5s ease;
 
                         overflow: auto;
+                        overscroll-behavior: contain;
 
                         @media screen and (max-width: 1200px) {
                             top: 0;
