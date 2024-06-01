@@ -2,7 +2,7 @@ import { A, useNavigate } from '@solidjs/router'
 import { UserIcon } from 'icons'
 import { LogoutIcon, PersonIcon, WalletIcon } from 'icons/dashboard'
 import { Component, createEffect, Show } from 'solid-js'
-import { self } from 'store/self'
+import { self, setSelf } from 'store/self'
 
 import './style/dashboard.scss'
 
@@ -14,6 +14,27 @@ const Dashboard: Component = props => {
 
         if (!self.loged_in) nav('/login')
     })
+
+    function logoutUser() {
+        document.cookie =
+            'Authorization=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+        setSelf({
+            loged_in: false,
+            fetch: true,
+            user: {
+                id: 0,
+                name: '',
+                wallet: 0,
+                in_hold: 0,
+                token: '',
+                photo: null,
+                admin: false,
+                banned: false,
+                phone: '',
+            },
+        })
+        nav('/login')
+    }
 
     return (
         <main class='dashboard'>
@@ -43,18 +64,23 @@ const Dashboard: Component = props => {
                         <PersonIcon />
                         اطلاعات من
                     </A>
-                    <A href='/dashboard/mywallet' class='link'>
+                    <A href='/dashboard/mywalletl' class='link'>
                         <WalletIcon />
                         کیف پول
                     </A>
                 </div>
-                <button onclick={() => {}} class='logout-cta title_small'>
+                <button
+                    onclick={() => logoutUser()}
+                    class='logout-cta title_small'
+                >
                     <LogoutIcon />
                     خروج
                 </button>
             </aside>
-            {/* @ts-ignore */}
-            <aside class='wrapper'>{props.children}</aside>
+            <aside class='dashboard-wrapper'>
+                {/* @ts-ignore */}
+                {props.children}
+            </aside>
         </main>
     )
 }
