@@ -157,8 +157,9 @@ const BigNav: Component = () => {
                     سوالات متداول
                 </A>
                 <div class='line title_small' id='nav'></div>
+                <img class='nav-logo' src={logo} alt='' />
             </div>
-            <img class='nav-logo' src={logo} alt='' />
+            <div class='title_small'>ورود</div>
         </nav>
     )
 }
