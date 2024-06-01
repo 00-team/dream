@@ -1,4 +1,4 @@
-import { Special } from 'comps'
+import { addAlert, Special } from 'comps'
 import { Component, onMount } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { self } from 'store/self'
@@ -26,7 +26,19 @@ export const MyProfile: Component = props => {
         })
     })
 
-    function SaveInfo() {}
+    function SaveInfo() {
+        if (!data.img || !data.name) {
+            addAlert({
+                type: 'error',
+                timeout: 5,
+                content: 'لطفا تمام فیلد ها را پر کنید.',
+                subject: 'خطا!',
+            })
+            return
+        }
+
+        if (data.img == self.user.phone && data.name == self.user.name) return
+    }
 
     return (
         <section class='profile'>
