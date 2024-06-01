@@ -52,7 +52,13 @@ export const MyProfile: Component = props => {
 
                         const file = e.target.files[0]
 
-                        if (!IMAGE_MIMETYPE.includes(file.type)) return
+                        if (!IMAGE_MIMETYPE.includes(file.type))
+                            return addAlert({
+                                type: 'error',
+                                timeout: 5,
+                                content: 'فرمت واردی باید عکس باشد!',
+                                subject: 'خطا!',
+                            })
 
                         const url = URL.createObjectURL(file)
 
