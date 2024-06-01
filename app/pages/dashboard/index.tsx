@@ -1,5 +1,4 @@
 import { A, useNavigate } from '@solidjs/router'
-import { UserIcon } from 'icons'
 import { LogoutIcon, PersonIcon, WalletIcon } from 'icons/dashboard'
 import { Component, createEffect, Show } from 'solid-js'
 import { self, setSelf } from 'store/self'
@@ -41,14 +40,16 @@ const Dashboard: Component = props => {
             <aside class='sidebar'>
                 <div class='avatar'>
                     <div class='profile-avatar'>
-                        <Show when={self.user.photo} fallback={<UserIcon />}>
-                            <img
-                                draggable={false}
-                                loading='lazy'
-                                decoding='async'
-                                src={`/record/${self.user.id}:${self.user.photo}`}
-                            />
-                        </Show>
+                        <img
+                            draggable={false}
+                            loading='lazy'
+                            decoding='async'
+                            src={
+                                self.user.photo
+                                    ? `/record/${self.user.id}:${self.user.photo}`
+                                    : '/static/image/dashboard/default-avatar.webp'
+                            }
+                        />
                     </div>
                     <div class='name-avatar title_small'>
                         <Show
