@@ -122,6 +122,35 @@
             }
         }
 
+        .links {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            padding: 1em;
+
+            .link {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 0.5em;
+
+                padding: 1em 0;
+
+                color: black;
+
+                cursor: pointer;
+
+                will-change: transform;
+                transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+
+                &:hover {
+                    transform: translateX(-1em);
+                }
+            }
+        }
+
         .logout-cta {
             width: 100%;
             display: flex;
