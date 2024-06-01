@@ -1,5 +1,10 @@
 import { A, useNavigate } from '@solidjs/router'
-import { LogoutIcon, PersonIcon, WalletIcon } from 'icons/dashboard'
+import {
+    LogoutIcon,
+    PersonIcon,
+    TransactionsIcon,
+    WalletIcon,
+} from 'icons/dashboard'
 import { Component, createEffect, Show } from 'solid-js'
 import { self, setSelf } from 'store/self'
 
@@ -68,6 +73,10 @@ const Dashboard: Component = props => {
                     <A href='/dashboard/mywallet' class='link'>
                         <WalletIcon />
                         کیف پول
+                    </A>
+                    <A href='/dashboard/mytransactions' class='link'>
+                        <TransactionsIcon />
+                        سفارش های من
                     </A>
                 </div>
                 <button
