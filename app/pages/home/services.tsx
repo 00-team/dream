@@ -93,8 +93,6 @@ export const Services: Component = props => {
                 scrollY >= section.offsetTop &&
                 scrollY <= section.offsetTop + innerHeight * 2
 
-            console.log(inSection)
-
             if (inSection) {
                 if (currentScrollPosition > lastScrollPosition) {
                     bubblesTransform -= 1

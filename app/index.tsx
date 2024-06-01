@@ -1,4 +1,7 @@
-import { Route, RouteSectionProps, Router } from '@solidjs/router'
+import { Route, Router, RouteSectionProps } from '@solidjs/router'
+import { Alert } from 'comps'
+import { MyProfile } from 'pages/dashboard/myProfile'
+import { MyWallet } from 'pages/dashboard/myWallet'
 import { Component, lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 
@@ -8,7 +11,6 @@ const Login = lazy(() => import('./pages/auth/login'))
 const Dashboard = lazy(() => import('./pages/dashboard'))
 const Footer = lazy(() => import('./layout/footer'))
 const Navbar = lazy(() => import('./layout/navbar'))
-import { Alert } from 'comps'
 
 import './style/base.scss'
 import './style/config.scss'
@@ -39,7 +41,11 @@ const Root = () => {
                 <Route path='/' component={Home} />
                 <Route path='/products/' component={Products} />
                 <Route path='/login/' component={Login} />
-                <Route path='/dashboard/' component={Dashboard} />
+                <Route path='/dashboard/' component={Dashboard}>
+                    <Route path={'/myprofile'} component={MyProfile} />
+                    <Route path={'/mywallet'} component={MyWallet} />
+                    <Route path={'*'} component={MyProfile} />
+                </Route>
             </Route>
         </Router>
     )

@@ -31,11 +31,7 @@ const Login = () => {
     const nav = useNavigate()
 
     createEffect(() => {
-        if (self.loged_in) nav('/')
-    })
-
-    createEffect(() => {
-        console.log(state.loading)
+        if (self.loged_in) nav('/dashboard')
     })
 
     function verification() {

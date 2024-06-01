@@ -222,7 +222,7 @@ const NavSvg: Component = () => {
     return (
         <svg
             id='svg'
-            viewBox='0 0 1440 350'
+            viewBox='0 0 1440 325'
             xmlns='http://www.w3.org/2000/svg'
             class='transition duration-300 ease-in-out delay-150 nav-svg'
         >
