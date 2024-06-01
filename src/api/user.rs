@@ -14,12 +14,12 @@ use crate::api::verification;
 use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
 use crate::models::transaction::{
-    Transaction, TransactionStatus, TransactionVendor, TransactionKind
+    Transaction, TransactionKind, TransactionStatus, TransactionVendor,
 };
 use crate::models::user::{UpdatePhoto, User};
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
 use crate::utils::{
-    self, get_random_bytes, get_random_string, remove_photo, save_photo, CutOff
+    self, get_random_bytes, get_random_string, remove_photo, save_photo, CutOff,
 };
 use crate::AppState;
 
@@ -27,7 +27,8 @@ use crate::AppState;
 #[openapi(
     tags((name = "api::user")),
     paths(
-        login, user_get, user_update, user_update_photo, user_delete_photo,
+        user_login, user_logout, user_get, user_update,
+        user_update_photo, user_delete_photo,
         user_wallet_add, user_wallet_cb, user_transactions_list
     ),
     components(schemas(
@@ -52,7 +53,7 @@ struct LoginBody {
 )]
 /// Login
 #[post("/login/")]
-async fn login(
+async fn user_login(
     body: Json<LoginBody>, state: Data<AppState>,
 ) -> Result<HttpResponse, AppErr> {
     verification::verify(&body.phone, &body.code, verification::Action::Login)
@@ -114,6 +115,28 @@ async fn login(
     Ok(HttpResponse::Ok().cookie(cook).json(user))
 }
 
+#[utoipa::path(post, responses((status = 200)))]
+#[post("/logout/")]
+/// Logout
+async fn user_logout(user: User, state: Data<AppState>) -> HttpResponse {
+    let _ = sqlx::query! {
+        "update users set token = 'X' where id = ?",
+        user.id
+    }
+    .execute(&state.sql)
+    .await;
+
+    let cook = Cookie::build("Authorization", "XXX")
+        .path("/")
+        .secure(true)
+        .same_site(SameSite::Strict)
+        .http_only(true)
+        .max_age(Duration::seconds(1))
+        .finish();
+
+    HttpResponse::Ok().cookie(cook).finish()
+}
+
 #[utoipa::path(get, responses((status = 200, body = User)))]
 #[get("/")]
 /// Get
@@ -146,7 +169,7 @@ async fn user_update(
     };
 
     if change {
-        user.name.cut_off(100);
+        user.name.cut_off(256);
 
         let _ = sqlx::query_as! {
             User,
@@ -453,7 +476,8 @@ async fn user_transactions_list(
 
 pub fn router() -> Scope {
     Scope::new("/user")
-        .service(login)
+        .service(user_login)
+        .service(user_logout)
         .service(user_get)
         .service(user_update)
         .service(user_update_photo)
