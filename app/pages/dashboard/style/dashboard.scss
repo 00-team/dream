@@ -121,101 +121,17 @@
                 }
             }
         }
-        .sidebar-wrapper {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-direction: column;
 
+        .logout-cta {
             width: 100%;
-            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
 
-            font-size: clamp(0.8rem, 0.4rem + 1.8vw, 1.1rem);
-
-            .column-wrapper {
-                // reset
-                color: unset;
-                text-decoration: none;
-                //
-
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-
-                padding: 1rem 1rem;
-
-                cursor: pointer;
-
-                translate: 100%;
-
-                transition: color 0.2s ease-in-out;
-                animation: column-slide-in 0.8s
-                    cubic-bezier(0.45, 0.02, 0.09, 0.98) forwards;
-
-                animation-delay: calc(700ms + 100ms * var(--idx));
-
-                &.goto {
-                    color: unset;
-                    text-decoration: none;
-                }
-
-                &.active {
-                    color: var(--ten-percent);
-
-                    svg {
-                        fill: var(--ten-percent);
-
-                        path {
-                            stroke: var(--ten-percent);
-                        }
-                    }
-                }
-
-                .column {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 1vw;
-
-                    .holder-text {
-                        transition: transform 0.3s
-                            cubic-bezier(0.45, 0.02, 0.09, 0.98);
-                    }
-                }
-
-                &.exit {
-                    margin-top: auto;
-
-                    color: var(--alert-error);
-
-                    animation-duration: 1s;
-
-                    .column {
-                        margin-right: -10px;
-                        gap: 1.5vw;
-
-                        @media screen and (max-width: 1024px) {
-                            gap: calc(3vw + 5px);
-                        }
-                    }
-                }
-
-                &:hover:not(.exit) {
-                    .column .holder-text {
-                        transform: translateX(-10%);
-                    }
-                }
-
-                @keyframes column-slide-in {
-                    from {
-                        translate: 100%;
-                    }
-                    to {
-                        translate: 0;
-                    }
-                }
-            }
+            background: transparent;
+            color: var(--alert-error);
+            padding: 1em;
+            margin-top: auto;
         }
     }
     .dashboard-wrapper {
