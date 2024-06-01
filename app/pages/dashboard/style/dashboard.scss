@@ -8,6 +8,15 @@
 
     overflow: hidden;
 
+    background-image: repeating-linear-gradient(
+            45deg,
+            rgba(0, 0, 0, 0.05) 0px,
+            rgba(0, 0, 0, 0.05) 2px,
+            transparent 2px,
+            transparent 4px
+        ),
+        linear-gradient(0deg, rgb(70, 143, 234), rgb(187, 235, 205));
+
     @media screen and (max-width: 768px) {
         flex-direction: column;
         align-items: center;
@@ -22,7 +31,7 @@
         flex-direction: column;
         gap: 5vh;
 
-        background-color: #84e3ff;
+        background-color: white;
         border-top-left-radius: 70px;
         border-bottom-left-radius: 70px;
 
@@ -166,8 +175,6 @@
     .dashboard-wrapper {
         flex: 1 0;
         height: 100vh;
-
-        background-color: var(--sixty-percent);
 
         display: flex;
         flex-direction: column;
