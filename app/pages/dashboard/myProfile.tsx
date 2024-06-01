@@ -1,7 +1,8 @@
 import { addAlert, Special } from 'comps'
+import { httpx } from 'shared'
 import { Component, onMount } from 'solid-js'
 import { createStore } from 'solid-js/store'
-import { self } from 'store/self'
+import { self, setSelf } from 'store/self'
 
 import './style/profile.scss'
 
@@ -14,9 +15,14 @@ const IMAGE_MIMETYPE = [
 ]
 
 export const MyProfile: Component = props => {
-    const [data, setdata] = createStore({
-        img: '',
+    type dataType = {
+        name: string
+        img: string
+    }
+
+    const [data, setdata] = createStore<dataType>({
         name: '',
+        img: '',
     })
 
     onMount(() => {
@@ -37,7 +43,33 @@ export const MyProfile: Component = props => {
             return
         }
 
-        if (data.img == self.user.phone && data.name == self.user.name) return
+        if (data.name == self.user.name) return
+
+        httpx({
+            url: '/api/user/',
+            method: 'PATCH',
+            json: {
+                name: data.name,
+            },
+            onLoad(x) {
+                if (x.status == 200) {
+                    setSelf({ loged_in: true, fetch: false, user: x.response })
+                    addAlert({
+                        type: 'success',
+                        timeout: 5,
+                        content: 'نام شما با موفقیت به روز شد',
+                        subject: 'موفق!',
+                    })
+                } else {
+                    addAlert({
+                        type: 'error',
+                        timeout: 5,
+                        content: 'مشکلی پیش امده کمی بعد دوباره تلاش کنید.',
+                        subject: 'خطا!',
+                    })
+                }
+            },
+        })
     }
 
     return (
@@ -60,17 +92,50 @@ export const MyProfile: Component = props => {
                                 subject: 'خطا!',
                             })
 
+                        const fd = new FormData()
+                        fd.set('photo', file)
+
                         const url = URL.createObjectURL(file)
 
                         setdata({
                             img: url,
                         })
+
+                        httpx({
+                            url: '/api/user/photo/',
+                            method: 'PUT',
+                            data: fd,
+                            onLoad(x) {
+                                if (x.status == 200) {
+                                    setSelf({
+                                        loged_in: true,
+                                        fetch: false,
+                                        user: x.response,
+                                    })
+                                    addAlert({
+                                        type: 'success',
+                                        timeout: 5,
+                                        content: 'عکس شما با موفقیت به روز شد',
+                                        subject: 'موفق!',
+                                    })
+                                } else {
+                                    addAlert({
+                                        type: 'error',
+                                        timeout: 5,
+                                        content:
+                                            'مشکلی پیش امده کمی بعد دوباره تلاش کنید.',
+                                        subject: 'خطا!',
+                                    })
+                                }
+                            },
+                        })
                     }}
                 />
                 <img
                     src={
-                        data.img ||
-                        '/static/image/dashboard/default-avatar.webp'
+                        self.user.photo
+                            ? `/record/${self.user.id}:${self.user.photo}`
+                            : '/static/image/dashboard/default-avatar.webp'
                     }
                     draggable={false}
                     class='img'
