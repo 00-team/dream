@@ -70,6 +70,8 @@
                 align-items: center;
                 justify-content: center;
 
+                overflow: hidden;
+
                 img {
                     width: 100%;
                     height: 100%;
@@ -92,8 +94,12 @@
                     padding: 0 20px;
 
                     display: inline-block;
+
                     transform: translateY(100%);
+
+                    font: inherit;
                     white-space: nowrap;
+
                     animation: header-fadeIn 1s
                         cubic-bezier(0.45, 0.02, 0.09, 0.98) forwards;
 
@@ -157,7 +163,7 @@
                 cursor: pointer;
 
                 will-change: transform;
-                transition: 0.5s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+                transition: 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
                 &:hover {
                     transform: translateX(-1em);
