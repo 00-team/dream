@@ -43,7 +43,7 @@ const Root = () => {
                 <Route path='/login/' component={Login} />
                 <Route path='/dashboard/' component={Dashboard}>
                     <Route path={'/myprofile'} component={MyProfile} />
-                    <Route path={'/wallet'} component={MyWallet} />
+                    <Route path={'/mywallet'} component={MyWallet} />
                     <Route path={'*'} component={MyProfile} />
                 </Route>
             </Route>
