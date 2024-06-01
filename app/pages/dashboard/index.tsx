@@ -1,15 +1,20 @@
+import { useNavigate } from '@solidjs/router'
 import { UserIcon } from 'icons'
-import { Component, Show } from 'solid-js'
+import { LogoutIcon } from 'icons/dashboard'
+import { Component, createEffect, Show } from 'solid-js'
 import { self } from 'store/self'
 
 import './style/dashboard.scss'
 
 const Dashboard: Component = props => {
-    // const nav = useNavigate()
+    const nav = useNavigate()
 
-    // createEffect(() => {
-    //     if (!self.loged_in) nav('/')
-    // })
+    createEffect(() => {
+        console.log(self.user)
+
+        if (!self.loged_in) nav('/login')
+    })
+
     return (
         <main class='dashboard'>
             <aside class='sidebar'>
@@ -27,16 +32,20 @@ const Dashboard: Component = props => {
                     <div class='name-avatar title_small'>
                         <Show
                             when={self.user.name}
-                            fallback={<span>خطا!</span>}
+                            fallback={<span>اسم شما</span>}
                         >
                             <h2>{self.user.name}</h2>
                         </Show>
                     </div>
                 </div>
                 <div class='links'></div>
-                <div class='logout'></div>
+                <button onclick={() => {}} class='logout-cta title_small'>
+                    <LogoutIcon />
+                    خروج
+                </button>
             </aside>
-            <aside class='wrapper'></aside>
+            {/* @ts-ignore */}
+            <aside class='wrapper'>{props.children}</aside>
         </main>
     )
 }
