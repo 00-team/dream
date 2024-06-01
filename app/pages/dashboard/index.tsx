@@ -1,6 +1,6 @@
-import { useNavigate } from '@solidjs/router'
+import { A, useNavigate } from '@solidjs/router'
 import { UserIcon } from 'icons'
-import { LogoutIcon } from 'icons/dashboard'
+import { LogoutIcon, PersonIcon, WalletIcon } from 'icons/dashboard'
 import { Component, createEffect, Show } from 'solid-js'
 import { self } from 'store/self'
 
@@ -38,7 +38,16 @@ const Dashboard: Component = props => {
                         </Show>
                     </div>
                 </div>
-                <div class='links'></div>
+                <div class='links title_small'>
+                    <A href='/dashboard/myprofile' class='link'>
+                        <PersonIcon />
+                        اطلاعات من
+                    </A>
+                    <A href='/dashboard/mywallet' class='link'>
+                        <WalletIcon />
+                        کیف پول
+                    </A>
+                </div>
                 <button onclick={() => {}} class='logout-cta title_small'>
                     <LogoutIcon />
                     خروج
