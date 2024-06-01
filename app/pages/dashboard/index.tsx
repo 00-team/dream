@@ -65,7 +65,7 @@ const Dashboard: Component = props => {
                         <PersonIcon />
                         اطلاعات من
                     </A>
-                    <A href='/dashboard/mywalletl' class='link'>
+                    <A href='/dashboard/mywallet' class='link'>
                         <WalletIcon />
                         کیف پول
                     </A>
