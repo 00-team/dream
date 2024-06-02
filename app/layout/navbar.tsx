@@ -65,58 +65,6 @@ const BigNav: Component = () => {
     })
     return (
         <nav class='nav-big-container'>
-            {/* <svg
-                width='100%'
-                height='100%'
-                id='svg'
-                viewBox='0 0 1440 400'
-                xmlns='http://www.w3.org/2000/svg'
-                class='transition duration-300 ease-in-out delay-150 nav-svg'
-            >
-                <defs>
-                    <linearGradient
-                        id='gradient'
-                        x1='0%'
-                        y1='50%'
-                        x2='100%'
-                        y2='50%'
-                    >
-                        <stop offset='5%' stop-color='#3fd3ff'></stop>
-                        <stop offset='95%' stop-color='#ff6eff'></stop>
-                    </linearGradient>
-                </defs>
-                <path
-                    d='M 0,400 L 0,100 C 139.67857142857144,98.71428571428572 279.3571428571429,97.42857142857143 397,90 C 514.6428571428571,82.57142857142857 610.2500000000001,68.99999999999999 708,70 C 805.7499999999999,71.00000000000001 905.6428571428571,86.57142857142858 1028,94 C 1150.357142857143,101.42857142857142 1295.1785714285716,100.71428571428571 1440,100 L 1440,400 L 0,400 Z'
-                    stroke='none'
-                    stroke-width='0'
-                    fill='url(#gradient)'
-                    fill-opacity='0.53'
-                    class='transition-all duration-300 ease-in-out delay-150 path-0'
-                    transform='rotate(-180 720 200)'
-                ></path>
-                <defs>
-                    <linearGradient
-                        id='gradient'
-                        x1='0%'
-                        y1='50%'
-                        x2='100%'
-                        y2='50%'
-                    >
-                        <stop offset='5%' stop-color='#3fd3ff'></stop>
-                        <stop offset='95%' stop-color='#ff6eff'></stop>
-                    </linearGradient>
-                </defs>
-                <path
-                    d='M 0,400 L 0,233 C 125.78571428571428,246.07142857142858 251.57142857142856,259.14285714285717 356,258 C 460.42857142857144,256.85714285714283 543.5,241.49999999999997 656,234 C 768.5,226.50000000000003 910.4285714285716,226.8571428571429 1046,228 C 1181.5714285714284,229.1428571428571 1310.7857142857142,231.07142857142856 1440,233 L 1440,400 L 0,400 Z'
-                    stroke='none'
-                    stroke-width='0'
-                    fill='url(#gradient)'
-                    fill-opacity='1'
-                    class='transition-all duration-300 ease-in-out delay-150 path-1'
-                    transform='rotate(-180 720 200)'
-                ></path>
-            </svg> */}
-
             <NavSvg />
 
             <div
@@ -130,6 +78,8 @@ const BigNav: Component = () => {
                     line.className = 'line title_small'
                 }}
             >
+                <img class='nav-logo' src={logo} alt='' />
+
                 <A class='nav-link title_small' href='/'>
                     <HomeIcon />
                     خانه
@@ -158,12 +108,15 @@ const BigNav: Component = () => {
                     سوالات متداول
                 </A>
                 <div class='line title_small' id='nav'></div>
-                <img class='nav-logo' src={logo} alt='' />
             </div>
             {self.loged_in ? (
-                <div class='title_small'>داشبورد</div>
+                <A href='/dashboard' class='title_small'>
+                    داشبورد
+                </A>
             ) : (
-                <div class='title_small'>ورود</div>
+                <A href='/login' class='title_small'>
+                    ورود
+                </A>
             )}
         </nav>
     )
