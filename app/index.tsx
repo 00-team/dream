@@ -1,7 +1,7 @@
 import { Route, Router, RouteSectionProps } from '@solidjs/router'
 import { Alert } from 'comps'
+import { Orders } from 'pages/dashboard/orders'
 import { Profile } from 'pages/dashboard/profile'
-import { Transactions } from 'pages/dashboard/transactions'
 import { Wallet } from 'pages/dashboard/wallet'
 import { Component, lazy } from 'solid-js'
 import { render } from 'solid-js/web'
@@ -45,7 +45,7 @@ const Root = () => {
                 <Route path='/dashboard/' component={Dashboard}>
                     <Route path='/' component={Profile} />
                     <Route path='/wallet/' component={Wallet} />
-                    <Route path='/transactions/' component={Transactions} />
+                    <Route path='/orders/' component={Orders} />
                     <Route path='*' component={Profile} />
                 </Route>
                 <Route
