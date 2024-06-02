@@ -92,7 +92,7 @@ const Login = () => {
                 if (x.status == 200) {
                     setSelf({ loged_in: true, fetch: false, user: x.response })
                     setState({ loading: false })
-                    nav('/')
+                    nav('/dashboard')
                 } else {
                     setState({ error: x.response.message, loading: false })
                 }
