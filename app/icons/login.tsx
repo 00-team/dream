@@ -18,6 +18,41 @@ export const PhoneIcon = P => (
     </svg>
 )
 
+export const DashboardIcon = P => (
+    <div class='icon h2'>
+        <svg
+            stroke='currentColor'
+            fill='currentColor'
+            stroke-width='0'
+            viewBox='0 0 24 24'
+            height={P.size || 25}
+            width={P.size || 25}
+            xmlns='http://www.w3.org/2000/svg'
+        >
+            <path fill='none' d='M0 0h24v24H0z'></path>
+            <path d='M11 21H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h6v18zm2 0h6c1.1 0 2-.9 2-2v-7h-8v9zm8-11V5c0-1.1-.9-2-2-2h-6v7h8z'></path>
+        </svg>
+    </div>
+)
+
+export const LoginIcon = P => (
+    <svg
+        stroke='currentColor'
+        fill='none'
+        stroke-width='2'
+        viewBox='0 0 24 24'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        height={P.size || 25}
+        width={P.size || 25}
+        xmlns='http://www.w3.org/2000/svg'
+    >
+        <path d='M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4'></path>
+        <polyline points='10 17 15 12 10 7'></polyline>
+        <line x1='15' y1='12' x2='3' y2='12'></line>
+    </svg>
+)
+
 export const GoBackIcon = P => (
     <svg
         stroke='currentColor'
