@@ -15,7 +15,7 @@ const IMAGE_MIMETYPE = [
     'image/webm',
 ]
 
-export const  Profile: Component = props => {
+export const Profile: Component = props => {
     type dataType = {
         name: string
         img: string
@@ -34,11 +34,11 @@ export const  Profile: Component = props => {
     })
 
     function SaveInfo() {
-        if (!data.img || !data.name) {
+        if (!data.name) {
             addAlert({
                 type: 'error',
                 timeout: 5,
-                content: 'لطفا تمام فیلد ها را پر کنید.',
+                content: 'لطفا اسم رو خالی نزارید!',
                 subject: 'خطا!',
             })
             return
@@ -57,7 +57,7 @@ export const  Profile: Component = props => {
                     setSelf({ loged_in: true, fetch: false, user: x.response })
                     addAlert({
                         type: 'success',
-                        timeout: 5,
+                        timeout: 0,
                         content: 'نام شما با موفقیت به روز شد',
                         subject: 'موفق!',
                     })
