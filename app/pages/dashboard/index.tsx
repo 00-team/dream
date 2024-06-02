@@ -1,10 +1,12 @@
 import { A, RouteSectionProps, useNavigate } from '@solidjs/router'
+import { addAlert } from 'comps'
 import {
     LogoutIcon,
     PersonIcon,
     TransactionsIcon,
     WalletIcon,
 } from 'icons/dashboard'
+import { httpx } from 'shared'
 import { Component, createEffect, Show } from 'solid-js'
 import { self, setSelf } from 'store/self'
 
@@ -20,24 +22,37 @@ const Dashboard: Component<RouteSectionProps> = P => {
     })
 
     function logoutUser() {
-        document.cookie =
-            'Authorization=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-        setSelf({
-            loged_in: false,
-            fetch: true,
-            user: {
-                id: 0,
-                name: '',
-                wallet: 0,
-                in_hold: 0,
-                token: '',
-                photo: null,
-                admin: false,
-                banned: false,
-                phone: '',
+        httpx({
+            url: '/api/user/logout/',
+            method: 'POST',
+            onLoad(x) {
+                if (x.status == 200) {
+                    setSelf({
+                        loged_in: false,
+                        fetch: true,
+                        user: {
+                            id: 0,
+                            name: '',
+                            wallet: 0,
+                            in_hold: 0,
+                            token: '',
+                            photo: null,
+                            admin: false,
+                            banned: false,
+                            phone: '',
+                        },
+                    })
+                    nav('/login')
+                } else {
+                    addAlert({
+                        type: 'error',
+                        timeout: 5,
+                        content: 'مشکلی پیش امده کمی بعد دوباره تلاش کنید.',
+                        subject: 'خطا!',
+                    })
+                }
             },
         })
-        nav('/login')
     }
 
     return (
