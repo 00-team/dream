@@ -149,6 +149,17 @@ const SmallNav: Component = () => {
             </nav>
             <div class='show-small-nav' classList={{ active: showNav() }}>
                 <div class='nav-wrapper'>
+                    {self.loged_in ? (
+                        <A href='/dashboard' class='title_small nav-link'>
+                            <DashboardIcon />
+                            داشبورد
+                        </A>
+                    ) : (
+                        <A href='/login' class='title_small nav-link'>
+                            <LoginIcon />
+                            ورود
+                        </A>
+                    )}
                     <A class='nav-link title_small' href='/'>
                         <HomeIcon />
                         خانه
