@@ -66,15 +66,15 @@ const Dashboard: Component<RouteSectionProps> = P => {
                     </div>
                 </div>
                 <div class='links title_small'>
-                    <A href='/dash/' class='link'>
+                    <A href='/dashboard/' class='link'>
                         <PersonIcon />
                         اطلاعات من
                     </A>
-                    <A href='/dash/wallet/' class='link'>
+                    <A href='/dashboard/wallet/' class='link'>
                         <WalletIcon />
                         کیف پول
                     </A>
-                    <A href='/dash/transactions/' class='link'>
+                    <A href='/dashboard/transactions/' class='link'>
                         <TransactionsIcon />
                         سفارش های من
                     </A>
