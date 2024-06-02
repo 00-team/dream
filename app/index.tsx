@@ -44,8 +44,8 @@ const Root = () => {
                 <Route path='/login/' component={Login} />
                 <Route path='/dashboard/' component={Dashboard}>
                     <Route path='/' component={Profile} />
-                    <Route path='/wallet' component={Wallet} />
-                    <Route path='/transactions' component={Transactions} />
+                    <Route path='/wallet/' component={Wallet} />
+                    <Route path='/transactions/' component={Transactions} />
                     <Route path='*' component={Profile} />
                 </Route>
                 <Route
