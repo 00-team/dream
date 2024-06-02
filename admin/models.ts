@@ -1,10 +1,5 @@
 export type OrderModel = {
-    data: {
-        contact?: string | null
-        email?: string | null
-        password?: string | null
-        username?: string | null
-    }
+    data: { [k: string]: string }
     id: number
     kind: string
     price: number
