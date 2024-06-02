@@ -99,7 +99,9 @@ const Transactions: Component = P => {
                     </tbody>
                 </table>
             ) : (
-                <div class='no-orders title_hero'>شما سفارشی ندارید :(</div>
+                <div class='no-orders title_hero'>
+                    شما جابجایی ای نداشتید :(
+                </div>
             )}
         </div>
     )
