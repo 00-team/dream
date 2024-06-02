@@ -42,15 +42,18 @@ const Root = () => {
                 <Route path='/' component={Home} />
                 <Route path='/products/' component={Products} />
                 <Route path='/login/' component={Login} />
-                <Route path='/dashboard/' component={Dashboard}>
-                    <Route path={'/myprofile'} component={MyProfile} />
-                    <Route path={'/mywallet'} component={MyWallet} />
-                    <Route
-                        path={'/mytransactions'}
-                        component={MyTransactions}
-                    />
-                    <Route path={'*'} component={MyProfile} />
+                <Route path='/dash/' component={Dashboard}>
+                    <Route path='/' component={MyProfile} />
+                    <Route path='/wallet' component={MyWallet} />
+                    <Route path='/transactions' component={MyTransactions} />
+                    <Route path='*' component={MyProfile} />
                 </Route>
+                <Route
+                    path='*'
+                    component={() => (
+                        <span style={{ 'font-size': '30vh' }}>404</span>
+                    )}
+                />
             </Route>
         </Router>
     )

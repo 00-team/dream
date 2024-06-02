@@ -65,6 +65,11 @@ export const ProductPopup: Component<Props> = P => {
             .sort((a, b) => (a.display < b.display ? -1 : 1))
     )
 
+    const price = createMemo(() => {
+        if (state.selected_plan == null) return 0
+        return P.product.plans[state.selected_plan][0]
+    })
+
     createEffect(() => {
         if (plans().length == 1) {
             setState({ selected_plan: plans()[0].key })
@@ -74,6 +79,11 @@ export const ProductPopup: Component<Props> = P => {
     function buy() {
         if (!self.loged_in) {
             nav('/login/')
+            return
+        }
+
+        if (self.user.wallet < price()) {
+            nav('/dash/wallet/')
             return
         }
 
@@ -87,7 +97,7 @@ export const ProductPopup: Component<Props> = P => {
             },
             onLoad(x) {
                 if (x.status == 200) {
-                    nav('/dashboard/')
+                    nav('/dash/orders/')
                     return
                 }
             },
@@ -188,15 +198,19 @@ export const ProductPopup: Component<Props> = P => {
                         <div class='buy-cta title_small'>
                             <span class='number price'>
                                 <span>
-                                    {(~~(
-                                        P.product.plans[
-                                            state.selected_plan
-                                        ][0] / 10
-                                    )).toLocaleString()}{' '}
-                                    تومان
+                                    {(~~(price() / 10)).toLocaleString()} تومان
                                 </span>
                             </span>
-                            <Special text='خرید' onclick={buy} />
+                            <Special
+                                text={
+                                    !self.loged_in
+                                        ? 'ورود'
+                                        : self.user.wallet < price()
+                                          ? 'شارژ کیف پول'
+                                          : 'خرید'
+                                }
+                                onclick={buy}
+                            />
                         </div>
                     </Show>
                 </aside>
