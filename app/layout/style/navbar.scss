@@ -176,6 +176,13 @@ nav.nav-big-container {
             }
         }
     }
+
+    .nav-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+    }
 }
 
 nav.nav-small-container {
