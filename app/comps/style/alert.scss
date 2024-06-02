@@ -27,11 +27,12 @@
         pointer-events: all;
         overflow: hidden;
         width: clamp(0px, 100%, 300px);
-        border-radius: var(--radius);
         padding: 1rem;
         position: relative;
-        background-color: var(--slate-4);
         cursor: pointer;
+
+        background: white;
+        border-radius: 12px;
 
         ::-webkit-scrollbar {
             display: none;
@@ -43,15 +44,27 @@
         }
 
         &.info {
-            --color: var(--blue);
+            background-image: linear-gradient(
+                -45deg,
+                var(--alert-info) 10%,
+                transparent 30%
+            );
         }
 
         &.success {
-            --color: var(--green);
+            background-image: linear-gradient(
+                -45deg,
+                var(--alert-success) 10%,
+                transparent 30%
+            );
         }
 
         &.error {
-            --color: var(--red);
+            background-image: linear-gradient(
+                -45deg,
+                var(--alert-error) 10%,
+                transparent 30%
+            );
         }
 
         svg {
