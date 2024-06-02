@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use actix_web::web::{Data, Json, Query};
 use actix_web::{get, post, Scope};
 use serde::Deserialize;
@@ -5,7 +7,7 @@ use utoipa::{OpenApi, ToSchema};
 
 use crate::config::config;
 use crate::docs::UpdatePaths;
-use crate::models::order::{Order, OrderData, OrderStatus};
+use crate::models::order::{Order, OrderStatus};
 use crate::models::user::User;
 use crate::models::{AppErr, JsonStr, ListInput, Response};
 use crate::utils;
@@ -15,7 +17,7 @@ use crate::AppState;
 #[openapi(
     tags((name = "api::orders")),
     paths(order_list, order_new),
-    components(schemas(Order, OrderData, OrderStatus, NewOrder)),
+    components(schemas(Order, OrderStatus, NewOrder)),
     servers((url = "/orders")),
     modifiers(&UpdatePaths)
 )]
@@ -49,7 +51,7 @@ async fn order_list(
 struct NewOrder {
     kind: String,
     plan: String,
-    data: OrderData,
+    data: HashMap<String, String>,
 }
 
 #[utoipa::path(

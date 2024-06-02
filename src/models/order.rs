@@ -1,7 +1,10 @@
-use std::{future::Future, pin::Pin};
+use std::{collections::HashMap, future::Future, pin::Pin};
 
-use actix_web::{web::{Data, Path}, FromRequest, HttpRequest};
 use actix_web::dev::Payload;
+use actix_web::{
+    web::{Data, Path},
+    FromRequest, HttpRequest,
+};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
@@ -17,14 +20,6 @@ sql_enum! {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, ToSchema, Default)]
-pub struct OrderData {
-    pub username: Option<String>,
-    pub password: Option<String>,
-    pub email: Option<String>,
-    pub contact: Option<String>,
-}
-
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema)]
 pub struct Order {
     pub id: i64,
@@ -32,8 +27,8 @@ pub struct Order {
     pub kind: String,
     pub price: i64,
     pub status: OrderStatus,
-    #[schema(value_type = OrderData)]
-    pub data: JsonStr<OrderData>,
+    #[schema(value_type = HashMap<String, String>)]
+    pub data: JsonStr<HashMap<String, String>>,
     pub timestamp: i64,
 }
 
