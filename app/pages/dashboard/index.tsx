@@ -1,4 +1,4 @@
-import { A, useNavigate } from '@solidjs/router'
+import { A, RouteSectionProps, useNavigate } from '@solidjs/router'
 import {
     LogoutIcon,
     PersonIcon,
@@ -10,7 +10,7 @@ import { self, setSelf } from 'store/self'
 
 import './style/dashboard.scss'
 
-const Dashboard: Component = props => {
+const Dashboard: Component<RouteSectionProps> = P => {
     const nav = useNavigate()
 
     createEffect(() => {
@@ -66,15 +66,15 @@ const Dashboard: Component = props => {
                     </div>
                 </div>
                 <div class='links title_small'>
-                    <A href='/dashboard/myprofile' class='link'>
+                    <A href='/dash/' class='link'>
                         <PersonIcon />
                         اطلاعات من
                     </A>
-                    <A href='/dashboard/mywallet' class='link'>
+                    <A href='/dash/wallet/' class='link'>
                         <WalletIcon />
                         کیف پول
                     </A>
-                    <A href='/dashboard/mytransactions' class='link'>
+                    <A href='/dash/transactions/' class='link'>
                         <TransactionsIcon />
                         سفارش های من
                     </A>
@@ -87,10 +87,7 @@ const Dashboard: Component = props => {
                     خروج
                 </button>
             </aside>
-            <aside class='dashboard-wrapper'>
-                {/* @ts-ignore */}
-                {props.children}
-            </aside>
+            <aside class='dashboard-wrapper'>{P.children}</aside>
         </main>
     )
 }
