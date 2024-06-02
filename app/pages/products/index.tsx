@@ -46,6 +46,8 @@ export default () => {
         let cards =
             products_wrapper.querySelectorAll<HTMLDivElement>('.product-card')
 
+        console.log(state.products)
+
         // cards.forEach((card: HTMLElement) => {
         //     card.addEventListener('mouseenter', () => {
         //         products_wrapper.childNodes.forEach((card_id: HTMLElement) => {
