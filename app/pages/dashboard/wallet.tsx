@@ -6,6 +6,7 @@ import './style/wallet.scss'
 import logo from 'assets/image/logo.png'
 import bg from 'assets/image/card-bg.jpeg'
 import CountUp from 'comps/countUp'
+import { self } from 'store/self'
 
 export const Wallet: Component = props => {
     return (
@@ -29,7 +30,10 @@ export const Wallet: Component = props => {
                 <div class='center title_hero'>
                     <CountUp steps={12345} addTime={20} end={1000000} format />
                 </div>
-                <div class='bottom'></div>
+                <div class='bottom'>
+                    <span class='title_smaller'>دریم کارت</span>
+                    <span class='title_small'>{self.user.name}</span>
+                </div>
             </div>
         </section>
     )
