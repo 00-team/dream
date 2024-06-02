@@ -19,6 +19,7 @@ import { setshowNav, showNav } from 'state/nav'
 // import spotifyImg from 'static/imgs/spotify.png'
 // import youtubeImg from 'static/imgs/youtube.png'
 import { A } from '@solidjs/router'
+import { DashboardIcon, LoginIcon } from 'icons/login'
 import { self } from 'store/self'
 
 const Navbar: Component = props => {
@@ -110,11 +111,13 @@ const BigNav: Component = () => {
                 <div class='line title_small' id='nav'></div>
             </div>
             {self.loged_in ? (
-                <A href='/dashboard' class='title_small'>
+                <A href='/dashboard' class='title_small nav-cta'>
+                    <DashboardIcon />
                     داشبورد
                 </A>
             ) : (
-                <A href='/login' class='title_small'>
+                <A href='/login' class='title_small nav-cta'>
+                    <LoginIcon />
                     ورود
                 </A>
             )}
