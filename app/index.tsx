@@ -42,7 +42,7 @@ const Root = () => {
                 <Route path='/' component={Home} />
                 <Route path='/products/' component={Products} />
                 <Route path='/login/' component={Login} />
-                <Route path='/dash/' component={Dashboard}>
+                <Route path='/dashboard/' component={Dashboard}>
                     <Route path='/' component={Profile} />
                     <Route path='/wallet' component={Wallet} />
                     <Route path='/transactions' component={Transactions} />
