@@ -16,8 +16,6 @@ const Dashboard: Component<RouteSectionProps> = P => {
     const nav = useNavigate()
 
     createEffect(() => {
-        console.log(self.user)
-
         if (!self.loged_in) nav('/login')
     })
 
@@ -89,7 +87,7 @@ const Dashboard: Component<RouteSectionProps> = P => {
                         <WalletIcon />
                         کیف پول
                     </A>
-                    <A href='/dashboard/transactions/' class='link'>
+                    <A href='/dashboard/orders/' class='link'>
                         <TransactionsIcon />
                         سفارش های من
                     </A>
