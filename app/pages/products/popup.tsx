@@ -5,18 +5,18 @@ import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { ProductModel } from 'models'
 import {
     Component,
-    Show,
     createEffect,
     createMemo,
     onCleanup,
     onMount,
+    Show,
 } from 'solid-js'
 
-import './style/popup.scss'
-import { createStore, produce } from 'solid-js/store'
-import { httpx } from 'shared'
-import { self } from 'store/self'
 import { useNavigate } from '@solidjs/router'
+import { httpx } from 'shared'
+import { createStore, produce } from 'solid-js/store'
+import { self } from 'store/self'
+import './style/popup.scss'
 
 type Props = {
     open: boolean
@@ -83,7 +83,7 @@ export const ProductPopup: Component<Props> = P => {
         }
 
         if (self.user.wallet < price()) {
-            nav('/dash/wallet/')
+            nav('/dashboard/wallet/')
             return
         }
 
@@ -97,7 +97,7 @@ export const ProductPopup: Component<Props> = P => {
             },
             onLoad(x) {
                 if (x.status == 200) {
-                    nav('/dash/orders/')
+                    nav('/dashboard/orders/')
                     return
                 }
             },
