@@ -51,6 +51,7 @@ export const ProductPopup: Component<Props> = P => {
     })
 
     onCleanup(() => {
+        if (!particles) return
         particles.childNodes.forEach(e => e.remove())
     })
 

@@ -1,4 +1,4 @@
-import { Component, Show, createEffect, onMount } from 'solid-js'
+import { Component, createEffect, onMount } from 'solid-js'
 
 import './style/products.scss'
 
@@ -24,7 +24,7 @@ export default () => {
     }
     const [state, setState] = createStore<State>({
         products: {},
-        popup: 'spotify',
+        popup: null,
     })
 
     onMount(() => {
