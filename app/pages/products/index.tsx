@@ -84,6 +84,7 @@ export default () => {
                 onClose={() => setState({ popup: null })}
                 open={state.popup != null}
                 product={state.products[state.popup] || DEFP}
+                kind={state.popup}
             />
         </main>
     )

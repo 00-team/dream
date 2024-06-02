@@ -221,6 +221,42 @@ main.products .product-popup {
                 flex-direction: column;
                 gap: 1rem;
                 padding: 1rem 0;
+                font-family: 'yekan', sans-serif;
+            }
+
+            .input-data {
+                direction: ltr;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                font-size: 18px;
+
+                label {
+                    text-transform: capitalize;
+                }
+
+                .g {
+                    display: flex;
+                    width: 100%;
+                    gap: 1rem;
+                    align-items: center;
+                }
+
+                input,
+                textarea {
+                    width: 100%;
+                    background-color: transparent;
+                    border: 2px solid var(--sixty-percent);
+                    border-radius: 0.25rem;
+                    font-size: inherit;
+                    padding: 0.25rem;
+                    color: var(--primary-color);
+                }
+
+                textarea {
+                    resize: vertical;
+                    font-family: 'yekan', sans-serif;
+                }
             }
 
             // .plan {

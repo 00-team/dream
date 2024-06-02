@@ -3,18 +3,39 @@ import { CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { ProductModel } from 'models'
-import { Component, createEffect, onCleanup, onMount } from 'solid-js'
+import {
+    Component,
+    Show,
+    createEffect,
+    createMemo,
+    onCleanup,
+    onMount,
+} from 'solid-js'
 
 import './style/popup.scss'
+import { createStore, produce } from 'solid-js/store'
+import { httpx } from 'shared'
+import { self } from 'store/self'
+import { useNavigate } from '@solidjs/router'
 
 type Props = {
     open: boolean
     onClose(): void
     product: ProductModel
+    kind: string
 }
 
 export const ProductPopup: Component<Props> = P => {
     let particles: HTMLElement
+    type State = {
+        selected_plan: string | null
+        data: { [k: string]: string }
+    }
+    const [state, setState] = createStore<State>({
+        selected_plan: null,
+        data: {},
+    })
+    const nav = useNavigate()
 
     onMount(() => {
         particles = document.getElementById('particles-js')
@@ -33,6 +54,45 @@ export const ProductPopup: Component<Props> = P => {
         particles.childNodes.forEach(e => e.remove())
     })
 
+    const plans = createMemo(() =>
+        Object.entries(P.product.plans)
+            .map(([k, v], i) => ({
+                idx: i,
+                display: v[1],
+                key: k,
+            }))
+            .sort((a, b) => (a.display < b.display ? -1 : 1))
+    )
+
+    createEffect(() => {
+        if (plans().length == 1) {
+            setState({ selected_plan: plans()[0].key })
+        }
+    })
+
+    function buy() {
+        if (!self.loged_in) {
+            nav('/login/')
+            return
+        }
+
+        httpx({
+            url: '/api/orders/',
+            method: 'POST',
+            json: {
+                kind: P.kind,
+                plan: state.selected_plan,
+                data: state.data,
+            },
+            onLoad(x) {
+                if (x.status == 200) {
+                    nav('/dashboard/')
+                    return
+                }
+            },
+        })
+    }
+
     return (
         <div
             class='product-popup'
@@ -46,7 +106,15 @@ export const ProductPopup: Component<Props> = P => {
                 </button>
                 <aside class='popup-data'>
                     <h2 class='item-title title'>
-                        <span>{P.product.name}</span>
+                        <span>
+                            {P.product.name}
+                            {/*<Show
+                                when={state.selected_plan}
+                                fallback={P.product.name}
+                            >
+                                {P.product.plans[state.selected_plan][1]}
+                            </Show>*/}
+                        </span>
                     </h2>
                     <div class='items-options'>
                         <div class='option title_smaller'>
@@ -67,35 +135,69 @@ export const ProductPopup: Component<Props> = P => {
                         </div>
                     </div>
 
-                    <div class='selector'>
-                        <div class='g'>
-                            <span>select time</span>
+                    <Show when={plans().length > 1}>
+                        <div class='selector'>
+                            <span>پلن مدنظر خود را انتخاب کنید:</span>
                             <Select
-                                items={[
-                                    { idx: 0, display: 'hi' },
-                                    { idx: 1, display: 'hh' },
-                                ]}
-                                onChange={v => console.log(v)}
+                                items={plans()}
+                                onChange={v =>
+                                    setState({ selected_plan: v[0].key })
+                                }
                             />
                         </div>
-                        <div class='g'>
-                            <span>select type</span>
-                            <Select
-                                items={[
-                                    { idx: 0, display: 'hi' },
-                                    { idx: 1, display: 'hh' },
-                                ]}
-                                onChange={v => console.log(v)}
-                            />
-                        </div>
+                    </Show>
+
+                    <div class='input-data'>
+                        {P.product.data
+                            .filter(d => d != 'detail')
+                            .map((d, i) => (
+                                <div class='g'>
+                                    <label for={`input-data-${d}${i}`}>
+                                        {d}:
+                                    </label>
+                                    <input
+                                        id={`input-data-${d}${i}`}
+                                        placeholder={d}
+                                        onInput={e => {
+                                            setState(
+                                                produce(s => {
+                                                    s.data[d] =
+                                                        e.currentTarget.value
+                                                })
+                                            )
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                        <textarea
+                            dir='auto'
+                            placeholder='توضیحات'
+                            rows={2}
+                            onInput={e => {
+                                setState(
+                                    produce(s => {
+                                        s.data['detail'] = e.currentTarget.value
+                                    })
+                                )
+                            }}
+                        ></textarea>
                     </div>
 
-                    <div class='buy-cta title_small'>
-                        <span class='number price'>
-                            <span>121,000</span>
-                        </span>
-                        <Special text='خرید' />
-                    </div>
+                    <Show when={state.selected_plan}>
+                        <div class='buy-cta title_small'>
+                            <span class='number price'>
+                                <span>
+                                    {(~~(
+                                        P.product.plans[
+                                            state.selected_plan
+                                        ][0] / 10
+                                    )).toLocaleString()}{' '}
+                                    تومان
+                                </span>
+                            </span>
+                            <Special text='خرید' onclick={buy} />
+                        </div>
+                    </Show>
                 </aside>
                 <aside class='popup-img'>
                     {/* <img src={popup.img} alt='' /> */}
