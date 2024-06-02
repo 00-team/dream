@@ -15,11 +15,16 @@ section.wallet {
 
     padding: 5vh 3vw;
 
+    overflow: auto;
+    overscroll-behavior: contain;
+
     .wallet-current {
         display: flex;
         align-items: center;
         flex-direction: column;
         justify-content: space-between;
+
+        flex-shrink: 0;
 
         width: clamp(0px, 100%, 600px);
         aspect-ratio: 2 / 1;
@@ -73,6 +78,54 @@ section.wallet {
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+    }
+
+    .transactions {
+        width: 100%;
+        height: auto;
+
+        margin-top: 4em;
+
+        table {
+            width: 100%;
+            border: 1px solid black;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+
+            background-color: white;
+
+            td,
+            th {
+                text-align: center;
+                border: 1px solid black;
+
+                padding: 0.5rem 0.25rem;
+            }
+            tr {
+                position: relative;
+                isolation: isolate;
+            }
+
+            .id {
+                width: clamp(0px, 50px, 100px);
+            }
+            td.edit {
+                cursor: pointer;
+
+                svg {
+                    display: inline-block;
+
+                    margin: 0 0.5rem;
+                }
+            }
+        }
+
+        .no-orders {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 }
