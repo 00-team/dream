@@ -1,9 +1,11 @@
-import { Special } from 'comps'
+import { Select, Special } from 'comps'
 import { CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
 import { ProductModel } from 'models'
 import { Component, createEffect, onCleanup, onMount } from 'solid-js'
+
+import './style/popup.scss'
 
 type Props = {
     open: boolean
@@ -65,7 +67,28 @@ export const ProductPopup: Component<Props> = P => {
                         </div>
                     </div>
 
-                    <span>PLan</span>
+                    <div class='selector'>
+                        <div class='g'>
+                            <span>select time</span>
+                            <Select
+                                items={[
+                                    { idx: 0, display: 'hi' },
+                                    { idx: 1, display: 'hh' },
+                                ]}
+                                onChange={v => console.log(v)}
+                            />
+                        </div>
+                        <div class='g'>
+                            <span>select type</span>
+                            <Select
+                                items={[
+                                    { idx: 0, display: 'hi' },
+                                    { idx: 1, display: 'hh' },
+                                ]}
+                                onChange={v => console.log(v)}
+                            />
+                        </div>
+                    </div>
 
                     <div class='buy-cta title_small'>
                         <span class='number price'>

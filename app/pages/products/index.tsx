@@ -22,7 +22,10 @@ export default () => {
         products: { [k: string]: ProductModel }
         popup: string | null
     }
-    const [state, setState] = createStore<State>({ products: {}, popup: null })
+    const [state, setState] = createStore<State>({
+        products: {},
+        popup: 'spotify',
+    })
 
     onMount(() => {
         httpx({
