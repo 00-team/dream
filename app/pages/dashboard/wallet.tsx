@@ -58,6 +58,7 @@ const Transactions: Component = P => {
         httpx({
             url: '/api/user/transactions/',
             method: 'GET',
+            params: { page: 0 },
             onLoad(x) {
                 if (x.status == 200) {
                     setstate({
