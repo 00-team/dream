@@ -28,7 +28,13 @@ export const Wallet: Component = props => {
                         موجودی
                     </div>
                     <div class='logo'>
-                        <img src={logo} alt='' />
+                        <img
+                            loading='lazy'
+                            decoding='async'
+                            draggable={false}
+                            src={logo}
+                            alt=''
+                        />
                     </div>
                 </div>
                 <div class='center title_hero'>
