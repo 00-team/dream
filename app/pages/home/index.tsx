@@ -1,5 +1,6 @@
 import { showNav } from 'state/nav'
 import { About } from './about'
+import { About2 } from './about2'
 import Contact from './contact'
 import { Customers } from './customers'
 import Faq from './faq'
@@ -13,6 +14,8 @@ const Home = () => {
             <section class='hero-container' id='hero'>
                 <iframe src='https://my.spline.design/dreampay-0a78cdac709ee611db084ccb679701db/'></iframe>
             </section>
+
+            <About2 />
             <About />
             <Services />
             <Customers />
