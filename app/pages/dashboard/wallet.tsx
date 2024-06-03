@@ -7,7 +7,7 @@ import bg from 'assets/image/card-bg.jpeg'
 import logo from 'assets/image/logo.png'
 import { addAlert } from 'comps'
 import CountUp from 'comps/countUp'
-import { OrdersType } from 'models'
+import { TransactionType } from 'models'
 import { httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { self } from 'store/self'
@@ -51,12 +51,12 @@ export const Wallet: Component = props => {
 }
 
 type stateType = {
-    orders: OrdersType[]
+    transactions: TransactionType[]
 }
 
 const Transactions: Component = P => {
     const [state, setstate] = createStore<stateType>({
-        orders: [],
+        transactions: [],
     })
 
     onMount(() => {
@@ -67,7 +67,7 @@ const Transactions: Component = P => {
             onLoad(x) {
                 if (x.status == 200) {
                     setstate({
-                        orders: x.response,
+                        transactions: x.response,
                     })
                 } else {
                     addAlert({
@@ -83,7 +83,7 @@ const Transactions: Component = P => {
 
     return (
         <div class='transactions'>
-            {state.orders.length >= 1 ? (
+            {state.transactions.length >= 1 ? (
                 <table>
                     <thead class='title_small'>
                         <tr>
