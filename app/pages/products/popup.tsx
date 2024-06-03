@@ -66,11 +66,17 @@ export const ProductPopup: Component<Props> = P => {
     )
 
     const price = createMemo(() => {
-        if (state.selected_plan == null) return 0
-        return P.product.plans[state.selected_plan][0]
+        let plan = P.product.plans[state.selected_plan]
+        if (!plan) return 0
+        return plan[0]
     })
 
     createEffect(() => {
+        if (plans().length == 0) {
+            setState({ selected_plan: null })
+            return
+        }
+
         if (plans().length == 1) {
             setState({ selected_plan: plans()[0].key })
         }

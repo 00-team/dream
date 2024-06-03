@@ -47,42 +47,42 @@ export default () => {
         })
     })
 
-    let products_wrapper: HTMLDivElement
-    createEffect(() => {
-        // cardsWrapper = document.querySelector('.products-wrapper')
-        // cards = document.querySelectorAll('.product-card')
-        //
-        let cards =
-            products_wrapper.querySelectorAll<HTMLDivElement>('.product-card')
-
-        console.log(state.products)
-
-        // cards.forEach((card: HTMLElement) => {
-        //     card.addEventListener('mouseenter', () => {
-        //         products_wrapper.childNodes.forEach((card_id: HTMLElement) => {
-        //             if (card_id !== card) {
-        //                 card_id.className += ' fadeout'
-        //             }
-        //         })
-        //     })
-        //     card.addEventListener('mouseleave', () => {
-        //         cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
-        //             if (card_id !== card) {
-        //                 card_id.className = card_id.className.replace(
-        //                     ' fadeout',
-        //                     ''
-        //                 )
-        //             }
-        //         })
-        //     })
-        //
-        // })
-    })
+    // let products_wrapper: HTMLDivElement
+    // createEffect(() => {
+    //     // cardsWrapper = document.querySelector('.products-wrapper')
+    //     // cards = document.querySelectorAll('.product-card')
+    //     //
+    //     let cards =
+    //         products_wrapper.querySelectorAll<HTMLDivElement>('.product-card')
+    //
+    //     console.log(state.products)
+    //
+    //     // cards.forEach((card: HTMLElement) => {
+    //     //     card.addEventListener('mouseenter', () => {
+    //     //         products_wrapper.childNodes.forEach((card_id: HTMLElement) => {
+    //     //             if (card_id !== card) {
+    //     //                 card_id.className += ' fadeout'
+    //     //             }
+    //     //         })
+    //     //     })
+    //     //     card.addEventListener('mouseleave', () => {
+    //     //         cardsWrapper.childNodes.forEach((card_id: HTMLElement) => {
+    //     //             if (card_id !== card) {
+    //     //                 card_id.className = card_id.className.replace(
+    //     //                     ' fadeout',
+    //     //                     ''
+    //     //                 )
+    //     //             }
+    //     //         })
+    //     //     })
+    //     //
+    //     // })
+    // })
 
     return (
         <main class='products'>
             <header class='products-header'></header>
-            <div class='products-wrapper' ref={products_wrapper}>
+            <div class='products-wrapper'>
                 {Object.entries(state.products).map(([k, v]) => (
                     <ProductCard
                         product={v}
