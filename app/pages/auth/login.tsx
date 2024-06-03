@@ -189,7 +189,13 @@ const Login = () => {
                 <button class='title_smaller cta' type={'submit'}>
                     {state.loading && (
                         <div class='loading-wrapper'>
-                            <img src={logo} alt='' />
+                            <img
+                                loading='lazy'
+                                decoding='async'
+                                draggable={false}
+                                src={logo}
+                                alt=''
+                            />
                         </div>
                     )}
                     <Show when={state.stage == 'phone'} fallback='ورود'>
