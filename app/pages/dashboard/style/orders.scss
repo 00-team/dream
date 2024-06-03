@@ -21,6 +21,31 @@ section.orders {
         align-items: center;
         justify-content: center;
 
+        overflow: hidden;
+        overscroll-behavior: contain;
+
+        border-radius: inherit;
+
+        position: relative;
+        isolation: isolate;
+
+        .text-wrapper {
+            position: absolute;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            backdrop-filter: blur(10px);
+
+            border-radius: inherit;
+
+            z-index: 1;
+
+            width: 100%;
+            height: 100%;
+        }
+
         .orders-example {
             display: flex;
             flex-direction: column;
@@ -43,10 +68,15 @@ section.orders {
                 box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
                 border-radius: 1rem;
 
+                background-image: linear-gradient(
+                    -45deg,
+                    #46cfff 0%,
+                    transparent 40%
+                );
                 background-color: white;
 
                 &:not(:last-child) {
-                    margin-bottom: 2em;
+                    margin-bottom: 1em;
                 }
 
                 .column {
@@ -68,8 +98,11 @@ section.orders {
                     gap: 1em;
 
                     img {
-                        height: 100%;
+                        height: 60%;
                         object-fit: contain;
+                    }
+                    .data {
+                        text-transform: capitalize;
                     }
                 }
                 .price {
@@ -83,7 +116,7 @@ section.orders {
                             color: var(--alert-error);
                         }
                         &.waiting {
-                            color: #ffd000;
+                            color: #ff7600;
                         }
                         &.done {
                             color: var(--alert-success);
