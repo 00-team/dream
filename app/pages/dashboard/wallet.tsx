@@ -32,7 +32,12 @@ export const Wallet: Component = props => {
                     </div>
                 </div>
                 <div class='center title_hero'>
-                    <CountUp steps={12345} addTime={20} end={1000000} format />
+                    <CountUp
+                        steps={self.user.wallet >= 100000 ? 12345 : 1234}
+                        addTime={20}
+                        end={self.user.wallet}
+                        format
+                    />
                 </div>
                 <div class='bottom'>
                     <span class='title_smaller'>دریم کارت</span>
