@@ -151,9 +151,10 @@ const ChargeWallet: Component = P => {
                     min={0}
                     max={100000000}
                     maxLength={256}
+                    placeholder={'مقدار شارژ...'}
                 />
             </div>
-            <Special text='تایید' onclick={ChargeCheck} />
+            <Special text='شارژ کن' onclick={ChargeCheck} />
         </div>
     )
 }
