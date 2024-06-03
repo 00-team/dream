@@ -11,8 +11,14 @@ section.profile {
     justify-content: center;
     flex-direction: column;
 
+    padding: 2em 1em;
+
     position: relative;
     isolation: isolate;
+
+    @media screen and (max-width: 768px) {
+        padding: 4em 1em;
+    }
 
     .img-wrapper {
         width: 250px;
@@ -27,6 +33,9 @@ section.profile {
         position: relative;
         isolation: isolate;
 
+        @media screen and (max-width: 768px) {
+            width: 200px;
+        }
         .remove-img {
             position: absolute;
             bottom: 0;
@@ -67,6 +76,10 @@ section.profile {
         width: clamp(0px, 100%, 600px);
 
         margin-bottom: 3em;
+
+        @media screen and (max-width: 1024px) {
+            width: clamp(0px, 100%, 400px);
+        }
 
         input {
             width: 100%;
