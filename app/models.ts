@@ -28,7 +28,7 @@ export type OrderType = {
     id: number
     kind: string
     price: number
-    status: 'wating' | 'refunded' | 'done'
+    status: 'waiting' | 'refunded' | 'done'
     timestamp: number
     user: number
 }
