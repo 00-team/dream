@@ -22,7 +22,6 @@ section.orders {
         justify-content: center;
 
         overflow: hidden;
-        overscroll-behavior: contain;
 
         border-radius: inherit;
 
@@ -99,6 +98,127 @@ section.orders {
 
                     img {
                         height: 60%;
+                        object-fit: contain;
+                    }
+                    .data {
+                        text-transform: capitalize;
+                    }
+                }
+                .price {
+                    .data {
+                        font-family: 'vazir';
+                    }
+                }
+                .status {
+                    .data {
+                        &.refunded {
+                            color: var(--alert-error);
+                        }
+                        &.waiting {
+                            color: #ff7600;
+                        }
+                        &.done {
+                            color: var(--alert-success);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .orders-wrapper {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        padding: 2rem 1.5rem;
+
+        overflow: auto;
+        overscroll-behavior: contain;
+
+        .order {
+            display: flex;
+            flex-direction: column;
+
+            height: 500px;
+
+            padding: 2em 1.5em;
+            padding-bottom: 4em;
+
+            width: 100%;
+
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            border-radius: 1rem;
+
+            background-image: linear-gradient(
+                -45deg,
+                #46cfff 0%,
+                transparent 40%
+            );
+            background-color: white;
+
+            cursor: pointer;
+
+            position: relative;
+            isolation: isolate;
+
+            max-height: 170px;
+            will-change: height, max-height;
+
+            transition: 0.3s ease-in-out;
+
+            &.active {
+                transition: 0.5s ease-in-out;
+                max-height: 1000px;
+            }
+
+            &:not(:last-child) {
+                margin-bottom: 1em;
+            }
+
+            .arrow {
+                width: 100%;
+
+                display: flex;
+                align-items: center;
+
+                justify-content: center;
+
+                position: absolute;
+                bottom: 0;
+                padding: 0.5em;
+            }
+
+            .upper {
+                width: 100%;
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .column {
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    gap: 1em;
+                    margin-right: 0.5em;
+
+                    .label {
+                        opacity: 0.7;
+                    }
+                }
+                .kind {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1em;
+
+                    img {
+                        height: 75px;
                         object-fit: contain;
                     }
                     .data {
