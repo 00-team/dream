@@ -2,8 +2,8 @@ import { Component } from 'solid-js'
 
 import './style/footer.scss'
 
-import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 import logo from 'assets/image/logo.png'
+import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 
 const Footer: Component = props => {
     return (
@@ -11,7 +11,13 @@ const Footer: Component = props => {
             <div class='footer-wrapper'>
                 <div class='footer-dream'>
                     <h4 class='footer-title section_title'>
-                        <img src={logo} alt='' />
+                        <img
+                            loading='lazy'
+                            decoding='async'
+                            draggable={false}
+                            src={logo}
+                            alt=''
+                        />
                         Dream Pay{' '}
                     </h4>
                     <p class='footer-description title_smaller'>
