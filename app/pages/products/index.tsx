@@ -7,6 +7,7 @@ import { ProductModel } from 'models'
 import { hex_to_rgb, httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { ProductPopup } from './popup'
+import { useNavigate, useParams, useSearchParams } from '@solidjs/router'
 
 const DEFP: ProductModel = {
     name: '',
@@ -25,6 +26,14 @@ export default () => {
     const [state, setState] = createStore<State>({
         products: {},
         popup: null,
+    })
+    const [params, setParams] = useSearchParams()
+
+    createEffect(() => {
+        let kind = params.kind
+        if (!kind) return
+        if (!(kind in state.products)) return
+        setState({ popup: kind })
     })
 
     onMount(() => {
@@ -78,12 +87,18 @@ export default () => {
                     <ProductCard
                         product={v}
                         item={k}
-                        onPopup={() => setState({ popup: k })}
+                        onPopup={() => {
+                            setState({ popup: k })
+                            setParams({ kind: k })
+                        }}
                     />
                 ))}
             </div>
             <ProductPopup
-                onClose={() => setState({ popup: null })}
+                onClose={() => {
+                    setState({ popup: null })
+                    setParams({ kind: null })
+                }}
                 open={state.popup != null}
                 product={state.products[state.popup] || DEFP}
                 kind={state.popup}
@@ -154,31 +169,3 @@ const ProductCard: Component<ProductCardProps> = P => {
         </figure>
     )
 }
-
-//
-//
-// const ProductPlan: Component = P => {
-//     const [showdrop, setshowdrop] = createSignal(false)
-//
-//     return (
-//         <div
-//             class='plan'
-//             onmouseenter={() => innerWidth > 1024 && setshowdrop(true)}
-//             onmouseleave={() => innerWidth > 1024 && setshowdrop(false)}
-//             onclick={() => innerWidth <= 1024 && setshowdrop(s => !s)}
-//             classList={{ active: showdrop() }}
-//         >
-//             <button class='selected title_small'>
-//                 <div class='holder'>لورم ایپسوم</div>
-//                 <div class='arrow'>
-//                     <ArrowDownIcon />
-//                 </div>
-//             </button>
-//             <div class='plan-options'>
-//                 <div class='plan-option title_smaller'>یک ماه </div>
-//                 <div class='plan-option title_smaller'>سه ماه </div>
-//                 <div class='plan-option title_smaller'>یک سال </div>
-//             </div>
-//         </div>
-//     )
-// }
