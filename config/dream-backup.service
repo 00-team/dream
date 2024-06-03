@@ -5,4 +5,4 @@ Description=Dream Backup
 Type=oneshot
 ExecStart=/p/dream/config/backup.sh
 WorkingDirectory=/p/dream/
-EnvironmentFile=/p/dream/.secrets.env
+EnvironmentFile=/p/dream/.env

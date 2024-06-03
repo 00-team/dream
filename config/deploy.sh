@@ -3,7 +3,6 @@ SPACER="======================================"
 EG="🔷"
 
 cd /p/dream/
-export $(head -n 1 .secrets.env | xargs)
 
 OLD_COMMIT=$(git rev-parse HEAD)
 

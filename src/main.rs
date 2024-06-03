@@ -66,7 +66,7 @@ async fn rapidoc() -> impl Responder {
 
 fn config_static(app: &mut ServiceConfig) {
     if cfg!(debug_assertions) {
-        app.service(af::Files::new("/static", "./static"));
+        app.service(af::Files::new("/static", "static"));
         app.service(af::Files::new("/app-assets", "app/dist/app-assets"));
         app.service(af::Files::new("/admin-assets", "admin/dist/admin-assets"));
         app.service(af::Files::new("/record", Config::RECORD_DIR));
@@ -75,7 +75,7 @@ fn config_static(app: &mut ServiceConfig) {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    dotenvy::from_path("./.secrets.env").expect("could not read .secrets.env");
+    dotenvy::from_path(".env").expect("could not read .secrets.env");
     pretty_env_logger::init();
 
     let _ = std::fs::create_dir(Config::RECORD_DIR);
