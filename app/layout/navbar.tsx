@@ -79,7 +79,14 @@ const BigNav: Component = () => {
                     line.className = 'line title_small'
                 }}
             >
-                <img class='nav-logo' src={logo} alt='' />
+                <img
+                    loading='lazy'
+                    decoding='async'
+                    draggable={false}
+                    class='nav-logo'
+                    src={logo}
+                    alt=''
+                />
 
                 <A class='nav-link title_small' href='/'>
                     <HomeIcon />
@@ -145,7 +152,14 @@ const SmallNav: Component = () => {
                         <CrossIcon size={30} />
                     </div>
                 </button>
-                <img class='nav-logo' src={logo} alt='' />
+                <img
+                    loading='lazy'
+                    decoding='async'
+                    draggable={false}
+                    class='nav-logo'
+                    src={logo}
+                    alt=''
+                />
             </nav>
             <div class='show-small-nav' classList={{ active: showNav() }}>
                 <div class='nav-wrapper'>
