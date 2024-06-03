@@ -13,4 +13,18 @@ section.orders {
 
     position: relative;
     isolation: isolate;
+
+    .no-orders {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .orders-example {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+    }
 }
