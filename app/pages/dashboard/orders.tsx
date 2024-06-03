@@ -1,5 +1,6 @@
+import { ArrowDownIcon } from 'icons/home'
 import { OrderType } from 'models'
-import { Component } from 'solid-js'
+import { Component, createSignal } from 'solid-js'
 import { createStore } from 'solid-js/store'
 
 import './style/orders.scss'
@@ -15,8 +16,10 @@ export const Orders: Component = props => {
 
     return (
         <section class='orders'>
-            {state.orders.length >= 1 ? (
-                <></>
+            {state.orders.length <= 1 ? (
+                <div class='orders-wrapper'>
+                    <Order />
+                </div>
             ) : (
                 <div class='no-orders title_hero'>
                     <div class='text-wrapper'>
@@ -91,6 +94,45 @@ const OrderExample: Component<OrderExample> = P => {
                 <div class='label title_smaller'>وضعیت </div>
                 <div class={`data title ${P.status}`}>{P.status}</div>
             </div>
+        </div>
+    )
+}
+
+const Order: Component = P => {
+    const [active, setactive] = createSignal(false)
+
+    return (
+        <div
+            class='order'
+            classList={{ active: active() }}
+            onclick={() => setactive(s => !s)}
+        >
+            <div class='arrow'>
+                <ArrowDownIcon size={30} />
+            </div>
+            <div class='upper'>
+                <div class='kind'>
+                    <img
+                        loading='lazy'
+                        decoding='async'
+                        src={'/static/image/logo/spotify.png'}
+                        alt=''
+                    />
+                    <div class='holder column'>
+                        <div class='label title_smaller'>نوع سفارش</div>
+                        <div class='data title'>spotify</div>
+                    </div>
+                </div>
+                <div class='price column'>
+                    <div class='label title_smaller'>قیمت پرداختی</div>
+                    <div class='data title'>100000 تومان</div>
+                </div>
+                <div class='status column'>
+                    <div class='label title_smaller'>وضعیت </div>
+                    <div class={`data title done`}>تمام شده</div>
+                </div>
+            </div>
+            <div class='lower'></div>
         </div>
     )
 }
