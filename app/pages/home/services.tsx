@@ -140,11 +140,25 @@ export const Services: Component = props => {
 
             <div class='services-bubble' id='bubble-one'>
                 <div class='dot'></div>
-                <img src={logo} class='bubble-logo' alt='' />
+                <img
+                    loading='lazy'
+                    decoding='async'
+                    draggable={false}
+                    src={logo}
+                    class='bubble-logo'
+                    alt=''
+                />
             </div>
             <div class='services-bubble' id='bubble-two'>
                 <div class='dot'></div>
-                <img src={logo} class='bubble-logo' alt='' />
+                <img
+                    loading='lazy'
+                    decoding='async'
+                    draggable={false}
+                    src={logo}
+                    class='bubble-logo'
+                    alt=''
+                />
             </div>
         </section>
     )
@@ -196,7 +210,13 @@ const ServicesWrapper: Component = () => {
 
                 <div class='items-wrapper'>
                     <div class='item-service'>
-                        <img src='/static/image/banner/discord.jpg' alt='' />
+                        <img
+                            loading='lazy'
+                            decoding='async'
+                            draggable={false}
+                            src='/static/image/banner/discord.jpg'
+                            alt=''
+                        />
 
                         <p class='title item-title'>
                             <span>Discord Nitro</span>
@@ -222,7 +242,13 @@ const ServicesWrapper: Component = () => {
                         </a>
                     </div>
                     <div class='item-service main'>
-                        <img src={'/static/image/banner/spotify.png'} alt='' />
+                        <img
+                            loading='lazy'
+                            decoding='async'
+                            draggable={false}
+                            src={'/static/image/banner/spotify.png'}
+                            alt=''
+                        />
 
                         <p class='title item-title'>
                             <span>Spotify</span>
@@ -247,6 +273,9 @@ const ServicesWrapper: Component = () => {
                     </div>
                     <div class='item-service'>
                         <img
+                            loading='lazy'
+                            decoding='async'
+                            draggable={false}
                             src={'/static/image/banner/tradingview.jpg'}
                             alt=''
                         />
