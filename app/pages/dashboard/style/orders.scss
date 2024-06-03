@@ -143,7 +143,7 @@ section.orders {
             display: flex;
             flex-direction: column;
 
-            height: 500px;
+            height: 400px;
 
             padding: 2em 1.5em;
             padding-bottom: 4em;
@@ -168,11 +168,22 @@ section.orders {
             max-height: 170px;
             will-change: height, max-height;
 
+            overflow: hidden;
             transition: 0.3s ease-in-out;
 
             &.active {
                 transition: 0.5s ease-in-out;
                 max-height: 1000px;
+
+                .lower {
+                    opacity: 1;
+                }
+
+                .arrow {
+                    svg {
+                        transform: scaleY(-1);
+                    }
+                }
             }
 
             &:not(:last-child) {
@@ -190,6 +201,10 @@ section.orders {
                 position: absolute;
                 bottom: 0;
                 padding: 0.5em;
+
+                svg {
+                    transition: 0.3s;
+                }
             }
 
             .upper {
@@ -199,17 +214,6 @@ section.orders {
                 align-items: center;
                 justify-content: space-between;
 
-                .column {
-                    display: flex;
-                    align-items: center;
-                    flex-direction: column;
-                    gap: 1em;
-                    margin-right: 0.5em;
-
-                    .label {
-                        opacity: 0.7;
-                    }
-                }
                 .kind {
                     height: 100%;
                     display: flex;
@@ -242,6 +246,37 @@ section.orders {
                             color: var(--alert-success);
                         }
                     }
+                }
+            }
+            .lower {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                margin-top: 2em;
+
+                padding-right: calc(50px + 1em);
+
+                opacity: 0;
+
+                transition: 0.3s ease-in-out;
+
+                .order-desc {
+                    width: clamp(0px, 100%, 250px);
+                    text-align: center;
+                }
+            }
+
+            .column {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                gap: 1em;
+                margin-right: 0.5em;
+
+                .label {
+                    opacity: 0.7;
                 }
             }
         }
