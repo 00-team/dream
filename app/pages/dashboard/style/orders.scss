@@ -16,15 +16,81 @@ section.orders {
 
     .no-orders {
         width: 100%;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-    }
 
-    .orders-example {
-        display: flex;
-        flex-direction: column;
+        .orders-example {
+            display: flex;
+            flex-direction: column;
 
-        width: 100%;
+            width: 100%;
+            height: 100%;
+
+            padding: 1em;
+
+            .order {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                padding: 0.5em 1em;
+
+                width: 100%;
+                height: 200px;
+
+                box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+                border-radius: 1rem;
+
+                background-color: white;
+
+                &:not(:last-child) {
+                    margin-bottom: 2em;
+                }
+
+                .column {
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    gap: 1em;
+                    margin-right: 0.5em;
+
+                    .label {
+                        opacity: 0.7;
+                    }
+                }
+                .kind {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1em;
+
+                    img {
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+                .price {
+                    .data {
+                        font-family: 'vazir';
+                    }
+                }
+                .status {
+                    .data {
+                        &.refunded {
+                            color: var(--alert-error);
+                        }
+                        &.waiting {
+                            color: #ffd000;
+                        }
+                        &.done {
+                            color: var(--alert-success);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
