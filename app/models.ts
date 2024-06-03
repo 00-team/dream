@@ -31,6 +31,7 @@ export type OrderType = {
     status: 'waiting' | 'refunded' | 'done'
     timestamp: number
     user: number
+    img: string
 }
 
 export type UserModel = {
