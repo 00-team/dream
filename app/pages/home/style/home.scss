@@ -10,7 +10,7 @@ main.home {
     position: relative;
     isolation: isolate;
 
-    background-color: white;
+    background-color: var(--thirty-percent);
 
     @media screen and (max-width: 768px) {
         padding-top: 100px;
