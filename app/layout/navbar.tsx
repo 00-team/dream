@@ -64,6 +64,7 @@ const BigNav: Component = () => {
             })
         })
     })
+
     return (
         <nav class='nav-big-container'>
             <NavSvg />
@@ -79,6 +80,8 @@ const BigNav: Component = () => {
                     line.className = 'line title_small'
                 }}
             >
+                <ThemeSwitch />
+
                 <img
                     loading='lazy'
                     decoding='async'
@@ -356,6 +359,45 @@ const DropDownSmall: Component<dropdownProps> = P => {
                 </div>
                 <div class='data'>اپل موزیک</div>
             </a>
+        </div>
+    )
+}
+
+const ThemeSwitch = P => {
+    const [theme, setTheme] = createSignal<'light' | 'dark'>('light')
+
+    let themeswitch: HTMLElement
+
+    onMount(() => {
+        themeswitch = document.querySelector('.theme-switch')
+
+        themeswitch.addEventListener('change', switchTheme)
+    })
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark')
+            setTheme('dark')
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light')
+            setTheme('light')
+        }
+    }
+
+    return (
+        <div class='theme-switch' classList={{ dark: theme() === 'dark' }}>
+            <label for='theme-btn'>
+                <input type='checkbox' id='theme-btn' />
+                <div class='slider-wrapper'>
+                    <div class='theme-btn-slider'></div>
+                    <span class='star star-1'></span>
+                    <span class='star star-2'></span>
+                    <span class='star star-3'></span>
+                    <span class='star star-4'></span>
+                    <span class='star star-5'></span>
+                    <span class='star star-6'></span>
+                </div>
+            </label>
         </div>
     )
 }
