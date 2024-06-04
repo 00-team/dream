@@ -385,7 +385,7 @@ nav.nav-small-container {
 
     .open-small {
         background-color: transparent;
-        color: black;
+        color: var(--accent-color);
 
         height: 100%;
         padding: 1.5rem;
@@ -466,7 +466,8 @@ nav.nav-small-container {
         justify-content: center;
         flex-direction: column;
 
-        background: var(--accent-color);
+        color: var(--accent-color);
+        background: var(--thirty-percent);
 
         visibility: hidden;
         opacity: 0;
@@ -499,7 +500,7 @@ nav.nav-small-container {
                 position: absolute;
                 top: 60px;
 
-                background-color: var(--accent-color);
+                background: var(--thirty-percent);
 
                 display: flex;
                 align-items: center;
@@ -533,6 +534,8 @@ nav.nav-small-container {
                     padding: 0.7em 1em;
 
                     color: black;
+                    color: var(--accent-color);
+                    background: var(--thirty-percent);
 
                     transform: translateX(-100%);
 
