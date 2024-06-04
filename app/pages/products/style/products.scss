@@ -120,7 +120,8 @@ main.products {
 
             padding: 0 8px;
 
-            background-color: var(--accent-color);
+            color: var(--accent-color);
+            background-color: var(--thirty-percent);
 
             clip-path: polygon(
                 0 8%,
@@ -233,7 +234,7 @@ main.products {
 
                     background-image: linear-gradient(
                         to top,
-                        var(--accent-color) 20%,
+                        var(--thirty-percent) 20%,
                         transparent
                     );
                     z-index: 1;
@@ -296,10 +297,18 @@ main.products {
                 }
 
                 &::after {
-                    background: linear-gradient(-45deg, black, transparent);
+                    background: linear-gradient(
+                        -45deg,
+                        var(--accent-color),
+                        transparent
+                    );
                 }
                 &::before {
-                    background: linear-gradient(45deg, black, transparent);
+                    background: linear-gradient(
+                        45deg,
+                        var(--accent-color),
+                        transparent
+                    );
                 }
 
                 span {
