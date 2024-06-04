@@ -12,7 +12,6 @@
 
     // // 60/30/10 theme
     // --sixty-percent: rgb(26, 26, 26);
-    // --thirty-percent: rgb(12, 12, 12);
     // --ten-percent: rgb(236, 54, 54);
 
     // --addon-percent: #12b33a;
@@ -31,7 +30,7 @@
 
     // 60/30/10 theme
     --sixty-percent: #2933b6;
-    --thirty-percent: rgb(255, 255, 255);
+    --thirty-percent: rgb(12, 12, 12);
     --ten-percent: rgb(236, 15, 15);
 
     --addon-percent: rgb(18, 230, 71);
@@ -41,8 +40,8 @@
 @mixin light {
     color-scheme: light;
 
-    --primary-color: #121212;
-    --accent-color: #fff;
+    --primary-color: #fff;
+    --accent-color: #121212;
 
     // alerts
     --alert-shadow: #fff3;
