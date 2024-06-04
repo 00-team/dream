@@ -1,11 +1,10 @@
-import { Component } from 'solid-js'
-
 import './style/footer.scss'
 
 import logo from 'assets/image/logo.png'
+import Signature from './signature'
 import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 
-const Footer: Component = props => {
+export default () => {
     return (
         <footer class='footer-container'>
             <div class='footer-wrapper'>
@@ -106,12 +105,6 @@ const Footer: Component = props => {
             <div class='en title_smaller'>
                 © 2024 Dream Pay. All rights reserved.
             </div>
-
-            <div class='footer-00team title_smaller'>
-                <div>developed by 00 team</div>
-            </div>
         </footer>
     )
 }
-
-export default Footer
