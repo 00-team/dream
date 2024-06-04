@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Graduate';
+    src: url('./Graduate.ttf') format('truetype');
+}
+
+.signature-00-team {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #040404;
+    color: #f2f2f2;
+    direction: ltr;
+    font-family: 'Graduate';
+    font-size: 2rem;
+    padding: 1rem;
+    text-decoration: none;
+    margin: 0;
+    box-sizing: border-box;
+}
