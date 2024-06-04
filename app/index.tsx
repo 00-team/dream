@@ -11,8 +11,9 @@ const Home = lazy(() => import('./pages/home'))
 const Products = lazy(() => import('./pages/products'))
 const Login = lazy(() => import('./pages/auth/login'))
 const Dashboard = lazy(() => import('./pages/dashboard'))
-const Footer = lazy(() => import('./layout/footer'))
-const Navbar = lazy(() => import('./layout/navbar'))
+import Footer from './layout/footer'
+import Navbar from './layout/navbar'
+import Signature from './layout/signature'
 
 import './style/base.scss'
 import './style/config.scss'
@@ -44,6 +45,7 @@ const App: Component<RouteSectionProps> = P => {
             <Navbar />
             {P.children}
             <Footer />
+            <Signature />
             <Alert />
         </>
     )

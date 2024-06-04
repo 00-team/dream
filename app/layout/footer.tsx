@@ -135,13 +135,10 @@ export default () => {
                         </div>
                     </div>
                 </div>
-
-                <div class='en title_smaller'>
-                    © 2024 Dream Pay. All rights reserved.
-                </div>
             </div>
-
-            <Signature />
+            <div class='en title_smaller'>
+                © 2024 Dream Pay. All rights reserved.
+            </div>
         </footer>
     )
 }
