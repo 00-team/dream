@@ -16,7 +16,8 @@ export const About: Component = props => {
 
             if (transform <= 0 && transform >= -innerHeight) {
                 console.log(transform)
-                bottom.style.transform = `translateX(${-transform / 2}px)`
+                let divide = innerWidth >= 768 ? 2 : 1
+                bottom.style.transform = `translateX(${-transform / divide}px)`
             }
         })
     })
