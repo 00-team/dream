@@ -247,6 +247,8 @@ const User: Component<UserProps> = P => {
                 <div class='img'>
                     <Show when={P.user.photo} fallback={<UserIcon />}>
                         <img
+                            loading='lazy'
+                            decoding='async'
                             draggable={false}
                             src={`/record/${P.user.id}:${P.user.photo}`}
                         />
@@ -272,6 +274,8 @@ const User: Component<UserProps> = P => {
                 <div class='img'>
                     <Show when={P.user.photo} fallback={<UserIcon />}>
                         <img
+                            loading='lazy'
+                            decoding='async'
                             draggable={false}
                             src={`/record/${P.user.id}:${P.user.photo}`}
                         />

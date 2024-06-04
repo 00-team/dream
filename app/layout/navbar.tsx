@@ -21,6 +21,7 @@ import { setshowNav, showNav } from 'state/nav'
 import { A } from '@solidjs/router'
 import { DashboardIcon, LoginIcon } from 'icons/login'
 import { self } from 'store/self'
+import { setTheme, theme } from 'store/theme'
 
 const Navbar: Component = props => {
     return (
@@ -64,6 +65,7 @@ const BigNav: Component = () => {
             })
         })
     })
+
     return (
         <nav class='nav-big-container'>
             <NavSvg />
@@ -79,7 +81,16 @@ const BigNav: Component = () => {
                     line.className = 'line title_small'
                 }}
             >
-                <img class='nav-logo' src={logo} alt='' />
+                <ThemeSwitch />
+
+                <img
+                    loading='lazy'
+                    decoding='async'
+                    draggable={false}
+                    class='nav-logo'
+                    src={logo}
+                    alt=''
+                />
 
                 <A class='nav-link title_small' href='/'>
                     <HomeIcon />
@@ -145,10 +156,19 @@ const SmallNav: Component = () => {
                         <CrossIcon size={30} />
                     </div>
                 </button>
-                <img class='nav-logo' src={logo} alt='' />
+                <img
+                    loading='lazy'
+                    decoding='async'
+                    draggable={false}
+                    class='nav-logo'
+                    src={logo}
+                    alt=''
+                />
             </nav>
             <div class='show-small-nav' classList={{ active: showNav() }}>
                 <div class='nav-wrapper'>
+                    <ThemeSwitch />
+
                     {self.loged_in ? (
                         <A href='/dashboard' class='title_small nav-link'>
                             <DashboardIcon />
@@ -171,7 +191,13 @@ const SmallNav: Component = () => {
                         <ProductsIcon />
                         محصولات
                         <ArrowDownIcon class='drop' />
-                        <DropDownSmall show={showdrop()} />
+                        <DropDownSmall
+                            show={showdrop()}
+                            onclick={() => {
+                                setshowDrop(false)
+                                setshowNav(false)
+                            }}
+                        />
                     </div>
                     <A class='nav-link title_small' href='/#about'>
                         <AboutIcon />
@@ -247,6 +273,7 @@ const NavSvg: Component = () => {
 
 interface dropdownProps {
     show: boolean
+    onclick?: () => void
 }
 
 const DropDownBig: Component<dropdownProps> = P => {
@@ -312,36 +339,91 @@ const DropDownBig: Component<dropdownProps> = P => {
 const DropDownSmall: Component<dropdownProps> = P => {
     return (
         <div class='small-dropdown' classList={{ active: P.show }}>
-            <a class='small-link title_smaller'>
+            <a
+                href='/products'
+                class='small-link title_smaller'
+                onclick={P.onclick}
+            >
                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
                     <img src={'/static/image/logo/discord.png'} alt='' />
                 </div>
                 <div class='data'>دیسکورد</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.2s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/spotify.png'} alt='' />
                 </div>
                 <div class='data'>اسپاتیفای</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.3s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/canva.png'} alt='' />
                 </div>
                 <div class='data'>کانوا</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.4s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/youtube.png'} alt='' />
                 </div>
                 <div class='data'>یوتیوب</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.5s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/apple-music.png'} alt='' />
                 </div>
                 <div class='data'>اپل موزیک</div>
             </a>
+        </div>
+    )
+}
+
+const ThemeSwitch = P => {
+    let themeswitch: HTMLElement
+
+    onMount(() => {
+        themeswitch = document.querySelector('.theme-switch')
+
+        themeswitch.addEventListener('change', switchTheme)
+    })
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            setTheme('dark')
+        } else {
+            setTheme('light')
+        }
+    }
+
+    return (
+        <div class='theme-switch' classList={{ dark: theme() === 'dark' }}>
+            <label for='theme-btn'>
+                <input type='checkbox' id='theme-btn' />
+                <div class='slider-wrapper'>
+                    <div class='theme-btn-slider'></div>
+                    <span class='star star-1'></span>
+                    <span class='star star-2'></span>
+                    <span class='star star-3'></span>
+                    <span class='star star-4'></span>
+                    <span class='star star-5'></span>
+                    <span class='star star-6'></span>
+                </div>
+            </label>
         </div>
     )
 }

@@ -154,7 +154,9 @@ export const ProductPopup: Component<Props> = P => {
 
                     <Show when={plans().length > 1}>
                         <div class='selector'>
-                            <span>پلن مدنظر خود را انتخاب کنید:</span>
+                            <span class='title_smaller'>
+                                پلن مدنظر خود را انتخاب کنید:
+                            </span>
                             <Select
                                 items={plans()}
                                 onChange={v =>
@@ -169,12 +171,16 @@ export const ProductPopup: Component<Props> = P => {
                             .filter(d => d != 'detail')
                             .map((d, i) => (
                                 <div class='g'>
-                                    <label for={`input-data-${d}${i}`}>
+                                    <label
+                                        for={`input-data-${d}${i}`}
+                                        class='title_small'
+                                    >
                                         {d}:
                                     </label>
                                     <input
                                         id={`input-data-${d}${i}`}
                                         placeholder={d}
+                                        class='title_smaller'
                                         onInput={e => {
                                             setState(
                                                 produce(s => {
@@ -189,6 +195,7 @@ export const ProductPopup: Component<Props> = P => {
                         <textarea
                             dir='auto'
                             placeholder='توضیحات'
+                            class='title_smaller'
                             rows={2}
                             onInput={e => {
                                 setState(

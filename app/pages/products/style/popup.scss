@@ -227,6 +227,8 @@ main.products .product-popup {
                 gap: 1rem;
                 padding: 1rem 0;
                 font-family: 'yekan', sans-serif;
+
+                margin-top: 1em;
             }
 
             .input-data {
@@ -234,7 +236,6 @@ main.products .product-popup {
                 display: flex;
                 flex-direction: column;
                 gap: 0.5rem;
-                font-size: 18px;
 
                 label {
                     text-transform: capitalize;
@@ -250,17 +251,21 @@ main.products .product-popup {
                 input,
                 textarea {
                     width: 100%;
+
                     background-color: transparent;
                     border: 2px solid var(--sixty-percent);
-                    border-radius: 0.25rem;
-                    font-size: inherit;
-                    padding: 0.25rem;
+                    border-radius: 0.5rem;
+
+                    padding: 0.5rem;
                     color: var(--primary-color);
                 }
 
                 textarea {
                     resize: vertical;
                     font-family: 'yekan', sans-serif;
+                    resize: none;
+
+                    direction: rtl;
                 }
             }
 
@@ -378,7 +383,7 @@ main.products .product-popup {
                 flex-direction: column;
                 align-items: center;
 
-                margin-top: auto;
+                margin-top: 2em;
 
                 &:hover {
                     .price {

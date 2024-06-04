@@ -3,8 +3,9 @@ import { Alert } from 'comps'
 import { Orders } from 'pages/dashboard/orders'
 import { Profile } from 'pages/dashboard/profile'
 import { Wallet } from 'pages/dashboard/wallet'
-import { Component, lazy } from 'solid-js'
+import { Component, createEffect, lazy, onMount } from 'solid-js'
 import { render } from 'solid-js/web'
+import { setTheme, theme } from 'store/theme'
 
 const Home = lazy(() => import('./pages/home'))
 const Products = lazy(() => import('./pages/products'))
@@ -19,6 +20,19 @@ import './style/fonts/imports.scss'
 import './style/theme.scss'
 
 const App: Component<RouteSectionProps> = P => {
+    const prefersDarkColorScheme = () =>
+        matchMedia && matchMedia('(prefers-color-scheme: dark)').matches
+
+    onMount(() => {
+        if (prefersDarkColorScheme()) {
+            setTheme('dark')
+        }
+    })
+
+    createEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme())
+    })
+
     // onMount(() => {
     //     if ('serviceWorker' in navigator) {
     //         navigator.serviceWorker.register('/sw.js')

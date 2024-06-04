@@ -1,28 +1,57 @@
 import './style/footer.scss'
 
-import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 import logo from 'assets/image/logo.png'
 import Signature from './signature'
+import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 
 export default () => {
     return (
-        <footer class='footer-fnd'>
-            <div class='footer-container'>
-                <div class='footer-wrapper'>
-                    <div class='footer-dream'>
-                        <h4 class='footer-title section_title'>
-                            <img src={logo} alt='' />
-                            Dream Pay{' '}
-                        </h4>
-                        <p class='footer-description title_smaller'>
-                            با دیریم پی، بهترین سرویس‌های اکانت اسپاتیفای، اپل
-                            موزیک، دیسکورد و ... را تجربه کن! ارائه‌دهنده بهترین
-                            اکانت‌های محبوب اینترنت با کیفیت برتر و قیمت مناسب.
-                            انتخاب بهتر، سرعت بیشتر! با اعتماد به دیریم پی،
-                            مشتریان دسترسی آسان و امن به اکانت‌های مورد نیاز خود
-                            را خواهند داشت و از امکانات ویژه‌ی هر یک از سرویس‌ها
-                            بهره‌مند خواهند شد.
-                        </p>
+        <footer class='footer-container'>
+            <div class='footer-wrapper'>
+                <div class='footer-dream'>
+                    <h4 class='footer-title section_title'>
+                        <img
+                            loading='lazy'
+                            decoding='async'
+                            draggable={false}
+                            src={logo}
+                            alt=''
+                        />
+                        Dream Pay{' '}
+                    </h4>
+                    <p class='footer-description title_smaller'>
+                        با دیریم پی، بهترین سرویس‌های اکانت اسپاتیفای، اپل
+                        موزیک، دیسکورد و ... را تجربه کن! ارائه‌دهنده بهترین
+                        اکانت‌های محبوب اینترنت با کیفیت برتر و قیمت مناسب.
+                        انتخاب بهتر، سرعت بیشتر! با اعتماد به دیریم پی، مشتریان
+                        دسترسی آسان و امن به اکانت‌های مورد نیاز خود را خواهند
+                        داشت و از امکانات ویژه‌ی هر یک از سرویس‌ها بهره‌مند
+                        خواهند شد.
+                    </p>
+                </div>
+
+                <div class='footer-links'>
+                    <div class='dream-socials section_title'>
+                        <a
+                            class='social icon telegram'
+                            href='https://t.me/heydaricoir'
+                        >
+                            <TelegramIcon />
+                        </a>
+
+                        <a
+                            class='social icon whatsapp'
+                            href="'https://wa.me/+989129429430'"
+                        >
+                            <WhatsappIcon />
+                        </a>
+
+                        <a
+                            class='social icon instagram'
+                            href='instagram://user?username=heydari.chair'
+                        >
+                            <InstaIcon />
+                        </a>
                     </div>
 
                     <div class='footer-links'>

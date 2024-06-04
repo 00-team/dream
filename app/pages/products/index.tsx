@@ -145,7 +145,14 @@ const ProductCard: Component<ProductCardProps> = P => {
             style={{ '--color': hex_to_rgb(P.product.color) }}
         >
             <div class='img-wrapper'>
-                <img src={P.product.image} class='card-img' alt='' />
+                <img
+                    loading='lazy'
+                    decoding='async'
+                    draggable={false}
+                    src={P.product.image}
+                    class='card-img'
+                    alt=''
+                />
             </div>
             <div class='card-title title_small'>
                 <span>{P.product.name}</span>

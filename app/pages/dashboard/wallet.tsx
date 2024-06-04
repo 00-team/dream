@@ -5,7 +5,7 @@ import './style/wallet.scss'
 
 import bg from 'assets/image/card-bg.jpeg'
 import logo from 'assets/image/logo.png'
-import { addAlert } from 'comps'
+import { addAlert, Special } from 'comps'
 import CountUp from 'comps/countUp'
 import { TransactionType } from 'models'
 import { httpx } from 'shared'
@@ -28,7 +28,13 @@ export const Wallet: Component = props => {
                         موجودی
                     </div>
                     <div class='logo'>
-                        <img src={logo} alt='' />
+                        <img
+                            loading='lazy'
+                            decoding='async'
+                            draggable={false}
+                            src={logo}
+                            alt=''
+                        />
                     </div>
                 </div>
                 <div class='center title_hero'>
@@ -44,6 +50,7 @@ export const Wallet: Component = props => {
                     <span class='title_small'>{self.user.name}</span>
                 </div>
             </div>
+            <ChargeWallet />
 
             <Transactions />
         </section>
@@ -109,6 +116,45 @@ const Transactions: Component = P => {
                     شما جابجایی ای نداشتید :(
                 </div>
             )}
+        </div>
+    )
+}
+
+const ChargeWallet: Component = P => {
+    const [state, setState] = createStore({
+        amount: 0,
+        error: '',
+    })
+
+    function ChargeCheck() {
+        if (state.amount <= 0) {
+            addAlert({
+                subject: 'خطا!',
+                type: 'error',
+                timeout: 5,
+                content: 'مقدار واردی باید بیشتر از 10000 تومان باشد.',
+            })
+        }
+    }
+    return (
+        <div class='charge-wallet'>
+            <h4 class='شارژ کیف پول'></h4>
+            <div class='inp' classList={{ error: state.error !== '' }}>
+                <input
+                    type='number'
+                    class='title_small'
+                    inputMode='numeric'
+                    value={state.amount}
+                    oninput={e =>
+                        setState({ amount: e.currentTarget.valueAsNumber })
+                    }
+                    min={0}
+                    max={100000000}
+                    maxLength={256}
+                    placeholder={'مقدار شارژ...'}
+                />
+            </div>
+            <Special text='شارژ کن' onclick={ChargeCheck} />
         </div>
     )
 }

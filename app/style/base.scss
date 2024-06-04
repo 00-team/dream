@@ -32,21 +32,21 @@
     background-color: #555;
 }
 
+html[data-theme='dark'] {
+    body {
+        @include theme.dark;
+    }
+    background-color: var(--accent-color);
+}
+html[data-theme='light'] {
+    body {
+        @include theme.light;
+    }
+    background-color: var(--accent-color);
+}
+
 .root {
     background-color: #121212;
-
-    @media (prefers-color-scheme: dark) {
-        body {
-            @include theme.dark;
-        }
-        background-color: var(--accent-color);
-    }
-    @media (prefers-color-scheme: light) {
-        body {
-            @include theme.dark;
-        }
-        background-color: var(--accent-color);
-    }
 
     @media screen and (max-width: 768px) {
         overflow: hidden;
@@ -72,25 +72,6 @@ body {
 html,
 body {
     scroll-behavior: smooth;
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        @include theme.dark;
-    }
-    main.home {
-        background-color: var(--accent-color);
-        // color: var(--accent-color);
-    }
-}
-@media (prefers-color-scheme: light) {
-    body {
-        @include theme.light;
-    }
-    main.home {
-        background-color: var(--accent-color);
-        // color: var(--accent-color);
-    }
 }
 
 .title_hero {

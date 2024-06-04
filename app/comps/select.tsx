@@ -1,7 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from 'icons'
-import './style/select.scss'
+import { createEffect, on, Show } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
-import { Show, createEffect, on } from 'solid-js'
+import './style/select.scss'
 
 type BaseItem = { display: string; idx: number }
 
@@ -47,13 +47,15 @@ export const Select = <T extends BaseItem[]>(P: Props<T>) => {
             >
                 <Show
                     when={P.multiple}
-                    fallback={<>{state.selected[0]?.display || '---'}</>}
+                    fallback={
+                        <>{state.selected[0]?.display || 'انتخاب کنید...'}</>
+                    }
                 >
                     <div class='selected'>
                         {state.selected.map(item => (
                             <div class='item'>{item.display}</div>
                         ))}
-                        {!state.selected.length && '---'}
+                        {!state.selected.length && 'انتخاب کنید...'}
                     </div>
                 </Show>
                 <Show when={!P.disabled}>
@@ -78,6 +80,7 @@ export const Select = <T extends BaseItem[]>(P: Props<T>) => {
                                     if (!P.multiple) {
                                         s.selected = [item] as T
                                         s.changed = performance.now()
+                                        s.open = false
                                         return
                                     }
 
@@ -91,8 +94,10 @@ export const Select = <T extends BaseItem[]>(P: Props<T>) => {
                                         if (
                                             typeof P.multiple == 'number' &&
                                             s.selected.length >= P.multiple
-                                        )
+                                        ) {
+                                            s.open = false
                                             return
+                                        }
 
                                         s.selected.push(item)
                                     }
