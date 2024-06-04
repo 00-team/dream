@@ -4,13 +4,21 @@ import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon } from 'icons/products'
 import { Component, JSX, onMount } from 'solid-js'
 
+import { Application } from '@splinetool/runtime'
+
 import './style/about.scss'
 
 export const About: Component = props => {
     let bottom: HTMLElement
 
+    let canvas: HTMLCanvasElement
+
     onMount(() => {
         bottom = document.querySelector('div.bottom#about')
+        canvas = document.querySelector('canvas#canvas3d')
+
+        const app = new Application(canvas)
+        app.load('https://prod.spline.design/aX7tqXQ7v-0wU3FE/scene.splinecode')
 
         document.addEventListener('scroll', () => {
             let transform = bottom.getBoundingClientRect().top - innerHeight
@@ -24,10 +32,12 @@ export const About: Component = props => {
 
     return (
         <section class='about' id='about'>
-            <iframe
+            {/* <iframe
+                allow='transprency'
                 src='https://my.spline.design/untitled-c7de4eec8d45ade0034aceb60e77aa18/'
                 style={{ background: 'transparent' }}
-            ></iframe>
+            ></iframe> */}
+            <canvas id='canvas3d'></canvas>
             <aside class='data'>
                 <h4 class='head title_smaller'>درباره ما</h4>
                 <h3 class='section_title header'>چرا دریم پی؟</h3>
