@@ -7,7 +7,12 @@ section.faq-container {
     align-items: center;
     flex-direction: column;
 
-    background-image: linear-gradient(to bottom, #2196f3, transparent);
+    background-image: linear-gradient(
+        to bottom,
+        var(--sixty-percent),
+        transparent
+    );
+    color: var(--accent-color);
 
     overflow: hidden;
 
@@ -52,7 +57,7 @@ section.faq-container {
 
         .faq-row {
             background-color: transparent;
-            color: black;
+            color: var(--accent-color);
 
             display: flex;
             flex-direction: column;
@@ -60,7 +65,7 @@ section.faq-container {
             width: 100%;
 
             padding-bottom: 2em;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid var(--accent-color);
 
             max-height: 3.5em;
             overflow: hidden;
