@@ -39,8 +39,12 @@ nav.nav-big-container {
 
         height: 100%;
 
+        color: var(--accent-color);
+
         position: relative;
         isolation: isolate;
+
+        transition: 0.5s;
 
         .nav-link {
             display: flex;
@@ -96,11 +100,8 @@ nav.nav-big-container {
                     gap: 1em;
 
                     padding: 1em 1em;
-                    background-color: white;
-                    // border-radius: 12px;
-                    // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
-                    color: black;
+                    background-color: var(--thirty-percent);
+                    color: var(--accent-color);
 
                     position: relative;
                     isolation: isolate;
