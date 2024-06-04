@@ -21,6 +21,7 @@ import { setshowNav, showNav } from 'state/nav'
 import { A } from '@solidjs/router'
 import { DashboardIcon, LoginIcon } from 'icons/login'
 import { self } from 'store/self'
+import { setTheme, theme } from 'store/theme'
 
 const Navbar: Component = props => {
     return (
@@ -364,8 +365,6 @@ const DropDownSmall: Component<dropdownProps> = P => {
 }
 
 const ThemeSwitch = P => {
-    const [theme, setTheme] = createSignal<'light' | 'dark'>('light')
-
     let themeswitch: HTMLElement
 
     onMount(() => {
