@@ -25,12 +25,12 @@ const Contact: Component = props => {
                 header.style.backgroundImage = `linear-gradient(
                     90deg,
                     transparent ${100 - (val - 10)}%,
-                    #000000 140%
+                    var(--accent-color) 140%
                 )`
                 subheader.style.backgroundImage = `linear-gradient(
                     90deg,
                     transparent ${100 - (val - 10)}%,
-                    #000000 140%
+                    var(--accent-color) 140%
                 )`
             }
         })
