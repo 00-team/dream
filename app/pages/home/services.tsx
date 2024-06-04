@@ -6,6 +6,7 @@ import { PlusIcon } from 'icons/home'
 
 import logo from 'assets/image/logo.png'
 import { Special } from 'comps'
+import { theme } from 'store/theme'
 
 export const Services: Component = props => {
     let lastScrollPosition = scrollY
@@ -202,7 +203,7 @@ const ServicesWrapper: Component = () => {
     return (
         <div class='services-wrapper'>
             <div
-                class='services-items'
+                class={`services-items ${theme()}`}
                 classList={{ active: innerWidth <= 768 }}
             >
                 <h4 class='title_hero'>اماده ای؟ بزن بریم</h4>
