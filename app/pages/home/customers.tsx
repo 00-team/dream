@@ -1,4 +1,4 @@
-import { Component, onMount } from 'solid-js'
+import { Component, onCleanup, onMount } from 'solid-js'
 
 import './style/customers.scss'
 
@@ -61,6 +61,10 @@ export const Customers: Component = props => {
                 lastScrollPosition = currentScrollPosition
             }
         }
+    })
+
+    onCleanup(() => {
+        audio = null
     })
 
     function typeMessage() {
