@@ -15,7 +15,7 @@
             transparent 2px,
             transparent 4px
         ),
-        linear-gradient(0deg, rgb(70, 143, 234), rgb(187, 235, 205));
+        linear-gradient(0deg, var(--sixty-percent), var(--thirty-percent));
 
     @media screen and (max-width: 768px) {
         flex-direction: column;
@@ -32,7 +32,8 @@
         flex-direction: column;
         gap: 5vh;
 
-        background-color: white;
+        background-color: var(--thirty-percent);
+        color: var(--accent-color);
         box-shadow: 0px 0px 30px -15px black;
 
         border-top-left-radius: 70px;
@@ -127,7 +128,7 @@
                     background-image: linear-gradient(
                         90deg,
                         rgba(0, 0, 0, 0),
-                        black,
+                        var(--accent-color),
                         rgba(0, 0, 0, 0)
                     );
                     animation: width-slideIn 1s 1s
@@ -160,8 +161,6 @@
                 gap: 0.5em;
 
                 padding: 1em 0;
-
-                color: black;
 
                 cursor: pointer;
 
