@@ -6,7 +6,8 @@ footer.footer-container {
 
     padding: 3em 2em;
 
-    background-color: #ffffff;
+    background-color: var(--thirty-percent);
+    color: var(--accent-color);
 
     position: relative;
     isolation: isolate;
@@ -125,7 +126,7 @@ footer.footer-container {
                         width: 0;
                         height: 0;
                         border-radius: 100vmax;
-                        background-color: white;
+                        background-color: var(--thirty-percent);
 
                         z-index: -1;
 
