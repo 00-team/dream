@@ -8,6 +8,7 @@ import './style/about.scss'
 
 export const About: Component = props => {
     let bottom: HTMLElement
+
     onMount(() => {
         bottom = document.querySelector('div.bottom#about')
 
@@ -15,12 +16,12 @@ export const About: Component = props => {
             let transform = bottom.getBoundingClientRect().top - innerHeight
 
             if (transform <= 0 && transform >= -innerHeight) {
-                console.log(transform)
                 let divide = innerWidth >= 768 ? 2 : 1
                 bottom.style.transform = `translateX(${-transform / divide}px)`
             }
         })
     })
+
     return (
         <section class='about' id='about'>
             <iframe
