@@ -2,8 +2,12 @@ section.orders {
     width: 100%;
     height: 100%;
 
-    background-color: white;
-    background-image: linear-gradient(115deg, #90caf9, transparent);
+    background-color: var(--thirty-percent);
+    background-image: linear-gradient(
+        115deg,
+        var(--sixty-percent),
+        transparent
+    );
     border-radius: 2rem;
 
     display: flex;
@@ -41,6 +45,8 @@ section.orders {
 
             backdrop-filter: blur(10px);
 
+            color: var(--accent-color);
+
             border-radius: inherit;
 
             z-index: 1;
@@ -76,7 +82,9 @@ section.orders {
                     #46cfff 0%,
                     transparent 40%
                 );
-                background-color: white;
+
+                background-color: var(--thirty-percent);
+                color: var(--accent-color);
 
                 &:not(:last-child) {
                     margin-bottom: 1em;
@@ -162,7 +170,8 @@ section.orders {
                 #46cfff 0%,
                 transparent 40%
             );
-            background-color: white;
+            background-color: var(--thirty-percent);
+            color: var(--accent-color);
 
             cursor: pointer;
 
