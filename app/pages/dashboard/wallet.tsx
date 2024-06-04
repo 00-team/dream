@@ -13,6 +13,20 @@ import { createStore } from 'solid-js/store'
 import { self } from 'store/self'
 
 export const Wallet: Component = props => {
+    const getSteps = (value: number) => {
+        let nums = '123456789123456789123456789'
+
+        let steps = 1
+
+        let lenght = value.toString().length
+
+        steps = parseInt(nums.slice(0, lenght - 2))
+
+        return steps || 1
+    }
+
+    onMount(() => {})
+
     return (
         <section class='wallet'>
             <div
@@ -39,7 +53,7 @@ export const Wallet: Component = props => {
                 </div>
                 <div class='center title_hero'>
                     <CountUp
-                        steps={self.user.wallet >= 100000 ? 12345 : 1234}
+                        steps={getSteps(self.user.wallet)}
                         addTime={20}
                         end={self.user.wallet}
                         format
