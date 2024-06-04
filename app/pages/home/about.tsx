@@ -2,11 +2,24 @@ import { BuyIcon, PersonIcon, VerfiedAccIcon } from 'icons/dashboard'
 import { TrustIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon } from 'icons/products'
-import { Component, JSX } from 'solid-js'
+import { Component, JSX, onMount } from 'solid-js'
 
 import './style/about.scss'
 
 export const About: Component = props => {
+    let bottom: HTMLElement
+    onMount(() => {
+        bottom = document.querySelector('div.bottom#about')
+
+        document.addEventListener('scroll', () => {
+            let transform = bottom.getBoundingClientRect().top - innerHeight
+
+            if (transform <= 0 && transform >= -innerHeight) {
+                console.log(transform)
+                bottom.style.transform = `translateX(${-transform / 2}px)`
+            }
+        })
+    })
     return (
         <section class='about' id='about'>
             <iframe
@@ -25,7 +38,7 @@ export const About: Component = props => {
                     هر یک از سرویس‌ها بهره‌مند خواهند شد.
                 </p>
             </aside>
-            <div class='bottom'>
+            <div class='bottom' id='about'>
                 <Column
                     Icon={TrustIcon}
                     head='اعتماد'
