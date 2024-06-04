@@ -5,6 +5,7 @@ section.about {
     display: flex;
     align-items: center;
 
+    background: var(--thirty-percent);
     padding: 7vw 5vw;
 
     position: relative;
@@ -28,7 +29,7 @@ section.about {
         z-index: 4;
     }
 
-    iframe {
+    canvas {
         position: absolute;
         inset: 0;
 
@@ -45,6 +46,8 @@ section.about {
         flex-direction: column;
 
         width: clamp(0px, 100%, 700px);
+
+        color: var(--accent-color);
 
         margin-left: auto;
         margin-right: 5vw;
@@ -73,7 +76,7 @@ section.about {
         align-items: center;
         flex-shrink: 0;
 
-        padding-bottom: 2em;
+        padding-bottom: 2.5em;
 
         width: 100%;
 
@@ -95,14 +98,17 @@ section.about {
             gap: 1em;
             justify-content: center;
 
-            background: white;
+            color: var(--accent-color);
+            background: var(--thirty-percent);
+
             padding: 1.2em 1.7em;
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            box-shadow: color-mix(in srgb, var(--accent-color), transparent 80%)
+                0px 7px 29px 0px;
             border-radius: 3rem 1rem;
 
             background-image: linear-gradient(
                 180deg,
-                rgba(63, 149, 255, 0.8) 4%,
+                color-mix(in srgb, var(--sixty-percent), transparent 10%) 4%,
                 transparent 50%
             );
 
