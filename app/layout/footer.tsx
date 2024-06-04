@@ -53,85 +53,51 @@ export default () => {
                             <InstaIcon />
                         </a>
                     </div>
-
-                    <div class='footer-links'>
-                        <div class='dream-socials section_title'>
-                            <a
-                                class='social icon telegram'
-                                href='https://t.me/heydaricoir'
-                            >
-                                <TelegramIcon />
+                    <div class='site-links'>
+                        <div class='link-column'>
+                            <h4 class='column-head title'>دسترسی سریع</h4>
+                            <a href='/#' class='title_smaller column-link'>
+                                خانه
                             </a>
-
-                            <a
-                                class='social icon whatsapp'
-                                href="'https://wa.me/+989129429430'"
-                            >
-                                <WhatsappIcon />
+                            <a href='/#about' class='title_smaller column-link'>
+                                درباره ما
                             </a>
-
                             <a
-                                class='social icon instagram'
-                                href='instagram://user?username=heydari.chair'
+                                href='/products'
+                                class='title_smaller column-link'
                             >
-                                <InstaIcon />
+                                محصولات
+                            </a>
+                            <a
+                                href='/#customers'
+                                class='title_smaller column-link'
+                            >
+                                نظرات مشتری ها
+                            </a>
+                            <a
+                                href='/#contact'
+                                class='title_smaller column-link'
+                            >
+                                ارتباط با ما
+                            </a>
+                            <a href='/#faq' class='title_smaller column-link'>
+                                سوالات متداول
                             </a>
                         </div>
-                        <div class='site-links'>
-                            <div class='link-column'>
-                                <h4 class='column-head title'>دسترسی سریع</h4>
-                                <a href='/#' class='title_smaller column-link'>
-                                    خانه
-                                </a>
-                                <a
-                                    href='/#about'
-                                    class='title_smaller column-link'
-                                >
-                                    درباره ما
-                                </a>
-                                <a
-                                    href='/products'
-                                    class='title_smaller column-link'
-                                >
-                                    محصولات
-                                </a>
-                                <a
-                                    href='/#customers'
-                                    class='title_smaller column-link'
-                                >
-                                    نظرات مشتری ها
-                                </a>
-                                <a
-                                    href='/#contact'
-                                    class='title_smaller column-link'
-                                >
-                                    ارتباط با ما
-                                </a>
-                                <a
-                                    href='/#faq'
-                                    class='title_smaller column-link'
-                                >
-                                    سوالات متداول
-                                </a>
-                            </div>
-                            <div class='link-column'>
-                                <h4 class='column-head title'>اطلاعات بیشتر</h4>
-                                <a
-                                    href='/blogs'
-                                    class='title_smaller column-link'
-                                >
-                                    مقالات
-                                </a>
-                                <a href='/' class='title_smaller column-link'>
-                                    همکاری
-                                </a>
-                                <a href='/' class='title_smaller column-link'>
-                                    حریم خصوصی
-                                </a>
-                                <a href='/' class='title_smaller column-link'>
-                                    شرایط استفاده
-                                </a>
-                            </div>
+                        <div class='link-column'>
+                            <h4 class='column-head title'>اطلاعات بیشتر</h4>
+                            <a href='/blogs' class='title_smaller column-link'>
+                                مقالات
+                            </a>
+                            <a href='/' class='title_smaller column-link'>
+                                همکاری
+                            </a>
+                            <a href='/' class='title_smaller column-link'>
+                                حریم خصوصی
+                            </a>
+                            <a href='/' class='title_smaller column-link'>
+                                شرایط استفاده
+                            </a>
                         </div>
                     </div>
                 </div>
