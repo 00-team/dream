@@ -167,6 +167,8 @@ const SmallNav: Component = () => {
             </nav>
             <div class='show-small-nav' classList={{ active: showNav() }}>
                 <div class='nav-wrapper'>
+                    <ThemeSwitch />
+
                     {self.loged_in ? (
                         <A href='/dashboard' class='title_small nav-link'>
                             <DashboardIcon />
@@ -189,7 +191,13 @@ const SmallNav: Component = () => {
                         <ProductsIcon />
                         محصولات
                         <ArrowDownIcon class='drop' />
-                        <DropDownSmall show={showdrop()} />
+                        <DropDownSmall
+                            show={showdrop()}
+                            onclick={() => {
+                                setshowDrop(false)
+                                setshowNav(false)
+                            }}
+                        />
                     </div>
                     <A class='nav-link title_small' href='/#about'>
                         <AboutIcon />
@@ -265,6 +273,7 @@ const NavSvg: Component = () => {
 
 interface dropdownProps {
     show: boolean
+    onclick?: () => void
 }
 
 const DropDownBig: Component<dropdownProps> = P => {
@@ -330,32 +339,52 @@ const DropDownBig: Component<dropdownProps> = P => {
 const DropDownSmall: Component<dropdownProps> = P => {
     return (
         <div class='small-dropdown' classList={{ active: P.show }}>
-            <a class='small-link title_smaller'>
+            <a
+                href='/products'
+                class='small-link title_smaller'
+                onclick={P.onclick}
+            >
                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
                     <img src={'/static/image/logo/discord.png'} alt='' />
                 </div>
                 <div class='data'>دیسکورد</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.2s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/spotify.png'} alt='' />
                 </div>
                 <div class='data'>اسپاتیفای</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.3s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/canva.png'} alt='' />
                 </div>
                 <div class='data'>کانوا</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.4s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/youtube.png'} alt='' />
                 </div>
                 <div class='data'>یوتیوب</div>
             </a>
-            <a class='small-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
+            <a href='/products' class='small-link title_smaller'>
+                <div
+                    class='holder icon'
+                    style={{ 'transition-delay': '0.5s' }}
+                    onclick={P.onclick}
+                >
                     <img src={'/static/image/logo/apple-music.png'} alt='' />
                 </div>
                 <div class='data'>اپل موزیک</div>
