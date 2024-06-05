@@ -40,7 +40,10 @@ export const Customers: Component = props => {
 
                         clearTimeout(PauseAudio)
 
-                        if (!(audio.duration > 0 && !audio.paused)) {
+                        if (
+                            !(audio.duration > 0 && !audio.paused) &&
+                            innerWidth >= 768
+                        ) {
                             audio.play()
                         }
 
