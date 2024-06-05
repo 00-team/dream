@@ -35,7 +35,8 @@ create table if not exists orders (
     price integer not null,
     status integer not null default 0,
     data text not null default "{}",
-    timestamp integer not null
+    timestamp integer not null,
+    admin integer references users(id) on delete set null
 );
 
 create table if not exists general (
