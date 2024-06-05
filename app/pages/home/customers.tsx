@@ -4,7 +4,7 @@ import './style/customers.scss'
 
 import AudioFile from 'assets/audio/type.mp3'
 
-export const Customers: Component = props => {
+export const Customers = () => {
     let section: HTMLElement
     let htmlWord: HTMLElement
 

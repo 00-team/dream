@@ -7,7 +7,7 @@ import { Component, createEffect, lazy, onMount } from 'solid-js'
 import { render } from 'solid-js/web'
 import { setTheme, theme } from 'store/theme'
 
-const Home = lazy(() => import('./pages/home'))
+import Home from './pages/home'
 const Products = lazy(() => import('./pages/products'))
 const Login = lazy(() => import('./pages/auth/login'))
 const Dashboard = lazy(() => import('./pages/dashboard'))

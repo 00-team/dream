@@ -15,10 +15,9 @@ export const About: Component = props => {
 
     onMount(() => {
         bottom = document.querySelector('div.bottom#about')
-        canvas = document.querySelector('canvas#canvas3d')
 
         const app = new Application(canvas)
-        app.load('https://prod.spline.design/aX7tqXQ7v-0wU3FE/scene.splinecode')
+        app.load('/static/spline/about.splinecode')
 
         document.addEventListener('scroll', () => {
             let transform = bottom.getBoundingClientRect().top - innerHeight
@@ -37,7 +36,7 @@ export const About: Component = props => {
                 src='https://my.spline.design/untitled-c7de4eec8d45ade0034aceb60e77aa18/'
                 style={{ background: 'transparent' }}
             ></iframe> */}
-            <canvas id='canvas3d'></canvas>
+            <canvas id='canvas3d' ref={canvas}></canvas>
             <aside class='data'>
                 <h4 class='head title_smaller'>درباره ما</h4>
                 <h3 class='section_title header'>چرا DreamPay ؟</h3>
