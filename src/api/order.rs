@@ -5,7 +5,7 @@ use actix_web::{get, post, Scope};
 use serde::Deserialize;
 use utoipa::{OpenApi, ToSchema};
 
-use crate::config::config;
+use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::User;
@@ -100,6 +100,15 @@ async fn order_new(
         user.id, price, now, kind, data
     }.execute(&state.sql).await?;
 
+    utils::send_message(
+        Config::TT_ORDER_NEW,
+        &format! {
+            "User: {}\nprice: {}\nkind: {}, data: ```json\n{}\n```",
+            user.name.unwrap_or(user.phone), price, kind,
+            serde_json::to_string(&data).unwrap_or(String::new())
+        },
+    ).await;
+
     let order = Order {
         user: user.id,
         id: result.last_insert_rowid(),
@@ -108,7 +117,7 @@ async fn order_new(
         kind,
         data,
         status: OrderStatus::Wating,
-        admin: None
+        admin: None,
     };
 
     Ok(Json(order))

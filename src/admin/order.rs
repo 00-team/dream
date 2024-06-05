@@ -4,6 +4,7 @@ use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use utoipa::{OpenApi, ToSchema};
 
+use crate::config::Config;
 use crate::docs::UpdatePaths;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::{Admin, User};
@@ -123,6 +124,17 @@ async fn order_update(
     }
     .execute(&state.sql)
     .await?;
+
+    utils::send_message(
+        Config::TT_ORDER_UPDATE,
+        &format! {
+            "Admin: {}:{}\nStatus: {:?}\nUser: {}:{}\nprice: {}\nkind: {}, data: ```json\n{}\n```",
+            admin.id, admin.name.clone().unwrap_or(admin.phone.clone()),
+            body.status, user.id, user.name.unwrap_or(user.phone),
+            order.price, order.kind,
+            serde_json::to_string(&order.data).unwrap_or(String::new())
+        },
+    ).await;
 
     Ok(HttpResponse::Ok().finish())
 }
