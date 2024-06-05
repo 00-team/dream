@@ -22,7 +22,7 @@ import {
 } from 'icons'
 import { Confact, Copiable, Fanel } from 'comps'
 
-type OrderInfo = Omit<OrderModel, 'user'> & { user: UserModel }
+type OrderInfo = Omit<OrderModel, 'user'> & { user: UserModel | undefined }
 type UpdateOrderStatus = Exclude<OrderModel['status'], 'wating'>
 
 type OrdersState = {
@@ -59,6 +59,7 @@ export default () => {
             method: 'GET',
             onLoad(x) {
                 if (x.status != 200) return
+
                 let orders: OrderModel[] = x.response.orders
                 let users: UserModel[] = x.response.users
 
@@ -131,13 +132,15 @@ const Order: Component<OrderProps> = P => {
                     <span>{P.order.kind}</span>
                     <span>{(~~(P.order.price / 10)).toLocaleString()}</span>
 
-                    <User
-                        user={P.order.user}
-                        onShow={s => {
-                            P.setState({ user_show: s ? P.idx : -1 })
-                        }}
-                        show={P.state.user_show == P.idx}
-                    />
+                    <Show when={P.order.user} fallback={'no user'}>
+                        <User
+                            user={P.order.user}
+                            onShow={s => {
+                                P.setState({ user_show: s ? P.idx : -1 })
+                            }}
+                            show={P.state.user_show == P.idx}
+                        />
+                    </Show>
 
                     <span>
                         {new Date(P.order.timestamp * 1e3).toLocaleString()}
@@ -208,6 +211,11 @@ const User: Component<UserProps> = P => {
         x: 0,
         y: 0,
         send_sms_fanel: false,
+    })
+
+    console.log(P.user)
+    createEffect(() => {
+        console.log(P.user)
     })
 
     function update_xy(rect: DOMRect) {
