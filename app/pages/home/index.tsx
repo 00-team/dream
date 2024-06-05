@@ -13,16 +13,14 @@ const Home = () => {
     let canvas: HTMLCanvasElement
 
     onMount(() => {
-        canvas = document.querySelector('canvas#hero-canvas')
-
         const app = new Application(canvas)
-        app.load('https://prod.spline.design/qWr8woUD83wEXS33/scene.splinecode')
+        app.load('/static/spline/hero.splinecode')
     })
 
     return (
         <main class='home' classList={{ 'show-small': showNav() }}>
             <section class='hero-container' id='hero'>
-                <canvas id='hero-canvas'></canvas>
+                <canvas id='hero-canvas' ref={canvas}></canvas>
             </section>
 
             <About />
