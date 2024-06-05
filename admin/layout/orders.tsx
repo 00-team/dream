@@ -213,11 +213,6 @@ const User: Component<UserProps> = P => {
         send_sms_fanel: false,
     })
 
-    console.log(P.user)
-    createEffect(() => {
-        console.log(P.user)
-    })
-
     function update_xy(rect: DOMRect) {
         setState({
             y: Math.min(

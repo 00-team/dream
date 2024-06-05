@@ -101,9 +101,6 @@ interface OrderExample {
 }
 
 const OrderExample: Component<OrderExample> = P => {
-    onMount(() => {
-        console.log(P.status)
-    })
     return (
         <div class='order'>
             <div class='kind'>
