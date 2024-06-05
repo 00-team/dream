@@ -58,6 +58,7 @@ export default () => {
             params: { page },
             method: 'GET',
             onLoad(x) {
+                if (x.status != 200) return
                 let orders: OrderModel[] = x.response.orders
                 let users: UserModel[] = x.response.users
 

@@ -13,25 +13,25 @@ export type UserModel = {
     banned: boolean
     id: number
     in_hold: number
-    name?: string | null
+    name: string | null
     phone: string
-    photo?: string | null
+    photo: string | null
     token: string
     wallet: number
 }
 
 export type TransactionModel = {
     amount: number
-    bank_track_id?: number | null
-    card?: string | null
-    date?: number | null
-    hashed_card?: string | null
+    bank_track_id: number | null
+    card: string | null
+    date: number | null
+    hashed_card: string | null
     id: number
     kind: 'in' | 'out'
     status: 'in_progress' | 'failed' | 'success'
     timestamp: number
     user: number
     vendor: 'zarinpal' | 'zibal'
-    vendor_order_id?: string | null
-    vendor_track_id?: number | null
+    vendor_order_id: string | null
+    vendor_track_id: number | null
 }

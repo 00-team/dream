@@ -1,5 +1,5 @@
 import { CircleAlertIcon, CircleCheckIcon, CircleXIcon, XIcon } from 'icons'
-import { Component, JSX, onCleanup, onMount } from 'solid-js'
+import { Component, JSX, Show, onCleanup, onMount } from 'solid-js'
 import './style/alert.scss'
 
 import { createStore, produce } from 'solid-js/store'
@@ -97,16 +97,18 @@ const Alert: Component<{ a: AlertModel; i: number }> = P => {
                     <XIcon />
                 </button>
             </div>
-            <div class='body title_small'>
-                <p>
-                    {P.a.content.split('\n').map(line => (
-                        <>
-                            {line}
-                            <br />
-                        </>
-                    ))}
-                </p>
-            </div>
+            <Show when={P.a.content}>
+                <div class='body title_small'>
+                    <p>
+                        {P.a.content.split('\n').map(line => (
+                            <>
+                                {line}
+                                <br />
+                            </>
+                        ))}
+                    </p>
+                </div>
+            </Show>
             <div
                 ref={timer}
                 class='timer-line'
