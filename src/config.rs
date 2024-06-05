@@ -23,6 +23,8 @@ pub struct Config {
     pub discord_webhook: String,
     pub products: Products,
     pub zarinpal_merchant_id: String,
+    pub bot_token: String,
+    pub group_id: String,
 }
 
 impl Config {
@@ -41,8 +43,10 @@ pub fn config() -> &'static Config {
     .expect("invalid products.json");
 
     STATE.get_or_init(|| Config {
-        discord_webhook: evar("DISCORD_WEBHOOK").unwrap(),
-        zarinpal_merchant_id: evar("ZARINPAL_MERCHANT_ID").unwrap(),
+        discord_webhook: evar("DISCORD_WEBHOOK").expect("no DISCORD_WEBHOOK"),
+        zarinpal_merchant_id: evar("ZARINPAL_MERCHANT_ID").expect("zarin mid"),
+        bot_token: evar("TELOXIDE_TOKEN").expect("no TELOXIDE_TOKEN"),
+        group_id: evar("TELOXIDE_GROUP_ID").expect("no TELOXIDE_GROUP_ID"),
         products,
     })
 }
