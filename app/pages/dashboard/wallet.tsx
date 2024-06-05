@@ -20,12 +20,10 @@ export const Wallet: Component = props => {
 
         let lenght = value.toString().length
 
-        steps = parseInt(nums.slice(0, Math.min(1, lenght - 2)))
+        steps = parseInt(nums.slice(0, lenght - 2))
 
-        return steps
+        return steps | 1
     }
-
-    onMount(() => {})
 
     return (
         <section class='wallet'>
