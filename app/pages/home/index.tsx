@@ -1,3 +1,4 @@
+import { Application } from '@splinetool/runtime'
 import { showNav } from 'state/nav'
 import { About } from './about'
 import Contact from './contact'
@@ -5,13 +6,23 @@ import { Customers } from './customers'
 import Faq from './faq'
 import { Services } from './services'
 
+import { onMount } from 'solid-js'
 import './style/home.scss'
 
 const Home = () => {
+    let canvas: HTMLCanvasElement
+
+    onMount(() => {
+        canvas = document.querySelector('canvas#hero-canvas')
+
+        const app = new Application(canvas)
+        app.load('https://prod.spline.design/qWr8woUD83wEXS33/scene.splinecode')
+    })
+
     return (
         <main class='home' classList={{ 'show-small': showNav() }}>
             <section class='hero-container' id='hero'>
-                <iframe src='https://my.spline.design/dreampay-0a78cdac709ee611db084ccb679701db/'></iframe>
+                <canvas id='hero-canvas'></canvas>
             </section>
 
             <About />
