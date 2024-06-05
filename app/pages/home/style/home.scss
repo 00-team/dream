@@ -33,7 +33,8 @@ main.home {
             height: 50vh;
         }
 
-        iframe {
+        iframe,
+        canvas {
             border: none;
             width: 100%;
             height: 100%;
