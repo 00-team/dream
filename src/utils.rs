@@ -80,6 +80,23 @@ pub async fn send_webhook(title: &str, desc: &str, color: u32) {
         .await;
 }
 
+pub async fn send_message(topic: i64, text: &str) {
+    let client = awc::Client::new();
+    let conf = config();
+    let url = format!(
+        "https://api.telegram.org/bot{}/sendMessage?chat_id={}&parse_mode=MarkdownV2&message_thread_id={}",
+        conf.bot_token, conf.group_id, topic
+    );
+    let request = client.post(&url);
+
+    #[derive(Serialize, Debug)]
+    struct Body {
+        text: String,
+    }
+
+    let _ = request.send_json(&Body { text: text.to_string() }).await;
+}
+
 pub async fn send_sms(phone: &str, text: &str) {
     // let client = awc::Client::new();
     log::info!("\nsending sms to {phone}:\n\n{text}\n");
