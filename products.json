@@ -16,10 +16,10 @@
     },
     "netflix": {
         "name": "نتفلیکس",
-        "logo": "/static/image/logo/netflix.jpg",
+        "logo": "/static/image/logo/netflix.png",
         "data": ["email", "password"],
         "color": "#e50914",
-        "image": "/static/image/banner/netflix.jpg",
+        "image": "/static/image/banner/netflix.png",
         "plans": {
             "family.1": [1200000, "خانواده ۱ ماهه"],
             "family.3": [3200000, "خانواده ۳ ماهه"],
