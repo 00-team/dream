@@ -82,7 +82,7 @@ struct UpdateOrder {
 /// Update
 #[patch("/{id}/")]
 async fn order_update(
-    _: Admin, order: Order, body: Json<UpdateOrder>, state: Data<AppState>,
+    admin: Admin, order: Order, body: Json<UpdateOrder>, state: Data<AppState>,
 ) -> Result<HttpResponse, AppErr> {
     if order.status != OrderStatus::Wating {
         return Err(AppErrBadRequest("cannot change this order's status"));
@@ -118,8 +118,8 @@ async fn order_update(
     }
 
     sqlx::query! {
-        "update orders set status = ? where id = ?",
-        body.status, order.id
+        "update orders set status = ?, admin = ? where id = ?",
+        body.status, admin.id, order.id
     }
     .execute(&state.sql)
     .await?;

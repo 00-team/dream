@@ -10,19 +10,20 @@ use sqlx::{
 
 pub type Response<T> = Result<Json<T>, super::AppErr>;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, IntoParams)]
 pub struct ListInput {
+    #[param(example = 0)]
     pub page: u32,
 }
 
 #[derive(Debug, Deserialize, Default)]
 pub struct JsonStr<T>(pub T);
 
-impl<T> JsonStr<T> {
-    pub fn into_inner(self) -> T {
-        self.0
-    }
-}
+// impl<T> JsonStr<T> {
+//     pub fn into_inner(self) -> T {
+//         self.0
+//     }
+// }
 
 impl<T> ops::Deref for JsonStr<T> {
     type Target = T;
@@ -108,3 +109,5 @@ macro_rules! sql_enum {
 }
 
 pub(crate) use sql_enum;
+use utoipa::IntoParams;
+

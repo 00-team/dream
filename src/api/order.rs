@@ -108,6 +108,7 @@ async fn order_new(
         kind,
         data,
         status: OrderStatus::Wating,
+        admin: None
     };
 
     Ok(Json(order))
