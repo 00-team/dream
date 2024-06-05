@@ -40,7 +40,7 @@ export const About: Component = props => {
             <canvas id='canvas3d'></canvas>
             <aside class='data'>
                 <h4 class='head title_smaller'>درباره ما</h4>
-                <h3 class='section_title header'>چرا دریم پی؟</h3>
+                <h3 class='section_title header'>چرا DreamPay ؟</h3>
                 <p class='title_smaller subheader'>
                     با دیریم پی، بهترین سرویس‌های اکانت اسپاتیفای، اپل موزیک،
                     دیسکورد و ... را تجربه کن! ارائه‌دهنده بهترین اکانت‌های

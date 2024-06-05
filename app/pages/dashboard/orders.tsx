@@ -57,7 +57,7 @@ export const Orders: Component = props => {
                             status='done'
                         />
                         <OrderExample
-                            img='/static/image/logo/netflix.jpg'
+                            img='/static/image/logo/netflix.png'
                             kind='netflix'
                             price={20000}
                             status='refunded'
@@ -101,6 +101,9 @@ interface OrderExample {
 }
 
 const OrderExample: Component<OrderExample> = P => {
+    onMount(() => {
+        console.log(P.status)
+    })
     return (
         <div class='order'>
             <div class='kind'>
