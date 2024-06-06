@@ -5,8 +5,6 @@ BASE_NAME=dream-db-$(date +%s).tgz.
 HASH_FILENAME=".ignore.last_hash"
 CHAT_INFO="chat_id=$TELOXIDE_GROUP_ID&message_thread_id=42"
 
-mkdir .dbd
-
 function send_file {
     url="$BASE_URL/sendDocument?$CHAT_INFO"
     curl -s -X POST $url -F "document=@$1" -F "caption=$1" -o /dev/null
@@ -23,6 +21,8 @@ if [ -f $HASH_FILENAME ]; then
         exit
     fi
 fi
+
+mkdir .dbd -p
 
 sha256sum main.db > $HASH_FILENAME
 

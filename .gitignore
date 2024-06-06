@@ -10,3 +10,4 @@ package-lock.json
 record/
 main.db*
 .ignore*
+logs/
