@@ -95,7 +95,17 @@ pub async fn send_message(topic: i64, text: &str) {
     }
 
     let result = request.send_json(&Body { text: text.to_string() }).await;
-    log::info!("send message: {:?}", result);
+    match result {
+        Ok(mut v) => {
+            log::info!("topic: {}", topic);
+            log::info!("text: {}", text);
+            log::info!("send message status: {:?}", v.status());
+            log::info!("send message: {:?}", v.body().await);
+        }
+        Err(e) => {
+            log::info!("send message err: {:?}", e);
+        }
+    }
 }
 
 pub async fn send_sms(phone: &str, text: &str) {
