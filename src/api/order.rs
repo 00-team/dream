@@ -105,7 +105,7 @@ async fn order_new(
         &format! {
             "User: `{}`:{}\nprice: {}\nkind: `{}`\ndata: ```json\n{}\n```",
             user.id, utils::escape(&user.name.unwrap_or(user.phone)), price, kind,
-            utils::escape_code(&serde_json::to_string(&data).unwrap_or(String::new()))
+            utils::escape_code(&serde_json::to_string_pretty(&data).unwrap_or(String::new()))
         },
     ).await;
 

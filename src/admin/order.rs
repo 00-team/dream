@@ -138,7 +138,7 @@ async fn order_update(
             admin.id, utils::escape(&admin.name.clone().unwrap_or(admin.phone.clone())),
             body.status, user.id, utils::escape(&user.name.unwrap_or(user.phone)),
             order.price, order.kind,
-            utils::escape_code(&serde_json::to_string(&order.data).unwrap_or(String::new()))
+            utils::escape_code(&serde_json::to_string_pretty(&order.data).unwrap_or(String::new()))
         },
     ).await;
 
