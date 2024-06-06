@@ -108,6 +108,35 @@ pub async fn send_message(topic: i64, text: &str) {
     }
 }
 
+pub fn escape(s: &str) -> String {
+    s.replace('_', r"\_")
+        .replace('*', r"\*")
+        .replace('[', r"\[")
+        .replace(']', r"\]")
+        .replace('(', r"\(")
+        .replace(')', r"\)")
+        .replace('~', r"\~")
+        .replace('`', r"\`")
+        .replace('>', r"\>")
+        .replace('#', r"\#")
+        .replace('+', r"\+")
+        .replace('-', r"\-")
+        .replace('=', r"\=")
+        .replace('|', r"\|")
+        .replace('{', r"\{")
+        .replace('}', r"\}")
+        .replace('.', r"\.")
+        .replace('!', r"\!")
+}
+
+pub fn escape_link_url(s: &str) -> String {
+    s.replace('`', r"\`").replace(')', r"\)")
+}
+
+pub fn escape_code(s: &str) -> String {
+    s.replace('\\', r"\\").replace('`', r"\`")
+}
+
 pub async fn send_sms(phone: &str, text: &str) {
     // let client = awc::Client::new();
     log::info!("\nsending sms to {phone}:\n\n{text}\n");

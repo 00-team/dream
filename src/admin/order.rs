@@ -128,11 +128,12 @@ async fn order_update(
     utils::send_message(
         Config::TT_ORDER_UPDATE,
         &format! {
-            "Admin: {}:{}\nStatus: {:?}\nUser: {}:{}\nprice: {}\nkind: {}, data: ```json\n{}\n```",
-            admin.id, admin.name.clone().unwrap_or(admin.phone.clone()),
-            body.status, user.id, user.name.unwrap_or(user.phone),
+            "Admin: `{}`:{}\nStatus: {:?}\nUser: `{}`:{}
+            price: {}\nkind: `{}`, data: ```json\n{}\n```",
+            admin.id, utils::escape(&admin.name.clone().unwrap_or(admin.phone.clone())),
+            body.status, user.id, utils::escape(&user.name.unwrap_or(user.phone)),
             order.price, order.kind,
-            serde_json::to_string(&order.data).unwrap_or(String::new())
+            utils::escape_code(&serde_json::to_string(&order.data).unwrap_or(String::new()))
         },
     ).await;
 

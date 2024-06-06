@@ -449,8 +449,8 @@ async fn user_wallet_cb(
     utils::send_message(
         Config::TT_WALLET,
         &format! {
-            "User: {}:{}\nTransaction: {}\namount: {}",
-            user.id, user.name.unwrap_or(user.phone), transaction.id,
+            "User: `{}`:{}\nTransaction: `{}`\namount: {}",
+            user.id, utils::escape(&user.name.unwrap_or(user.phone)), transaction.id,
             transaction.amount
         },
     )

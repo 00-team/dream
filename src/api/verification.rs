@@ -103,7 +103,7 @@ async fn verification(
     utils::send_message(
         Config::TT_VERIFICATION,
         &format! {
-            "action: {:?}\nphone: {}\ncode: `{}`",
+            "action: {:?}\nphone: `{}`\ncode: `{}`",
             body.action, body.phone, code
         },
     )

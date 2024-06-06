@@ -103,9 +103,9 @@ async fn order_new(
     utils::send_message(
         Config::TT_ORDER_NEW,
         &format! {
-            "User: {}:{}\nprice: {}\nkind: {}\ndata: ```json\n{}\n```",
-            user.id, user.name.unwrap_or(user.phone), price, kind,
-            serde_json::to_string(&data).unwrap_or(String::new())
+            "User: `{}`:{}\nprice: {}\nkind: `{}`\ndata: ```json\n{}\n```",
+            user.id, utils::escape(&user.name.unwrap_or(user.phone)), price, kind,
+            utils::escape_code(&serde_json::to_string(&data).unwrap_or(String::new()))
         },
     ).await;
 
