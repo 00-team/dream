@@ -15,7 +15,7 @@ import {
 import { useNavigate } from '@solidjs/router'
 import { httpx } from 'shared'
 import { createStore, produce } from 'solid-js/store'
-import { self } from 'store/self'
+import { self, setSelf } from 'store/self'
 import './style/popup.scss'
 
 type Props = {
@@ -103,6 +103,7 @@ export const ProductPopup: Component<Props> = P => {
             },
             onLoad(x) {
                 if (x.status == 200) {
+                    setSelf({ fetch: true })
                     nav('/dashboard/orders/')
                     return
                 }

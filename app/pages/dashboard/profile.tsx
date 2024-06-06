@@ -15,26 +15,23 @@ const IMAGE_MIMETYPE = [
     'image/webm',
 ]
 
-export const Profile: Component = props => {
-    type dataType = {
+export const Profile: Component = () => {
+    type State = {
         name: string
-        img: string
     }
 
-    const [data, setdata] = createStore<dataType>({
-        name: '',
-        img: '',
+    const [state, setState] = createStore<State>({
+        name: self.user.name,
     })
 
     onMount(() => {
-        setdata({
-            img: self.user.photo,
+        setState({
             name: self.user.name,
         })
     })
 
     function SaveInfo() {
-        if (!data.name) {
+        if (!state.name) {
             addAlert({
                 type: 'error',
                 timeout: 5,
@@ -44,17 +41,17 @@ export const Profile: Component = props => {
             return
         }
 
-        if (data.name == self.user.name) return
+        if (state.name == self.user.name) return
 
         httpx({
             url: '/api/user/',
             method: 'PATCH',
             json: {
-                name: data.name,
+                name: state.name,
             },
             onLoad(x) {
                 if (x.status == 200) {
-                    setSelf({ loged_in: true, fetch: false, user: x.response })
+                    setSelf({ user: x.response })
                     addAlert({
                         type: 'success',
                         timeout: 0,
@@ -85,15 +82,7 @@ export const Profile: Component = props => {
                             method: 'DELETE',
                             onLoad(x) {
                                 if (x.status == 200) {
-                                    setdata({
-                                        img: '',
-                                    })
-                                    setSelf({
-                                        user: {
-                                            ...self.user,
-                                            photo: '',
-                                        },
-                                    })
+                                    setSelf({ fetch: true })
                                     addAlert({
                                         type: 'success',
                                         timeout: 5,
@@ -136,23 +125,13 @@ export const Profile: Component = props => {
                             const fd = new FormData()
                             fd.set('photo', file)
 
-                            const url = URL.createObjectURL(file)
-
-                            setdata({
-                                img: url,
-                            })
-
                             httpx({
                                 url: '/api/user/photo/',
                                 method: 'PUT',
                                 data: fd,
                                 onLoad(x) {
                                     if (x.status == 200) {
-                                        setSelf({
-                                            loged_in: true,
-                                            fetch: false,
-                                            user: x.response,
-                                        })
+                                        setSelf({ user: x.response })
                                         addAlert({
                                             type: 'success',
                                             timeout: 5,
@@ -189,9 +168,9 @@ export const Profile: Component = props => {
             <div class='name-container'>
                 <input
                     type='text'
-                    value={data.name}
+                    value={state.name}
                     placeholder='اسم شما...'
-                    oninput={e => setdata({ name: e.currentTarget.value })}
+                    onInput={e => setState({ name: e.currentTarget.value })}
                     class='title_small'
                     maxLength={256}
                 />

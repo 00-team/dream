@@ -12,17 +12,15 @@ import { httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { self } from 'store/self'
 
-export const Wallet: Component = props => {
+export const Wallet: Component = () => {
     const getSteps = (value: number) => {
-        let nums = '123456789123456789123456789'
+        // let nums = '123456789123456789123456789'
+        // let steps = 1
+        // let lenght = value.toString().length
+        // steps = parseInt(nums.slice(0, lenght - 2))
+        // return steps | 1
 
-        let steps = 1
-
-        let lenght = value.toString().length
-
-        steps = parseInt(nums.slice(0, lenght - 2))
-
-        return steps | 1
+        return value / 500
     }
 
     return (

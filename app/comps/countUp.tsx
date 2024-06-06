@@ -11,12 +11,9 @@ interface CountUpProps {
 const CountUp: Component<CountUpProps> = props => {
     const [counter, setCounter] = createSignal(0)
 
-    let countElement: HTMLElement | null
-    let interval
+    let interval: number
 
     onMount(() => {
-        countElement = document.querySelector('#counter-elem')
-
         interval = setInterval(updateCount, props.addTime)
     })
 
@@ -39,13 +36,9 @@ const CountUp: Component<CountUpProps> = props => {
     })
 
     return (
-        <span id='counter-elem'>
+        <span>
             {props.format ? (
-                <>
-                    {counter()
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </>
+                <>{counter().toLocaleString()}</>
             ) : (
                 <>{counter()}</>
             )}
