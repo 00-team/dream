@@ -125,11 +125,16 @@ async fn order_update(
     .execute(&state.sql)
     .await?;
 
+    let emoji = match body.status {
+        OrderStatus::Done => "✅",
+        OrderStatus::Refunded => "🚫",
+        OrderStatus::Wating => "⏳",
+    };
+
     utils::send_message(
         Config::TT_ORDER_UPDATE,
         &format! {
-            "Admin: `{}`:{}\nStatus: {:?}\nUser: `{}`:{}
-            price: {}\nkind: `{}`, data: ```json\n{}\n```",
+            "Admin: `{}`:{}\nStatus: {:?} {emoji}\nUser: `{}`:{}\nprice: {}\nkind: `{}`, data: ```json\n{}\n```",
             admin.id, utils::escape(&admin.name.clone().unwrap_or(admin.phone.clone())),
             body.status, user.id, utils::escape(&user.name.unwrap_or(user.phone)),
             order.price, order.kind,
