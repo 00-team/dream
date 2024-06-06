@@ -94,18 +94,18 @@ pub async fn send_message(topic: i64, text: &str) {
         text: String,
     }
 
-    let result = request.send_json(&Body { text: text.to_string() }).await;
-    match result {
-        Ok(mut v) => {
-            log::info!("topic: {}", topic);
-            log::info!("text: {}", text);
-            log::info!("send message status: {:?}", v.status());
-            log::info!("send message: {:?}", v.body().await);
-        }
-        Err(e) => {
-            log::info!("send message err: {:?}", e);
-        }
-    }
+    let _ = request.send_json(&Body { text: text.to_string() }).await;
+    // match result {
+    //     Ok(mut v) => {
+    //         log::info!("topic: {}", topic);
+    //         log::info!("text: {}", text);
+    //         log::info!("send message status: {:?}", v.status());
+    //         log::info!("send message: {:?}", v.body().await);
+    //     }
+    //     Err(e) => {
+    //         log::info!("send message err: {:?}", e);
+    //     }
+    // }
 }
 
 pub fn escape(s: &str) -> String {
