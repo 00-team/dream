@@ -94,7 +94,8 @@ pub async fn send_message(topic: i64, text: &str) {
         text: String,
     }
 
-    let _ = request.send_json(&Body { text: text.to_string() }).await;
+    let result = request.send_json(&Body { text: text.to_string() }).await;
+    log::info!("send message: {:?}", result);
 }
 
 pub async fn send_sms(phone: &str, text: &str) {
