@@ -68,6 +68,7 @@ export const Customers = () => {
 
     onCleanup(() => {
         audio = null
+        document.onscroll = null
     })
 
     function typeMessage() {

@@ -5,24 +5,13 @@ import './style/wallet.scss'
 
 import bg from 'assets/image/card-bg.jpeg'
 import logo from 'assets/image/logo.png'
-import { addAlert, Special } from 'comps'
-import CountUp from 'comps/countUp'
+import { addAlert, Special, Counter } from 'comps'
 import { TransactionType } from 'models'
 import { httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { self } from 'store/self'
 
 export const Wallet: Component = () => {
-    const getSteps = (value: number) => {
-        // let nums = '123456789123456789123456789'
-        // let steps = 1
-        // let lenght = value.toString().length
-        // steps = parseInt(nums.slice(0, lenght - 2))
-        // return steps | 1
-
-        return value / 500
-    }
-
     return (
         <section class='wallet'>
             <div
@@ -48,12 +37,15 @@ export const Wallet: Component = () => {
                     </div>
                 </div>
                 <div class='center title_hero'>
-                    <CountUp
-                        steps={getSteps(self.user.wallet)}
-                        addTime={20}
-                        end={self.user.wallet}
+                    <Counter
+                        // duration / interval * 10 for Toman
+                        // ~~ for flooring the output
+                        steps={~~(self.user.wallet / ((5e3 / 20) * 10))}
+                        interval={20}
+                        end={self.user.wallet / 10}
                         format
                     />
+                    <span>تومان</span>
                 </div>
                 <div class='bottom'>
                     <span class='title_smaller'>دریم کارت</span>
@@ -67,12 +59,11 @@ export const Wallet: Component = () => {
     )
 }
 
-type stateType = {
-    transactions: TransactionType[]
-}
-
-const Transactions: Component = P => {
-    const [state, setstate] = createStore<stateType>({
+const Transactions = () => {
+    type State = {
+        transactions: TransactionType[]
+    }
+    const [state, setstate] = createStore<State>({
         transactions: [],
     })
 
