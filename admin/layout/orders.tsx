@@ -173,24 +173,22 @@ const Order: Component<OrderProps> = P => {
             </div>
             <div class='bottom'>
                 <div class='data' classList={{ show: show_data() }}>
-                    <Show when={P.order.data.contact}>
+                    <Show when={P.order.data.detail}>
                         <textarea
                             disabled
                             dir='auto'
-                            rows={P.order.data.contact.split('\n').length}
+                            rows={P.order.data.detail.split('\n').length}
                         >
-                            {P.order.data.contact}
+                            {P.order.data.detail}
                         </textarea>
                     </Show>
-                    <span>
-                        username: <Copiable text={P.order.data.username} />
-                    </span>
-                    <span>
-                        password: <Copiable text={P.order.data.password} />
-                    </span>
-                    <span>
-                        email: <Copiable text={P.order.data.email} />
-                    </span>
+                    {Object.entries(P.order.data)
+                        .filter(([k]) => k != 'detail')
+                        .map(([k, v]) => (
+                            <span>
+                                {k}: <Copiable text={v} />
+                            </span>
+                        ))}
                 </div>
             </div>
         </div>
