@@ -94,6 +94,23 @@ async fn order_new(
             return Err(AppErrBadRequest("discount is not for this product"));
         }
 
+        sqlx::query! {
+            "insert into discount_user(user, discount) values(?, ?)",
+            user.id, discount.id
+        }
+        .execute(&state.sql)
+        .await?;
+
+        let uses = discount.uses + 1;
+        let disabled = matches!(discount.max_uses, Some(x) if x <= uses);
+
+        sqlx::query! {
+            "update discounts set uses = ?, disabled = ? where id = ?",
+            uses, disabled, discount.id
+        }
+        .execute(&state.sql)
+        .await?;
+
         price = (price / 100) * (100 - discount.amount);
         discount_id = Some(discount.id);
         format!(
