@@ -2,7 +2,7 @@
 create table if not exists users (
     id integer primary key not null,
     name text,
-    phone text not null,
+    phone text unique not null,
     wallet integer not null default 0,
     in_hold integer not null default 0,
     token text not null,
@@ -10,6 +10,8 @@ create table if not exists users (
     admin boolean not null default false,
     banned boolean not null default false
 );
+create unique index on users(phone);
+create index on users(token);
 
 create table if not exists transactions (
     id integer primary key not null,
@@ -27,7 +29,6 @@ create table if not exists transactions (
     bank_track_id integer
 );
 
-
 create table if not exists orders (
     id integer primary key not null,
     user integer not null references users(id) on delete cascade,
@@ -38,6 +39,15 @@ create table if not exists orders (
     timestamp integer not null,
     admin integer references users(id) on delete set null
 );
+
+create table if not exists discounts (
+    id integer primary key not null,
+    code text not null,
+    kind text not null,
+    -- plan text not null
+    amount integer not null
+);
+create unique index on discounts(code);
 
 create table if not exists general (
     available_money integer not null default 0,
