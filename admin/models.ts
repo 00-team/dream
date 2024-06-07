@@ -35,3 +35,15 @@ export type TransactionModel = {
     vendor_order_id: string | null
     vendor_track_id: number | null
 }
+
+export type DiscountModel = {
+    id: number
+    code: string
+    amount: number
+    uses: number
+    disabled: boolean
+    expires: number | null
+    kind: string | null
+    max_uses: number | null
+    plan: string | null
+}
