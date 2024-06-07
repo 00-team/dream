@@ -8,8 +8,7 @@ create table if not exists users (
     token text not null,
     photo text,
     admin boolean not null default false,
-    banned boolean not null default false,
-    used_discounts text not null default "[]"
+    banned boolean not null default false
 );
 create unique index idx_user_phone on users(phone);
 create index idx_user_token on users(token);
@@ -53,6 +52,13 @@ create table if not exists discounts (
     expires integer
 );
 create unique index idx_discount_code on discounts(code);
+
+create table if not exists discount_user (
+    id integer primary key not null,
+    user integer not null references users(id) on delete cascade,
+    discount integer not null references discounts(id) on delete cascade
+);
+create unique index idx_discount_user on discount_user(user, discount);
 
 create table if not exists general (
     available_money integer not null default 0,
