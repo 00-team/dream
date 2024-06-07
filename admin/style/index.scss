@@ -17,20 +17,11 @@ body {
     height: 100vh;
     // overflow: hidden;
 
-    .main {
-        height: 800px;
-        width: 100%;
-        display: flex;
-        padding: 1rem;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
-    }
-
-    .root,
-    .root main {
+    .root {
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     svg {

@@ -90,7 +90,11 @@ export default () => {
 
     return (
         <div class='orders-fnd'>
-            <div class='order-list'>
+            <div
+                class='order-list'
+                classList={{ message: state.orders.length == 0 }}
+            >
+                <Show when={state.orders.length == 0}>No Order</Show>
                 {state.orders.map((o, i) => (
                     <Order
                         order={o}

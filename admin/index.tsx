@@ -1,5 +1,5 @@
-import { Navigate, Route, Router, redirect } from '@solidjs/router'
-import { Show, createEffect, lazy } from 'solid-js'
+import { Navigate, Route, RouteSectionProps, Router } from '@solidjs/router'
+import { Component, Show, createEffect, lazy } from 'solid-js'
 import { render } from 'solid-js/web'
 import { self } from 'store/self'
 
@@ -8,6 +8,16 @@ import Alert from 'comps/alert'
 import './style/index.scss'
 
 const Orders = lazy(() => import('./layout/orders'))
+import Navbar from './layout/navbar'
+
+const App: Component<RouteSectionProps> = P => {
+    return (
+        <>
+            <Navbar />
+            {P.children}
+        </>
+    )
+}
 
 const Root = () => {
     createEffect(() => {
@@ -26,10 +36,15 @@ const Root = () => {
             fallback={<a href='/login'>Login</a>}
         >
             <Router base='/admin'>
-                <Route path='/' component={() => <Navigate href='/orders' />} />
-                <Route path='/orders' component={Orders} />
-                <Route path='/orders/:page' component={Orders} />
-                <Route path='*' component={() => <span>not found</span>} />
+                <Route path='/' component={App}>
+                    <Route
+                        path='/'
+                        component={() => <Navigate href='/orders' />}
+                    />
+                    <Route path='/orders' component={Orders} />
+                    <Route path='/discounts' component={Orders} />
+                    <Route path='*' component={() => <span>Not Found</span>} />
+                </Route>
             </Router>
             <Alert />
         </Show>
