@@ -120,8 +120,8 @@ struct DiscountUpdateBody {
     code: Option<String>,
     #[schema(maximum = 100)]
     amount: Option<u8>,
-    max_uses: Option<u32>,
-    expires: Option<u32>,
+    max_uses: Option<i64>,
+    expires: Option<i64>,
     disabled: Option<bool>,
 }
 
@@ -147,11 +147,16 @@ async fn discount_update(
     }
 
     let now = utils::now();
-    discount.expires =
-        body.expires.map(|e| now + e as i64).or(discount.expires);
     discount.amount = body.amount.map_or_else(|| discount.amount, |a| a as i64);
     discount.code = body.code.clone().map_or_else(|| discount.code, |c| c);
-    discount.max_uses = body.max_uses.map(|a| a as i64).or(discount.max_uses);
+    discount.max_uses = body.max_uses.map_or_else(
+        || discount.max_uses,
+        |a| if a < 0 { None } else { Some(a) },
+    );
+    discount.expires = body.expires.map_or_else(
+        || discount.expires,
+        |e| if e < 0 { None } else { Some(now + e) },
+    );
     discount.disabled = body.disabled.unwrap_or(discount.disabled);
 
     sqlx::query! {
