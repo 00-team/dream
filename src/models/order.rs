@@ -30,7 +30,8 @@ pub struct Order {
     #[schema(value_type = HashMap<String, String>)]
     pub data: JsonStr<HashMap<String, String>>,
     pub timestamp: i64,
-    pub admin: Option<i64>
+    pub admin: Option<i64>,
+    pub discount: Option<i64>,
 }
 
 impl FromRequest for Order {
