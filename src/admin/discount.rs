@@ -122,6 +122,7 @@ struct DiscountUpdateBody {
     amount: Option<u8>,
     max_uses: Option<u32>,
     expires: Option<u32>,
+    disabled: Option<bool>,
 }
 
 #[utoipa::path(
@@ -151,10 +152,13 @@ async fn discount_update(
     discount.amount = body.amount.map_or_else(|| discount.amount, |a| a as i64);
     discount.code = body.code.clone().map_or_else(|| discount.code, |c| c);
     discount.max_uses = body.max_uses.map(|a| a as i64).or(discount.max_uses);
+    discount.disabled = body.disabled.unwrap_or(discount.disabled);
 
     sqlx::query! {
-        "update discounts set code = ?, amount = ?, max_uses = ?, expires = ? where id = ?",
-        discount.code, discount.amount, discount.max_uses, discount.expires, discount.id
+        "update discounts set code = ?, amount = ?, max_uses = ?,
+        expires = ?, disabled = ? where id = ?",
+        discount.code, discount.amount, discount.max_uses,
+        discount.expires, discount.disabled,discount.id
     }
     .execute(&state.sql)
     .await?;
