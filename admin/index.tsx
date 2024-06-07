@@ -7,14 +7,15 @@ import Alert from 'comps/alert'
 
 import './style/index.scss'
 
-const Orders = lazy(() => import('./layout/orders'))
 import Navbar from './layout/navbar'
+const Orders = lazy(() => import('./layout/orders'))
+const Discounts = lazy(() => import('./layout/discounts'))
 
 const App: Component<RouteSectionProps> = P => {
     return (
         <>
             <Navbar />
-            {P.children}
+            <main>{P.children}</main>
         </>
     )
 }
@@ -42,7 +43,7 @@ const Root = () => {
                         component={() => <Navigate href='/orders' />}
                     />
                     <Route path='/orders' component={Orders} />
-                    <Route path='/discounts' component={Orders} />
+                    <Route path='/discounts' component={Discounts} />
                     <Route path='*' component={() => <span>Not Found</span>} />
                 </Route>
             </Router>

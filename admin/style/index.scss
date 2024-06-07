@@ -1,4 +1,5 @@
-@import './fonts.scss';
+@import './fonts';
+@import './button';
 
 * {
     margin: 0;
@@ -22,6 +23,17 @@ body {
         height: 100%;
         display: flex;
         flex-direction: column;
+        padding: 1rem;
+        padding-top: 0;
+
+        main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            padding: 1rem;
+            border: 2px solid var(--cl);
+            overflow-y: auto;
+        }
     }
 
     svg {
@@ -74,64 +86,6 @@ input.styled {
     &:focus {
         border-color: var(--blue-9);
         outline: 0;
-    }
-}
-
-button.styled {
-    --color-1: var(--cl);
-    --color-2: var(--cd);
-
-    background-color: var(--color-2);
-    color: var(--white);
-    border: 2px;
-    border-color: var(--color-1);
-    border-style: solid;
-    border-radius: var(--radius);
-    font-size: 18px;
-    font-family: 'Titillium';
-    cursor: pointer;
-    padding: 0.25rem;
-    transition: 220ms ease-in-out;
-    transition-property: border-color, background-color, color;
-
-    &.icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: transparent;
-        width: 32px;
-        height: 32px;
-        border: 0;
-    }
-
-    &.trash,
-    &.remove {
-        --color-1: var(--red);
-        // --color-2: var(--red);
-    }
-
-    &:hover {
-        color: var(--color-2);
-        background-color: var(--color-1);
-    }
-
-    &:not(&.icon):active {
-        background-color: var(--color-2);
-        border-color: var(--color-1);
-        color: var(--color-1);
-    }
-
-    &:focus {
-        outline: 0;
-    }
-
-    &:disabled {
-        pointer-events: none;
-        opacity: 0.6;
-        // border: 2px solid var(--bg-3);
-        // background-color: var(--bg-1);
-        outline: 0;
-        cursor: default;
     }
 }
 

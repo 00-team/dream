@@ -1,7 +1,7 @@
 import { SetStoreFunction, createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
-import { useNavigate, useParams } from '@solidjs/router'
+import { useSearchParams } from '@solidjs/router'
 import {
     Component,
     JSX,
@@ -14,6 +14,8 @@ import { httpx } from 'shared'
 import {
     BanIcon,
     ChevronDownIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
     ChevronUpIcon,
     CircleCheckBigIcon,
     HourglassIcon,
@@ -32,8 +34,7 @@ type OrdersState = {
 }
 
 export default () => {
-    const UP = useParams()
-    const navigate = useNavigate()
+    const [params, setParams] = useSearchParams()
 
     const [state, setState] = createStore<OrdersState>({
         orders: [],
@@ -41,18 +42,12 @@ export default () => {
         user_show: -1,
     })
 
-    createEffect(() => {
-        let pid = parseInt(UP.page || '0')
-
-        if (isNaN(pid)) {
-            return navigate('/orders/')
-        }
-
-        setState({ page: pid })
-        fetch_orders(pid)
-    })
+    createEffect(() => fetch_orders(parseInt(params.page || '0') || 0))
 
     function fetch_orders(page: number) {
+        setParams({ page })
+        setState({ page })
+
         httpx({
             url: '/api/admin/orders/',
             params: { page },
@@ -105,6 +100,22 @@ export default () => {
                     />
                 ))}
             </div>
+            <div class='actions'>
+                <button
+                    class='styled'
+                    disabled={state.page <= 0}
+                    onClick={() => fetch_orders(state.page - 1)}
+                >
+                    <ChevronLeftIcon />
+                </button>
+                <button
+                    class='styled'
+                    disabled={state.orders.length < 32}
+                    onClick={() => fetch_orders(state.page + 1)}
+                >
+                    <ChevronRightIcon />
+                </button>
+            </div>
         </div>
     )
 }
@@ -151,14 +162,19 @@ const Order: Component<OrderProps> = P => {
                     </span>
                 </div>
                 <div class='actions'>
-                    <button
-                        class='btn-show-data styled icon'
-                        onclick={() => setShowData(s => !s)}
-                    >
-                        <Show when={show_data()} fallback={<ChevronDownIcon />}>
-                            <ChevronUpIcon />
-                        </Show>
-                    </button>
+                    <Show when={Object.keys(P.order.data).length != 0}>
+                        <button
+                            class='btn-show-data styled icon'
+                            onclick={() => setShowData(s => !s)}
+                        >
+                            <Show
+                                when={show_data()}
+                                fallback={<ChevronDownIcon />}
+                            >
+                                <ChevronUpIcon />
+                            </Show>
+                        </button>
+                    </Show>
                     <Show when={P.order.status === 'wating'}>
                         <Confact
                             color='var(--red)'
