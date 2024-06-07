@@ -1,5 +1,3 @@
-use std::ops;
-
 use actix_web::web::Json;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use sqlx::{
@@ -7,6 +5,7 @@ use sqlx::{
     sqlite::{SqliteArgumentValue, SqliteTypeInfo},
     Sqlite,
 };
+use std::ops;
 
 pub type Response<T> = Result<Json<T>, super::AppErr>;
 
@@ -110,4 +109,3 @@ macro_rules! sql_enum {
 
 pub(crate) use sql_enum;
 use utoipa::IntoParams;
-
