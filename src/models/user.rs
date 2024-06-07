@@ -13,7 +13,7 @@ use utoipa::ToSchema;
 
 use crate::{utils::CutOff, AppState};
 
-use super::{AppErr, AppErrForbidden, JsonStr};
+use super::{AppErr, AppErrForbidden};
 
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema, Default)]
 pub struct User {
@@ -26,8 +26,6 @@ pub struct User {
     pub photo: Option<String>,
     pub admin: bool,
     pub banned: bool,
-    #[schema(value_type = Vec<i64>)]
-    pub used_discounts: JsonStr<Vec<i64>>
 }
 
 #[derive(Debug, MultipartForm, ToSchema)]
