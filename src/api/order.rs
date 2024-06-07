@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use actix_web::web::{Data, Json, Path, Query};
 use actix_web::{get, post, Scope};
 use serde::Deserialize;
+use sqlx::SqlitePool;
 use utoipa::{OpenApi, ToSchema};
 
 use crate::config::{config, Config};
@@ -55,6 +56,7 @@ struct NewOrder {
     kind: String,
     plan: String,
     data: HashMap<String, String>,
+    discount: Option<String>,
 }
 
 #[utoipa::path(
@@ -72,15 +74,35 @@ async fn order_new(
     let product = config()
         .products
         .get(&body.kind)
-        .ok_or(AppErr::new(404, "product not found"))?;
+        .ok_or(AppErrNotFound("product not found"))?;
 
     let plan = product
         .plans
         .get(&body.plan)
-        .ok_or(AppErr::new(404, "plan not found"))?;
+        .ok_or(AppErrNotFound("plan not found"))?;
 
     let now = utils::now();
-    let price = plan.0 as i64;
+    let mut price = plan.0 as i64;
+    let mut discount_id = None;
+
+    let discount_str = if let Some(code) = &body.discount {
+        let discount = get_discount(user.id, code, &state.sql).await?;
+        if matches!(&discount.kind, Some(k) if k != &body.kind) {
+            return Err(AppErrBadRequest("discount is not for this product"));
+        }
+        if matches!(&discount.plan, Some(p) if p != &body.plan) {
+            return Err(AppErrBadRequest("discount is not for this product"));
+        }
+
+        price = (price / 100) * (100 - discount.amount);
+        discount_id = Some(discount.id);
+        format!(
+            "\nDiscount: `{}` | {} - {}% ",
+            discount.code, plan.0, discount.amount
+        )
+    } else {
+        String::new()
+    };
 
     if user.wallet < price {
         return Err(AppErr::new(400, "Not Enough money in the wallet"));
@@ -99,15 +121,15 @@ async fn order_new(
     let kind = format!("{}.{}", body.kind, body.plan);
 
     let result = sqlx::query! {
-        "insert into orders(user, price, timestamp, kind, data) values(?, ?, ?, ?, ?)",
-        user.id, price, now, kind, data
+        "insert into orders(user, price, timestamp, kind, data, discount) values(?,?,?,?,?,?)",
+        user.id, price, now, kind, data, discount_id
     }.execute(&state.sql).await?;
 
     utils::send_message(
         Config::TT_ORDER_NEW,
         &format! {
-            "User: `{}`:{}\nprice: {}\nkind: `{}`\ndata: ```json\n{}\n```",
-            user.id, utils::escape(&user.name.unwrap_or(user.phone)), price, kind,
+            "User: `{}`:{}\nprice: {}\nkind: `{}`{}\ndata: ```json\n{}\n```",
+            user.id, utils::escape(&user.name.unwrap_or(user.phone)), price, kind, discount_str,
             utils::escape_code(&serde_json::to_string_pretty(&data).unwrap_or(String::new()))
         },
     ).await;
@@ -121,9 +143,48 @@ async fn order_new(
         data,
         status: OrderStatus::Wating,
         admin: None,
+        discount: None,
     };
 
     Ok(Json(order))
+}
+
+async fn get_discount(
+    user_id: i64, code: &str, pool: &SqlitePool,
+) -> Result<Discount, AppErr> {
+    let now = utils::now();
+    sqlx::query! {
+        "update discounts set disabled = true where expires <= ? OR max_uses >= uses",
+        now
+    }
+    .execute(pool)
+    .await?;
+
+    let discount = sqlx::query_as! {
+        Discount,
+        "select * from discounts where code = ?",
+        code
+    }
+    .fetch_one(pool)
+    .await
+    .map_err(|_| AppErrNotFound("کد تخفیف یافت نشد"))?;
+
+    if discount.disabled {
+        return Err(AppErrNotFound("کد تخفیف یافت نشد"));
+    }
+
+    let result = sqlx::query! {
+        "select id from discount_user where user = ? and discount = ?",
+        user_id, discount.id
+    }
+    .fetch_optional(pool)
+    .await?;
+
+    if result.is_some() {
+        return Err(AppErrBadRequest("این کد تخفیف قبلا استفاده شده"));
+    }
+
+    return Ok(discount);
 }
 
 #[utoipa::path(
@@ -136,36 +197,12 @@ async fn order_new(
 async fn discount_get(
     user: User, path: Path<(String,)>, state: Data<AppState>,
 ) -> Response<Discount> {
-    let now = utils::now();
-    sqlx::query! {
-        "update discounts set disabled = true where
-        expires > ? OR max_uses >= uses",
-        now
-    }
-    .execute(&state.sql)
-    .await?;
-
-    let discount = sqlx::query_as! {
-        Discount,
-        "select * from discounts where code = ?",
-        path.0
-    }
-    .fetch_one(&state.sql)
-    .await?;
-
-    if discount.disabled {
-        return Err(AppErrNotFound("یافت نشد"));
-    }
-
-    // if discount.expires {}
-
-    if user.used_discounts.iter().any(|id| *id == discount.id) {
-        return Err(AppErrBadRequest("این کد تخفیف قبلا استفاده شده"));
-    }
-
-    Ok(Json(discount))
+    Ok(Json(get_discount(user.id, &path.0, &state.sql).await?))
 }
 
 pub fn router() -> Scope {
-    Scope::new("/orders").service(order_list).service(order_new)
+    Scope::new("/orders")
+        .service(order_list)
+        .service(order_new)
+        .service(discount_get)
 }
