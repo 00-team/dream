@@ -10,6 +10,6 @@ pub struct Discount {
     pub disabled: bool,
     pub kind: Option<String>,
     pub plan: Option<String>,
-    pub max_uses: i64,
-    pub expires: i64,
+    pub max_uses: Option<i64>,
+    pub expires: Option<i64>,
 }
