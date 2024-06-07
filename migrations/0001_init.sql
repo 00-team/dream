@@ -11,8 +11,8 @@ create table if not exists users (
     banned boolean not null default false,
     used_discounts text not null default "[]"
 );
-create unique index on users(phone);
-create index on users(token);
+create unique index idx_user_phone on users(phone);
+create index idx_user_token on users(token);
 
 create table if not exists transactions (
     id integer primary key not null,
@@ -52,7 +52,7 @@ create table if not exists discounts (
     max_uses integer,
     expires integer
 );
-create unique index on discounts(code);
+create unique index idx_discount_code on discounts(code);
 
 create table if not exists general (
     available_money integer not null default 0,
