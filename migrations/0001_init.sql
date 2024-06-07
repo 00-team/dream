@@ -8,7 +8,8 @@ create table if not exists users (
     token text not null,
     photo text,
     admin boolean not null default false,
-    banned boolean not null default false
+    banned boolean not null default false,
+    used_discounts text not null default "[]"
 );
 create unique index on users(phone);
 create index on users(token);
@@ -42,10 +43,14 @@ create table if not exists orders (
 
 create table if not exists discounts (
     id integer primary key not null,
-    code text not null,
-    kind text not null,
-    -- plan text not null
-    amount integer not null
+    code text unique not null,
+    amount integer not null,
+    uses integer not null default 0,
+    disabled boolean not null default false,
+    kind text,
+    plan text,
+    max_uses integer,
+    expires integer
 );
 create unique index on discounts(code);
 
