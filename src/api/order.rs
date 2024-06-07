@@ -1,22 +1,25 @@
 use std::collections::HashMap;
 
-use actix_web::web::{Data, Json, Query};
+use actix_web::web::{Data, Json, Path, Query};
 use actix_web::{get, post, Scope};
 use serde::Deserialize;
 use utoipa::{OpenApi, ToSchema};
 
 use crate::config::{config, Config};
 use crate::docs::UpdatePaths;
+use crate::models::discount::Discount;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::User;
-use crate::models::{AppErr, JsonStr, ListInput, Response};
+use crate::models::{
+    AppErr, AppErrBadRequest, AppErrNotFound, JsonStr, ListInput, Response,
+};
 use crate::utils;
 use crate::AppState;
 
 #[derive(OpenApi)]
 #[openapi(
     tags((name = "api::orders")),
-    paths(order_list, order_new),
+    paths(order_list, order_new, discount_get),
     components(schemas(Order, OrderStatus, NewOrder)),
     servers((url = "/orders")),
     modifiers(&UpdatePaths)
@@ -121,6 +124,46 @@ async fn order_new(
     };
 
     Ok(Json(order))
+}
+
+#[utoipa::path(
+    get,
+    params(("code" = String, Path,)),
+    responses((status = 200, body = Discount))
+)]
+/// Discount Get
+#[get("/discount/{code}/")]
+async fn discount_get(
+    user: User, path: Path<(String,)>, state: Data<AppState>,
+) -> Response<Discount> {
+    let now = utils::now();
+    sqlx::query! {
+        "update discounts set disabled = true where
+        expires > ? OR max_uses >= uses",
+        now
+    }
+    .execute(&state.sql)
+    .await?;
+
+    let discount = sqlx::query_as! {
+        Discount,
+        "select * from discounts where code = ?",
+        path.0
+    }
+    .fetch_one(&state.sql)
+    .await?;
+
+    if discount.disabled {
+        return Err(AppErrNotFound("یافت نشد"));
+    }
+
+    // if discount.expires {}
+
+    if user.used_discounts.iter().any(|id| *id == discount.id) {
+        return Err(AppErrBadRequest("این کد تخفیف قبلا استفاده شده"));
+    }
+
+    Ok(Json(discount))
 }
 
 pub fn router() -> Scope {
