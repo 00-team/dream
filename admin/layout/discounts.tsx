@@ -87,11 +87,38 @@ type DiscountProps = {
     onUpdate(): void
 }
 const Discount: Component<DiscountProps> = P => {
+    type State = { loading: boolean }
+    const [state, setState] = createStore<State>({ loading: false })
+
     function discount_delete() {
+        setState({ loading: true })
         httpx({
             url: `/api/admin/discounts/${P.discount.id}/`,
             method: 'DELETE',
+            onError() {
+                setState({ loading: false })
+            },
             onLoad(x) {
+                setState({ loading: false })
+                if (x.status != 200) return
+                P.onUpdate()
+            },
+        })
+    }
+
+    function discount_update() {
+        setState({ loading: true })
+        httpx({
+            url: `/api/admin/discounts/${P.discount.id}/`,
+            method: 'PATCH',
+            json: {
+                disabled: !P.discount.disabled,
+            },
+            onError() {
+                setState({ loading: false })
+            },
+            onLoad(x) {
+                setState({ loading: false })
                 if (x.status != 200) return
                 P.onUpdate()
             },
@@ -134,14 +161,23 @@ const Discount: Component<DiscountProps> = P => {
                 </div>
                 <div class='actions'>
                     <Confact
+                        disabled={state.loading}
                         icon={TrashIcon}
                         color='var(--red)'
                         onAct={discount_delete}
                         timer_ms={1500}
                     />
-                    <button class='styled icon'>
-                        <WrenchIcon />
-                    </button>
+                    <Confact
+                        disabled={state.loading}
+                        icon={WrenchIcon}
+                        color={
+                            P.discount.disabled
+                                ? 'var(--green)'
+                                : 'var(--yellow)'
+                        }
+                        onAct={discount_update}
+                        timer_ms={500}
+                    />
                 </div>
             </div>
         </div>
