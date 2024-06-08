@@ -1,5 +1,7 @@
 @import './fonts';
 @import './button';
+@import './input';
+@import './root';
 
 * {
     margin: 0;
@@ -75,40 +77,26 @@ span.copiable {
     }
 }
 
-input.styled {
-    background-color: var(--slate-2);
-    border: 2px solid var(--slate-4);
-    font-size: 18px;
-    border-radius: var(--radius);
-    padding: 0.25rem;
-    color: var(--white);
-
-    &:focus {
-        border-color: var(--blue-9);
-        outline: 0;
-    }
-}
-
-:root {
-    --radius: 0.25rem;
-
-    --white: #f2f2f2;
-    --black: #040404;
-    --red: #e20338;
-    --blue: #51eaff;
-    --green: #00dc7d;
-    --yellow: #ffd600;
-    --cd: #524781;
-    --cl: #f9c586;
-
-    --scroll-bg: var(--cd);
-    --scorll-fg: var(--cl);
-    --scorll-hover: var(--cl);
-    --scorll-active: var(--cl);
-
-    --selection-fg: var(--black);
-    --selection-bg: var(--white);
-}
+// :root {
+//     --radius: 0.25rem;
+//
+//     --white: #f2f2f2;
+//     --black: #040404;
+//     --red: #e20338;
+//     --blue: #51eaff;
+//     --green: #00dc7d;
+//     --yellow: #ffd600;
+//     --cd: #524781;
+//     --cl: #f9c586;
+//
+//     --scroll-bg: var(--cd);
+//     --scorll-fg: var(--cl);
+//     --scorll-hover: var(--cl);
+//     --scorll-active: var(--cl);
+//
+//     --selection-fg: var(--black);
+//     --selection-bg: var(--white);
+// }
 
 ::-webkit-scrollbar {
     width: 9px;
