@@ -119,7 +119,7 @@ export const ProductPopup: Component<Props> = P => {
                 kind: P.kind,
                 plan: state.selected_plan,
                 data: state.data,
-                discount: state.discount_code,
+                discount: state.discount_code || null,
             },
             onLoad(x) {
                 if (x.status == 200) {
@@ -243,7 +243,7 @@ export const ProductPopup: Component<Props> = P => {
                                     setState({
                                         discount: null,
                                         discount_error: '',
-                                        discount_code: '',
+                                        discount_code: null,
                                     })
                                     return
                                 }
