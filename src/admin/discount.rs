@@ -125,13 +125,7 @@ async fn discount_new(
 
 #[derive(Deserialize, ToSchema)]
 struct DiscountUpdateBody {
-    #[schema(example = "technoblade", max_length = 255)]
-    code: Option<String>,
-    #[schema(maximum = 100)]
-    amount: Option<u8>,
-    max_uses: Option<i64>,
-    expires: Option<i64>,
-    disabled: Option<bool>,
+    disabled: bool,
 }
 
 #[utoipa::path(
@@ -147,32 +141,11 @@ async fn discount_update(
     state: Data<AppState>,
 ) -> Response<Discount> {
     let mut discount = discount;
-    if matches!(body.amount, Some(a) if a > 100) {
-        return Err(AppErrBadRequest("max amount is 100"));
-    }
-
-    if matches!(&body.code, Some(c) if c.len() > 255) {
-        return Err(AppErrBadRequest("code is too long"));
-    }
-
-    let now = utils::now();
-    discount.amount = body.amount.map_or_else(|| discount.amount, |a| a as i64);
-    discount.code = body.code.clone().map_or_else(|| discount.code, |c| c);
-    discount.max_uses = body.max_uses.map_or_else(
-        || discount.max_uses,
-        |a| if a < 0 { None } else { Some(a) },
-    );
-    discount.expires = body.expires.map_or_else(
-        || discount.expires,
-        |e| if e < 0 { None } else { Some(now + e) },
-    );
-    discount.disabled = body.disabled.unwrap_or(discount.disabled);
+    discount.disabled = body.disabled;
 
     sqlx::query! {
-        "update discounts set code = ?, amount = ?, max_uses = ?,
-        expires = ?, disabled = ? where id = ?",
-        discount.code, discount.amount, discount.max_uses,
-        discount.expires, discount.disabled,discount.id
+        "update discounts set disabled = ? where id = ?",
+        discount.disabled, discount.id
     }
     .execute(&state.sql)
     .await?;
