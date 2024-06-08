@@ -113,10 +113,12 @@ async fn order_new(
 
         price = (price / 100) * (100 - discount.amount);
         discount_id = Some(discount.id);
-        format!(
-            r##"\nDiscount: `{}` \| {} \- {}% "##,
-            discount.code, plan.0, discount.amount
-        )
+        let mut out = format!(
+            r##"Discount: {}:`{}` \| {} \- {}%"##,
+            discount.id, discount.code, plan.0, discount.amount
+        );
+        out.insert(0, '\n');
+        out
     } else {
         String::new()
     };

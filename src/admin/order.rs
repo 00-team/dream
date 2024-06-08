@@ -141,7 +141,10 @@ async fn order_update(
         .fetch_one(&state.sql)
         .await?;
 
-        format!(r##"\nDiscount: `{}` \| {}%"##, discount.code, discount.amount)
+        format!(
+            "\nDiscount: {}:`{}` {}%",
+            discount.id, discount.code, discount.amount
+        )
     } else {
         String::new()
     };
