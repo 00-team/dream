@@ -34,7 +34,9 @@ async fn discount_list(
     let offset = i64::from(query.page) * 32;
 
     let result = sqlx::query_as! {
-        Discount, "select * from discounts limit 32 offset ?", offset
+        Discount,
+        "select * from discounts order by id desc limit 32 offset ?",
+        offset
     }
     .fetch_all(&state.sql)
     .await?;
