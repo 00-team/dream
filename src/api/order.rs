@@ -114,7 +114,7 @@ async fn order_new(
         price = (price / 100) * (100 - discount.amount);
         discount_id = Some(discount.id);
         format!(
-            "\nDiscount: `{}` | {} - {}% ",
+            r##"\nDiscount: `{}` \| {} \- {}% "##,
             discount.code, plan.0, discount.amount
         )
     } else {
