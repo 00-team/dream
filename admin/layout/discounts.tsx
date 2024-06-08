@@ -1,9 +1,9 @@
 import { useSearchParams } from '@solidjs/router'
 import './style/discounts.scss'
-import { createStore } from 'solid-js/store'
-import { Component, Match, Show, createEffect, createMemo } from 'solid-js'
-import { fmt_mdhm, fmt_parse_seconds, httpx } from 'shared'
-import { DiscountModel } from 'models'
+import { createStore, produce } from 'solid-js/store'
+import { Component, Show, createEffect, onMount } from 'solid-js'
+import { fmt_mdhm, httpx } from 'shared'
+import { DiscountModel, ProductModel } from 'models'
 import { Copiable } from 'comps'
 import {
     ChevronDownIcon,
@@ -139,6 +139,7 @@ const NewDiscount: Component<NewDiscountProps> = P => {
             hours: number
             minutes: number
         }
+        products: { [k: string]: ProductModel }
     }
     const [state, setState] = createStore<State>({
         new_discount: true,
@@ -154,6 +155,18 @@ const NewDiscount: Component<NewDiscountProps> = P => {
         },
         kind: null,
         plan: null,
+        products: {},
+    })
+
+    onMount(() => {
+        httpx({
+            url: '/api/products/',
+            method: 'GET',
+            onLoad(x) {
+                if (x.status != 200) return
+                setState({ products: x.response })
+            },
+        })
     })
 
     function add() {
@@ -197,7 +210,15 @@ const NewDiscount: Component<NewDiscountProps> = P => {
                     <button
                         class='styled icon'
                         onClick={() =>
-                            setState(s => ({ new_discount: !s.new_discount }))
+                            setState(
+                                produce(s => {
+                                    s.new_discount = !s.new_discount
+                                    if (!s.new_discount) {
+                                        s.kind = null
+                                        s.plan = null
+                                    }
+                                })
+                            )
                         }
                     >
                         <Show
@@ -240,15 +261,34 @@ const NewDiscount: Component<NewDiscountProps> = P => {
                     />
                     <span>kind: </span>
                     <Select
-                        items={[{ display: 'hi', idx: 0 }]}
-                        multiple
-                        onChange={v => console.log(v)}
+                        items={[{ display: '---', idx: -1, key: null }].concat(
+                            Object.entries(state.products).map(
+                                ([key, v], idx) => ({
+                                    display: v.name,
+                                    idx,
+                                    key,
+                                })
+                            )
+                        )}
+                        onChange={v => setState({ kind: v[0].key })}
                     />
-                    <span>plan: </span>
-                    <Select
-                        items={[{ display: 'hi', idx: 0 }]}
-                        onChange={v => console.log(v)}
-                    />
+                    <Show when={state.kind}>
+                        <span>plan: </span>
+                        <Select
+                            items={[
+                                { display: '---', idx: -1, key: null },
+                            ].concat(
+                                Object.entries(
+                                    state.products[state.kind].plans
+                                ).map(([key, v], idx) => ({
+                                    display: v[1],
+                                    idx,
+                                    key,
+                                }))
+                            )}
+                            onChange={v => setState({ plan: v[0].key })}
+                        />
+                    </Show>
                     <span>Expires: </span>
                     <div class='row expires'>
                         <button

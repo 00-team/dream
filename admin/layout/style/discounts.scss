@@ -45,12 +45,14 @@
                 font-size: 18px;
                 display: grid;
                 grid-template-columns: 0.1fr 1fr;
+                align-items: center;
                 gap: 0.4rem;
 
                 .row {
                     display: flex;
                     gap: 0.5rem;
                     width: 100%;
+                    align-items: center;
 
                     input {
                         width: 100%;
@@ -83,6 +85,11 @@
                     gap: 0.6rem;
                     display: flex;
                     align-items: center;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                    }
                 }
             }
 
