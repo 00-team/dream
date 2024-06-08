@@ -79,6 +79,14 @@ export const ProductPopup: Component<Props> = P => {
     const price = createMemo(() => {
         let plan = P.product.plans[state.selected_plan]
         if (!plan) return 0
+
+        if (
+            state.discount &&
+            (!state.discount.plan || state.discount.plan == state.selected_plan)
+        ) {
+            return ~~((plan[0] / 100) * (100 - state.discount.amount))
+        }
+
         return plan[0]
     })
 
