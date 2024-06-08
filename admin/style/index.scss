@@ -27,13 +27,15 @@ body {
         flex-direction: column;
         padding: 1rem;
         padding-top: 0;
+        background-color: var(--cd);
 
         main {
             width: 100%;
             height: 100%;
             display: flex;
             padding: 1rem;
-            border: 2px solid var(--cl);
+            border: 2px solid var(--ca);
+            background-color: var(--cg);
             overflow-y: auto;
         }
     }
@@ -52,7 +54,7 @@ body {
     }
 
     a {
-        color: var(--blue-9);
+        color: var(--ca);
         text-decoration: none;
     }
 
@@ -69,7 +71,7 @@ span.copiable {
     cursor: pointer;
 
     &:hover {
-        color: var(--blue);
+        color: var(--ca);
     }
 
     &:active {

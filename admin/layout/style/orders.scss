@@ -25,7 +25,8 @@
         }
 
         .order {
-            border: 2px solid var(--cl);
+            border: 2px solid var(--ca);
+            background-color: var(--cd);
             padding: 0.6rem 1rem;
             display: flex;
             flex-direction: column;

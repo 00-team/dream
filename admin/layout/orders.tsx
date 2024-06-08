@@ -100,22 +100,25 @@ export default () => {
                     />
                 ))}
             </div>
-            <div class='actions'>
-                <button
-                    class='styled'
-                    disabled={state.page <= 0}
-                    onClick={() => fetch_orders(state.page - 1)}
-                >
-                    <ChevronLeftIcon />
-                </button>
-                <button
-                    class='styled'
-                    disabled={state.orders.length < 32}
-                    onClick={() => fetch_orders(state.page + 1)}
-                >
-                    <ChevronRightIcon />
-                </button>
-            </div>
+
+            <Show when={state.page != 0 || state.orders.length >= 32}>
+                <div class='actions'>
+                    <button
+                        class='styled'
+                        disabled={state.page <= 0}
+                        onClick={() => fetch_orders(state.page - 1)}
+                    >
+                        <ChevronLeftIcon />
+                    </button>
+                    <button
+                        class='styled'
+                        disabled={state.orders.length < 32}
+                        onClick={() => fetch_orders(state.page + 1)}
+                    >
+                        <ChevronRightIcon />
+                    </button>
+                </div>
+            </Show>
         </div>
     )
 }
