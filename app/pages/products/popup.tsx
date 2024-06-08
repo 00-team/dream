@@ -135,7 +135,7 @@ export const ProductPopup: Component<Props> = P => {
         httpx({
             url: `/api/orders/discount/${code}/`,
             method: 'GET',
-            // show_messages: false,
+            show_messages: false,
             onLoad(x) {
                 if (x.status != 200) {
                     setState({
