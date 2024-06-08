@@ -20,6 +20,7 @@ async fn app_index() -> HttpResponse {
 #[routes]
 #[get("/admin")]
 #[get("/admin/orders")]
+#[get("/admin/discounts")]
 async fn admin_index() -> HttpResponse {
     let result = read_to_string("admin/dist/index.html")
         .unwrap_or("err reading admin index.html".to_string());
