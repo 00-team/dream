@@ -200,7 +200,7 @@ const NewDiscount: Component<NewDiscountProps> = P => {
         products: { [k: string]: ProductModel }
     }
     const [state, setState] = createStore<State>({
-        new_discount: true,
+        new_discount: false,
         code: '',
         amount: 0,
         max_uses: null,
