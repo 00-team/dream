@@ -31,8 +31,15 @@ pub struct ApiDoc;
 async fn discount_list(
     _: Admin, query: Query<ListInput>, state: Data<AppState>,
 ) -> Response<Vec<Discount>> {
-    let offset = i64::from(query.page) * 32;
+    let now = utils::now();
+    sqlx::query! {
+        "update discounts set disabled = true where expires <= ? OR max_uses >= uses",
+        now
+    }
+    .execute(&state.sql)
+    .await?;
 
+    let offset = i64::from(query.page) * 32;
     let result = sqlx::query_as! {
         Discount,
         "select * from discounts order by id desc limit 32 offset ?",
