@@ -1,5 +1,6 @@
 use crate::config::Config;
 use crate::docs::UpdatePaths;
+use crate::models::discount::Discount;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::{Admin, User};
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
@@ -131,13 +132,27 @@ async fn order_update(
         OrderStatus::Wating => "⏳",
     };
 
+    let discount_str = if let Some(did) = order.discount {
+        let discount = sqlx::query_as! {
+            Discount,
+            "select * from discounts where id = ?",
+            did
+        }
+        .fetch_one(&state.sql)
+        .await?;
+
+        format!(r##"\nDiscount: `{}` \| {}%"##, discount.code, discount.amount)
+    } else {
+        String::new()
+    };
+
     utils::send_message(
         Config::TT_ORDER_UPDATE,
         &format! {
-            "Admin: `{}`:{}\nStatus: {:?} {emoji}\nUser: `{}`:{}\nprice: {}\nkind: `{}`, data: ```json\n{}\n```",
+            "Admin: `{}`:{}\nStatus: {:?} {emoji}\nUser: `{}`:{}{}\nprice: {}\nkind: `{}`, data: ```json\n{}\n```",
             admin.id, utils::escape(&admin.name.clone().unwrap_or(admin.phone.clone())),
             body.status, user.id, utils::escape(&user.name.unwrap_or(user.phone)),
-            order.price, order.kind,
+            discount_str, order.price, order.kind,
             utils::escape_code(&serde_json::to_string_pretty(&order.data).unwrap_or(String::new()))
         },
     ).await;
