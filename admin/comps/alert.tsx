@@ -17,15 +17,7 @@ type AlertState = {
 }
 
 const [alert_state, setAlertState] = createStore<AlertState>({
-    alerts: [
-        {
-            type: 'info',
-            subject: 'gi',
-            content: 'helo\nasdasdasd\nasd',
-            timeleft: 100,
-            timeout: 100,
-        },
-    ],
+    alerts: [],
 })
 
 function addAlert(props: Omit<AlertModel, 'timeleft'>) {
