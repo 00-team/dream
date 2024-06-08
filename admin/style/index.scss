@@ -14,7 +14,7 @@ body {
     background-color: var(--cd);
     color: var(--white);
 
-    font-family: 'Titillium', sans-serif;
+    font-family: var(--fa), var(--en), sans-serif;
 
     width: 100%;
     height: 100vh;
