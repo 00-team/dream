@@ -171,7 +171,7 @@ async fn get_discount(
 ) -> Result<Discount, AppErr> {
     let now = utils::now();
     sqlx::query! {
-        "update discounts set disabled = true where expires <= ? OR max_uses >= uses",
+        "update discounts set disabled = true where expires <= ? OR uses >= max_uses",
         now
     }
     .execute(pool)

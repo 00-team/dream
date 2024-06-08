@@ -33,7 +33,7 @@ async fn discount_list(
 ) -> Response<Vec<Discount>> {
     let now = utils::now();
     sqlx::query! {
-        "update discounts set disabled = true where expires <= ? OR max_uses >= uses",
+        "update discounts set disabled = true where expires <= ? OR max_uses <= uses",
         now
     }
     .execute(&state.sql)
