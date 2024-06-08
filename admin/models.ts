@@ -47,3 +47,12 @@ export type DiscountModel = {
     max_uses: number | null
     plan: string | null
 }
+
+export type ProductModel = {
+    name: string
+    logo: string
+    data: string[]
+    color: string
+    image: string
+    plans: { [k: string]: [number, string] }
+}
