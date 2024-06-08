@@ -4,7 +4,7 @@ import { createStore, produce } from 'solid-js/store'
 import { Component, Show, createEffect, onMount } from 'solid-js'
 import { fmt_mdhm, httpx } from 'shared'
 import { DiscountModel, ProductModel } from 'models'
-import { Copiable } from 'comps'
+import { Confact, Copiable } from 'comps'
 import {
     ChevronDownIcon,
     ChevronLeftIcon,
@@ -14,6 +14,7 @@ import {
     PlusIcon,
     ShieldCheckIcon,
     ShieldXIcon,
+    TrashIcon,
     WrenchIcon,
     XIcon,
 } from 'icons'
@@ -53,7 +54,10 @@ export default () => {
             <div class='discount-list'>
                 <NewDiscount onNew={() => fetch_discounts(0)} />
                 {state.discounts.map(d => (
-                    <Discount discount={d} />
+                    <Discount
+                        discount={d}
+                        onUpdate={() => fetch_discounts(state.page)}
+                    />
                 ))}
             </div>
             <Show when={state.page != 0 || state.discounts.length >= 32}>
@@ -80,8 +84,20 @@ export default () => {
 
 type DiscountProps = {
     discount: DiscountModel
+    onUpdate(): void
 }
 const Discount: Component<DiscountProps> = P => {
+    function discount_delete() {
+        httpx({
+            url: `/api/admin/discounts/${P.discount.id}/`,
+            method: 'DELETE',
+            onLoad(x) {
+                if (x.status != 200) return
+                P.onUpdate()
+            },
+        })
+    }
+
     return (
         <div class='discount'>
             <div class='top'>
@@ -117,6 +133,12 @@ const Discount: Component<DiscountProps> = P => {
                     </Show>
                 </div>
                 <div class='actions'>
+                    <Confact
+                        icon={TrashIcon}
+                        color='var(--red)'
+                        onAct={discount_delete}
+                        timer_ms={1500}
+                    />
                     <button class='styled icon'>
                         <WrenchIcon />
                     </button>
