@@ -267,6 +267,10 @@ main.products .product-popup {
                 &.error input {
                     border-color: var(--red);
                 }
+
+                &.ok input {
+                    border-color: var(--green);
+                }
             }
 
             .input-data {

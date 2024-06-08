@@ -225,7 +225,10 @@ export const ProductPopup: Component<Props> = P => {
 
                     <div
                         class='discount'
-                        classList={{ error: !!state.discount_error }}
+                        classList={{
+                            error: !!state.discount_error,
+                            ok: !state.discount_error && state.discount != null,
+                        }}
                     >
                         <label for='discount_input'>کد تخفیف:</label>
                         <input
