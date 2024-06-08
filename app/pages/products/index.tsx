@@ -7,7 +7,7 @@ import { ProductModel } from 'models'
 import { hex_to_rgb, httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { ProductPopup } from './popup'
-import { useNavigate, useParams, useSearchParams } from '@solidjs/router'
+import { useSearchParams } from '@solidjs/router'
 
 const DEFP: ProductModel = {
     name: '',

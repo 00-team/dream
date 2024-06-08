@@ -234,8 +234,39 @@ main.products .product-popup {
                 gap: 1rem;
                 padding: 1rem 0;
                 font-family: 'yekan', sans-serif;
-
                 margin-top: 1em;
+            }
+
+            .discount {
+                display: grid;
+                grid-template-columns: 0.2fr 1fr;
+                align-items: center;
+                width: 100%;
+                font-size: 18px;
+                font-family: 'yekan', sans-serif;
+                margin-bottom: 1rem;
+
+                label {
+                    white-space: nowrap;
+                }
+
+                input {
+                    width: 100%;
+                    background-color: transparent;
+                    border: 2px solid var(--sixty-percent);
+                    border-radius: 0.5rem;
+                    padding: 0.5rem;
+                    color: var(--accent-color);
+                    font-size: 18px;
+                }
+
+                .err {
+                    color: var(--red);
+                }
+
+                &.error input {
+                    border-color: var(--red);
+                }
             }
 
             .input-data {

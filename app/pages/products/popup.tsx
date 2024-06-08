@@ -2,7 +2,7 @@ import { Select, Special } from 'comps'
 import { CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
-import { ProductModel } from 'models'
+import { DiscountModel, ProductModel } from 'models'
 import {
     Component,
     createEffect,
@@ -30,10 +30,16 @@ export const ProductPopup: Component<Props> = P => {
     type State = {
         selected_plan: string | null
         data: { [k: string]: string }
+        discount: DiscountModel | null
+        discount_code: string | null
+        discount_error: string
     }
     const [state, setState] = createStore<State>({
         selected_plan: null,
         data: {},
+        discount: null,
+        discount_code: null,
+        discount_error: '',
     })
     const nav = useNavigate()
 
@@ -43,6 +49,11 @@ export const ProductPopup: Component<Props> = P => {
 
     createEffect(() => {
         if (P.open) {
+            setState({
+                discount_code: null,
+                discount: null,
+                discount_error: '',
+            })
             // @ts-ignore
             particlesJS('particles-js', particle_conf(P.product.logo))
         } else {
@@ -100,6 +111,7 @@ export const ProductPopup: Component<Props> = P => {
                 kind: P.kind,
                 plan: state.selected_plan,
                 data: state.data,
+                discount: state.discount_code,
             },
             onLoad(x) {
                 if (x.status == 200) {
@@ -107,6 +119,42 @@ export const ProductPopup: Component<Props> = P => {
                     nav('/dashboard/orders/')
                     return
                 }
+            },
+        })
+    }
+
+    function discount_check(code: string) {
+        httpx({
+            url: `/api/orders/discount/${code}/`,
+            method: 'GET',
+            // show_messages: false,
+            onLoad(x) {
+                if (x.status != 200) {
+                    setState({
+                        discount_error:
+                            x.response.content || x.response.subject,
+                        discount: null,
+                        discount_code: code,
+                    })
+                    return
+                }
+
+                let discount: DiscountModel = x.response
+
+                if (discount.kind && P.kind != discount.kind) {
+                    setState({
+                        discount_error: 'این کد برای این محصول نمی باشد',
+                        discount: null,
+                        discount_code: code,
+                    })
+                    return
+                }
+
+                setState({
+                    discount_error: '',
+                    discount,
+                    discount_code: discount.code,
+                })
             },
         })
     }
@@ -166,6 +214,36 @@ export const ProductPopup: Component<Props> = P => {
                             />
                         </div>
                     </Show>
+
+                    <div
+                        class='discount'
+                        classList={{ error: !!state.discount_error }}
+                    >
+                        <label for='discount_input'>کد تخفیف:</label>
+                        <input
+                            dir='ltr'
+                            id='discount_input'
+                            placeholder='e.g.: dream'
+                            maxLength={255}
+                            value={state.discount_code}
+                            onChange={e => {
+                                let value = e.currentTarget.value
+                                if (!value) {
+                                    setState({
+                                        discount: null,
+                                        discount_error: '',
+                                        discount_code: '',
+                                    })
+                                    return
+                                }
+                                discount_check(value)
+                            }}
+                        />
+                        <Show when={state.discount_error}>
+                            <span></span>
+                            <span class='err'>{state.discount_error}</span>
+                        </Show>
+                    </div>
 
                     <div class='input-data'>
                         {P.product.data
