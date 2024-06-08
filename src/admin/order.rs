@@ -1,15 +1,15 @@
-use actix_web::web::{Data, Json, Query};
-use actix_web::{get, patch, post, HttpResponse, Scope};
-use itertools::Itertools;
-use serde::{Deserialize, Serialize};
-use utoipa::{OpenApi, ToSchema};
-
 use crate::config::Config;
 use crate::docs::UpdatePaths;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::{Admin, User};
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
 use crate::{utils, AppState};
+
+use actix_web::web::{Data, Json, Query};
+use actix_web::{get, patch, post, HttpResponse, Scope};
+use itertools::Itertools;
+use serde::{Deserialize, Serialize};
+use utoipa::{OpenApi, ToSchema};
 
 #[derive(OpenApi)]
 #[openapi(

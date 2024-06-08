@@ -1,11 +1,11 @@
-use actix_web::web::{Data, Json, Path, Query};
-use actix_web::{get, Scope};
-use utoipa::OpenApi;
-
 use crate::docs::UpdatePaths;
 use crate::models::user::{Admin, User};
 use crate::models::{ListInput, Response};
 use crate::AppState;
+
+use actix_web::web::{Data, Json, Path, Query};
+use actix_web::{get, Scope};
+use utoipa::OpenApi;
 
 #[derive(OpenApi)]
 #[openapi(

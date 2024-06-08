@@ -1,8 +1,3 @@
-use actix_web::web::{Data, Json, Query};
-use actix_web::{delete, get, patch, post, HttpResponse, Scope};
-use serde::Deserialize;
-use utoipa::{OpenApi, ToSchema};
-
 use crate::config::config;
 use crate::docs::UpdatePaths;
 use crate::models::discount::Discount;
@@ -10,6 +5,11 @@ use crate::models::user::Admin;
 use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
 use crate::utils;
 use crate::AppState;
+
+use actix_web::web::{Data, Json, Query};
+use actix_web::{delete, get, patch, post, HttpResponse, Scope};
+use serde::Deserialize;
+use utoipa::{OpenApi, ToSchema};
 
 #[derive(OpenApi)]
 #[openapi(
