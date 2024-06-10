@@ -37,6 +37,8 @@ async fn openapi() -> impl Responder {
 
     let mut admin_doc = ApiDoc::openapi();
     admin_doc.merge(admin::order::ApiDoc::openapi());
+    admin_doc.merge(admin::user::ApiDoc::openapi());
+    admin_doc.merge(admin::discount::ApiDoc::openapi());
 
     doc_add_prefix(&mut admin_doc, "/admin", false);
 
@@ -101,7 +103,12 @@ async fn main() -> std::io::Result<()> {
                     .service(api::product::router())
                     .service(api::order::router())
                     .service(api::verification::verification)
-                    .service(scope("/admin").service(admin::order::router())),
+                    .service(
+                        scope("/admin")
+                            .service(admin::order::router())
+                            .service(admin::user::router())
+                            .service(admin::discount::router()),
+                    ),
             )
             .service(web::router())
     });

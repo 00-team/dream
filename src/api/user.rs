@@ -446,6 +446,16 @@ async fn user_wallet_cb(
     .execute(&state.sql)
     .await;
 
+    utils::send_message(
+        Config::TT_WALLET,
+        &format! {
+            "User: `{}`:{}\nTransaction: `{}`\namount: {}",
+            user.id, utils::escape(&user.name.unwrap_or(user.phone)), transaction.id,
+            transaction.amount
+        },
+    )
+    .await;
+
     response
 }
 

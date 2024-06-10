@@ -45,3 +45,15 @@ export type UserModel = {
     token: string
     wallet: number
 }
+
+export type DiscountModel = {
+    id: number
+    code: string
+    amount: number
+    uses: number
+    disabled: boolean
+    expires: number | null
+    kind: string | null
+    max_uses: number | null
+    plan: string | null
+}

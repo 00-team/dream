@@ -7,7 +7,7 @@ import { ProductModel } from 'models'
 import { hex_to_rgb, httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { ProductPopup } from './popup'
-import { useNavigate, useParams, useSearchParams } from '@solidjs/router'
+import { useSearchParams } from '@solidjs/router'
 
 const DEFP: ProductModel = {
     name: '',
@@ -55,7 +55,6 @@ export default () => {
     //     let cards =
     //         products_wrapper.querySelectorAll<HTMLDivElement>('.product-card')
     //
-    //     console.log(state.products)
     //
     //     // cards.forEach((card: HTMLElement) => {
     //     //     card.addEventListener('mouseenter', () => {

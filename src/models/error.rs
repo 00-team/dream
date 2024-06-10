@@ -1,15 +1,14 @@
-use std::{
-    fmt,
-    num::{ParseFloatError, ParseIntError},
-    string::FromUtf8Error,
-};
-
 use actix_web::{
     body::BoxBody, error::PayloadError, http::StatusCode, HttpResponse,
     ResponseError,
 };
 use awc::error::{JsonPayloadError, SendRequestError};
 use serde::Serialize;
+use std::{
+    fmt,
+    num::{ParseFloatError, ParseIntError},
+    string::FromUtf8Error,
+};
 use tokio::io;
 use utoipa::ToSchema;
 
@@ -25,9 +24,11 @@ impl AppErr {
         Self { status, subject: subject.to_string(), content: None }
     }
 
-    // pub fn default() -> Self {
-    //     Self { status: 500, message: "Internal Server Error".to_string() }
-    // }
+    pub fn default() -> Self {
+        Self {
+            status: 500, subject: "خطای سیستم".to_string(), content: None
+        }
+    }
 }
 
 impl fmt::Display for AppErr {
@@ -55,11 +56,15 @@ impl From<sqlx::Error> for AppErr {
                 subject: "یافت نشد".to_string(),
                 content: None,
             },
-            _ => Self {
-                status: 500,
-                subject: "خطای سیستم".to_string(),
-                content: None,
+            sqlx::Error::Database(e) => match e.code() {
+                Some(c) if c == "2067" => Self {
+                    status: 400,
+                    subject: "مورد مشابهی پیدا شد".to_string(),
+                    content: None,
+                },
+                _ => Self::default(),
             },
+            _ => Self::default(),
         }
     }
 }
@@ -101,19 +106,20 @@ impl_from_err!(FromUtf8Error);
 impl_from_err!(serde_json::Error);
 
 macro_rules! error_helper {
-    ($name:ident, $status:ident) => {
+    ($name:ident, $status:ident, $subject:literal) => {
         #[doc = concat!("Helper function that wraps any error and generates a `", stringify!($status), "` response.")]
         #[allow(non_snake_case)]
         pub fn $name(err: &str) -> AppErr {
             log::error!("err {} - {}", stringify!($status), err);
             AppErr {
                 status: StatusCode::$status.as_u16(),
-                subject: stringify!($status).to_string(),
+                subject: $subject.to_string(),
                 content: Some(err.to_string())
             }
         }
     };
 }
 
-error_helper!(AppErrBadRequest, BAD_REQUEST);
-error_helper!(AppErrForbidden, FORBIDDEN);
+error_helper!(AppErrBadRequest, BAD_REQUEST, "درخواست بد");
+error_helper!(AppErrForbidden, FORBIDDEN, "ممنوع");
+error_helper!(AppErrNotFound, NOT_FOUND, "پیدا نشد");

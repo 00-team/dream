@@ -1,14 +1,16 @@
+use crate::config::Config;
+use crate::docs::UpdatePaths;
+use crate::models::discount::Discount;
+use crate::models::order::{Order, OrderStatus};
+use crate::models::user::{Admin, User};
+use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
+use crate::{utils, AppState};
+
 use actix_web::web::{Data, Json, Query};
 use actix_web::{get, patch, post, HttpResponse, Scope};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 use utoipa::{OpenApi, ToSchema};
-
-use crate::docs::UpdatePaths;
-use crate::models::order::{Order, OrderStatus};
-use crate::models::user::{Admin, User};
-use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
-use crate::{utils, AppState};
 
 #[derive(OpenApi)]
 #[openapi(
@@ -82,7 +84,7 @@ struct UpdateOrder {
 /// Update
 #[patch("/{id}/")]
 async fn order_update(
-    _: Admin, order: Order, body: Json<UpdateOrder>, state: Data<AppState>,
+    admin: Admin, order: Order, body: Json<UpdateOrder>, state: Data<AppState>,
 ) -> Result<HttpResponse, AppErr> {
     if order.status != OrderStatus::Wating {
         return Err(AppErrBadRequest("cannot change this order's status"));
@@ -118,11 +120,45 @@ async fn order_update(
     }
 
     sqlx::query! {
-        "update orders set status = ? where id = ?",
-        body.status, order.id
+        "update orders set status = ?, admin = ? where id = ?",
+        body.status, admin.id, order.id
     }
     .execute(&state.sql)
     .await?;
+
+    let emoji = match body.status {
+        OrderStatus::Done => "✅",
+        OrderStatus::Refunded => "🚫",
+        OrderStatus::Wating => "⏳",
+    };
+
+    let discount_str = if let Some(did) = order.discount {
+        let discount = sqlx::query_as! {
+            Discount,
+            "select * from discounts where id = ?",
+            did
+        }
+        .fetch_one(&state.sql)
+        .await?;
+
+        format!(
+            "\nDiscount: {}:`{}` {}%",
+            discount.id, discount.code, discount.amount
+        )
+    } else {
+        String::new()
+    };
+
+    utils::send_message(
+        Config::TT_ORDER_UPDATE,
+        &format! {
+            "Admin: `{}`:{}\nStatus: {:?} {emoji}\nUser: `{}`:{}{}\nprice: {}\nkind: `{}`, data: ```json\n{}\n```",
+            admin.id, utils::escape(&admin.name.clone().unwrap_or(admin.phone.clone())),
+            body.status, user.id, utils::escape(&user.name.unwrap_or(user.phone)),
+            discount_str, order.price, order.kind,
+            utils::escape_code(&serde_json::to_string_pretty(&order.data).unwrap_or(String::new()))
+        },
+    ).await;
 
     Ok(HttpResponse::Ok().finish())
 }

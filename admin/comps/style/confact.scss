@@ -15,6 +15,10 @@
     height: 32px;
     border-radius: var(--radius);
 
+    &:disabled {
+        pointer-events: none;
+    }
+
     &:hover {
         color: var(--color);
     }

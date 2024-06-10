@@ -1,7 +1,7 @@
 import { SetStoreFunction, createStore } from 'solid-js/store'
 import './style/orders.scss'
 import { OrderModel, UserModel } from 'models'
-import { useNavigate, useParams } from '@solidjs/router'
+import { useSearchParams } from '@solidjs/router'
 import {
     Component,
     JSX,
@@ -14,6 +14,8 @@ import { httpx } from 'shared'
 import {
     BanIcon,
     ChevronDownIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
     ChevronUpIcon,
     CircleCheckBigIcon,
     HourglassIcon,
@@ -22,7 +24,7 @@ import {
 } from 'icons'
 import { Confact, Copiable, Fanel } from 'comps'
 
-type OrderInfo = Omit<OrderModel, 'user'> & { user: UserModel }
+type OrderInfo = Omit<OrderModel, 'user'> & { user: UserModel | undefined }
 type UpdateOrderStatus = Exclude<OrderModel['status'], 'wating'>
 
 type OrdersState = {
@@ -32,8 +34,7 @@ type OrdersState = {
 }
 
 export default () => {
-    const UP = useParams()
-    const navigate = useNavigate()
+    const [params, setParams] = useSearchParams()
 
     const [state, setState] = createStore<OrdersState>({
         orders: [],
@@ -41,23 +42,19 @@ export default () => {
         user_show: -1,
     })
 
-    createEffect(() => {
-        let pid = parseInt(UP.page || '0')
-
-        if (isNaN(pid)) {
-            return navigate('/orders/')
-        }
-
-        setState({ page: pid })
-        fetch_orders(pid)
-    })
+    createEffect(() => fetch_orders(parseInt(params.page || '0') || 0))
 
     function fetch_orders(page: number) {
+        setParams({ page })
+        setState({ page })
+
         httpx({
             url: '/api/admin/orders/',
             params: { page },
             method: 'GET',
             onLoad(x) {
+                if (x.status != 200) return
+
                 let orders: OrderModel[] = x.response.orders
                 let users: UserModel[] = x.response.users
 
@@ -88,7 +85,11 @@ export default () => {
 
     return (
         <div class='orders-fnd'>
-            <div class='order-list'>
+            <div
+                class='order-list'
+                classList={{ message: state.orders.length == 0 }}
+            >
+                <Show when={state.orders.length == 0}>No Order</Show>
                 {state.orders.map((o, i) => (
                     <Order
                         order={o}
@@ -99,6 +100,25 @@ export default () => {
                     />
                 ))}
             </div>
+
+            <Show when={state.page != 0 || state.orders.length >= 32}>
+                <div class='actions'>
+                    <button
+                        class='styled'
+                        disabled={state.page <= 0}
+                        onClick={() => fetch_orders(state.page - 1)}
+                    >
+                        <ChevronLeftIcon />
+                    </button>
+                    <button
+                        class='styled'
+                        disabled={state.orders.length < 32}
+                        onClick={() => fetch_orders(state.page + 1)}
+                    >
+                        <ChevronRightIcon />
+                    </button>
+                </div>
+            </Show>
         </div>
     )
 }
@@ -130,27 +150,34 @@ const Order: Component<OrderProps> = P => {
                     <span>{P.order.kind}</span>
                     <span>{(~~(P.order.price / 10)).toLocaleString()}</span>
 
-                    <User
-                        user={P.order.user}
-                        onShow={s => {
-                            P.setState({ user_show: s ? P.idx : -1 })
-                        }}
-                        show={P.state.user_show == P.idx}
-                    />
+                    <Show when={P.order.user} fallback={'no user'}>
+                        <User
+                            user={P.order.user}
+                            onShow={s => {
+                                P.setState({ user_show: s ? P.idx : -1 })
+                            }}
+                            show={P.state.user_show == P.idx}
+                        />
+                    </Show>
 
                     <span>
                         {new Date(P.order.timestamp * 1e3).toLocaleString()}
                     </span>
                 </div>
                 <div class='actions'>
-                    <button
-                        class='btn-show-data styled icon'
-                        onclick={() => setShowData(s => !s)}
-                    >
-                        <Show when={show_data()} fallback={<ChevronDownIcon />}>
-                            <ChevronUpIcon />
-                        </Show>
-                    </button>
+                    <Show when={Object.keys(P.order.data).length != 0}>
+                        <button
+                            class='btn-show-data styled icon'
+                            onclick={() => setShowData(s => !s)}
+                        >
+                            <Show
+                                when={show_data()}
+                                fallback={<ChevronDownIcon />}
+                            >
+                                <ChevronUpIcon />
+                            </Show>
+                        </button>
+                    </Show>
                     <Show when={P.order.status === 'wating'}>
                         <Confact
                             color='var(--red)'
@@ -169,24 +196,22 @@ const Order: Component<OrderProps> = P => {
             </div>
             <div class='bottom'>
                 <div class='data' classList={{ show: show_data() }}>
-                    <Show when={P.order.data.contact}>
+                    <Show when={P.order.data.detail}>
                         <textarea
                             disabled
                             dir='auto'
-                            rows={P.order.data.contact.split('\n').length}
+                            rows={P.order.data.detail.split('\n').length}
                         >
-                            {P.order.data.contact}
+                            {P.order.data.detail}
                         </textarea>
                     </Show>
-                    <span>
-                        username: <Copiable text={P.order.data.username} />
-                    </span>
-                    <span>
-                        password: <Copiable text={P.order.data.password} />
-                    </span>
-                    <span>
-                        email: <Copiable text={P.order.data.email} />
-                    </span>
+                    {Object.entries(P.order.data)
+                        .filter(([k]) => k != 'detail')
+                        .map(([k, v]) => (
+                            <span>
+                                {k}: <Copiable text={v} />
+                            </span>
+                        ))}
                 </div>
             </div>
         </div>

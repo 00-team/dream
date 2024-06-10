@@ -1,40 +1,28 @@
-use std::{collections::HashMap, future::Future, pin::Pin};
-
+use super::AppErr;
+use crate::AppState;
 use actix_web::dev::Payload;
 use actix_web::{
     web::{Data, Path},
     FromRequest, HttpRequest,
 };
 use serde::{Deserialize, Serialize};
+use std::{future::Future, pin::Pin};
 use utoipa::ToSchema;
 
-use crate::AppState;
-
-use super::{sql_enum, AppErr, JsonStr};
-
-sql_enum! {
-    pub enum OrderStatus {
-        Wating,
-        Refunded,
-        Done,
-    }
-}
-
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow, ToSchema)]
-pub struct Order {
+pub struct Discount {
     pub id: i64,
-    pub user: i64,
-    pub kind: String,
-    pub price: i64,
-    pub status: OrderStatus,
-    #[schema(value_type = HashMap<String, String>)]
-    pub data: JsonStr<HashMap<String, String>>,
-    pub timestamp: i64,
-    pub admin: Option<i64>,
-    pub discount: Option<i64>,
+    pub code: String,
+    pub amount: i64,
+    pub uses: i64,
+    pub disabled: bool,
+    pub kind: Option<String>,
+    pub plan: Option<String>,
+    pub max_uses: Option<i64>,
+    pub expires: Option<i64>,
 }
 
-impl FromRequest for Order {
+impl FromRequest for Discount {
     type Error = AppErr;
     type Future = Pin<Box<dyn Future<Output = Result<Self, Self::Error>>>>;
 
@@ -45,15 +33,15 @@ impl FromRequest for Order {
 
         Box::pin(async move {
             let path = path.await?;
-            let order = sqlx::query_as! {
-                Order,
-                "select * from orders where id = ?",
+            let result = sqlx::query_as! {
+                Discount,
+                "select * from discounts where id = ?",
                 path.0
             }
             .fetch_one(&pool)
             .await?;
 
-            Ok(order)
+            Ok(result)
         })
     }
 }

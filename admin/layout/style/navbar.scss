@@ -1,0 +1,18 @@
+.navbar-fnd {
+    width: 100%;
+    display: flex;
+
+    .links {
+        display: flex;
+        gap: 1rem;
+
+        a {
+            color: var(--cl);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--ca);
+            }
+        }
+    }
+}

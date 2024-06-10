@@ -80,6 +80,63 @@ pub async fn send_webhook(title: &str, desc: &str, color: u32) {
         .await;
 }
 
+pub async fn send_message(topic: i64, text: &str) {
+    let client = awc::Client::new();
+    let conf = config();
+    let url = format!(
+        "https://api.telegram.org/bot{}/sendMessage?chat_id={}&parse_mode=MarkdownV2&message_thread_id={}",
+        conf.bot_token, conf.group_id, topic
+    );
+    let request = client.post(&url);
+
+    #[derive(Serialize, Debug)]
+    struct Body {
+        text: String,
+    }
+
+    let _ = request.send_json(&Body { text: text.to_string() }).await;
+    // match result {
+    //     Ok(mut v) => {
+    //         log::info!("topic: {}", topic);
+    //         log::info!("text: {}", text);
+    //         log::info!("send message status: {:?}", v.status());
+    //         log::info!("send message: {:?}", v.body().await);
+    //     }
+    //     Err(e) => {
+    //         log::info!("send message err: {:?}", e);
+    //     }
+    // }
+}
+
+pub fn escape(s: &str) -> String {
+    s.replace('_', r"\_")
+        .replace('*', r"\*")
+        .replace('[', r"\[")
+        .replace(']', r"\]")
+        .replace('(', r"\(")
+        .replace(')', r"\)")
+        .replace('~', r"\~")
+        .replace('`', r"\`")
+        .replace('>', r"\>")
+        .replace('#', r"\#")
+        .replace('+', r"\+")
+        .replace('-', r"\-")
+        .replace('=', r"\=")
+        .replace('|', r"\|")
+        .replace('{', r"\{")
+        .replace('}', r"\}")
+        .replace('.', r"\.")
+        .replace('!', r"\!")
+}
+
+pub fn escape_link_url(s: &str) -> String {
+    s.replace('`', r"\`").replace(')', r"\)")
+}
+
+pub fn escape_code(s: &str) -> String {
+    s.replace('\\', r"\\").replace('`', r"\`")
+}
+
 pub async fn send_sms(phone: &str, text: &str) {
     // let client = awc::Client::new();
     log::info!("\nsending sms to {phone}:\n\n{text}\n");

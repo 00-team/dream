@@ -3,9 +3,11 @@ import { createStore } from 'solid-js/store'
 
 import { useNavigate } from '@solidjs/router'
 import { httpx } from 'shared'
-import { createEffect, Show } from 'solid-js'
+import { createEffect, onMount, Show } from 'solid-js'
 import { self, setSelf } from 'store/self'
 import './style/login.scss'
+
+import { Application } from '@splinetool/runtime'
 
 import logo from 'assets/image/logo.png'
 
@@ -33,6 +35,11 @@ const Login = () => {
     createEffect(() => {
         if (self.loged_in) nav('/dashboard')
     })
+
+    // let canvas: HTMLCanvasElement
+    // onMount(() => {
+    //     new Application(canvas).load('/static/spline/login.splinecode')
+    // })
 
     function verification() {
         if (state.phone.length !== 11)
@@ -103,6 +110,7 @@ const Login = () => {
     return (
         <main class='login'>
             <iframe src='https://my.spline.design/untitled-51a258c8798e70e51855f9dd800ffa1c/'></iframe>
+            {/*<canvas ref={canvas} />*/}
             <form
                 onsubmit={e => {
                     e.preventDefault()
