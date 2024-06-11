@@ -1,5 +1,5 @@
 import { WalletIcon } from 'icons/dashboard'
-import { Component, onMount } from 'solid-js'
+import { Component, Show, createEffect, onMount } from 'solid-js'
 
 import './style/wallet.scss'
 
@@ -10,6 +10,7 @@ import { TransactionType } from 'models'
 import { httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { self } from 'store/self'
+import { useSearchParams } from '@solidjs/router'
 
 export const Wallet: Component = () => {
     return (
@@ -53,7 +54,6 @@ export const Wallet: Component = () => {
                 </div>
             </div>
             <ChargeWallet />
-
             <Transactions />
         </section>
     )
@@ -62,36 +62,41 @@ export const Wallet: Component = () => {
 const Transactions = () => {
     type State = {
         transactions: TransactionType[]
+        page: number
     }
     const [state, setstate] = createStore<State>({
         transactions: [],
+        page: 0,
+    })
+    const [params, setParams] = useSearchParams()
+
+    createEffect(() => {
+        transactions_fetch(parseInt(params.page || '0') || 0)
     })
 
-    onMount(() => {
+    function transactions_fetch(page: number) {
+        setParams({ page })
         httpx({
             url: '/api/user/transactions/',
             method: 'GET',
-            params: { page: 0 },
+            params: { page },
             onLoad(x) {
-                if (x.status == 200) {
-                    setstate({
-                        transactions: x.response,
-                    })
-                } else {
-                    addAlert({
-                        type: 'error',
-                        timeout: 5,
-                        content: 'مشکلی پیش امده کمی بعد دوباره تلاش کنید.',
-                        subject: 'خطا!',
-                    })
-                }
+                if (x.status != 200) return
+                setstate({ transactions: x.response, page })
             },
         })
-    })
+    }
 
     return (
         <div class='transactions'>
-            {state.transactions.length >= 1 ? (
+            <Show
+                when={state.transactions.length > 0}
+                fallback={
+                    <div class='no-orders title_hero'>
+                        شما جابجایی ای نداشتید :(
+                    </div>
+                }
+            >
                 <table>
                     <thead class='title_small'>
                         <tr>
@@ -103,20 +108,22 @@ const Transactions = () => {
                         </tr>
                     </thead>
                     <tbody class='title_smaller'>
-                        <tr>
-                            <td>1</td>
-                            <td>یسشیش</td>
-                            <td>یسشیشس</td>
-                            <td>09120945</td>
-                            <td>یسشیش</td>
-                        </tr>
+                        {state.transactions.map(t => (
+                            <tr>
+                                <td>{t.id}</td>
+                                <td>{t.kind}</td>
+                                <td>{t.vendor}</td>
+                                <td>{t.amount}</td>
+                                <td>
+                                    {new Date(
+                                        t.timestamp * 1e3
+                                    ).toLocaleDateString()}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
-            ) : (
-                <div class='no-orders title_hero'>
-                    شما جابجایی ای نداشتید :(
-                </div>
-            )}
+            </Show>
         </div>
     )
 }
@@ -136,6 +143,16 @@ const ChargeWallet: Component = P => {
                 content: 'مقدار واردی باید بیشتر از 10000 تومان باشد.',
             })
         }
+
+        httpx({
+            url: '/api/user/wallet-add/',
+            method: 'POST',
+            params: { amount: state.amount },
+            onLoad(x) {
+                if (x.status != 200) return
+                location.replace(x.response)
+            },
+        })
     }
     return (
         <div class='charge-wallet'>
@@ -150,6 +167,7 @@ const ChargeWallet: Component = P => {
                         setState({ amount: e.currentTarget.valueAsNumber })
                     }
                     min={0}
+                    step={1e4}
                     max={100000000}
                     maxLength={256}
                     placeholder={'مقدار شارژ...'}
