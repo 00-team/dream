@@ -1,7 +1,6 @@
 import './style/footer.scss'
 
 import logo from 'assets/image/logo.png'
-import Signature from './signature'
 import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 
 export default () => {
@@ -28,6 +27,22 @@ export default () => {
                         داشت و از امکانات ویژه‌ی هر یک از سرویس‌ها بهره‌مند
                         خواهند شد.
                     </p>
+
+                    <a
+                        class='enamad'
+                        referrerpolicy='origin'
+                        target='_blank'
+                        href='https://trustseal.enamad.ir/?id=1007554&Code=jFD3Onu0yGN5GsbebA8a9l60ptpV4yg4'
+                    >
+                        <img
+                            referrerpolicy='origin'
+                            src='https://trustseal.enamad.ir/logo.aspx?id=1007554&Code=jFD3Onu0yGN5GsbebA8a9l60ptpV4yg4'
+                            alt=''
+                            style='cursor:pointer'
+                            // @ts-ignore
+                            code='jFD3Onu0yGN5GsbebA8a9l60ptpV4yg4'
+                        />
+                    </a>
                 </div>
 
                 <div class='footer-links'>
