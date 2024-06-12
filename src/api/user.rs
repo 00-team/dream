@@ -284,7 +284,7 @@ async fn user_wallet_add(
         .await?;
 
         return Ok(Json(
-            "/api/user/wallet-cb/?authority=debug&status=OK".to_string(),
+            "/api/user/wallet-cb/?Authority=debug&Status=OK".to_string(),
         ));
     }
 
@@ -334,6 +334,7 @@ async fn user_wallet_add(
 }
 
 #[derive(Deserialize, IntoParams)]
+#[serde(rename_all = "PascalCase")]
 struct WalletCbQuery {
     authority: String,
     status: String,
@@ -345,8 +346,9 @@ struct WalletCbQuery {
 async fn user_wallet_cb(
     user: User, q: Query<WalletCbQuery>, state: Data<AppState>,
 ) -> HttpResponse {
-    let response =
-        HttpResponse::Found().insert_header((header::LOCATION, "/")).finish();
+    let response = HttpResponse::Found()
+        .insert_header((header::LOCATION, "/dashboard/wallet/"))
+        .finish();
 
     let transaction = sqlx::query_as! {
         Transaction,

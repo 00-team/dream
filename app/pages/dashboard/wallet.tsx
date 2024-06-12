@@ -1,8 +1,9 @@
 import { ArrowUpIcon, WalletIcon } from 'icons/dashboard'
-import { Component, createEffect, onMount } from 'solid-js'
+import { Component, createEffect, Show } from 'solid-js'
 
 import './style/wallet.scss'
 
+import { useSearchParams } from '@solidjs/router'
 import bg from 'assets/image/card-bg.jpeg'
 import logo from 'assets/image/logo.png'
 import { addAlert, Counter, Special } from 'comps'
@@ -53,7 +54,6 @@ export const Wallet: Component = () => {
                 </div>
             </div>
             <ChargeWallet />
-
             <Transactions />
         </section>
     )
@@ -62,36 +62,30 @@ export const Wallet: Component = () => {
 const Transactions = () => {
     type State = {
         transactions: TransactionType[]
+        page: number
     }
     const [state, setstate] = createStore<State>({
         transactions: [],
+        page: 0,
     })
+    const [params, setParams] = useSearchParams()
 
     createEffect(() => {
-        console.log(state.transactions)
+        transactions_fetch(parseInt(params.page || '0') || 0)
     })
 
-    onMount(() => {
+    function transactions_fetch(page: number) {
+        setParams({ page })
         httpx({
             url: '/api/user/transactions/',
             method: 'GET',
-            params: { page: 0 },
+            params: { page },
             onLoad(x) {
-                if (x.status == 200) {
-                    setstate({
-                        transactions: x.response,
-                    })
-                } else {
-                    addAlert({
-                        type: 'error',
-                        timeout: 5,
-                        content: 'مشکلی پیش امده کمی بعد دوباره تلاش کنید.',
-                        subject: 'خطا!',
-                    })
-                }
+                if (x.status != 200) return
+                setstate({ transactions: x.response, page })
             },
         })
-    })
+    }
 
     const getTime = (timestamp: number) => {
         let offset = Math.abs(new Date().getTimezoneOffset()) * 60
@@ -101,61 +95,62 @@ const Transactions = () => {
 
     return (
         <div class='transactions'>
-            {state.transactions.length >= 1 ? (
-                <>
-                    <table>
-                        <thead class='title_small'>
-                            <tr>
-                                <th class='id'>شماره</th>
-                                <th class='kind'>نوع</th>
-                                <th class='vendor'>سرویس</th>
-                                <th class='amount'>مقدار</th>
-                                <th class='date'>تاریخ</th>
-                            </tr>
-                        </thead>
-                        <tbody class='title_smaller'>
-                            {state.transactions.map(
-                                ({ id, amount, kind, timestamp, vendor }) => {
-                                    return (
-                                        <tr>
-                                            <td>{id}</td>
-                                            <td>
-                                                {kind === 'in' ? (
-                                                    <div class='transaction-kind in'>
-                                                        واریز
-                                                        <ArrowUpIcon />
-                                                    </div>
-                                                ) : (
-                                                    <div class='transaction-kind out'>
-                                                        برداشت
-                                                        <ArrowUpIcon />
-                                                    </div>
-                                                )}
-                                            </td>
-                                            <td>{vendor}</td>
-                                            <td class='transaction-amount'>
-                                                {amount.toLocaleString()}
-                                                <span class='description_small'>
-                                                    تومان
-                                                </span>
-                                            </td>
-                                            <td>
-                                                {new Date(
-                                                    getTime(timestamp)
-                                                ).toLocaleDateString('fa-IR')}
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-                            )}
-                        </tbody>
-                    </table>
-                </>
-            ) : (
-                <div class='no-orders title_hero'>
-                    شما جابجایی ای نداشتید :(
-                </div>
-            )}
+            <Show
+                when={state.transactions.length > 0}
+                fallback={
+                    <div class='no-orders title_hero'>
+                        شما جابجایی ای نداشتید :(
+                    </div>
+                }
+            >
+                <table>
+                    <thead class='title_small'>
+                        <tr>
+                            <th class='id'>شماره</th>
+                            <th class='kind'>نوع</th>
+                            <th class='vendor'>سرویس</th>
+                            <th class='amount'>مقدار</th>
+                            <th class='date'>تاریخ</th>
+                        </tr>
+                    </thead>
+                    <tbody class='title_smaller'>
+                        {state.transactions.map(
+                            ({ id, amount, kind, timestamp, vendor }) => {
+                                return (
+                                    <tr>
+                                        <td>{id}</td>
+                                        <td>
+                                            {kind === 'in' ? (
+                                                <div class='transaction-kind in'>
+                                                    واریز
+                                                    <ArrowUpIcon />
+                                                </div>
+                                            ) : (
+                                                <div class='transaction-kind out'>
+                                                    برداشت
+                                                    <ArrowUpIcon />
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td>{vendor}</td>
+                                        <td class='transaction-amount'>
+                                            {amount.toLocaleString()}
+                                            <span class='description_small'>
+                                                تومان
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {new Date(
+                                                getTime(timestamp)
+                                            ).toLocaleDateString('fa-IR')}
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        )}
+                    </tbody>
+                </table>
+            </Show>
         </div>
     )
 }
@@ -175,6 +170,16 @@ const ChargeWallet: Component = P => {
                 content: 'مقدار واردی باید بیشتر از 10000 تومان باشد.',
             })
         }
+
+        httpx({
+            url: '/api/user/wallet-add/',
+            method: 'POST',
+            params: { amount: state.amount },
+            onLoad(x) {
+                if (x.status != 200) return
+                location.replace(x.response)
+            },
+        })
     }
     return (
         <div class='charge-wallet'>
@@ -189,6 +194,7 @@ const ChargeWallet: Component = P => {
                         setState({ amount: e.currentTarget.valueAsNumber })
                     }
                     min={0}
+                    step={1e4}
                     max={100000000}
                     maxLength={256}
                     placeholder={'مقدار شارژ...'}
