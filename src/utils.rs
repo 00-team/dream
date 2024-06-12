@@ -142,7 +142,7 @@ pub async fn send_sms(phone: &str, text: &str) {
 
     let client = awc::Client::new();
     let request = client.post(format!(
-        "https://console.melipayamak.com/api/receive/balance/{}",
+        "https://console.melipayamak.com/api/send/simple/{}",
         config().melipayamak
     ));
 
