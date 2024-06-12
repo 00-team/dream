@@ -129,17 +129,37 @@ pub fn escape(s: &str) -> String {
         .replace('!', r"\!")
 }
 
-pub fn escape_link_url(s: &str) -> String {
-    s.replace('`', r"\`").replace(')', r"\)")
-}
+// pub fn escape_link_url(s: &str) -> String {
+//     s.replace('`', r"\`").replace(')', r"\)")
+// }
 
 pub fn escape_code(s: &str) -> String {
     s.replace('\\', r"\\").replace('`', r"\`")
 }
 
 pub async fn send_sms(phone: &str, text: &str) {
-    // let client = awc::Client::new();
     log::info!("\nsending sms to {phone}:\n\n{text}\n");
+
+    let client = awc::Client::new();
+    let request = client.post(format!(
+        "https://console.melipayamak.com/api/receive/balance/{}",
+        config().melipayamak
+    ));
+
+    #[derive(Serialize, Debug)]
+    struct Body {
+        from: String,
+        to: String,
+        text: String,
+    }
+
+    let _ = request
+        .send_json(&Body {
+            from: "50002710033613".to_string(),
+            to: phone.to_string(),
+            text: text.to_string(),
+        })
+        .await;
 }
 
 pub trait CutOff {

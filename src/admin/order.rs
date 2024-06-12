@@ -112,10 +112,10 @@ async fn order_update(
         .execute(&state.sql)
         .await?;
 
-        utils::send_sms(&user.phone, "dreampay.org\nyour order was refunded")
+        utils::send_sms(&user.phone, "dreampay.org\nسفارش شما ریفاند شد.")
             .await;
     } else {
-        utils::send_sms(&user.phone, "dreampay.org\nyour order has finished")
+        utils::send_sms(&user.phone, "dreampay.org\nسفارش شما تکمیل شد.")
             .await;
     }
 
