@@ -1,11 +1,11 @@
-import { WalletIcon } from 'icons/dashboard'
-import { Component, onMount } from 'solid-js'
+import { ArrowUpIcon, WalletIcon } from 'icons/dashboard'
+import { Component, createEffect, onMount } from 'solid-js'
 
 import './style/wallet.scss'
 
 import bg from 'assets/image/card-bg.jpeg'
 import logo from 'assets/image/logo.png'
-import { addAlert, Special, Counter } from 'comps'
+import { addAlert, Counter, Special } from 'comps'
 import { TransactionType } from 'models'
 import { httpx } from 'shared'
 import { createStore } from 'solid-js/store'
@@ -67,6 +67,10 @@ const Transactions = () => {
         transactions: [],
     })
 
+    createEffect(() => {
+        console.log(state.transactions)
+    })
+
     onMount(() => {
         httpx({
             url: '/api/user/transactions/',
@@ -89,29 +93,64 @@ const Transactions = () => {
         })
     })
 
+    const getTime = (timestamp: number) => {
+        let offset = Math.abs(new Date().getTimezoneOffset()) * 60
+
+        return (timestamp + offset) * 1000
+    }
+
     return (
         <div class='transactions'>
             {state.transactions.length >= 1 ? (
-                <table>
-                    <thead class='title_small'>
-                        <tr>
-                            <th class='id'>شماره</th>
-                            <th class='kind'>نوع</th>
-                            <th class='vendor'>سرویس</th>
-                            <th class='amount'>مقدار</th>
-                            <th class='date'>تاریخ</th>
-                        </tr>
-                    </thead>
-                    <tbody class='title_smaller'>
-                        <tr>
-                            <td>1</td>
-                            <td>یسشیش</td>
-                            <td>یسشیشس</td>
-                            <td>09120945</td>
-                            <td>یسشیش</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <>
+                    <table>
+                        <thead class='title_small'>
+                            <tr>
+                                <th class='id'>شماره</th>
+                                <th class='kind'>نوع</th>
+                                <th class='vendor'>سرویس</th>
+                                <th class='amount'>مقدار</th>
+                                <th class='date'>تاریخ</th>
+                            </tr>
+                        </thead>
+                        <tbody class='title_smaller'>
+                            {state.transactions.map(
+                                ({ id, amount, kind, timestamp, vendor }) => {
+                                    return (
+                                        <tr>
+                                            <td>{id}</td>
+                                            <td>
+                                                {kind === 'in' ? (
+                                                    <div class='transaction-kind in'>
+                                                        واریز
+                                                        <ArrowUpIcon />
+                                                    </div>
+                                                ) : (
+                                                    <div class='transaction-kind out'>
+                                                        برداشت
+                                                        <ArrowUpIcon />
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td>{vendor}</td>
+                                            <td class='transaction-amount'>
+                                                {amount.toLocaleString()}
+                                                <span class='description_small'>
+                                                    تومان
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {new Date(
+                                                    getTime(timestamp)
+                                                ).toLocaleDateString('fa-IR')}
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            )}
+                        </tbody>
+                    </table>
+                </>
             ) : (
                 <div class='no-orders title_hero'>
                     شما جابجایی ای نداشتید :(
