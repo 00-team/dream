@@ -130,23 +130,50 @@ section.wallet {
 
         table {
             width: 100%;
+            color: var(--accent-color);
+
             border: 1px solid black;
             border-spacing: 0;
             border-radius: 12px;
             overflow: hidden;
 
-            background-color: white;
+            // background-color: white;
+            background-color: transparent;
 
             td,
             th {
                 text-align: center;
                 border: 1px solid black;
 
-                padding: 0.5rem 0.25rem;
+                padding: 1em 0.25em;
             }
             tr {
                 position: relative;
                 isolation: isolate;
+            }
+
+            .transaction-kind {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5em;
+
+                &.in {
+                    svg {
+                        color: var(--alert-success);
+                    }
+                }
+                &.out {
+                    svg {
+                        transform: scaleY(-1);
+                        color: var(--alert-error);
+                    }
+                }
+            }
+            .transaction-amount {
+                span {
+                    margin: 0 0.5em;
+                }
             }
 
             .id {

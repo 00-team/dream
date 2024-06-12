@@ -1,16 +1,16 @@
-import { WalletIcon } from 'icons/dashboard'
-import { Component, Show, createEffect, onMount } from 'solid-js'
+import { ArrowUpIcon, WalletIcon } from 'icons/dashboard'
+import { Component, createEffect, Show } from 'solid-js'
 
 import './style/wallet.scss'
 
+import { useSearchParams } from '@solidjs/router'
 import bg from 'assets/image/card-bg.jpeg'
 import logo from 'assets/image/logo.png'
-import { addAlert, Special, Counter } from 'comps'
+import { addAlert, Counter, Special } from 'comps'
 import { TransactionType } from 'models'
 import { httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { self } from 'store/self'
-import { useSearchParams } from '@solidjs/router'
 
 export const Wallet: Component = () => {
     return (
@@ -87,6 +87,12 @@ const Transactions = () => {
         })
     }
 
+    const getTime = (timestamp: number) => {
+        let offset = Math.abs(new Date().getTimezoneOffset()) * 60
+
+        return (timestamp + offset) * 1000
+    }
+
     return (
         <div class='transactions'>
             <Show
@@ -108,19 +114,40 @@ const Transactions = () => {
                         </tr>
                     </thead>
                     <tbody class='title_smaller'>
-                        {state.transactions.map(t => (
-                            <tr>
-                                <td>{t.id}</td>
-                                <td>{t.kind}</td>
-                                <td>{t.vendor}</td>
-                                <td>{t.amount}</td>
-                                <td>
-                                    {new Date(
-                                        t.timestamp * 1e3
-                                    ).toLocaleDateString()}
-                                </td>
-                            </tr>
-                        ))}
+                        {state.transactions.map(
+                            ({ id, amount, kind, timestamp, vendor }) => {
+                                return (
+                                    <tr>
+                                        <td>{id}</td>
+                                        <td>
+                                            {kind === 'in' ? (
+                                                <div class='transaction-kind in'>
+                                                    واریز
+                                                    <ArrowUpIcon />
+                                                </div>
+                                            ) : (
+                                                <div class='transaction-kind out'>
+                                                    برداشت
+                                                    <ArrowUpIcon />
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td>{vendor}</td>
+                                        <td class='transaction-amount'>
+                                            {amount.toLocaleString()}
+                                            <span class='description_small'>
+                                                تومان
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {new Date(
+                                                getTime(timestamp)
+                                            ).toLocaleDateString('fa-IR')}
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        )}
                     </tbody>
                 </table>
             </Show>
