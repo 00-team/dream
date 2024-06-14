@@ -121,6 +121,7 @@ section.customers {
                 flex-direction: column;
 
                 .user-profile {
+                    object-fit: cover;
                     width: 75px;
                     aspect-ratio: 1/1;
 
