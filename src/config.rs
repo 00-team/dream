@@ -25,6 +25,7 @@ pub struct Config {
     pub zarinpal_merchant_id: String,
     pub bot_token: String,
     pub group_id: String,
+    pub melipayamak: String,
 }
 
 impl Config {
@@ -51,6 +52,7 @@ pub fn config() -> &'static Config {
         zarinpal_merchant_id: evar("ZARINPAL_MERCHANT_ID").expect("zarin mid"),
         bot_token: evar("TELOXIDE_TOKEN").expect("no TELOXIDE_TOKEN"),
         group_id: evar("TELOXIDE_GROUP_ID").expect("no TELOXIDE_GROUP_ID"),
+        melipayamak: evar("MELIPAYAMAK").expect("no MELIPAYAMAK"),
         products,
     })
 }
