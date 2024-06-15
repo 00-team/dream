@@ -107,7 +107,7 @@ async fn user_login(
     let cook = Cookie::build("Authorization", format!("Bearer {}", user.token))
         .path("/")
         .secure(true)
-        .same_site(SameSite::Strict)
+        .same_site(SameSite::Lax)
         .http_only(true)
         .max_age(Duration::weeks(12))
         .finish();
