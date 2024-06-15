@@ -36,9 +36,9 @@ struct OrderList {
 /// List
 #[get("/")]
 async fn order_list(
-    _: Admin, query: Query<ListInput>, state: Data<AppState>,
+    _: Admin, q: Query<ListInput>, state: Data<AppState>,
 ) -> Response<OrderList> {
-    let offset = query.page * 32;
+    let offset = q.page * 32;
 
     let orders = sqlx::query_as! {
         Order, "select * from orders order by id desc limit 32 offset ?", offset
@@ -46,12 +46,12 @@ async fn order_list(
     .fetch_all(&state.sql)
     .await?;
 
-    let user_ids = orders.iter().map(|o| o.user).unique().join(", ");
-    log::info!("user ids: '{user_ids}'");
+    let user_ids = orders.iter().map(|o| o.user).unique().join(",");
 
-    let mut users = sqlx::query_as! {
-        User, "select * from users where id in (?)", user_ids
-    }
+    let mut users: Vec<User> = sqlx::query_as(&format!(
+        "select * from users where id in ({})",
+        user_ids
+    ))
     .fetch_all(&state.sql)
     .await?;
 
@@ -116,8 +116,7 @@ async fn order_update(
         utils::send_sms(&user.phone, "dreampay.org\nسفارش شما ریفاند شد.")
             .await;
     } else {
-        utils::send_sms(&user.phone, "dreampay.org\nسفارش شما تکمیل شد.")
-            .await;
+        utils::send_sms(&user.phone, "dreampay.org\nسفارش شما تکمیل شد.").await;
     }
 
     sqlx::query! {
