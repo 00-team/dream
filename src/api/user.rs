@@ -129,7 +129,7 @@ async fn user_logout(user: User, state: Data<AppState>) -> HttpResponse {
     let cook = Cookie::build("Authorization", "XXX")
         .path("/")
         .secure(true)
-        .same_site(SameSite::Strict)
+        .same_site(SameSite::Lax)
         .http_only(true)
         .max_age(Duration::seconds(1))
         .finish();
@@ -273,12 +273,13 @@ struct AddWalletQuery {
 async fn user_wallet_add(
     user: User, q: Query<AddWalletQuery>, state: Data<AppState>,
 ) -> Response<String> {
+    let amount = q.amount.clamp(50_000, 50_000_000);
     let now = utils::now();
     if cfg!(debug_assertions) {
         sqlx::query! {
             "insert into transactions(user, amount, timestamp, vendor, vendor_order_id)
             values(?, ?, ?, ?, ?)",
-            user.id, q.amount, now, TransactionVendor::Zarinpal, "debug"
+            user.id, amount, now, TransactionVendor::Zarinpal, "debug"
         }
         .execute(&state.sql)
         .await?;
@@ -303,7 +304,7 @@ async fn user_wallet_add(
     let mut result = request
         .send_json(&Data {
             merchant_id: config().zarinpal_merchant_id.clone(),
-            amount: q.amount as u64,
+            amount: amount as u64,
             description: "Adding to Wallet".to_string(),
             callback_url: "https://dreampay.org/api/user/wallet-cb/"
                 .to_string(),
@@ -319,13 +320,13 @@ async fn user_wallet_add(
     let data = result.json::<ZarinpalResponse<RsData>>().await?.data;
     if data.code != 100 {
         log::error!("payment failed: {:?}", result.body().await?);
-        return Err(AppErrBadRequest("payment request failed"));
+        return Err(AppErrBadRequest("درخواست پرداخت به مشکل خورد"));
     }
 
     sqlx::query! {
         "insert into transactions(user, amount, timestamp, vendor, vendor_order_id)
         values(?, ?, ?, ?, ?)",
-        user.id, q.amount, now, TransactionVendor::Zarinpal, data.authority
+        user.id, amount, now, TransactionVendor::Zarinpal, data.authority
     }
     .execute(&state.sql)
     .await?;
@@ -406,11 +407,20 @@ async fn user_wallet_cb(
         })
         .await;
 
+    let failed = || {
+        sqlx::query! {
+            "update transactions set status = ? where id = ?",
+            TransactionStatus::Failed, transaction.id
+        }
+        .execute(&state.sql)
+    };
+
     if result.is_err() {
+        let _ = failed().await;
         return response;
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct RsData {
         code: i64,
         ref_id: i64,
@@ -420,10 +430,13 @@ async fn user_wallet_cb(
 
     let data = result.unwrap().json::<ZarinpalResponse<RsData>>().await;
     if data.is_err() {
+        let _ = failed().await;
         return response;
     }
     let data = data.unwrap().data;
     if data.code != 100 {
+        log::info!("verify data: {data:#?}");
+        let _ = failed().await;
         return response;
     }
 
@@ -435,6 +448,12 @@ async fn user_wallet_cb(
     .await;
 
     if result.is_err() {
+        log::error!(
+            "could not update user wallet tid: {} - {}",
+            transaction.id,
+            transaction.amount
+        );
+        let _ = failed().await;
         return response;
     }
 
