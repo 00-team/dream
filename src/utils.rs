@@ -54,6 +54,11 @@ pub fn remove_photo(name: &str) {
 }
 
 pub async fn send_webhook(title: &str, desc: &str, color: u32) {
+    if cfg!(debug_assertions) {
+        log::info!("send_webhook:\n{title}\n{desc}");
+        return;
+    }
+
     let client = awc::Client::new();
     let request = client.post(&config().discord_webhook);
 
@@ -81,6 +86,11 @@ pub async fn send_webhook(title: &str, desc: &str, color: u32) {
 }
 
 pub async fn send_message(topic: i64, text: &str) {
+    if cfg!(debug_assertions) {
+        log::info!("send_message: {topic}\n{text}");
+        return;
+    }
+
     let client = awc::Client::new();
     let conf = config();
     let url = format!(
@@ -139,6 +149,10 @@ pub fn escape_code(s: &str) -> String {
 
 pub async fn send_sms(phone: &str, text: &str) {
     log::info!("\nsending sms to {phone}:\n\n{text}\n");
+
+    if cfg!(debug_assertions) {
+        return;
+    }
 
     let client = awc::Client::new();
     let request = client.post(format!(

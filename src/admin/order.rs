@@ -47,6 +47,7 @@ async fn order_list(
     .await?;
 
     let user_ids = orders.iter().map(|o| o.user).unique().join(", ");
+    log::info!("user ids: '{user_ids}'");
 
     let mut users = sqlx::query_as! {
         User, "select * from users where id in (?)", user_ids
