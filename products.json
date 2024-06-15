@@ -2,31 +2,13 @@
     "spotify": {
         "name": "اسپاتیفای",
         "logo": "/static/image/logo/spotify.png",
-        "data": ["username", "password"],
+        "data": ["email", "password"],
         "color": "#1db954",
         "image": "/static/image/banner/spotify.png",
         "plans": {
-            "family.1": [1200000, "خانواده ۱ ماهه"],
-            "family.3": [3200000, "خانواده ۳ ماهه"],
-            "family.6": [6200000, "خانواده ۶ ماهه"],
-            "single.1": [6200000, "۱ ماهه"],
-            "single.3": [6200000, "۳ ماهه"],
-            "single.6": [6200000, "۶ ماهه"]
-        }
-    },
-    "netflix": {
-        "name": "نتفلیکس",
-        "logo": "/static/image/logo/netflix.png",
-        "data": ["email", "password"],
-        "color": "#e50914",
-        "image": "/static/image/banner/netflix.jpg",
-        "plans": {
-            "family.1": [1200000, "خانواده ۱ ماهه"],
-            "family.3": [3200000, "خانواده ۳ ماهه"],
-            "family.6": [6200000, "خانواده ۶ ماهه"],
-            "single.1": [1100000, "۱ ماهه"],
-            "single.3": [6200000, "۳ ماهه"],
-            "single.6": [6200000, "۶ ماهه"]
+            "family.1": [850000, "۱ ماهه Family - ترکیه"],
+            "family.3": [2290000, "۳ ماهه Family - ترکیه"],
+            "family.6": [4490000, "۶ ماهه Family - ترکیه"]
         }
     }
 }
