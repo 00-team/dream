@@ -121,7 +121,7 @@ const Contact: Component = props => {
                     <a
                         class='social icon telegram'
                         id='contact'
-                        href='https://t.me/heydaricoir'
+                        href='https://t.me/DreamPayOrg'
                     >
                         <TelegramIcon />
                     </a>
@@ -129,7 +129,7 @@ const Contact: Component = props => {
                     <a
                         class='social icon whatsapp'
                         id='contact'
-                        href="'https://wa.me/+989129429430'"
+                        href='https://wa.me/+905347447553'
                     >
                         <WhatsappIcon />
                     </a>
@@ -137,7 +137,7 @@ const Contact: Component = props => {
                     <a
                         class='social icon instagram'
                         id='contact'
-                        href='instagram://user?username=heydari.chair'
+                        href='https://instagram.com/dreampay_org/'
                     >
                         <InstaIcon />
                     </a>

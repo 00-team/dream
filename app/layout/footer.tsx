@@ -49,21 +49,21 @@ export default () => {
                     <div class='dream-socials section_title'>
                         <a
                             class='social icon telegram'
-                            href='https://t.me/heydaricoir'
+                            href='https://t.me/DreamPayOrg'
                         >
                             <TelegramIcon />
                         </a>
 
                         <a
                             class='social icon whatsapp'
-                            href="'https://wa.me/+989129429430'"
+                            href='https://wa.me/+905347447553'
                         >
                             <WhatsappIcon />
                         </a>
 
                         <a
                             class='social icon instagram'
-                            href='instagram://user?username=heydari.chair'
+                            href='https://instagram.com/dreampay_org/'
                         >
                             <InstaIcon />
                         </a>
