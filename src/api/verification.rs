@@ -86,7 +86,10 @@ async fn verification(
 
     utils::send_sms(
         &body.phone,
-        &format!("dreampay.org\n\nکد تایید شما: {code}"),
+        &format!(
+            "کاربر گرامی به شماره {}\nکد تایید شما: {code}\ndreampay.org",
+            body.phone
+        ),
     )
     .await;
 

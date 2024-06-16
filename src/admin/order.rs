@@ -103,7 +103,7 @@ async fn order_update(
     .fetch_one(&state.sql)
     .await?;
 
-    if body.status == OrderStatus::Refunded {
+    let status = if body.status == OrderStatus::Refunded {
         let wallet = user.wallet + order.price;
 
         sqlx::query! {
@@ -112,12 +112,20 @@ async fn order_update(
         }
         .execute(&state.sql)
         .await?;
-
-        utils::send_sms(&user.phone, "dreampay.org\nسفارش شما ریفاند شد.")
-            .await;
+        "ریفاند"
     } else {
-        utils::send_sms(&user.phone, "dreampay.org\nسفارش شما تکمیل شد.").await;
-    }
+        "تکمیل"
+    };
+
+    utils::send_sms(
+        &user.phone,
+        &format!(
+            "مشتری عزیز {}\nسفارش شما به شماره {} {} شد.\ndreampay.org",
+            user.name.clone().unwrap_or(user.phone.clone()),
+            order.id, status
+        ),
+    )
+    .await;
 
     sqlx::query! {
         "update orders set status = ?, admin = ? where id = ?",
