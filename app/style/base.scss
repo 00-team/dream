@@ -22,7 +22,7 @@
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--sixty-percent);
-    border: 2px solid white;
+    border: 2px solid var(--primary-color);
     border-radius: 20px;
 }
 
@@ -36,13 +36,13 @@ html[data-theme='dark'] {
     body {
         @include theme.dark;
     }
-    background-color: var(--accent-color);
+    background-color: #000;
 }
 html[data-theme='light'] {
     body {
         @include theme.light;
     }
-    background-color: var(--accent-color);
+    background-color: #fff;
 }
 
 .root {
