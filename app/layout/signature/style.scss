@@ -17,4 +17,17 @@
     text-decoration: none;
     margin: 0;
     box-sizing: border-box;
+
+    text-shadow: 0 0 0 gold;
+
+    transition: text-shadow 3s;
+
+    &.active {
+        text-shadow: 0 0 74px gold;
+
+        &:hover {
+            transition: 1.5s;
+            text-shadow: 0 0 24px gold;
+        }
+    }
 }
