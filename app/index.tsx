@@ -7,18 +7,19 @@ import { Component, createEffect, lazy, onMount } from 'solid-js'
 import { render } from 'solid-js/web'
 import { setTheme, theme } from 'store/theme'
 
+import Navbar from './layout/navbar'
 import Home from './pages/home'
 const Products = lazy(() => import('./pages/products'))
 const Login = lazy(() => import('./pages/auth/login'))
 const Dashboard = lazy(() => import('./pages/dashboard'))
-import Footer from './layout/footer'
-import Navbar from './layout/navbar'
-import Signature from './layout/signature'
 
 import './style/base.scss'
 import './style/config.scss'
 import './style/fonts/imports.scss'
 import './style/theme.scss'
+
+import './layout/signature/style.scss'
+import './layout/style/footer.scss'
 
 const App: Component<RouteSectionProps> = P => {
     const prefersDarkColorScheme = () =>
@@ -44,8 +45,8 @@ const App: Component<RouteSectionProps> = P => {
         <>
             <Navbar />
             {P.children}
-            <Footer />
-            <Signature />
+            {/* <Footer />
+            <Signature /> */}
             <Alert />
         </>
     )
