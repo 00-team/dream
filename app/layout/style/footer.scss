@@ -20,7 +20,9 @@ footer.footer-container {
         top: 0;
         right: 0;
 
-        width: clamp(0px, 100%, 200px);
+        z-index: -1;
+
+        width: clamp(0px, 100%, 500px);
         height: 500px;
         background-image: radial-gradient(
             69.1205% 50% at 50% 0%,
