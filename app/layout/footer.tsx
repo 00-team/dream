@@ -4,6 +4,14 @@ import logo from 'assets/image/logo.png'
 import { InstaIcon, TelegramIcon, WhatsappIcon } from 'icons/footer'
 
 export default () => {
+    function showZPTrust() {
+        window.open(
+            'https://www.zarinpal.com/trustPage/' + window.location.hostname,
+            null,
+            'width=450, height=600, scrollbars=no, resizable=no'
+        )
+    }
+
     return (
         <footer class='footer-container'>
             <div class='footer-wrapper'>
@@ -43,6 +51,12 @@ export default () => {
                             code='jFD3Onu0yGN5GsbebA8a9l60ptpV4yg4'
                         />
                     </a>
+                    <button onclick={() => showZPTrust()} class='zarinpal'>
+                        <img
+                            src='https://cdn.zarinpal.com/badges/trustLogo/1.svg'
+                            alt='دروازه پرداخت معتبر'
+                        />
+                    </button>
                 </div>
 
                 <div class='footer-links'>
