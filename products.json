@@ -13,7 +13,7 @@
     }
 },
 {
-    "spotify": {
+    "applemusic": {
         "name": "اپل موزیک",
         "logo": "/static/image/logo/applemusic.jpg",
         "data": ["apple id", "telegram id"],
