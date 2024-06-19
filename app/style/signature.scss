@@ -1,0 +1,16 @@
+.signature-00-team {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #040404;
+    color: #f2f2f2;
+
+    direction: ltr;
+    font-family: 'Graduate';
+    font-size: clamp(1.2rem, 2.3vw + 0.7rem, 2.1rem);
+
+    padding: 1.5rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
