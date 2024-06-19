@@ -77,8 +77,6 @@ const Root = () => {
             signature.innerText = signature.innerText
                 .split('')
                 .map((letter, index) => {
-                    console.log(ORIGIN[index])
-
                     if (index < counter) return ORIGIN[index]
 
                     return LETTERS[Math.floor(Math.random() * LETTERS.length)]
