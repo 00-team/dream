@@ -11,4 +11,17 @@
             "family.6": [4490000, "۶ ماهه Family - ترکیه"]
         }
     }
-}
+},
+{
+    "spotify": {
+        "name": "اپل موزیک",
+        "logo": "/static/image/logo/applemusic.jpg",
+        "data": ["email", "password"],
+        "color": "#1db954",
+        "image": "/static/image/banner/applemusic.jpg",
+        "plans": {
+            "family.1": [880000, "۱ ماهه Family"],
+            "family.3": [2280000, "۳ ماهه Family"],
+            "family.6": [3980000, "۶ ماهه Family"]
+        }
+    }
