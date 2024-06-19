@@ -10,5 +10,17 @@
             "family.3": [2290000, "۳ ماهه Family - ترکیه"],
             "family.6": [4490000, "۶ ماهه Family - ترکیه"]
         }
+    },
+    "applemusic": {
+        "name": "اپل موزیک",
+        "logo": "/static/image/logo/applemusic.jpg",
+        "data": ["apple id", "telegram id"],
+        "color": "#1db954",
+        "image": "/static/image/banner/applemusic.jpg",
+        "plans": {
+            "family.1": [880000, "۱ ماهه Family"],
+            "family.3": [2280000, "۳ ماهه Family"],
+            "family.6": [3980000, "۶ ماهه Family"]
+        }
     }
 }
