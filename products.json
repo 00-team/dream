@@ -22,5 +22,17 @@
             "family.3": [2280000, "۳ ماهه Family"],
             "family.6": [3980000, "۶ ماهه Family"]
         }
+    },
+    "telegram": {
+        "name": "تلگرام پریمیوم",
+        "logo": "/static/image/logo/telegram.png",
+        "data": ["telegram id"],
+        "color": "#2ba3d7",
+        "image": "/static/image/banner/telegram.jpg",
+        "plans": {
+            "gift.3": [950000, "گیفت 3 ماهه "],
+            "gift.6": [1200000, "گیفت 6 ماهه "],
+            "gift.12": [2050000, "گیفت 1 ساله "]
+        }
     }
 }
