@@ -280,6 +280,7 @@ main.products .product-popup {
                 gap: 0.5rem;
 
                 label {
+                    white-space: nowrap;
                     text-transform: capitalize;
                 }
 
