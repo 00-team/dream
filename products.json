@@ -34,5 +34,18 @@
             "gift.6": [12000000, "گیفت 6 ماهه "],
             "gift.12": [20500000, "گیف 12 ماهه "]
         }
+    },
+    "discord": {
+        "name": "دیسکورد نیترو",
+        "logo": "/static/image/logo/discord.png",
+        "data": ["username", "password"],
+        "color": "#5f70be",
+        "image": "/static/image/banner/discord.jpg",
+        "plans": {
+            "classic.1": [1200000, "یک ماهه کلاسیک"],
+            "boost.1": [2600000, "یک ماهه بوست"],
+            "classic.12": [10500000, "کلاسیک 12 ماهه"],
+            "boost.12": [10500000, "بوست 12 ماهه"]
+        }
     }
 }
