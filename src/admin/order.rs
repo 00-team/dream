@@ -103,7 +103,7 @@ async fn order_update(
     .fetch_one(&state.sql)
     .await?;
 
-    let status = if body.status == OrderStatus::Refunded {
+    let body_id = if body.status == OrderStatus::Refunded {
         let wallet = user.wallet + order.price;
 
         sqlx::query! {
@@ -112,18 +112,18 @@ async fn order_update(
         }
         .execute(&state.sql)
         .await?;
-        "ریفاند"
+        229377
     } else {
-        "تکمیل"
+        229071
     };
 
-    utils::send_sms(
+    utils::send_sms_prefab(
         &user.phone,
-        &format!(
-            "مشتری عزیز {}\nسفارش شما به شماره {} {} شد.\ndreampay.org",
+        body_id,
+        vec![
             user.name.clone().unwrap_or(user.phone.clone()),
-            order.id, status
-        ),
+            order.id.to_string(),
+        ],
     )
     .await;
 

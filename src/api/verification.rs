@@ -84,12 +84,10 @@ async fn verification(
     let code = utils::get_random_string(Config::CODE_ABC, 5);
     log::info!("code: {code}");
 
-    utils::send_sms(
+    utils::send_sms_prefab(
         &body.phone,
-        &format!(
-            "کاربر گرامی به شماره {}\nکد تایید شما: {code}\ndreampay.org",
-            body.phone
-        ),
+        229070,
+        vec![body.phone.clone(), code.clone()],
     )
     .await;
 

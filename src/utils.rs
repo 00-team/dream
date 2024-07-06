@@ -147,6 +147,31 @@ pub fn escape_code(s: &str) -> String {
     s.replace('\\', r"\\").replace('`', r"\`")
 }
 
+pub async fn send_sms_prefab(phone: &str, body_id: i64, args: Vec<String>) {
+    log::info!("\nsending sms to {phone}:\n\n{args:?}\n");
+
+    if cfg!(debug_assertions) {
+        return;
+    }
+
+    let client = awc::Client::new();
+    let request = client.post(format!(
+        "https://console.melipayamak.com/api/send/shared/{}",
+        config().melipayamak
+    ));
+
+    #[derive(Serialize, Debug)]
+    #[serde(rename_all = "camelCase")]
+    struct Body {
+        body_id: i64,
+        to: String,
+        args: Vec<String>,
+    }
+
+    let _ =
+        request.send_json(&Body { body_id, to: phone.to_string(), args }).await;
+}
+
 pub async fn send_sms(phone: &str, text: &str) {
     log::info!("\nsending sms to {phone}:\n\n{text}\n");
 
