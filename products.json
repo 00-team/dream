@@ -15,7 +15,7 @@
         "name": "یوتیوب پرمیوم",
         "logo": "/static/image/logo/youtube.png",
         "data": ["email", "password"],
-        "color": "#1db954",
+        "color": "#ff0000",
         "image": "/static/image/banner/youtube.png",
         "plans": {
             "family.1": [900000, "۱ ماهه Family"],
