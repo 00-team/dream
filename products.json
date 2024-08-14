@@ -11,6 +11,18 @@
             "family.6": [4490000, "۶ ماهه Family - ترکیه"]
         }
     },
+    "youtube": {
+        "name": "یوتیوب پرمیوم",
+        "logo": "/static/image/logo/youtube.png",
+        "data": ["email", "password"],
+        "color": "#1db954",
+        "image": "/static/image/banner/youtube.png",
+        "plans": {
+            "family.1": [900000, "۱ ماهه Family"],
+            "family.3": [2500000, "۳ ماهه Family"],
+            "family.6": [4800000, "۶ ماهه Family"]
+        }
+    },
     "applemusic": {
         "name": "اپل موزیک",
         "logo": "/static/image/logo/apple-music.png",
