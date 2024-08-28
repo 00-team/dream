@@ -47,12 +47,12 @@
             "gift.12": [20500000, "گیف 12 ماهه "]
         }
     },
-        "chatgpt": {
+    "chatgpt": {
         "name": "ChatGPT",
         "logo": "/static/image/logo/chatgpt.png",
         "data": ["email", "password"],
         "color": "#78eb96",
-        "image": "/static/image/banner/chatgpt.jpg",
+        "image": "/static/image/banner/b-chatgpt.png",
         "plans": {
             "gift.1": [9500000, "اشتراک یک ماهه Plus "],
             "gift.1t": [12000000, "اشتراک یک ماهه Team "]
