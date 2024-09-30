@@ -91,13 +91,13 @@ async fn verification(
     )
     .await;
 
-    utils::send_webhook(
-        "Verificatin",
+    #[cfg(not(debug_assertions))]
+    utils::heimdall_message(
         &format!(
-            "act: {:?}\nphone: ||`{}`||\ncode: `{code}`",
+            "action: {:?}\nphone: {}\ncode: {code}",
             body.action, body.phone
         ),
-        2017768,
+        "verificatin",
     )
     .await;
 
