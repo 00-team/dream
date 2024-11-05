@@ -1,5 +1,5 @@
 use actix_web::{
-    body::BoxBody, error::PayloadError, http::StatusCode, HttpResponse,
+    body::BoxBody, error::PayloadError, http::{header::ToStrError, StatusCode}, HttpResponse,
     ResponseError,
 };
 use awc::error::{JsonPayloadError, SendRequestError};
@@ -28,6 +28,11 @@ impl AppErr {
         Self {
             status: 500, subject: "خطای سیستم".to_string(), content: None
         }
+    }
+
+    pub fn content(mut self, content: &str) -> Self {
+        self.content = Some(content.to_string());
+        self
     }
 }
 
@@ -104,22 +109,37 @@ impl_from_err!(JsonPayloadError);
 impl_from_err!(SendRequestError);
 impl_from_err!(FromUtf8Error);
 impl_from_err!(serde_json::Error);
+impl_from_err!(ToStrError);
 
 macro_rules! error_helper {
     ($name:ident, $status:ident, $subject:literal) => {
-        #[doc = concat!("Helper function that wraps any error and generates a `", stringify!($status), "` response.")]
-        #[allow(non_snake_case)]
-        pub fn $name(err: &str) -> AppErr {
-            log::error!("err {} - {}", stringify!($status), err);
-            AppErr {
-                status: StatusCode::$status.as_u16(),
-                subject: $subject.to_string(),
-                content: Some(err.to_string())
-            }
+        macro_rules! $name {
+            () => {
+                crate::models::AppErr::new(
+                    actix_web::http::StatusCode::$status.as_u16(),
+                    $subject,
+                )
+            };
+            ($content:literal) => {
+                crate::models::AppErr::new(
+                    actix_web::http::StatusCode::$status.as_u16(),
+                    $subject,
+                )
+                .content($content)
+            };
+            ($content:expr) => {
+                crate::models::AppErr::new(
+                    actix_web::http::StatusCode::$status.as_u16(),
+                    $subject,
+                )
+                .content(&($content))
+            };
         }
+        pub(crate) use $name;
     };
 }
 
-error_helper!(AppErrBadRequest, BAD_REQUEST, "درخواست بد");
-error_helper!(AppErrForbidden, FORBIDDEN, "ممنوع");
-error_helper!(AppErrNotFound, NOT_FOUND, "پیدا نشد");
+error_helper!(bad_request, BAD_REQUEST, "درخواست بد");
+error_helper!(forbidden, FORBIDDEN, "ممنوع");
+error_helper!(bad_auth, FORBIDDEN, "احراز هویت نامعتبر");
+error_helper!(not_found, NOT_FOUND, "پیدا نشد");

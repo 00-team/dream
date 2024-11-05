@@ -1,5 +1,5 @@
 use crate::config::{config, Config};
-use crate::models::{AppErr, AppErrBadRequest};
+use crate::models::{AppErr, bad_request};
 use image::io::Reader as ImageReader;
 use image::ImageFormat;
 use rand::Rng;
@@ -9,11 +9,11 @@ use std::path::Path;
 
 pub fn phone_validator(phone: &str) -> Result<(), AppErr> {
     if phone.len() != 11 || !phone.starts_with("09") {
-        return Err(AppErrBadRequest("invalid phone number"));
+        return Err(bad_request!("invalid phone number"));
     }
 
     if phone.chars().any(|c| !c.is_ascii_digit()) {
-        return Err(AppErrBadRequest("phone number must be all digits"));
+        return Err(bad_request!("phone number must be all digits"));
     }
 
     Ok(())

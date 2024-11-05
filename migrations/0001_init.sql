@@ -5,7 +5,7 @@ create table if not exists users (
     phone text unique not null,
     wallet integer not null default 0,
     in_hold integer not null default 0,
-    token text not null,
+    token text,
     photo text,
     admin boolean not null default false,
     banned boolean not null default false
