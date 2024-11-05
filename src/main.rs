@@ -66,56 +66,6 @@ async fn rapidoc() -> impl Responder {
     )
 }
 
-// #[actix_web::main]
-// async fn main() -> std::io::Result<()> {
-//     dotenvy::from_path(".env").expect("could not read .secrets.env");
-//     pretty_env_logger::init();
-//
-//     let _ = std::fs::create_dir(Config::RECORD_DIR);
-//
-//     let pool = SqlitePool::connect(
-//         &env::var("DATABASE_URL").expect("DATABASE_URL was not found in env"),
-//     )
-//     .await
-//     .expect("sqlite pool initialization failed");
-//
-//     // sqlx::migrate!().run(&pool).await.expect("migration failed");
-//
-//     let server = HttpServer::new(move || {
-//         App::new()
-//             .wrap(middleware::Logger::new("%s %r %Ts"))
-//             .app_data(Data::new(AppState { sql: pool.clone() }))
-//             .configure(config_static)
-//             .service(openapi)
-//             .service(rapidoc)
-//             .service(
-//                 scope("/api")
-//                     .service(api::user::router())
-//                     .service(api::product::router())
-//                     .service(api::order::router())
-//                     .service(api::verification::verification)
-//                     .service(
-//                         scope("/admin")
-//                             .service(admin::order::router())
-//                             .service(admin::user::router())
-//                             .service(admin::discount::router()),
-//                     ),
-//             )
-//             .service(web::router())
-//     });
-//
-//     let server = if cfg!(debug_assertions) {
-//         server.bind(("127.0.0.1", 7000)).unwrap()
-//     } else {
-//         const PATH: &'static str = "/usr/share/nginx/sockets/dream.sock";
-//         let s = server.bind_uds(PATH).expect("could not bind the server");
-//         std::fs::set_permissions(PATH, std::fs::Permissions::from_mode(0o777))?;
-//         s
-//     };
-//
-//     server.run().await
-// }
-
 fn config_app(app: &mut ServiceConfig) {
     if cfg!(debug_assertions) {
         app.service(af::Files::new("/static", "static"));
