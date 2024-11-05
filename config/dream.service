@@ -9,8 +9,7 @@ WorkingDirectory=/p/dream/
 EnvironmentFile=/p/dream/.env
 ExecStart=/p/dream/target/release/dream
 KillSignal=SIGQUIT
-StandardError=file:/p/dream/logs/error.log
-StandardOutput=file:/p/dream/logs/output.log
+StandardError=file:/p/dream/log
 NotifyAccess=all
 
 [Install]
