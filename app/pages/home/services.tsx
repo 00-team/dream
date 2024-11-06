@@ -7,6 +7,7 @@ import { PlusIcon } from 'icons/home'
 import logo from 'assets/image/logo.png'
 import { Special } from 'comps'
 import { theme } from 'store/theme'
+import { A } from '@solidjs/router'
 
 export const Services: Component = props => {
     let lastScrollPosition = scrollY
@@ -238,9 +239,12 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <a href='/products' class='cta title_smaller'>
+                        <A
+                            href='products?kind=discord'
+                            class='cta title_smaller'
+                        >
                             <span>برو بریم</span>
-                        </a>
+                        </A>
                     </div>
                     <div class='item-service main'>
                         <img
@@ -270,25 +274,25 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <Special link='products' text='برو بریم' />
+                        <Special link='products?kind=spotify' text='برو بریم' />
                     </div>
                     <div class='item-service'>
                         <img
                             loading='lazy'
                             decoding='async'
                             draggable={false}
-                            src={'/static/image/banner/tradingview.jpg'}
+                            src={'/static/image/banner/b-chatgpt.png'}
                             alt=''
                         />
 
                         <p class='title item-title'>
-                            <span>TradingView</span>
+                            <span>Chat GPT</span>
                         </p>
 
                         <div class='item-details title_smaller'>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                تضمین اصل بودن
+                                تضمین تک کاربره
                             </p>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
@@ -300,9 +304,12 @@ const ServicesWrapper: Component = () => {
                             </p>
                         </div>
 
-                        <a href='/products' class='cta title_smaller'>
+                        <A
+                            href='products?kind=chatgpt'
+                            class='cta title_smaller'
+                        >
                             <span>برو بریم</span>
-                        </a>
+                        </A>
                     </div>
                 </div>
             </div>
