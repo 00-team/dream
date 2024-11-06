@@ -13,6 +13,10 @@ footer.footer-container {
     isolation: isolate;
     // overflow: hidden;
 
+    transition:
+        background-color 1s ease,
+        color 1s ease;
+
     &::before {
         content: '';
 
