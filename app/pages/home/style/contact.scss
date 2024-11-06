@@ -52,6 +52,8 @@ section.contact {
 
         position: relative;
 
+        transition: background-color 1s ease;
+
         @media screen and (max-width: 768px) {
             flex-direction: column;
             row-gap: 4em;
