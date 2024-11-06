@@ -13,9 +13,9 @@ main.home {
     background-color: var(--thirty-percent);
 
     @media screen and (max-width: 768px) {
-        padding-top: 100px;
         overflow: hidden;
     }
+
     section.hero-container {
         width: 100%;
         aspect-ratio: 16 / 9;
