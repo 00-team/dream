@@ -11,8 +11,6 @@
 
     position: relative;
 
-    transition: 0.3s ease-in-out;
-
     @media screen and (max-width: 1024px) {
         padding-top: 50px;
     }
@@ -259,6 +257,10 @@
                     flex-direction: column;
 
                     padding: 1rem 0.9rem;
+
+                    transition:
+                        background-color 1s ease,
+                        color 1s ease;
 
                     &.main {
                         scale: 1.1;
