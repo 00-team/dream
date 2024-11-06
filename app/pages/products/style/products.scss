@@ -137,39 +137,16 @@ main.products {
             position: relative;
             isolation: isolate;
 
-            will-change: filter, transform;
-            transition: 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+            will-change: filter, transform, scale, rotate;
+            transition:
+                filter 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98),
+                rotate 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98),
+                transform 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98),
+                scale 0.3s cubic-bezier(0.45, 0.02, 0.09, 0.98),
+                background-color 1s ease,
+                color 1s ease;
 
             $delay: 0.05s;
-
-            &.fadeout {
-                filter: blur(2px);
-            }
-
-            @for $i from 1 through 10 {
-                &:nth-child(#{$i}) {
-                    transform: translateY(50px);
-                    opacity: 0;
-
-                    animation: 0.5s
-                        card-fadein
-                        cubic-bezier(0.45, 0.02, 0.09, 0.98)
-                        forwards;
-
-                    animation-delay: #{0.7 + $delay * $i};
-                }
-            }
-
-            @keyframes card-fadein {
-                from {
-                    transform: translateY(50px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
 
             &::before {
                 content: '';
@@ -206,6 +183,35 @@ main.products {
                 }
                 &:nth-child(even) {
                     rotate: 5deg;
+                }
+            }
+
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    transform: translateY(50px);
+                    opacity: 0;
+
+                    animation: 0.5s
+                        card-fadein
+                        cubic-bezier(0.45, 0.02, 0.09, 0.98)
+                        forwards;
+
+                    animation-delay: #{0.2s + $delay * $i};
+                }
+            }
+
+            &.fadeout {
+                filter: blur(2px);
+            }
+
+            @keyframes card-fadein {
+                from {
+                    transform: translateY(50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
                 }
             }
 
