@@ -58,10 +58,18 @@ const BigNav: Component = () => {
 
         navLinks.forEach((link: HTMLElement, index) => {
             link.addEventListener('mouseenter', () => {
+                if (!line.classList.contains('show')) {
+                    line.className += ' show'
+                }
+
                 let left = link.offsetLeft
 
                 line.style.left = `calc(${left}px + 1.${index * 2}em)`
                 line.style.width = `${link.getBoundingClientRect().width / 1.5}px`
+            })
+
+            link.addEventListener('mouseleave', () => {
+                line.className = 'line title_small'
             })
         })
     })
@@ -70,17 +78,7 @@ const BigNav: Component = () => {
         <nav class='nav-big-container'>
             <NavSvg />
 
-            <div
-                class={`nav-links ${theme()}`}
-                onmouseenter={() => {
-                    if (!line.classList.contains('show')) {
-                        line.className += ' show'
-                    }
-                }}
-                onMouseLeave={() => {
-                    line.className = 'line title_small'
-                }}
-            >
+            <div class={`nav-links ${theme()}`}>
                 <ThemeSwitch />
 
                 <img
@@ -356,36 +354,30 @@ const DropDownBig: Component<dropdownProps> = P => {
     })
     return (
         <div class='dropdown' classList={{ active: P.show }}>
-            <a class='drop-link title_smaller'>
+            <A href='products?kind=discord' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
                     <img src={'/static/image/logo/discord.png'} alt='' />
                 </div>
                 <div class='data'>دیسکورد</div>
-            </a>
-            <a class='drop-link title_smaller'>
+            </A>
+            <A href='products?kind=spotify' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
                     <img src={'/static/image/logo/spotify.png'} alt='' />
                 </div>
                 <div class='data'>اسپاتیفای</div>
-            </a>
-            <a class='drop-link title_smaller'>
+            </A>
+            <A href='products?kind=telegram' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
-                    <img src={'/static/image/logo/canva.png'} alt='' />
+                    <img src={'/static/image/logo/telegram.png'} alt='' />
                 </div>
-                <div class='data'>کانوا</div>
-            </a>
-            <a class='drop-link title_smaller'>
-                <div class='holder icon' style={{ 'transition-delay': '0.4s' }}>
-                    <img src={'/static/image/logo/youtube.png'} alt='' />
-                </div>
-                <div class='data'>یوتیوب</div>
-            </a>
-            <a class='drop-link title_smaller'>
+                <div class='data'>تلگرام</div>
+            </A>
+            <A href='products?kind=applemusic' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
                     <img src={'/static/image/logo/apple-music.png'} alt='' />
                 </div>
                 <div class='data'>اپل موزیک</div>
-            </a>
+            </A>
         </div>
     )
 }
@@ -393,8 +385,8 @@ const DropDownBig: Component<dropdownProps> = P => {
 const DropDownSmall: Component<dropdownProps> = P => {
     return (
         <div class='small-dropdown' classList={{ active: P.show }}>
-            <a
-                href='/products'
+            <A
+                href='products?kind=discord'
                 class='small-link title_smaller'
                 onclick={P.onclick}
             >
@@ -402,8 +394,8 @@ const DropDownSmall: Component<dropdownProps> = P => {
                     <img src={'/static/image/logo/discord.png'} alt='' />
                 </div>
                 <div class='data'>دیسکورد</div>
-            </a>
-            <a href='/products' class='small-link title_smaller'>
+            </A>
+            <A href='products?kind=spotify' class='small-link title_smaller'>
                 <div
                     class='holder icon'
                     style={{ 'transition-delay': '0.2s' }}
@@ -412,8 +404,8 @@ const DropDownSmall: Component<dropdownProps> = P => {
                     <img src={'/static/image/logo/spotify.png'} alt='' />
                 </div>
                 <div class='data'>اسپاتیفای</div>
-            </a>
-            <a href='/products' class='small-link title_smaller'>
+            </A>
+            <A href='products?kind=telegram' class='small-link title_smaller'>
                 <div
                     class='holder icon'
                     style={{ 'transition-delay': '0.3s' }}
@@ -421,19 +413,9 @@ const DropDownSmall: Component<dropdownProps> = P => {
                 >
                     <img src={'/static/image/logo/canva.png'} alt='' />
                 </div>
-                <div class='data'>کانوا</div>
-            </a>
-            <a href='/products' class='small-link title_smaller'>
-                <div
-                    class='holder icon'
-                    style={{ 'transition-delay': '0.4s' }}
-                    onclick={P.onclick}
-                >
-                    <img src={'/static/image/logo/youtube.png'} alt='' />
-                </div>
-                <div class='data'>یوتیوب</div>
-            </a>
-            <a href='/products' class='small-link title_smaller'>
+                <div class='data'>تلگرام</div>
+            </A>
+            <A href='products?kind=applemusic' class='small-link title_smaller'>
                 <div
                     class='holder icon'
                     style={{ 'transition-delay': '0.5s' }}
@@ -442,7 +424,7 @@ const DropDownSmall: Component<dropdownProps> = P => {
                     <img src={'/static/image/logo/apple-music.png'} alt='' />
                 </div>
                 <div class='data'>اپل موزیک</div>
-            </a>
+            </A>
         </div>
     )
 }
@@ -467,7 +449,11 @@ const ThemeSwitch = P => {
     return (
         <div class='theme-switch' classList={{ dark: theme() === 'dark' }}>
             <label for='theme-btn'>
-                <input type='checkbox' id='theme-btn' />
+                <input
+                    type='checkbox'
+                    id='theme-btn'
+                    checked={theme() === 'dark'}
+                />
                 <div class='slider-wrapper'>
                     <div class='theme-btn-slider'></div>
                     <span class='star star-1'></span>
