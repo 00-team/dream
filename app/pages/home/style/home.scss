@@ -12,6 +12,8 @@ main.home {
 
     background-color: var(--thirty-percent);
 
+    transition: background-color 1s ease;
+
     @media screen and (max-width: 768px) {
         overflow: hidden;
     }
