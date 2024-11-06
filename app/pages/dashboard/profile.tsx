@@ -77,6 +77,8 @@ export const Profile: Component = () => {
                     class='remove-img icon'
                     role='button'
                     onclick={() => {
+                        if (!self.user.photo) return
+
                         httpx({
                             url: '/api/user/photo/',
                             method: 'DELETE',
