@@ -73,6 +73,13 @@
                 );
 
                 z-index: 2;
+
+                @media screen and (max-width: 768px) {
+                    background-image: radial-gradient(
+                        transparent,
+                        var(--thirty-percent) 129%
+                    );
+                }
             }
         }
     }
@@ -203,7 +210,7 @@
             padding: 2.5em 2.5em;
 
             border-radius: 3rem;
-            background-image: linear-gradient(227deg, #ff6eff, transparent);
+            background-image: linear-gradient(227deg, #846eff, transparent);
             background-color: var(--sixty-percent);
             box-shadow: rgb(0 0 0 / 50%) 0px 5px 15px;
 
@@ -416,7 +423,8 @@
         border: 2px solid rgba(255, 255, 255, 0.7);
         border-radius: 100vmax;
 
-        transition: 2s ease-in-out;
+        will-change: transform;
+        transition: transform 2s ease-in-out;
         z-index: 3;
 
         .dot {
@@ -445,6 +453,19 @@
         &#bubble-two {
             bottom: 25%;
             left: 15%;
+        }
+
+        @media screen and (max-width: 768px) {
+            width: 70px;
+
+            &#bubble-one {
+                bottom: 40%;
+                right: 2%;
+            }
+            &#bubble-two {
+                bottom: 25%;
+                left: 1%;
+            }
         }
     }
 }
