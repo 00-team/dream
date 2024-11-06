@@ -7,7 +7,6 @@ use actix_web::{
 };
 use awc::http::header;
 use serde::{Deserialize, Serialize};
-use sha2::{Digest, Sha512};
 use utoipa::{IntoParams, OpenApi, ToSchema};
 
 use crate::api::verification;
@@ -17,7 +16,7 @@ use crate::models::transaction::{
     Transaction, TransactionKind, TransactionStatus, TransactionVendor,
 };
 use crate::models::user::{UpdatePhoto, User};
-use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
+use crate::models::{bad_request, AppErr, ListInput, Response};
 use crate::utils::{
     self, get_random_bytes, get_random_string, remove_photo, save_photo, CutOff,
 };
@@ -60,7 +59,6 @@ async fn user_login(
         .await?;
 
     let token = get_random_string(Config::TOKEN_ABC, 69);
-    let token_hashed = hex::encode(Sha512::digest(&token));
 
     let result = sqlx::query_as! {
         User,
@@ -70,14 +68,14 @@ async fn user_login(
     .fetch_one(&state.sql)
     .await;
 
-    let mut user: User = match result {
+    let user: User = match result {
         Ok(mut v) => {
-            v.token = token;
+            v.token = Some(token.clone());
 
             let _ = sqlx::query_as! {
                 User,
                 "update users set token = ? where id = ?",
-                token_hashed, v.id
+                token, v.id
             }
             .execute(&state.sql)
             .await;
@@ -88,29 +86,28 @@ async fn user_login(
             let result = sqlx::query_as! {
                 User,
                 "insert into users (phone, token) values(?, ?)",
-                body.phone, token_hashed
+                body.phone, token
             }
             .execute(&state.sql)
             .await;
 
             User {
                 phone: body.phone.clone(),
-                token,
+                token: Some(token.clone()),
                 id: result.unwrap().last_insert_rowid(),
                 ..Default::default()
             }
         }
     };
 
-    user.token = format!("{}:{}", user.id, user.token);
-
-    let cook = Cookie::build("Authorization", format!("Bearer {}", user.token))
-        .path("/")
-        .secure(true)
-        .same_site(SameSite::Lax)
-        .http_only(true)
-        .max_age(Duration::weeks(12))
-        .finish();
+    let cook =
+        Cookie::build("authorization", format!("user {}:{token}", user.id))
+            .path("/")
+            .secure(true)
+            .same_site(SameSite::Lax)
+            .http_only(true)
+            .max_age(Duration::weeks(12))
+            .finish();
 
     Ok(HttpResponse::Ok().cookie(cook).json(user))
 }
@@ -120,13 +117,13 @@ async fn user_login(
 /// Logout
 async fn user_logout(user: User, state: Data<AppState>) -> HttpResponse {
     let _ = sqlx::query! {
-        "update users set token = 'X' where id = ?",
+        "update users set token = null where id = ?",
         user.id
     }
     .execute(&state.sql)
     .await;
 
-    let cook = Cookie::build("Authorization", "XXX")
+    let cook = Cookie::build("authorization", "deleted")
         .path("/")
         .secure(true)
         .same_site(SameSite::Lax)
@@ -320,7 +317,7 @@ async fn user_wallet_add(
     let data = result.json::<ZarinpalResponse<RsData>>().await?.data;
     if data.code != 100 {
         log::error!("payment failed: {:?}", result.body().await?);
-        return Err(AppErrBadRequest("درخواست پرداخت به مشکل خورد"));
+        return Err(bad_request!("درخواست پرداخت به مشکل خورد"));
     }
 
     sqlx::query! {

@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::env::var as evar;
 use std::{fs::read_to_string, sync::OnceLock};
 
 use serde::{Deserialize, Serialize};
@@ -20,12 +19,12 @@ pub type Products = HashMap<String, Product>;
 #[derive(Debug)]
 /// Main Config
 pub struct Config {
-    pub discord_webhook: String,
     pub products: Products,
     pub zarinpal_merchant_id: String,
     pub bot_token: String,
     pub group_id: String,
     pub melipayamak: String,
+    pub heimdall_token: String,
 }
 
 impl Config {
@@ -39,6 +38,12 @@ impl Config {
     pub const TT_VERIFICATION: i64 = 24;
 }
 
+macro_rules! evar {
+    ($name:literal) => {
+        std::env::var($name).expect(concat!($name, " was not found in env"))
+    };
+}
+
 pub fn config() -> &'static Config {
     static STATE: OnceLock<Config> = OnceLock::new();
 
@@ -48,11 +53,11 @@ pub fn config() -> &'static Config {
     .expect("invalid products.json");
 
     STATE.get_or_init(|| Config {
-        discord_webhook: evar("DISCORD_WEBHOOK").expect("no DISCORD_WEBHOOK"),
-        zarinpal_merchant_id: evar("ZARINPAL_MERCHANT_ID").expect("zarin mid"),
-        bot_token: evar("TELOXIDE_TOKEN").expect("no TELOXIDE_TOKEN"),
-        group_id: evar("TELOXIDE_GROUP_ID").expect("no TELOXIDE_GROUP_ID"),
-        melipayamak: evar("MELIPAYAMAK").expect("no MELIPAYAMAK"),
+        zarinpal_merchant_id: evar!("ZARINPAL_MERCHANT_ID"),
+        bot_token: evar!("TELOXIDE_TOKEN"),
+        group_id: evar!("TELOXIDE_GROUP_ID"),
+        melipayamak: evar!("MELIPAYAMAK"),
+        heimdall_token: evar!("HEIMDALL_TOKEN"),
         products,
     })
 }

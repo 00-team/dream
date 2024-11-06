@@ -1,7 +1,7 @@
 use utoipa::{
     openapi::{
         self,
-        security::{Http, HttpAuthScheme, SecurityScheme},
+        security::{ApiKey, ApiKeyValue, SecurityScheme},
         Components, Content, Response, SecurityRequirement,
     },
     Modify, OpenApi,
@@ -19,13 +19,15 @@ impl Modify for AddSecurity {
 
         if let Some(schema) = openapi.components.as_mut() {
             schema.add_security_scheme(
-                "user_token",
-                SecurityScheme::Http(Http::new(HttpAuthScheme::Bearer)),
+                "auth",
+                SecurityScheme::ApiKey(ApiKey::Header(ApiKeyValue::new(
+                    "authorization",
+                ))),
             )
         }
 
         openapi.security =
-            Some(vec![SecurityRequirement::new("user_token", [] as [&str; 0])]);
+            Some(vec![SecurityRequirement::new("auth", [""; 0])]);
     }
 }
 

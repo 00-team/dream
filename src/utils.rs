@@ -1,5 +1,5 @@
 use crate::config::{config, Config};
-use crate::models::{AppErr, AppErrBadRequest};
+use crate::models::{AppErr, bad_request};
 use image::io::Reader as ImageReader;
 use image::ImageFormat;
 use rand::Rng;
@@ -9,11 +9,11 @@ use std::path::Path;
 
 pub fn phone_validator(phone: &str) -> Result<(), AppErr> {
     if phone.len() != 11 || !phone.starts_with("09") {
-        return Err(AppErrBadRequest("invalid phone number"));
+        return Err(bad_request!("invalid phone number"));
     }
 
     if phone.chars().any(|c| !c.is_ascii_digit()) {
-        return Err(AppErrBadRequest("phone number must be all digits"));
+        return Err(bad_request!("phone number must be all digits"));
     }
 
     Ok(())
@@ -53,35 +53,20 @@ pub fn remove_photo(name: &str) {
     let _ = std::fs::remove_file(Path::new(Config::RECORD_DIR).join(name));
 }
 
-pub async fn send_webhook(title: &str, desc: &str, color: u32) {
-    if cfg!(debug_assertions) {
-        log::info!("send_webhook:\n{title}\n{desc}");
-        return;
-    }
-
+pub async fn heimdall_message(text: &str, tag: &str) {
     let client = awc::Client::new();
-    let request = client.post(&config().discord_webhook);
+    let request = client
+        .post(format!("https://heimdall.00-team.org/api/sites/messages/"))
+        .insert_header(("authorization", config().heimdall_token.as_str()));
 
-    #[derive(Serialize, Debug)]
-    struct Embed {
-        title: String,
-        description: String,
-        color: u32,
-    }
-
-    #[derive(Serialize, Debug)]
-    struct Data {
-        embeds: [Embed; 1],
+    #[derive(Serialize)]
+    struct Message {
+        text: String,
+        tag: String,
     }
 
     let _ = request
-        .send_json(&Data {
-            embeds: [Embed {
-                title: title.to_string(),
-                description: desc.to_string(),
-                color,
-            }],
-        })
+        .send_json(&Message { text: text.to_string(), tag: tag.to_string() })
         .await;
 }
 

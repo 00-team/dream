@@ -11,6 +11,18 @@
             "family.6": [4490000, "۶ ماهه Family - ترکیه"]
         }
     },
+    "youtube": {
+        "name": "یوتیوب پرمیوم",
+        "logo": "/static/image/logo/youtube.png",
+        "data": ["email", "password"],
+        "color": "#ff0000",
+        "image": "/static/image/banner/youtube.png",
+        "plans": {
+            "family.1": [900000, "۱ ماهه Family"],
+            "family.3": [2500000, "۳ ماهه Family"],
+            "family.6": [4800000, "۶ ماهه Family"]
+        }
+    },
     "applemusic": {
         "name": "اپل موزیک",
         "logo": "/static/image/logo/apple-music.png",
@@ -33,6 +45,17 @@
             "gift.3": [9500000, "گیفت 3 ماهه "],
             "gift.6": [12000000, "گیفت 6 ماهه "],
             "gift.12": [20500000, "گیف 12 ماهه "]
+        }
+    },
+    "chatgpt": {
+        "name": "ChatGPT",
+        "logo": "/static/image/logo/chatgpt.png",
+        "data": ["email", "password"],
+        "color": "#78eb96",
+        "image": "/static/image/banner/b-chatgpt.png",
+        "plans": {
+            "gift.1": [9500000, "اشتراک یک ماهه Plus "],
+            "gift.1t": [12000000, "اشتراک یک ماهه Team "]
         }
     },
     "discord": {

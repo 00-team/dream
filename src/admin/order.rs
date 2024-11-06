@@ -3,7 +3,7 @@ use crate::docs::UpdatePaths;
 use crate::models::discount::Discount;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::{Admin, User};
-use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
+use crate::models::{bad_request, AppErr, ListInput, Response};
 use crate::{utils, AppState};
 
 use actix_web::web::{Data, Json, Query};
@@ -55,7 +55,7 @@ async fn order_list(
     .fetch_all(&state.sql)
     .await?;
 
-    users.iter_mut().for_each(|user| user.token = String::new());
+    users.iter_mut().for_each(|user| user.token = None);
 
     Ok(Json(OrderList { orders, users }))
 }
@@ -88,11 +88,11 @@ async fn order_update(
     admin: Admin, order: Order, body: Json<UpdateOrder>, state: Data<AppState>,
 ) -> Result<HttpResponse, AppErr> {
     if order.status != OrderStatus::Wating {
-        return Err(AppErrBadRequest("cannot change this order's status"));
+        return Err(bad_request!("cannot change this order's status"));
     }
 
     if body.status == OrderStatus::Wating {
-        return Err(AppErrBadRequest("no change"));
+        return Err(bad_request!("no change"));
     }
 
     let user = sqlx::query_as! {
@@ -129,7 +129,7 @@ async fn order_update(
 
     sqlx::query! {
         "update orders set status = ?, admin = ? where id = ?",
-        body.status, admin.id, order.id
+        body.status, admin.0.id, order.id
     }
     .execute(&state.sql)
     .await?;
@@ -161,7 +161,7 @@ async fn order_update(
         Config::TT_ORDER_UPDATE,
         &format! {
             "Admin: `{}`:{}\nStatus: {:?} {emoji}\nUser: `{}`:{}{}\nprice: {}\nkind: `{}`, data: ```json\n{}\n```",
-            admin.id, utils::escape(&admin.name.clone().unwrap_or(admin.phone.clone())),
+            admin.0.id, utils::escape(&admin.0.name.clone().unwrap_or(admin.0.phone.clone())),
             body.status, user.id, utils::escape(&user.name.unwrap_or(user.phone)),
             discount_str, order.price, order.kind,
             utils::escape_code(&serde_json::to_string_pretty(&order.data).unwrap_or(String::new()))

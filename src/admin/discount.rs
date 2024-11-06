@@ -2,7 +2,7 @@ use crate::config::config;
 use crate::docs::UpdatePaths;
 use crate::models::discount::Discount;
 use crate::models::user::Admin;
-use crate::models::{AppErr, AppErrBadRequest, ListInput, Response};
+use crate::models::{bad_request, AppErr, ListInput, Response};
 use crate::utils;
 use crate::AppState;
 
@@ -74,29 +74,28 @@ async fn discount_new(
     _: Admin, body: Json<DiscountNewBody>, state: Data<AppState>,
 ) -> Response<Discount> {
     if body.amount > 100 {
-        return Err(AppErrBadRequest("max amount is 100%"));
+        return Err(bad_request!("max amount is 100%"));
     }
 
     if body.code.len() > 255 {
-        return Err(AppErrBadRequest("code is too long"));
+        return Err(bad_request!("code is too long"));
     }
 
     let now = utils::now();
     let expires = body.expires.map(|e| now + e as i64);
 
     if body.plan.is_some() && body.kind.is_none() {
-        return Err(AppErrBadRequest("could not set a plan without a product"));
+        return Err(bad_request!("could not set a plan without a product"));
     }
 
     if let Some(kind) = &body.kind {
-        let product = config()
-            .products
-            .get(kind)
-            .ok_or(AppErrBadRequest("product not found"))?;
+        let Some(product) = config().products.get(kind) else {
+            return Err(bad_request!("product not found"));
+        };
 
         if let Some(plan) = &body.plan {
             if product.plans.get(plan).is_none() {
-                return Err(AppErrBadRequest("product plan not found"));
+                return Err(bad_request!("product plan not found"));
             }
         }
     }

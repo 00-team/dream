@@ -12,7 +12,7 @@ use crate::models::discount::Discount;
 use crate::models::order::{Order, OrderStatus};
 use crate::models::user::User;
 use crate::models::{
-    AppErr, AppErrBadRequest, AppErrNotFound, JsonStr, ListInput, Response,
+    bad_request, not_found, AppErr, JsonStr, ListInput, Response,
 };
 use crate::utils;
 use crate::AppState;
@@ -74,12 +74,10 @@ async fn order_new(
     let product = config()
         .products
         .get(&body.kind)
-        .ok_or(AppErrNotFound("product not found"))?;
+        .ok_or(not_found!("product not found"))?;
 
-    let plan = product
-        .plans
-        .get(&body.plan)
-        .ok_or(AppErrNotFound("plan not found"))?;
+    let plan =
+        product.plans.get(&body.plan).ok_or(not_found!("plan not found"))?;
 
     let now = utils::now();
     let mut price = plan.0 as i64;
@@ -88,10 +86,10 @@ async fn order_new(
     let discount_str = if let Some(code) = &body.discount {
         let discount = get_discount(user.id, code, &state.sql).await?;
         if matches!(&discount.kind, Some(k) if k != &body.kind) {
-            return Err(AppErrBadRequest("discount is not for this product"));
+            return Err(bad_request!("discount is not for this product"));
         }
         if matches!(&discount.plan, Some(p) if p != &body.plan) {
-            return Err(AppErrBadRequest("discount is not for this product"));
+            return Err(bad_request!("discount is not for this product"));
         }
 
         sqlx::query! {
@@ -179,17 +177,19 @@ async fn get_discount(
     .execute(pool)
     .await?;
 
-    let discount = sqlx::query_as! {
+    let Some(discount) = sqlx::query_as! {
         Discount,
         "select * from discounts where code = ?",
         code
     }
-    .fetch_one(pool)
-    .await
-    .map_err(|_| AppErrNotFound("کد تخفیف یافت نشد"))?;
+    .fetch_optional(pool)
+    .await?
+    else {
+        return Err(not_found!("کد تخفیف یافت نشد"));
+    };
 
     if discount.disabled {
-        return Err(AppErrNotFound("کد تخفیف یافت نشد"));
+        return Err(not_found!("کد تخفیف یافت نشد"));
     }
 
     let result = sqlx::query! {
@@ -200,7 +200,7 @@ async fn get_discount(
     .await?;
 
     if result.is_some() {
-        return Err(AppErrBadRequest("این کد تخفیف قبلا استفاده شده"));
+        return Err(bad_request!("این کد تخفیف قبلا استفاده شده"));
     }
 
     return Ok(discount);

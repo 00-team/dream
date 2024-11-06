@@ -10,7 +10,6 @@ type HttpxProps = {
     }
     type?: XMLHttpRequestResponseType
     show_messages?: boolean
-    bearer?: string
     exclude_status?: number[]
     reject?(reson?: string): void
     onReadyStateChange?(x: XMLHttpRequest): void
@@ -58,10 +57,6 @@ function httpx(P: HttpxProps) {
         Object.entries(headers).forEach(([key, value]) => {
             http!.setRequestHeader(key, value)
         })
-    }
-
-    if (P.bearer) {
-        http.setRequestHeader('Authorization', 'Bearer ' + P.bearer)
     }
 
     // let puid = addProgress(0)

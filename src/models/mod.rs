@@ -1,10 +1,10 @@
+pub mod auth;
 pub mod common;
+pub mod discount;
+mod error;
 pub mod order;
 pub mod transaction;
 pub mod user;
-pub mod discount;
-
-mod error;
 
 pub use common::*;
-pub use error::{AppErr, AppErrBadRequest, AppErrForbidden, AppErrNotFound};
+pub(crate) use error::{bad_auth, bad_request, forbidden, not_found, AppErr};

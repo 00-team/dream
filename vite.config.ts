@@ -7,7 +7,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 let target = 'https://dreampay.org'
 let root = 'app'
 if (process.env.local_api_target) {
-    target = 'http://127.0.0.1:7200'
+    target = 'http://127.0.0.1:7000'
 }
 
 if (process.env.root == 'admin') root = 'admin'

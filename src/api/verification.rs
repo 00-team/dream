@@ -8,7 +8,7 @@ use utoipa::{OpenApi, ToSchema};
 
 use crate::{
     config::Config,
-    models::{self, AppErr, AppErrBadRequest},
+    models::{self, bad_request, AppErr},
     utils,
 };
 use models::Response;
@@ -91,13 +91,13 @@ async fn verification(
     )
     .await;
 
-    utils::send_webhook(
-        "Verificatin",
+    #[cfg(not(debug_assertions))]
+    utils::heimdall_message(
         &format!(
-            "act: {:?}\nphone: ||`{}`||\ncode: `{code}`",
+            "action: {:?}\nphone: {}\ncode: {code}",
             body.action, body.phone
         ),
-        2017768,
+        "verificatin",
     )
     .await;
 
@@ -134,20 +134,22 @@ pub async fn verify(
     let mut vdb = VDB.lock().await;
     vdb.retain(|_, v| v.expires - now > 0);
 
-    let v = vdb.get_mut(phone).ok_or(AppErrBadRequest("bad verification"))?;
+    let Some(v) = vdb.get_mut(phone) else {
+        return Err(bad_request!("bad verification"));
+    };
 
     v.tries += 1;
 
     if v.action != action {
-        return Err(AppErrBadRequest("invalid action"));
+        return Err(bad_request!("invalid action"));
     }
 
     if v.code != code {
         if v.tries > 2 {
-            return Err(AppErrBadRequest("too many tries"));
+            return Err(bad_request!("too many tries"));
         }
 
-        return Err(AppErrBadRequest("invalid code"));
+        return Err(bad_request!("invalid code"));
     }
 
     vdb.remove(phone);

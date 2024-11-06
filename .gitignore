@@ -11,3 +11,4 @@ record/
 main.db*
 .ignore*
 logs/
+log
