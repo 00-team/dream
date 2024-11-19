@@ -73,7 +73,7 @@ nav.nav-big-container {
                 flex-direction: column;
 
                 border-radius: 10px;
-                filter: drop-shadow(2px 4px 6px black);
+                filter: drop-shadow(2px 4px 6px var(--accent-color));
 
                 transform: translateY(-50px);
                 visibility: hidden;

@@ -3,6 +3,8 @@ import { Component, onCleanup, onMount } from 'solid-js'
 import './style/customers.scss'
 
 export const Customers = () => {
+    let interval: ReturnType<typeof setInterval>
+
     let section: HTMLElement
     let htmlWord: HTMLElement
 
@@ -18,39 +20,31 @@ export const Customers = () => {
         section = document.querySelector<HTMLElement>('section.customers')
         htmlWord = document.querySelector<HTMLElement>('span#type-effect')
 
-        let counter = 0
+        var observer1 = new IntersectionObserver(
+            ([entry]) => {
+                if (entry && entry.isIntersecting) {
+                    entry.target.className += ' active'
 
-        document.onscroll = () => {
-            let top = section.getBoundingClientRect().top - innerHeight + 100
-
-            if (top <= 0) {
-                let currentScrollPosition = scrollY
-
-                if (currentScrollPosition > lastScrollPosition) {
-                    counter += 0.2
-
-                    if (wordCount <= words[0].length + 1) {
-                        let PauseAudio
-
-                        clearTimeout(PauseAudio)
-
-                        let letter = +counter.toFixed(0)
-
-                        if (letter - 1 === wordCount) return
-
-                        wordCount = letter - 1
-
+                    interval = setInterval(() => {
                         typeMessage()
-                    }
+
+                        wordCount += 1
+
+                        if (wordCount > words[0].length)
+                            return clearInterval(interval)
+                    }, 50)
                 }
-
-                lastScrollPosition = currentScrollPosition
+            },
+            {
+                rootMargin: '-150px',
             }
-        }
-    })
+        )
 
-    onCleanup(() => {
-        document.onscroll = null
+        observer1.observe(section)
+
+        onCleanup(() => {
+            clearInterval(interval)
+        })
     })
 
     function typeMessage() {

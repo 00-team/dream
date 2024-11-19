@@ -5,11 +5,13 @@ section.about {
     display: flex;
     align-items: center;
 
-    background: var(--thirty-percent);
+    background-color: var(--thirty-percent);
     padding: 7vw 5vw;
 
     position: relative;
     overflow: hidden;
+
+    transition: background-color 1s ease;
 
     @media screen and (max-width: 768px) {
         min-height: 110vh;
@@ -119,6 +121,8 @@ section.about {
                 color-mix(in srgb, var(--sixty-percent), transparent 10%) 4%,
                 transparent 50%
             );
+
+            transition: background 1s ease;
 
             margin: 0 4em;
 

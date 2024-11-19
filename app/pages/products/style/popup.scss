@@ -21,7 +21,6 @@ main.products .product-popup {
     opacity: 0;
 
     transition: 0.5s ease-in-out;
-    transition-delay: 0.5s;
 
     @media screen and (max-width: 768px) {
         padding: 2vh 3vw;

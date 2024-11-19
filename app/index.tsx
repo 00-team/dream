@@ -24,19 +24,6 @@ import './layout/style/footer.scss'
 import './signature'
 
 const App: Component<RouteSectionProps> = P => {
-    const prefersDarkColorScheme = () =>
-        matchMedia && matchMedia('(prefers-color-scheme: dark)').matches
-
-    onMount(() => {
-        if (prefersDarkColorScheme()) {
-            setTheme('dark')
-        }
-    })
-
-    createEffect(() => {
-        document.documentElement.setAttribute('data-theme', theme())
-    })
-
     return (
         <>
             <Navbar />

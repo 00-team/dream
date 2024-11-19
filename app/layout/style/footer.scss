@@ -13,6 +13,10 @@ footer.footer-container {
     isolation: isolate;
     // overflow: hidden;
 
+    transition:
+        background-color 1s ease,
+        color 1s ease;
+
     &::before {
         content: '';
 
@@ -86,7 +90,7 @@ footer.footer-container {
             }
 
             .enamad {
-                width: clamp(0px, 100%, 200px);
+                width: clamp(0px, 100%, 125px);
                 aspect-ratio: 1/1;
 
                 margin-top: 4rem;

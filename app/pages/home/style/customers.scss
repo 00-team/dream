@@ -120,6 +120,8 @@ section.customers {
                 align-items: center;
                 flex-direction: column;
 
+                transition: background-color 1s ease;
+
                 .user-profile {
                     object-fit: cover;
                     width: 75px;

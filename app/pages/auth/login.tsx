@@ -36,11 +36,6 @@ const Login = () => {
         if (self.loged_in) nav('/dashboard')
     })
 
-    // let canvas: HTMLCanvasElement
-    // onMount(() => {
-    //     new Application(canvas).load('/static/spline/login.splinecode')
-    // })
-
     function verification() {
         if (state.phone.length !== 11)
             return setState({
@@ -109,8 +104,6 @@ const Login = () => {
 
     return (
         <main class='login'>
-            <iframe src='https://my.spline.design/untitled-51a258c8798e70e51855f9dd800ffa1c/'></iframe>
-            {/*<canvas ref={canvas} />*/}
             <form
                 onsubmit={e => {
                     e.preventDefault()
@@ -126,7 +119,9 @@ const Login = () => {
                 <button
                     class='back-icon'
                     type={'reset'}
-                    onclick={() => setState({ stage: 'phone', phone: '' })}
+                    onclick={() =>
+                        setState({ stage: 'phone', phone: '', error: '' })
+                    }
                 >
                     <GoBackIcon size={30} />
                 </button>

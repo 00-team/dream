@@ -1,3 +1,4 @@
+import { A } from '@solidjs/router'
 import { Component } from 'solid-js'
 
 import './style/special.scss'
@@ -11,7 +12,7 @@ interface SpecialProps {
 
 export const Special: Component<SpecialProps> = P => {
     return (
-        <a
+        <A
             href={P.link ? P.link : ''}
             class={`special title_smaller ${P.class || ''}`}
             onclick={P.onclick && P.onclick}
@@ -21,6 +22,6 @@ export const Special: Component<SpecialProps> = P => {
                 <div class='bg-blur'></div>
             </div>
             <div class='btn-bg'></div>
-        </a>
+        </A>
     )
 }

@@ -11,7 +11,7 @@ main.login {
 
     padding: 5vh 3vw;
 
-    background-color: #0e0e0e;
+    background-color: var(--thirty-percent);
 
     overflow: hidden;
 
@@ -19,7 +19,8 @@ main.login {
         padding-top: 100px;
     }
 
-    iframe {
+    iframe,
+    canvas {
         position: absolute;
 
         width: 101%;
@@ -44,7 +45,7 @@ main.login {
         backdrop-filter: blur(5px);
         border: 1px solid rgb(0 253 255 / 30%);
 
-        color: white;
+        color: var(--accent-color);
 
         overflow: hidden;
 
@@ -63,7 +64,6 @@ main.login {
 
             cursor: pointer;
 
-            color: white;
             background-color: transparent;
         }
 
@@ -132,9 +132,10 @@ main.login {
                 }
 
                 .error {
-                    border-bottom: 1px solid red;
                     padding-bottom: 0.5em;
                     margin-top: 1em;
+
+                    color: var(--alert-error);
                 }
                 .desc {
                     margin-top: 1em;
@@ -167,7 +168,7 @@ main.login {
 
             margin-top: 2em;
 
-            background-image: linear-gradient(45deg, #ff6eff 50%, #3fd3ff);
+            background-image: linear-gradient(45deg, #6efff2 50%, #3fd3ff);
             color: black;
             border-radius: 0.7em 0.5rem;
 

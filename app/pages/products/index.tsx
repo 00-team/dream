@@ -2,12 +2,12 @@ import { Component, createEffect, onMount } from 'solid-js'
 
 import './style/products.scss'
 
+import { useSearchParams } from '@solidjs/router'
 import { CheckIcon } from 'icons/home'
 import { ProductModel } from 'models'
 import { hex_to_rgb, httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { ProductPopup } from './popup'
-import { useSearchParams } from '@solidjs/router'
 
 const DEFP: ProductModel = {
     name: '',
@@ -137,6 +137,10 @@ const ProductCard: Component<ProductCardProps> = P => {
 
                 let x = e.clientX - rect.left
                 let y = e.clientY - rect.top
+
+                const offset = 30
+                x -= offset
+                y -= offset
 
                 el.style.setProperty('--mouse-x', `${x}px`)
                 el.style.setProperty('--mouse-y', `${y}px`)

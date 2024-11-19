@@ -25,6 +25,10 @@ section.faq-container {
 
         margin-bottom: 4em;
 
+        h3 {
+            transition: color 1s ease;
+        }
+
         .header-icon {
             rotate: 20deg;
 
@@ -104,7 +108,7 @@ section.faq-container {
                 }
                 svg {
                     will-change: transform;
-                    transition: 0.5s;
+                    transition: transform 0.5s;
                 }
             }
 
