@@ -31,3 +31,5 @@ let signature_00_team_observer = new IntersectionObserver(([entry]) => {
     signature_00_team_observer.disconnect()
 })
 signature_00_team_observer.observe(signature)
+
+export {}
