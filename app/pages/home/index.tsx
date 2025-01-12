@@ -10,20 +10,20 @@ import { onMount } from 'solid-js'
 import './style/home.scss'
 
 const Home = () => {
-    let canvas: HTMLCanvasElement
+    // let canvas: HTMLCanvasElement
 
-    onMount(() => {
-        const app = new Application(canvas)
-        app.load('/static/spline/hero.splinecode')
-    })
+    // onMount(() => {
+    //     const app = new Application(canvas)
+    //     app.load('/static/spline/hero.splinecode')
+    // })
 
     return (
         <main class='home' classList={{ 'show-small': showNav() }}>
             <section class='hero-container' id='hero'>
-                <canvas id='hero-canvas' ref={canvas}></canvas>
+                {/* <canvas id='hero-canvas' ref={canvas}></canvas> */}
             </section>
 
-            <About />
+            {/* <About /> */}
             <Services />
             <Customers />
             <Faq />

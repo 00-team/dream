@@ -92,11 +92,11 @@ section.customers {
             gap: 5px;
 
             will-change: transform;
-            transition: 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
+            // transition: 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
-            @media screen and (max-width: 768px) {
-                transition: none;
-            }
+            // @media screen and (max-width: 768px) {
+            //     transition: none;
+            // }
 
             &.one {
                 justify-content: flex-start;

@@ -33,7 +33,7 @@ const Navbar: Component = props => {
 }
 
 const BigNav: Component = () => {
-    const [dropdown, setDropdown] = createSignal(false)
+    const [dropdown, setDropdown] = createSignal(true)
 
     let bigNav: HTMLElement
 
