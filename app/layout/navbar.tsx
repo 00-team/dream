@@ -1,4 +1,4 @@
-import { Component, createEffect, createSignal, onMount } from 'solid-js'
+import { Component, createEffect, createSignal, onCleanup, onMount } from 'solid-js'
 
 import './style/navbar.scss'
 
@@ -135,7 +135,27 @@ const BigNav: Component = () => {
 }
 
 const SmallNav: Component = () => {
-    const [showdrop, setshowDrop] = createSignal(false)
+
+    onMount(()=>{
+        let links = document.querySelectorAll(".show-small-nav .nav-wrapper .nav-link")
+
+        console.log(links);
+        if(!links) return
+
+        links.forEach((link:HTMLElement) =>{
+            link.addEventListener('click', close_nav)
+        })
+
+        onCleanup(()=>{
+            links.forEach((link:HTMLElement) =>{
+                link.removeEventListener('click', close_nav)
+            })  
+        })
+    })
+
+    function close_nav(){
+        setshowNav(false)
+    }
 
     return (
         <>
@@ -182,21 +202,10 @@ const SmallNav: Component = () => {
                         <HomeIcon />
                         خانه
                     </A>
-                    <div
-                        class='nav-link title_small'
-                        onclick={() => setshowDrop(s => !s)}
-                    >
+                    <A class='nav-link title_small' href='/products'>
                         <ProductsIcon />
-                        محصولات
-                        <ArrowDownIcon class='drop' />
-                        <DropDownSmall
-                            show={showdrop()}
-                            onclick={() => {
-                                setshowDrop(false)
-                                setshowNav(false)
-                            }}
-                        />
-                    </div>
+                        محصولات         
+                    </A>
                     <A class='nav-link title_small' href='/#about'>
                         <AboutIcon />
                         درباره ما
@@ -382,52 +391,52 @@ const DropDownBig: Component<dropdownProps> = P => {
     )
 }
 
-const DropDownSmall: Component<dropdownProps> = P => {
-    return (
-        <div class='small-dropdown' classList={{ active: P.show }}>
-            <A
-                href='products?kind=discord'
-                class='small-link title_smaller'
-                onclick={P.onclick}
-            >
-                <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
-                    <img src={'/static/image/logo/discord.png'} alt='' />
-                </div>
-                <div class='data'>دیسکورد</div>
-            </A>
-            <A href='products?kind=spotify' class='small-link title_smaller'>
-                <div
-                    class='holder icon'
-                    style={{ 'transition-delay': '0.2s' }}
-                    onclick={P.onclick}
-                >
-                    <img src={'/static/image/logo/spotify.png'} alt='' />
-                </div>
-                <div class='data'>اسپاتیفای</div>
-            </A>
-            <A href='products?kind=telegram' class='small-link title_smaller'>
-                <div
-                    class='holder icon'
-                    style={{ 'transition-delay': '0.3s' }}
-                    onclick={P.onclick}
-                >
-                    <img src={'/static/image/logo/canva.png'} alt='' />
-                </div>
-                <div class='data'>تلگرام</div>
-            </A>
-            <A href='products?kind=applemusic' class='small-link title_smaller'>
-                <div
-                    class='holder icon'
-                    style={{ 'transition-delay': '0.5s' }}
-                    onclick={P.onclick}
-                >
-                    <img src={'/static/image/logo/apple-music.png'} alt='' />
-                </div>
-                <div class='data'>اپل موزیک</div>
-            </A>
-        </div>
-    )
-}
+// const DropDownSmall: Component<dropdownProps> = P => {
+//     return (
+//         <div class='small-dropdown' classList={{ active: P.show }}>
+//             <A
+//                 href='products?kind=discord'
+//                 class='small-link title_smaller'
+//                 onclick={P.onclick}
+//             >
+//                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
+//                     <img src={'/static/image/logo/discord.png'} alt='' />
+//                 </div>
+//                 <div class='data'>دیسکورد</div>
+//             </A>
+//             <A href='products?kind=spotify' class='small-link title_smaller'>
+//                 <div
+//                     class='holder icon'
+//                     style={{ 'transition-delay': '0.2s' }}
+//                     onclick={P.onclick}
+//                 >
+//                     <img src={'/static/image/logo/spotify.png'} alt='' />
+//                 </div>
+//                 <div class='data'>اسپاتیفای</div>
+//             </A>
+//             <A href='products?kind=telegram' class='small-link title_smaller'>
+//                 <div
+//                     class='holder icon'
+//                     style={{ 'transition-delay': '0.3s' }}
+//                     onclick={P.onclick}
+//                 >
+//                     <img src={'/static/image/logo/canva.png'} alt='' />
+//                 </div>
+//                 <div class='data'>تلگرام</div>
+//             </A>
+//             <A href='products?kind=applemusic' class='small-link title_smaller'>
+//                 <div
+//                     class='holder icon'
+//                     style={{ 'transition-delay': '0.5s' }}
+//                     onclick={P.onclick}
+//                 >
+//                     <img src={'/static/image/logo/apple-music.png'} alt='' />
+//                 </div>
+//                 <div class='data'>اپل موزیک</div>
+//             </A>
+//         </div>
+//     )
+// }
 
 const ThemeSwitch = P => {
     let themeswitch: HTMLElement
