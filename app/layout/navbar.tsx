@@ -1,4 +1,4 @@
-import { Component, createEffect, createSignal, onCleanup, onMount } from 'solid-js'
+import { Component, createEffect, createSignal, onCleanup, onMount, Show } from 'solid-js'
 
 import './style/navbar.scss'
 
@@ -23,17 +23,16 @@ import { DashboardIcon, LoginIcon } from 'icons/login'
 import { self } from 'store/self'
 import { setTheme, theme } from 'store/theme'
 
-const Navbar: Component = props => {
+const Navbar: Component = () => {
     return (
-        <>
-            <BigNav />
+        <Show when={innerWidth <= 768} fallback={<BigNav />}>
             <SmallNav />
-        </>
+        </Show>
     )
 }
 
 const BigNav: Component = () => {
-    const [dropdown, setDropdown] = createSignal(true)
+    const [dropdown, setDropdown] = createSignal(false)
 
     let bigNav: HTMLElement
 
@@ -365,25 +364,25 @@ const DropDownBig: Component<dropdownProps> = P => {
         <div class='dropdown' classList={{ active: P.show }}>
             <A href='products?kind=discord' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
-                    <img src={'/static/image/logo/discord.png'} alt='' />
+                    <img src={'/static/image/logo/discord.png'} alt='' loading='lazy' decoding='async' />
                 </div>
                 <div class='data'>دیسکورد</div>
             </A>
             <A href='products?kind=spotify' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
-                    <img src={'/static/image/logo/spotify.png'} alt='' />
+                    <img src={'/static/image/logo/spotify.png'} alt='' loading='lazy' decoding='async' />
                 </div>
                 <div class='data'>اسپاتیفای</div>
             </A>
             <A href='products?kind=telegram' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
-                    <img src={'/static/image/logo/telegram.png'} alt='' />
+                    <img src={'/static/image/logo/telegram.png'} alt='' loading='lazy' decoding='async' />
                 </div>
                 <div class='data'>تلگرام</div>
             </A>
             <A href='products?kind=applemusic' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
-                    <img src={'/static/image/logo/apple-music.png'} alt='' />
+                    <img src={'/static/image/logo/apple-music.png'} alt='' loading='lazy' decoding='async' />
                 </div>
                 <div class='data'>اپل موزیک</div>
             </A>
