@@ -17,7 +17,7 @@ section.about {
         min-height: 110vh;
     }
     @media screen and (max-height: 750px) {
-        min-height: 130vh;
+        min-height: 120vh;
     }
     @media screen and (max-height: 600px) {
         min-height: 150vh;
@@ -33,7 +33,7 @@ section.about {
 
         background-image: linear-gradient(
             to bottom,
-            #015fb6 0%,
+            var(--sixty-percent) 0%,
             transparent 100%
         );
 

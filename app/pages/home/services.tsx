@@ -113,7 +113,7 @@ export const Services: Component = props => {
 
     return (
         <section class='services-container' id='products'>
-            <header class='section-header'>
+            {/* <header class='section-header'>
                 <h3 class='section_title' id='services_header'>
                     <span class='services-head' id='right'>
                         بهترین هارو
@@ -136,7 +136,7 @@ export const Services: Component = props => {
                     link='/#'
                     img={'/static/image/logo/apple-music.png'}
                 />
-            </div>
+            </div> */}
 
             <ServicesWrapper />
 

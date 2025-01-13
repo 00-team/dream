@@ -24,7 +24,7 @@ const Home = () => {
             </section>
 
             <About />
-            {/* <Services /> */}
+            <Services />
             <Customers />
             <Faq />
             <Contact />
