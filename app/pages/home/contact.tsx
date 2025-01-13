@@ -41,6 +41,7 @@ const Contact: Component = props => {
             id='contact'
             class='contact'
             onmouseenter={() => {
+                 if(innerWidth < 768) return
                 socials.forEach((elem: HTMLElement) => {
                     elem.style.transition = 'none'
 
@@ -51,6 +52,8 @@ const Contact: Component = props => {
                 })
             }}
             onmousemove={e => {
+                 if(innerWidth < 768) return
+                 
                 socials.forEach((elem: HTMLElement) => {
                     // stickyButton.className += ' active'
 
@@ -71,6 +74,8 @@ const Contact: Component = props => {
                 })
             }}
             onmouseleave={() => {
+                if(innerWidth < 768) return
+
                 socials.forEach((elem: HTMLElement) => {
                     elem.style.transition =
                         'all 0.2s cubic-bezier(0.45, 0.02, 0.09, 0.98)'
