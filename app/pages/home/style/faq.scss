@@ -76,15 +76,16 @@ section.faq-container {
 
             cursor: pointer;
 
+            
+            will-change: transform;
+            transition:
+            0.7s,
+            transform 0.3s ease-in-out;
+            
             @media screen and (max-width: 768px) {
                 max-height: 4.5em;
             }
-
-            will-change: transform;
-            transition:
-                0.7s,
-                transform 0.3s ease-in-out;
-
+            
             &.active {
                 transition: 2s;
                 max-height: 100vh;
