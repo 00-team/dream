@@ -23,8 +23,8 @@ const Home = () => {
                 {/* <canvas id='hero-canvas' ref={canvas}></canvas> */}
             </section>
 
-            {/* <About /> */}
-            <Services />
+            <About />
+            {/* <Services /> */}
             <Customers />
             <Faq />
             <Contact />
