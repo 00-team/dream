@@ -57,6 +57,8 @@ section.contact {
         @media screen and (max-width: 768px) {
             flex-direction: column;
             row-gap: 4em;
+            padding: 1.5em 1em;
+            border-radius: 1rem;
 
             &::before,
             &::after {

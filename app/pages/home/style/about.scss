@@ -6,7 +6,7 @@ section.about {
     align-items: center;
 
     background-color: var(--thirty-percent);
-    padding: 7vw 5vw;
+    padding: 1em;
 
     position: relative;
     overflow: hidden;
@@ -16,6 +16,14 @@ section.about {
     @media screen and (max-width: 768px) {
         min-height: 110vh;
     }
+    @media screen and (max-height: 750px) {
+        min-height: 130vh;
+    }
+    @media screen and (max-height: 600px) {
+        min-height: 150vh;
+    }
+
+    
 
     &::before {
         content: '';
