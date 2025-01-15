@@ -4,7 +4,7 @@ import './style/products.scss'
 
 import { useSearchParams } from '@solidjs/router'
 import { CheckIcon } from 'icons/home'
-import { ProductModel } from 'models'
+import { CartStorage, ProductModel } from 'models'
 import { hex_to_rgb, httpx } from 'shared'
 import { createStore } from 'solid-js/store'
 import { ProductPopup } from './popup'
@@ -43,6 +43,19 @@ export default () => {
             onLoad(x) {
                 if (x.status != 200) return
                 setState({ products: x.response })
+                if (params.kind in x.response) {
+                    localStorage.removeItem('cart')
+                    return
+                }
+
+                try {
+                    let cart: CartStorage = JSON.parse(
+                        localStorage.getItem('cart')
+                    )
+                    if (cart.action != 'show') return
+                    setState({ popup: cart.order.kind })
+                    setParams({ kind: cart.order.kind })
+                } catch {}
             },
         })
     })

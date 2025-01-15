@@ -7,16 +7,23 @@ import {
     WalletIcon,
 } from 'icons/dashboard'
 import { httpx } from 'shared'
-import { Component, createEffect, Show } from 'solid-js'
+import { Component, createEffect, onMount, Show } from 'solid-js'
 import { self, setSelf } from 'store/self'
 
 import './style/dashboard.scss'
+import { CartStorage } from 'models'
 
 const Dashboard: Component<RouteSectionProps> = P => {
     const nav = useNavigate()
 
     createEffect(() => {
         if (!self.loged_in) nav('/login')
+        try {
+            let cart: CartStorage = JSON.parse(localStorage.getItem('cart'))
+            if (cart.action == 'show') {
+                return location.replace('/products/')
+            }
+        } catch {}
     })
 
     function logoutUser() {

@@ -1,3 +1,13 @@
+export type CartStorage = {
+    action: 'show'
+    order: {
+        kind: string
+        plan: string
+        data: { [k: string]: string }
+        discount: string | null
+    }
+}
+
 export type ProductModel = {
     name: string
     logo: string

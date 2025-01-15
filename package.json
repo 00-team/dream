@@ -10,6 +10,7 @@
     "scripts": {
         "start": "vite --host",
         "build": "vite build",
+        "build:watch": "vite build --mode development",
         "serve": "local_api_target=1 vite",
         "admin:start": "local_api_target=1 root=admin vite",
         "admin:build": "root=admin vite build"

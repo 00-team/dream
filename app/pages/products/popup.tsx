@@ -1,8 +1,8 @@
-import { Select, Special } from 'comps'
+import { Select } from 'comps'
 import { CheckIcon, CrossIcon } from 'icons/home'
 import { SupportIcon } from 'icons/navbar'
 import { CreditCardIcon, TimerIcon } from 'icons/products'
-import { DiscountModel, ProductModel } from 'models'
+import { CartStorage, DiscountModel, ProductModel } from 'models'
 import {
     Component,
     createEffect,
@@ -49,11 +49,29 @@ export const ProductPopup: Component<Props> = P => {
 
     createEffect(() => {
         if (P.open) {
-            setState({
-                discount_code: null,
-                discount: null,
-                discount_error: '',
-            })
+            try {
+                let cart: CartStorage = JSON.parse(localStorage.getItem('cart'))
+                if (cart.action != 'show' || cart.order.kind != P.kind) {
+                    throw new Error('catch me')
+                }
+
+                // FIXME: this doesnt work because after we set the values
+                // somewhere down in the line they will get reset to null
+                // or just doesnt show it
+                setState({
+                    selected_plan: cart.order.plan,
+                    data: cart.order.data,
+                    discount_code: cart.order.discount,
+                })
+                localStorage.removeItem('cart')
+            } catch {
+                setState({
+                    discount_code: null,
+                    discount: null,
+                    discount_error: '',
+                })
+            }
+
             // @ts-ignore
             particlesJS('particles-js', particle_conf(P.product.logo))
         } else {
@@ -102,25 +120,49 @@ export const ProductPopup: Component<Props> = P => {
     })
 
     function buy() {
+        let cart: CartStorage = {
+            order: {
+                kind: P.kind,
+                plan: state.selected_plan,
+                data: state.data,
+                discount: state.discount_code || null,
+            },
+            action: 'show',
+        }
+
         if (!self.loged_in) {
+            localStorage.setItem('cart', JSON.stringify(cart))
             nav('/login/')
             return
         }
 
-        if (self.user.wallet < price()) {
-            nav('/dashboard/wallet/')
+        let needed_amount = price() - self.user.wallet
+
+        if (needed_amount > 0) {
+            // we cant charche the wallet for like 2 rial
+            if (needed_amount < 100_000) {
+                needed_amount += 100_000
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart))
+
+            httpx({
+                url: '/api/user/wallet-add/',
+                method: 'POST',
+                params: { amount: needed_amount },
+                onLoad(x) {
+                    if (x.status != 200) return
+                    location.replace(x.response)
+                },
+            })
+            // nav('/dashboard/wallet/')
             return
         }
 
         httpx({
             url: '/api/orders/',
             method: 'POST',
-            json: {
-                kind: P.kind,
-                plan: state.selected_plan,
-                data: state.data,
-                discount: state.discount_code || null,
-            },
+            json: cart.order,
             onLoad(x) {
                 if (x.status == 200) {
                     setSelf({ fetch: true })
@@ -271,6 +313,7 @@ export const ProductPopup: Component<Props> = P => {
                                         id={`input-data-${d}${i}`}
                                         placeholder={d}
                                         class='title_smaller'
+                                        value={state.data[d] || ''}
                                         onInput={e => {
                                             setState(
                                                 produce(s => {
@@ -287,6 +330,7 @@ export const ProductPopup: Component<Props> = P => {
                             placeholder='توضیحات'
                             class='title_smaller'
                             rows={2}
+                            value={state.data['detail'] || ''}
                             onInput={e => {
                                 setState(
                                     produce(s => {
@@ -304,16 +348,13 @@ export const ProductPopup: Component<Props> = P => {
                                     {(~~(price() / 10)).toLocaleString()} تومان
                                 </span>
                             </span>
-                            <Special
-                                text={
-                                    !self.loged_in
-                                        ? 'ورود'
-                                        : self.user.wallet < price()
-                                          ? 'شارژ کیف پول'
-                                          : 'خرید'
-                                }
-                                onclick={buy}
-                            />
+                            <button class='special title_smaller' onclick={buy}>
+                                <span>{!self.loged_in ? 'ورود' : 'خرید'}</span>
+                                <div class='blur-wrapper'>
+                                    <div class='bg-blur'></div>
+                                </div>
+                                <div class='btn-bg'></div>
+                            </button>
                         </div>
                     </Show>
                 </aside>

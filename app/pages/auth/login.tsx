@@ -3,11 +3,9 @@ import { createStore } from 'solid-js/store'
 
 import { useNavigate } from '@solidjs/router'
 import { httpx } from 'shared'
-import { createEffect, onMount, Show } from 'solid-js'
+import { createEffect, Show } from 'solid-js'
 import { self, setSelf } from 'store/self'
 import './style/login.scss'
-
-import { Application } from '@splinetool/runtime'
 
 import logo from 'assets/image/logo.png'
 
