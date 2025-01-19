@@ -26,41 +26,41 @@ export const Services: Component = props => {
 
     let bubbles: NodeListOf<HTMLElement>
 
-    let icons: NodeListOf<HTMLElement>
+    // let icons: NodeListOf<HTMLElement>
 
-    function headerAnim() {
-        let top = headerContainer.getBoundingClientRect().top - innerHeight
+    // function headerAnim() {
+    //     let top = headerContainer.getBoundingClientRect().top - innerHeight
 
-        if (top <= 0) {
-            secHeader1.style.transform = `translateX(${Math.max(50 + top / 10, -2.5)}vw)`
+    //     if (top <= 0) {
+    //         secHeader1.style.transform = `translateX(${Math.max(50 + top / 10, -2.5)}vw)`
 
-            secHeader2.style.transform = `translateX(${Math.min(-(50 + top / 10), 2.5)}vw)`
-        }
-    }
+    //         secHeader2.style.transform = `translateX(${Math.min(-(50 + top / 10), 2.5)}vw)`
+    //     }
+    // }
 
-    function IconsAnim() {
-        let top =
-            headerContainer.getBoundingClientRect().top - innerHeight / 3.5
+    // function IconsAnim() {
+    //     let top =
+    //         headerContainer.getBoundingClientRect().top - innerHeight / 3.5
 
-        if (top >= 0 && top <= 500) {
-            let transform = top
+    //     if (top >= 0 && top <= 500) {
+    //         let transform = top
 
-            icons.forEach((elem: HTMLElement, index) => {
-                elem.style.transform = `translateY(${Math.max(transform, 0)}px)`
+    //         icons.forEach((elem: HTMLElement, index) => {
+    //             elem.style.transform = `translateY(${Math.max(transform, 0)}px)`
 
-                if (index === 0 || index === 6) {
-                    return (elem.style.transitionDelay = '0.15s')
-                }
-                if (index === 1 || index === 5) {
-                    return (elem.style.transitionDelay = '0.1s')
-                }
-                if (index === 2 || index === 4) {
-                    return (elem.style.transitionDelay = '0.05s')
-                }
-                return (elem.style.transitionDelay = '0.0s')
-            })
-        }
-    }
+    //             if (index === 0 || index === 6) {
+    //                 return (elem.style.transitionDelay = '0.15s')
+    //             }
+    //             if (index === 1 || index === 5) {
+    //                 return (elem.style.transitionDelay = '0.1s')
+    //             }
+    //             if (index === 2 || index === 4) {
+    //                 return (elem.style.transitionDelay = '0.05s')
+    //             }
+    //             return (elem.style.transitionDelay = '0.0s')
+    //         })
+    //     }
+    // }
 
     onMount(() => {
         section = document.querySelector<HTMLElement>(
@@ -82,14 +82,14 @@ export const Services: Component = props => {
         servicesWrapper =
             document.querySelector<HTMLElement>('.services-wrapper')
 
-        icons = document.querySelectorAll('.icon-container')
+        // icons = document.querySelectorAll('.icon-container')
 
         window.onscroll = () => {
             let currentScrollPosition = scrollY
 
-            headerAnim()
+            // headerAnim()
 
-            IconsAnim()
+            // IconsAnim()
 
             let inSection =
                 scrollY >= section.offsetTop &&
