@@ -13,6 +13,8 @@ main.home {
 
     background-color: var(--thirty-percent);
 
+    perspective: 1000px;
+
     transition: background-color 1s ease;
 
     position: relative;
