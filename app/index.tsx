@@ -14,7 +14,6 @@ const Login = lazy(() => import('./pages/auth/login'))
 const Dashboard = lazy(() => import('./pages/dashboard'))
 
 import './style/base.scss'
-import './style/config.scss'
 import './style/fonts/imports.scss'
 import './style/theme.scss'
 import './style/signature.scss'

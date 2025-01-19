@@ -567,33 +567,22 @@ nav.nav-small-container {
 }
 
 .nav-svg {
-    transform: scaleY(0.35) translateY(-440px);
-
     position: absolute;
     top: 0;
     right: 0;
 
     z-index: -1;
 
+    transform-origin: top;
+    transform: scaleY(0.35);
+
     will-change: transform;
 
     @media screen and (max-width: 1440px) {
-        transform: scaleY(0.35) translateY(-330px);
-    }
-    @media screen and (max-width: 1232px) {
-        transform: scaleY(0.4) translateY(-235px);
+        transform: scaleY(0.4);
     }
     @media screen and (max-width: 1024px) {
-        transform: scaleY(0.5) translateY(-130px);
-    }
-    @media screen and (min-width: 2000px) {
-        transform: scaleY(0.35) translateY(-460px);
-    }
-    @media screen and (min-width: 2200px) {
-        transform: scaleY(0.35) translateY(-520px);
-    }
-    @media screen and (min-width: 2560px) {
-        transform: scaleY(0.35) translateY(-600px);
+        transform: scaleY(0.5);
     }
 
     .path-0 {

@@ -1,4 +1,11 @@
-import { Component, createEffect, createSignal, onCleanup, onMount, Show } from 'solid-js'
+import {
+    Component,
+    createEffect,
+    createSignal,
+    onCleanup,
+    onMount,
+    Show,
+} from 'solid-js'
 
 import './style/navbar.scss'
 
@@ -134,25 +141,26 @@ const BigNav: Component = () => {
 }
 
 const SmallNav: Component = () => {
+    onMount(() => {
+        let links = document.querySelectorAll(
+            '.show-small-nav .nav-wrapper .nav-link'
+        )
 
-    onMount(()=>{
-        let links = document.querySelectorAll(".show-small-nav .nav-wrapper .nav-link")
+        console.log(links)
+        if (!links) return
 
-        console.log(links);
-        if(!links) return
-
-        links.forEach((link:HTMLElement) =>{
+        links.forEach((link: HTMLElement) => {
             link.addEventListener('click', close_nav)
         })
 
-        onCleanup(()=>{
-            links.forEach((link:HTMLElement) =>{
+        onCleanup(() => {
+            links.forEach((link: HTMLElement) => {
                 link.removeEventListener('click', close_nav)
-            })  
+            })
         })
     })
 
-    function close_nav(){
+    function close_nav() {
         setshowNav(false)
     }
 
@@ -203,7 +211,7 @@ const SmallNav: Component = () => {
                     </A>
                     <A class='nav-link title_small' href='/products'>
                         <ProductsIcon />
-                        محصولات         
+                        محصولات
                     </A>
                     <A class='nav-link title_small' href='/#about'>
                         <AboutIcon />
@@ -225,109 +233,37 @@ const SmallNav: Component = () => {
 
 const NavSvg: Component = () => {
     return (
-        <>
-            {theme() === 'light' ? (
-                <svg
-                    id='svg'
-                    viewBox='0 0 1440 325'
-                    xmlns='http://www.w3.org/2000/svg'
-                    class='transition duration-300 ease-in-out delay-150 nav-svg'
+        <svg
+            id='svg'
+            viewBox='0 0 1440 325'
+            xmlns='http://www.w3.org/2000/svg'
+            class='nav-svg'
+        >
+            <defs>
+                <linearGradient
+                    id='gradient'
+                    x1='0%'
+                    y1='50%'
+                    x2='100%'
+                    y2='50%'
                 >
-                    <defs>
-                        <linearGradient
-                            id='gradient'
-                            x1='0%'
-                            y1='50%'
-                            x2='100%'
-                            y2='50%'
-                        >
-                            <stop offset='50%' stop-color='#3fd3ff'></stop>
-                            <stop offset='95%' stop-color='#ff6eff'></stop>
-                        </linearGradient>
-                    </defs>
-                    <path
-                        d='M 0,400 L 0,100 C 101.96428571428572,87.53571428571428 203.92857142857144,75.07142857142857 327,67 C 450.07142857142856,58.92857142857143 594.2499999999999,55.249999999999986 714,66 C 833.7500000000001,76.75000000000001 929.0714285714287,101.92857142857143 1046,110 C 1162.9285714285713,118.07142857142857 1301.4642857142858,109.03571428571428 1440,100 L 1440,400 L 0,400 Z'
-                        stroke='none'
-                        stroke-width='0'
-                        fill='url(#gradient)'
-                        fill-opacity='0.53'
-                        class='transition-all duration-300 ease-in-out delay-150 path-0'
-                        transform='rotate(-180 720 200)'
-                    ></path>
-                    <defs>
-                        <linearGradient
-                            id='gradient'
-                            x1='0%'
-                            y1='50%'
-                            x2='100%'
-                            y2='50%'
-                        >
-                            <stop offset='5%' stop-color='#3fd3ff'></stop>
-                            <stop offset='95%' stop-color='#ff6eff'></stop>
-                        </linearGradient>
-                    </defs>
-                    <path
-                        d='M 0,400 L 0,233 C 96,215.82142857142856 192,198.64285714285714 331,208 C 470,217.35714285714286 651.9999999999999,253.25 778,263 C 904.0000000000001,272.75 974,256.3571428571429 1075,247 C 1176,237.6428571428571 1308,235.32142857142856 1440,233 L 1440,400 L 0,400 Z'
-                        stroke='none'
-                        stroke-width='0'
-                        fill='url(#gradient)'
-                        fill-opacity='1'
-                        class='transition-all duration-300 ease-in-out delay-150 path-1'
-                        transform='rotate(-180 720 200)'
-                    ></path>
-                </svg>
-            ) : (
-                <svg
-                    id='svg'
-                    viewBox='0 0 1440 325'
-                    xmlns='http://www.w3.org/2000/svg'
-                    class='transition duration-300 ease-in-out delay-150 nav-svg'
-                >
-                    <defs>
-                        <linearGradient
-                            id='gradient'
-                            x1='0%'
-                            y1='50%'
-                            x2='100%'
-                            y2='50%'
-                        >
-                            <stop offset='70%' stop-color='#2933b6'></stop>
-                            <stop offset='95%' stop-color='#ff6eff'></stop>
-                        </linearGradient>
-                    </defs>
-                    <path
-                        d='M 0,400 L 0,100 C 101.96428571428572,87.53571428571428 203.92857142857144,75.07142857142857 327,67 C 450.07142857142856,58.92857142857143 594.2499999999999,55.249999999999986 714,66 C 833.7500000000001,76.75000000000001 929.0714285714287,101.92857142857143 1046,110 C 1162.9285714285713,118.07142857142857 1301.4642857142858,109.03571428571428 1440,100 L 1440,400 L 0,400 Z'
-                        stroke='none'
-                        stroke-width='0'
-                        fill='url(#gradient)'
-                        fill-opacity='0.53'
-                        class='transition-all duration-300 ease-in-out delay-150 path-0'
-                        transform='rotate(-180 720 200)'
-                    ></path>
-                    <defs>
-                        <linearGradient
-                            id='gradient'
-                            x1='0%'
-                            y1='50%'
-                            x2='100%'
-                            y2='50%'
-                        >
-                            <stop offset='5%' stop-color='#2933b6'></stop>
-                            <stop offset='95%' stop-color='#ff6eff'></stop>
-                        </linearGradient>
-                    </defs>
-                    <path
-                        d='M 0,400 L 0,233 C 96,215.82142857142856 192,198.64285714285714 331,208 C 470,217.35714285714286 651.9999999999999,253.25 778,263 C 904.0000000000001,272.75 974,256.3571428571429 1075,247 C 1176,237.6428571428571 1308,235.32142857142856 1440,233 L 1440,400 L 0,400 Z'
-                        stroke='none'
-                        stroke-width='0'
-                        fill='url(#gradient)'
-                        fill-opacity='1'
-                        class='transition-all duration-300 ease-in-out delay-150 path-1'
-                        transform='rotate(-180 720 200)'
-                    ></path>
-                </svg>
-            )}
-        </>
+                    <stop
+                        offset='70%'
+                        stop-color={theme() === 'dark' ? '#161c6e' : '#3fd3ff'}
+                    ></stop>
+                    <stop offset='95%' stop-color='#ff6eff'></stop>
+                </linearGradient>
+            </defs>
+            <path
+                d='M 0,400 L 0,233 C 96,215.82142857142856 192,198.64285714285714 331,208 C 470,217.35714285714286 651.9999999999999,253.25 778,263 C 904.0000000000001,272.75 974,256.3571428571429 1075,247 C 1176,237.6428571428571 1308,235.32142857142856 1440,233 L 1440,400 L 0,400 Z'
+                stroke='none'
+                stroke-width='0'
+                fill='url(#gradient)'
+                fill-opacity='1'
+                class='transition-all duration-300 ease-in-out delay-150 path-1'
+                transform='rotate(-180 720 200)'
+            ></path>
+        </svg>
     )
 }
 
@@ -364,25 +300,45 @@ const DropDownBig: Component<dropdownProps> = P => {
         <div class='dropdown' classList={{ active: P.show }}>
             <A href='products?kind=discord' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
-                    <img src={'/static/image/logo/discord.png'} alt='' loading='lazy' decoding='async' />
+                    <img
+                        src={'/static/image/logo/discord.png'}
+                        alt=''
+                        loading='lazy'
+                        decoding='async'
+                    />
                 </div>
                 <div class='data'>دیسکورد</div>
             </A>
             <A href='products?kind=spotify' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
-                    <img src={'/static/image/logo/spotify.png'} alt='' loading='lazy' decoding='async' />
+                    <img
+                        src={'/static/image/logo/spotify.png'}
+                        alt=''
+                        loading='lazy'
+                        decoding='async'
+                    />
                 </div>
                 <div class='data'>اسپاتیفای</div>
             </A>
             <A href='products?kind=telegram' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
-                    <img src={'/static/image/logo/telegram.png'} alt='' loading='lazy' decoding='async' />
+                    <img
+                        src={'/static/image/logo/telegram.png'}
+                        alt=''
+                        loading='lazy'
+                        decoding='async'
+                    />
                 </div>
                 <div class='data'>تلگرام</div>
             </A>
             <A href='products?kind=applemusic' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
-                    <img src={'/static/image/logo/apple-music.png'} alt='' loading='lazy' decoding='async' />
+                    <img
+                        src={'/static/image/logo/apple-music.png'}
+                        alt=''
+                        loading='lazy'
+                        decoding='async'
+                    />
                 </div>
                 <div class='data'>اپل موزیک</div>
             </A>
