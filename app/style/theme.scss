@@ -37,6 +37,8 @@
     //
 
     // --login-card-bg:;
+
+    --hero-texts-filter: drop-shadow(2px 4px 6px rgb(255, 255, 255, 0.2));
 }
 
 @mixin light {
@@ -59,4 +61,6 @@
     --addon-percent: rgb(18, 230, 71);
 
     // --login-card-bg:;
+
+    --hero-texts-filter: drop-shadow(2px 4px 3px rgb(0, 0, 0, 0.25));
 }
