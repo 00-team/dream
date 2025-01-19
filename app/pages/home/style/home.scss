@@ -4,6 +4,7 @@ main.home {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 
     color: black;
 
@@ -14,32 +15,10 @@ main.home {
 
     transition: background-color 1s ease;
 
+    position: relative;
+    z-index: 1;
+
     @media screen and (max-width: 768px) {
         overflow: hidden;
-    }
-
-    section.hero-container {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        max-height: 90vh;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        overflow: hidden;
-
-        background-color: var(--sixty-percent);
-
-        @media screen and (max-width: 425px) {
-            height: 50vh;
-        }
-
-        iframe,
-        canvas {
-            border: none;
-            width: 100%;
-            height: 100%;
-        }
     }
 }
