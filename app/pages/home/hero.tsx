@@ -51,37 +51,52 @@ export const Hero: Component = () => {
             </div>
 
             <div class='stars-container'>
-                <div class='star applemusic'>
-                    <ShotingStarFlipIcon />
-                    <img
-                        src='/static/image/logo/apple-music.png'
-                        class='star-img'
-                        alt=''
-                    />
+                <div class='star-wrapper'>
+                    <div class='star applemusic'>
+                        <ShotingStarFlipIcon />
+                        <img
+                            src='/static/image/logo/apple-music.png'
+                            class='star-img'
+                            alt=''
+                            onclick={() => open('products?kind=applemusic')}
+                        />
+                    </div>
                 </div>
-                <div class='star discord'>
-                    <ShotingStarIcon />
-                    <img
-                        src='/static/image/logo/discord.png'
-                        class='star-img'
-                        alt=''
-                    />
+
+                <div class='star-wrapper'>
+                    <div class='star discord'>
+                        <ShotingStarIcon />
+                        <img
+                            src='/static/image/logo/discord.png'
+                            class='star-img'
+                            alt=''
+                            onclick={() => open('products?kind=discord')}
+                        />
+                    </div>
                 </div>
-                <div class='star spotify'>
-                    <ShotingStarFlipIcon />
-                    <img
-                        src='/static/image/logo/spotify.png'
-                        class='star-img'
-                        alt=''
-                    />
+
+                <div class='star-wrapper'>
+                    <div class='star spotify'>
+                        <ShotingStarFlipIcon />
+                        <img
+                            src='/static/image/logo/spotify.png'
+                            class='star-img'
+                            alt=''
+                            onclick={() => open('products?kind=spotify')}
+                        />
+                    </div>
                 </div>
-                <div class='star netflix'>
-                    <ShotingStarIcon />
-                    <img
-                        src='/static/image/logo/netflix.png'
-                        class='star-img'
-                        alt=''
-                    />
+
+                <div class='star-wrapper'>
+                    <div class='star netflix'>
+                        <ShotingStarIcon />
+                        <img
+                            src='/static/image/logo/netflix.png'
+                            class='star-img'
+                            alt=''
+                            onclick={() => open('products?kind=netflix')}
+                        />
+                    </div>
                 </div>
             </div>
         </section>
