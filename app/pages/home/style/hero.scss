@@ -24,9 +24,11 @@ section.hero-container {
 
         color: white;
 
-        margin-top: -1em;
+        margin-top: -2em;
 
-        scale: 3.5;
+        scale: 3.7;
+
+        filter: var(--hero-texts-filter);
 
         font-family: 'Poetsen One';
         font-weight: 900;
