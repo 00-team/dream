@@ -78,82 +78,107 @@ section.hero-container {
 
         inset: 0;
 
-        .star {
-            --star-color: #f778ff;
-            --side-space: 12%;
-            position: absolute;
-
-            width: 300px;
-
-            svg {
-                transform: scaleX(0.8);
-
-                .above {
-                    fill: var(--star-color);
-                }
-
-                .under {
-                    opacity: 0.3;
-                }
-            }
-
-            .star-img {
+        .star-wrapper {
+            .star {
+                --star-color: #f778ff;
+                --side-space: 12%;
                 position: absolute;
 
-                top: 0;
+                width: 300px;
 
-                width: 100px;
-                aspect-ratio: 1;
+                scale: 0;
 
-                border-radius: 100vmax;
-            }
+                animation: shoot-star 0.5s ease forwards;
 
-            &.applemusic {
-                --star-color: #fa354f;
-
-                right: var(--side-space);
-                top: 20%;
-
-                .star-img {
-                    right: 0;
-
-                    transform: translate(30%, -36%);
+                @keyframes shoot-star {
+                    from {
+                        scale: 0;
+                    }
+                    to {
+                        scale: 1;
+                    }
                 }
-            }
-            &.discord {
-                --star-color: #5f70be;
 
-                left: var(--side-space);
-                top: 20%;
+                svg {
+                    transform: scaleX(0.8);
 
-                .star-img {
-                    left: 0;
+                    .above {
+                        fill: var(--star-color);
+                    }
 
-                    transform: translate(-30%, -36%);
+                    .under {
+                        opacity: 0.3;
+                    }
                 }
-            }
-            &.spotify {
-                --star-color: #20d355;
-
-                right: var(--side-space);
-                bottom: 5%;
 
                 .star-img {
-                    right: 0;
+                    position: absolute;
 
-                    transform: translate(30%, -36%);
+                    top: 0;
+
+                    width: 100px;
+                    aspect-ratio: 1;
+
+                    border-radius: 100vmax;
+
+                    cursor: pointer;
                 }
-            }
-            &.netflix {
-                --star-color: #740006;
 
-                left: var(--side-space);
-                bottom: 5%;
+                &.applemusic {
+                    --star-color: #ff4d64;
 
-                .star-img {
-                    left: 0;
+                    right: var(--side-space);
+                    top: 20%;
 
-                    transform: translate(-30%, -36%);
+                    transform-origin: bottom left;
+
+                    .star-img {
+                        right: 0;
+
+                        transform: translate(30%, -36%);
+                    }
+                }
+                &.discord {
+                    --star-color: #5f70be;
+
+                    left: var(--side-space);
+                    top: 20%;
+
+                    transform-origin: bottom right;
+
+                    .star-img {
+                        left: 0;
+
+                        transform: translate(-30%, -36%);
+                    }
+                }
+                &.spotify {
+                    --star-color: #20d355;
+
+                    right: var(--side-space);
+                    bottom: 5%;
+
+                    transform-origin: bottom left;
+
+                    .star-img {
+                        right: 0;
+
+                        transform: translate(30%, -36%);
+                    }
+                }
+                &.netflix {
+                    --star-color: #740006;
+
+                    left: var(--side-space);
+                    bottom: 5%;
+
+                    transform-origin: bottom right;
+
+                    .star-img {
+                        left: 0;
+
+                        transform: translate(-30%, -36%);
+                    }
                 }
             }
         }
