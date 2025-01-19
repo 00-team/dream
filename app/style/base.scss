@@ -82,6 +82,14 @@ body {
 
     --OTHERS_FONT_SIZE_SMALLER: clamp(1.1rem, 0.5rem + 1.5vw, 1rem);
 
+    @media (max-width: 1024px) {
+        --SECTION_TITLE_FONTSIZE_HERO: 38px;
+        --TITLE_FONTSIZE_HERO: 33px;
+        --TITLE_FONTSIZE: 19px;
+        --TITLE_FONTSIZE_SMALL: 17px;
+        --TITLE_FONTSIZE_SMALLER: 15px;
+        --DESCRIPTION_FONT_SIZE: 13px;
+    }
     @media (max-width: 768px) {
         --SECTION_TITLE_FONTSIZE_HERO: 35px;
         --TITLE_FONTSIZE_HERO: 30px;
