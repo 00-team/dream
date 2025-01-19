@@ -8,6 +8,7 @@ import { Services } from './services'
 
 import { onMount } from 'solid-js'
 import './style/home.scss'
+import { Hero } from './hero'
 
 const Home = () => {
     // let canvas: HTMLCanvasElement
@@ -19,14 +20,16 @@ const Home = () => {
 
     return (
         <main class='home' classList={{ 'show-small': showNav() }}>
-            <section class='hero-container' id='hero'>
-                {/* <canvas id='hero-canvas' ref={canvas}></canvas> */}
-            </section>
+            <Hero />
 
             <About />
+
             <Services />
+
             <Customers />
+
             <Faq />
+
             <Contact />
         </main>
     )
