@@ -12,6 +12,9 @@ section.hero-container {
 
     // transition: background-color 1s ease;
 
+    position: relative;
+    z-index: 1;
+
     @media screen and (max-width: 768px) {
         height: 80vh;
     }
@@ -34,6 +37,8 @@ section.hero-container {
         font-weight: 900;
         letter-spacing: 3px;
 
+        z-index: 3;
+
         @media screen and (max-height: 650px) {
             margin-top: -3em;
         }
@@ -54,6 +59,101 @@ section.hero-container {
             svg {
                 .text {
                     fill: white;
+                }
+            }
+        }
+    }
+
+    .stars-container {
+        width: 100%;
+        height: 100%;
+
+        position: absolute;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        z-index: 2;
+
+        inset: 0;
+
+        .star {
+            --star-color: #f778ff;
+            --side-space: 12%;
+            position: absolute;
+
+            width: 300px;
+
+            svg {
+                transform: scaleX(0.8);
+
+                .above {
+                    fill: var(--star-color);
+                }
+
+                .under {
+                    opacity: 0.3;
+                }
+            }
+
+            .star-img {
+                position: absolute;
+
+                top: 0;
+
+                width: 100px;
+                aspect-ratio: 1;
+
+                border-radius: 100vmax;
+            }
+
+            &.applemusic {
+                --star-color: #fa354f;
+
+                right: var(--side-space);
+                top: 20%;
+
+                .star-img {
+                    right: 0;
+
+                    transform: translate(30%, -36%);
+                }
+            }
+            &.discord {
+                --star-color: #5f70be;
+
+                left: var(--side-space);
+                top: 20%;
+
+                .star-img {
+                    left: 0;
+
+                    transform: translate(-30%, -36%);
+                }
+            }
+            &.spotify {
+                --star-color: #20d355;
+
+                right: var(--side-space);
+                bottom: 5%;
+
+                .star-img {
+                    right: 0;
+
+                    transform: translate(30%, -36%);
+                }
+            }
+            &.netflix {
+                --star-color: #740006;
+
+                left: var(--side-space);
+                bottom: 5%;
+
+                .star-img {
+                    left: 0;
+
+                    transform: translate(-30%, -36%);
                 }
             }
         }
