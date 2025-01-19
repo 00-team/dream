@@ -1,3 +1,4 @@
+import { ShotingStarFlipIcon, ShotingStarIcon } from 'icons/home'
 import { Component } from 'solid-js'
 
 import './style/hero.scss'
@@ -46,6 +47,41 @@ export const Hero: Component = () => {
                             </textPath>
                         </text>
                     </svg>
+                </div>
+            </div>
+
+            <div class='stars-container'>
+                <div class='star applemusic'>
+                    <ShotingStarFlipIcon />
+                    <img
+                        src='/static/image/logo/apple-music.png'
+                        class='star-img'
+                        alt=''
+                    />
+                </div>
+                <div class='star discord'>
+                    <ShotingStarIcon />
+                    <img
+                        src='/static/image/logo/discord.png'
+                        class='star-img'
+                        alt=''
+                    />
+                </div>
+                <div class='star spotify'>
+                    <ShotingStarFlipIcon />
+                    <img
+                        src='/static/image/logo/spotify.png'
+                        class='star-img'
+                        alt=''
+                    />
+                </div>
+                <div class='star netflix'>
+                    <ShotingStarIcon />
+                    <img
+                        src='/static/image/logo/netflix.png'
+                        class='star-img'
+                        alt=''
+                    />
                 </div>
             </div>
         </section>
