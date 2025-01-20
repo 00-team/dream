@@ -146,7 +146,6 @@ const SmallNav: Component = () => {
             '.show-small-nav .nav-wrapper .nav-link'
         )
 
-        console.log(links)
         if (!links) return
 
         links.forEach((link: HTMLElement) => {
