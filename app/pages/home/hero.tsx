@@ -55,8 +55,6 @@ export const Hero: Component = () => {
                 el.style.transform = `translateX(-${transform}px) translateY(-${transform}px)`
             }
         })
-
-        console.log(percentage)
     }
 
     return (
