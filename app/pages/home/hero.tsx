@@ -29,12 +29,18 @@ export const Hero: Component = () => {
 
     function abc(e: Event) {
         const scrollTop = scrollY // The current scroll position
-        const scrollHeight = container.scrollHeight // The total scrollable height
+        const containerRect = container.getBoundingClientRect() // The total scrollable height
         const clientHeight = root.clientHeight // The height of the viewport
 
-        // Calculate the percentage of scroll
-        let percentage = Math.floor(
-            (scrollTop / (scrollHeight - clientHeight)) * 100 * 0.1
+        const percentage = Math.min(
+            100,
+            Math.max(
+                0,
+                ((containerRect.height - containerRect.bottom) /
+                    containerRect.height) *
+                    100 *
+                    0.7
+            )
         )
 
         if (percentage > 50) {
@@ -109,7 +115,7 @@ export const Hero: Component = () => {
                         <div class='star-wrapper'>
                             <ShotingStarFlipIcon />
                             <img
-                                src='/static/image/logo/apple-music.png'
+                                src='/static/image/logo/apple-music.webp'
                                 class='star-img'
                                 alt=''
                                 onclick={() => open('products?kind=applemusic')}
@@ -121,7 +127,7 @@ export const Hero: Component = () => {
                         <div class='star-wrapper'>
                             <ShotingStarIcon />
                             <img
-                                src='/static/image/logo/discord.png'
+                                src='/static/image/logo/discord.webp'
                                 class='star-img'
                                 alt=''
                                 onclick={() => open('products?kind=discord')}
@@ -133,7 +139,7 @@ export const Hero: Component = () => {
                         <div class='star-wrapper'>
                             <ShotingStarFlipIcon />
                             <img
-                                src='/static/image/logo/spotify.png'
+                                src='/static/image/logo/spotify.webp'
                                 class='star-img'
                                 alt=''
                                 onclick={() => open('products?kind=spotify')}
@@ -145,7 +151,7 @@ export const Hero: Component = () => {
                         <div class='star-wrapper'>
                             <ShotingStarIcon />
                             <img
-                                src='/static/image/logo/netflix.png'
+                                src='/static/image/logo/netflix.webp'
                                 class='star-img'
                                 alt=''
                                 onclick={() => open('products?kind=netflix')}
