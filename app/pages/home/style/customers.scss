@@ -7,8 +7,11 @@ section.customers {
 
     padding: 3vw 7vh;
 
-    background: linear-gradient(to top, var(--sixty-percent), transparent);
-    color: var(--accent-color);
+    background-image: linear-gradient(
+        to top,
+        var(--sixty-percent),
+        var(--primary-color)
+    );
 
     overflow: hidden;
 
