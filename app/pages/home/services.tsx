@@ -224,18 +224,18 @@ const ServicesWrapper: Component = () => {
                             <span>Discord Nitro</span>
                         </p>
 
-                        <div class='item-details title_smaller'>
+                        <div class='item-details description'>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                تضمین اصل بودن
+                                پشتیبانی از زبان‌های مختلف
                             </p>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                تحویل سریع{' '}
+                                ایده‌پردازی خلاقانه
                             </p>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                پشتیبانی 24 ساعته
+                                حل مسائل پیچیده
                             </p>
                         </div>
 
@@ -259,18 +259,18 @@ const ServicesWrapper: Component = () => {
                             <span>Spotify</span>
                         </p>
 
-                        <div class='item-details title_smaller'>
+                        <div class='item-details description'>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                تضمین اصل بودن
+                                دسترسی به پلی‌لیست‌های اختصاصی
                             </p>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                تحویل سریع{' '}
+                                کیفیت صدای بی‌نظیر
                             </p>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                پشتیبانی 24 ساعته
+                                امکان دانلود آفلاین آهنگ‌ها
                             </p>
                         </div>
 
@@ -289,18 +289,18 @@ const ServicesWrapper: Component = () => {
                             <span>Chat GPT</span>
                         </p>
 
-                        <div class='item-details title_smaller'>
+                        <div class='item-details description'>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                تضمین تک کاربره
+                                پشتیبانی از زبان‌های مختلف
                             </p>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                تحویل سریع{' '}
+                                ایده‌پردازی خلاقانه
                             </p>
                             <p class='item-detail'>
                                 <PlusIcon size={15} />
-                                پشتیبانی 24 ساعته
+                                حل مسائل پیچیده
                             </p>
                         </div>
 
