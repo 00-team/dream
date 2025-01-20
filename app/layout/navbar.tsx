@@ -250,7 +250,10 @@ const NavSvg: Component = () => {
                         offset='70%'
                         stop-color={theme() === 'dark' ? '#161c6e' : '#3fd3ff'}
                     ></stop>
-                    <stop offset='95%' stop-color='#ff6eff'></stop>
+                    <stop
+                        offset='95%'
+                        stop-color={theme() === 'dark' ? '#992295' : '#ff6eff'}
+                    ></stop>
                 </linearGradient>
             </defs>
             <path
