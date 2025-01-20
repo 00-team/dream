@@ -5,6 +5,8 @@
     align-items: center;
     flex-direction: column;
 
+    background-color: var(--primary-color);
+
     position: relative;
 
     @media screen and (max-width: 768px) {
@@ -167,11 +169,11 @@
         height: 100vh;
 
         // background-color: var(--accent-color);
-        background: linear-gradient(
-            to bottom,
-            var(--sixty-percent),
-            transparent
-        );
+        // background: linear-gradient(
+        //     to bottom,
+        //     var(--sixty-percent),
+        //     transparent
+        // );
 
         display: flex;
         align-items: center;
@@ -196,18 +198,16 @@
             padding: 2.5em;
 
             border-radius: 3rem;
-            background-image: linear-gradient(227deg, #846eff, transparent);
+            background-image: var(--services-linear);
             background-color: var(--sixty-percent);
             box-shadow: rgb(0 0 0 / 50%) 0px 5px 15px;
+
+            filter: var(--services-filter);
 
             color: var(--accent-color);
             transition: 0.5s ease-in-out;
 
             z-index: 2;
-
-            &:not(.dark) {
-                filter: brightness(1.3);
-            }
 
             @media screen and (max-width: 768px) {
                 border-radius: 0;
@@ -327,7 +327,6 @@
                     .item-details {
                         display: flex;
                         flex-direction: column;
-                        gap: 0.7em;
 
                         width: 100%;
                         margin: auto 0;
@@ -344,6 +343,8 @@
                             align-items: center;
                             gap: 0.5em;
 
+                            line-height: 2em;
+
                             svg {
                                 color: green;
                             }
@@ -354,9 +355,9 @@
                         background-color: rgba(0, 0, 0, 1);
 
                         .btn-bg {
-                            background: linear-gradient(
+                            background-image: linear-gradient(
                                 45deg,
-                                var(--sixty-percent),
+                                #4e51dd,
                                 red
                             );
                         }
@@ -377,14 +378,13 @@
                         border-radius: $BORDER_RADIUS;
                         margin-top: auto;
 
+                        transition: 1s ease;
+
                         &:not(.special) {
                             width: 100%;
 
-                            background: linear-gradient(
-                                45deg,
-                                var(--sixty-percent),
-                                red
-                            );
+                            background-color: var(--accent-color);
+                            color: var(--primary-color);
                         }
                     }
                 }
