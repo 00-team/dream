@@ -52,15 +52,15 @@ const BigNav: Component = () => {
         navLinks = document.querySelectorAll('a.nav-link')
         line = document.querySelector('.line#nav')
 
-        document.addEventListener('scroll', () => {
-            if (scrollY >= 200) {
-                if (!bigNav.classList.contains('active')) {
-                    bigNav.className += ' active'
-                }
-            } else {
-                bigNav.className = 'nav-big-container'
-            }
-        })
+        // document.addEventListener('scroll', () => {
+        //     if (scrollY >= 200) {
+        //         if (!bigNav.classList.contains('active')) {
+        //             bigNav.className += ' active'
+        //         }
+        //     } else {
+        //         bigNav.className = 'nav-big-container'
+        //     }
+        // })
 
         navLinks.forEach((link: HTMLElement, index) => {
             link.addEventListener('mouseenter', () => {
