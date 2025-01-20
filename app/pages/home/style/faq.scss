@@ -76,16 +76,15 @@ section.faq-container {
 
             cursor: pointer;
 
-            
             will-change: transform;
             transition:
-            0.7s,
-            transform 0.3s ease-in-out;
-            
+                0.7s,
+                transform 0.3s ease-in-out;
+
             @media screen and (max-width: 768px) {
                 max-height: 4.5em;
             }
-            
+
             &.active {
                 transition: 2s;
                 max-height: 100vh;
@@ -119,6 +118,7 @@ section.faq-container {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                gap: 1em;
 
                 margin-bottom: 1em;
 
