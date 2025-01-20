@@ -41,6 +41,12 @@
     --hero-texts-filter: drop-shadow(2px 4px 6px rgb(255, 255, 255, 0.2));
 
     --services-linear: linear-gradient(227deg, #846eff, transparent);
+
+    --contact-form-linear: linear-gradient(
+        227deg,
+        #ce6eff,
+        var(--sixty-percent)
+    );
 }
 
 @mixin light {
@@ -68,4 +74,10 @@
 
     --services-linear: linear-gradient(227deg, #f66eff, transparent);
     --services-filter: brightness(1.3);
+
+    --contact-form-linear: linear-gradient(
+        227deg,
+        #ff6ec5,
+        var(--sixty-percent)
+    );
 }
