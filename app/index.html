@@ -25,7 +25,29 @@
 
 
     <script defer src="/static/js/particle.js"></script>
+
     <script src="index.tsx" type="module" defer></script>
+
+    <script src="/static/js/lenis.js" defer></script>
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lenis = new Lenis(
+                {
+                    smooth: true,
+                    duration: 1.5, // Extend the duration of the scroll (higher = longer inertia)
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing function for inertia effect
+                }
+            )
+
+            function raf(time) {
+                lenis.raf(time)
+                requestAnimationFrame(raf)
+            }
+
+            requestAnimationFrame(raf)
+        })
+    </script>
 </head>
 
 <body>
