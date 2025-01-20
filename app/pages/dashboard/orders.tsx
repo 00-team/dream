@@ -51,37 +51,37 @@ export const Orders: Component = props => {
                     </div>
                     <div class='orders-example'>
                         <OrderExample
-                            img='/static/image/logo/spotify.png'
+                            img='/static/image/logo/spotify.webp'
                             kind='spotify'
                             price={100000}
                             status='done'
                         />
                         <OrderExample
-                            img='/static/image/logo/netflix.png'
+                            img='/static/image/logo/netflix.webp'
                             kind='netflix'
                             price={20000}
                             status='refunded'
                         />
                         <OrderExample
-                            img='/static/image/logo/discord.png'
+                            img='/static/image/logo/discord.webp'
                             kind='discord'
                             price={600000}
                             status='waiting'
                         />
                         <OrderExample
-                            img='/static/image/logo/canva.png'
+                            img='/static/image/logo/canva.webp'
                             kind='canva'
                             price={400000}
                             status='done'
                         />
                         <OrderExample
-                            img='/static/image/logo/prime.png'
+                            img='/static/image/logo/prime.webp'
                             kind='prime'
                             price={50000}
                             status='refunded'
                         />
                         <OrderExample
-                            img='/static/image/logo/apple-music.png'
+                            img='/static/image/logo/apple-music.webp'
                             kind='apple music'
                             price={900000}
                             status='waiting'
