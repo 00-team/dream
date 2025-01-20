@@ -1,10 +1,10 @@
 {
     "spotify": {
         "name": "اسپاتیفای",
-        "logo": "/static/image/logo/spotify.png",
+        "logo": "/static/image/logo/spotify.webp",
         "data": ["email", "password"],
         "color": "#1db954",
-        "image": "/static/image/banner/spotify.png",
+        "image": "/static/image/banner/spotify.jpg",
         "plans": {
             "family.1": [850000, "۱ ماهه Family - ترکیه"],
             "family.3": [2290000, "۳ ماهه Family - ترکیه"],
@@ -13,10 +13,10 @@
     },
     "youtube": {
         "name": "یوتیوب پرمیوم",
-        "logo": "/static/image/logo/youtube.png",
+        "logo": "/static/image/logo/youtube.webp",
         "data": ["email", "password"],
         "color": "#ff0000",
-        "image": "/static/image/banner/youtube.png",
+        "image": "/static/image/banner/youtube.jpg",
         "plans": {
             "family.1": [900000, "۱ ماهه Family"],
             "family.3": [2500000, "۳ ماهه Family"],
@@ -25,7 +25,7 @@
     },
     "applemusic": {
         "name": "اپل موزیک",
-        "logo": "/static/image/logo/apple-music.png",
+        "logo": "/static/image/logo/apple-music.webp",
         "data": ["apple id", "telegram id"],
         "color": "#f7215c",
         "image": "/static/image/banner/applemusic.jpg",
@@ -37,7 +37,7 @@
     },
     "telegram": {
         "name": "تلگرام پریمیوم",
-        "logo": "/static/image/logo/telegram.png",
+        "logo": "/static/image/logo/telegram.webp",
         "data": ["telegram id"],
         "color": "#2ba3d7",
         "image": "/static/image/banner/telegram.jpg",
@@ -49,10 +49,10 @@
     },
     "chatgpt": {
         "name": "ChatGPT",
-        "logo": "/static/image/logo/chatgpt.png",
+        "logo": "/static/image/logo/chatgpt.webp",
         "data": ["email", "password"],
         "color": "#78eb96",
-        "image": "/static/image/banner/b-chatgpt.png",
+        "image": "/static/image/banner/b-chatgpt.jpg",
         "plans": {
             "gift.1": [9500000, "اشتراک یک ماهه Plus "],
             "gift.1t": [12000000, "اشتراک یک ماهه Team "]
@@ -60,7 +60,7 @@
     },
     "discord": {
         "name": "دیسکورد نیترو",
-        "logo": "/static/image/logo/discord.png",
+        "logo": "/static/image/logo/discord.webp",
         "data": ["username", "password"],
         "color": "#5f70be",
         "image": "/static/image/banner/discord.jpg",
