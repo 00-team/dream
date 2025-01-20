@@ -39,6 +39,8 @@
     // --login-card-bg:;
 
     --hero-texts-filter: drop-shadow(2px 4px 6px rgb(255, 255, 255, 0.2));
+
+    --services-linear: linear-gradient(227deg, #846eff, transparent);
 }
 
 @mixin light {
@@ -63,4 +65,7 @@
     // --login-card-bg:;
 
     --hero-texts-filter: drop-shadow(2px 4px 3px rgb(0, 0, 0, 0.25));
+
+    --services-linear: linear-gradient(227deg, #f66eff, transparent);
+    --services-filter: brightness(1.3);
 }
