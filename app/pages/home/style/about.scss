@@ -101,12 +101,13 @@ section.about {
         pointer-events: none;
 
         will-change: transfrom;
+        // transition: 0.7s cubic-bezier(0.45, 0.02, 0.09, 0.98);
 
         z-index: 3;
 
-        @media screen and (max-width: 768px) {
-            transition: none;
-        }
+        // @media screen and (max-width: 768px) {
+        //     transition: none;
+        // }
 
         .column {
             display: flex;
