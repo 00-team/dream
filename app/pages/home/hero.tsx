@@ -4,17 +4,21 @@ import { Component, onCleanup, onMount } from 'solid-js'
 import './style/hero.scss'
 
 const MaxPerspective = 1001
+const MaxTransform = innerWidth > 768 ? innerWidth / 2 : innerWidth
 
 export const Hero: Component = () => {
     let ref: HTMLElement
     let root: HTMLElement
+    let stars: NodeListOf<HTMLElement>
+    let container: HTMLElement
 
     onMount(() => {
-        if (!ref) return
+        if (!ref || !container) return
 
         root = document.querySelector('body')
+        stars = document.querySelectorAll('.stars-container .star')
 
-        if (!root) return
+        if (!root || !stars) return
 
         document.addEventListener('scroll', abc)
 
@@ -25,22 +29,40 @@ export const Hero: Component = () => {
 
     function abc(e: Event) {
         const scrollTop = scrollY // The current scroll position
-        const scrollHeight = root.scrollHeight // The total scrollable height
+        const scrollHeight = container.scrollHeight // The total scrollable height
         const clientHeight = root.clientHeight // The height of the viewport
 
         // Calculate the percentage of scroll
-        const percentage = Math.floor(
-            (scrollTop / (scrollHeight - clientHeight)) * 100
+        let percentage = Math.floor(
+            (scrollTop / (scrollHeight - clientHeight)) * 100 * 0.1
         )
 
-        ref.style.transform = `translateZ(100px)`
+        if (percentage > 50) {
+            container.className = 'hero-container disable'
+        } else {
+            container.className = 'hero-container'
+        }
+
+        ref.style.transform = `translate3d(0, -${Math.min(MaxPerspective, percentage * 0.8)}px
+        ,${Math.min(MaxPerspective, percentage * 25)}px) `
+
+        let transform = Math.min(MaxTransform, percentage * 10)
+
+        stars.forEach((el: HTMLElement, index) => {
+            if (index % 2 === 0) {
+                el.style.transform = `translateX(${transform}px) translateY(-${transform}px)`
+            } else {
+                el.style.transform = `translateX(-${transform}px) translateY(-${transform}px)`
+            }
+        })
+
         console.log(percentage)
     }
 
     return (
-        <section class='hero-container' id='hero'>
-            <div class='hero-wrapper' ref={e => (ref = e)}>
-                <div class='hero-texts section_title'>
+        <section class='hero-container' id='hero' ref={e => (container = e)}>
+            <div class='hero-wrapper'>
+                <div class='hero-texts section_title' ref={e => (ref = e)}>
                     <div>
                         {/* <span>D</span>
                     <span>R</span>
@@ -75,7 +97,7 @@ export const Hero: Component = () => {
                                 <textPath
                                     class='text-path'
                                     href='#buttom-curve'
-                                    startOffset='50%'
+                                    startOffset='50.5%'
                                 >
                                     PAY
                                 </textPath>
