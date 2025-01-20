@@ -1,19 +1,11 @@
 .services-container {
     width: 100%;
-    height: 300vh;
 
     display: flex;
     align-items: center;
     flex-direction: column;
 
-    padding-top: 50px;
-    padding-bottom: 0;
-
     position: relative;
-
-    @media screen and (max-width: 1024px) {
-        padding-top: 50px;
-    }
 
     @media screen and (max-width: 768px) {
         height: auto;
@@ -174,10 +166,7 @@
         width: 100%;
         height: 100vh;
 
-        position: sticky;
-        top: 0;
-
-        background-color: var(--accent-color);
+        // background-color: var(--accent-color);
         background: linear-gradient(
             to bottom,
             var(--sixty-percent),
@@ -192,7 +181,6 @@
         overflow: hidden;
 
         @media screen and (max-width: 768px) {
-            position: static;
             min-height: 100vh;
             height: auto;
         }
@@ -205,7 +193,7 @@
             align-items: center;
             flex-direction: column;
 
-            padding: 2.5em ;
+            padding: 2.5em;
 
             border-radius: 3rem;
             background-image: linear-gradient(227deg, #846eff, transparent);
@@ -286,7 +274,6 @@
                             scale: 1;
                         }
                     }
-                     
 
                     img {
                         width: 100%;
@@ -423,7 +410,6 @@
         will-change: transform;
         transition: transform 2s ease-in-out;
         z-index: 3;
-
 
         @media screen and (max-width: 768px) {
             display: none;

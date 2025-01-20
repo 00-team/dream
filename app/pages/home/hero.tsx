@@ -5,6 +5,7 @@ import './style/hero.scss'
 
 const MaxPerspective = 1001
 const MaxTransform = innerWidth > 768 ? innerWidth / 2 : innerWidth
+let disableAbc = false
 
 export const Hero: Component = () => {
     let ref: HTMLElement
@@ -20,6 +21,10 @@ export const Hero: Component = () => {
 
         if (!root || !stars) return
 
+        if (container.getBoundingClientRect().top < 0) {
+            disableAbc = true
+        }
+
         document.addEventListener('scroll', abc)
 
         onCleanup(() => {
@@ -28,9 +33,17 @@ export const Hero: Component = () => {
     })
 
     function abc(e: Event) {
-        const scrollTop = scrollY // The current scroll position
+        console.log(disableAbc)
+
         const containerRect = container.getBoundingClientRect() // The total scrollable height
-        const clientHeight = root.clientHeight // The height of the viewport
+
+        if (disableAbc) {
+            container.className = 'hero-container disable'
+
+            if (containerRect.top >= 0) return (disableAbc = false)
+
+            return
+        }
 
         const percentage = Math.min(
             100,
