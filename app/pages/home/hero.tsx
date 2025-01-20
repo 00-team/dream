@@ -33,9 +33,7 @@ export const Hero: Component = () => {
     })
 
     function abc(e: Event) {
-        console.log(disableAbc)
-
-        const containerRect = container.getBoundingClientRect() // The total scrollable height
+        const containerRect = container.getBoundingClientRect()
 
         if (disableAbc) {
             container.className = 'hero-container disable'
