@@ -300,7 +300,7 @@ const DropDownBig: Component<dropdownProps> = P => {
             <A href='products?kind=discord' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.1s' }}>
                     <img
-                        src={'/static/image/logo/discord.png'}
+                        src={'/static/image/logo/discord.webp'}
                         alt=''
                         loading='lazy'
                         decoding='async'
@@ -311,7 +311,7 @@ const DropDownBig: Component<dropdownProps> = P => {
             <A href='products?kind=spotify' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.2s' }}>
                     <img
-                        src={'/static/image/logo/spotify.png'}
+                        src={'/static/image/logo/spotify.webp'}
                         alt=''
                         loading='lazy'
                         decoding='async'
@@ -322,7 +322,7 @@ const DropDownBig: Component<dropdownProps> = P => {
             <A href='products?kind=telegram' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.3s' }}>
                     <img
-                        src={'/static/image/logo/telegram.png'}
+                        src={'/static/image/logo/telegram.webp'}
                         alt=''
                         loading='lazy'
                         decoding='async'
@@ -333,7 +333,7 @@ const DropDownBig: Component<dropdownProps> = P => {
             <A href='products?kind=applemusic' class='drop-link title_smaller'>
                 <div class='holder icon' style={{ 'transition-delay': '0.5s' }}>
                     <img
-                        src={'/static/image/logo/apple-music.png'}
+                        src={'/static/image/logo/apple-music.webp'}
                         alt=''
                         loading='lazy'
                         decoding='async'
