@@ -22,7 +22,7 @@ pub struct ApiDoc;
         (status = 200, body = HashMap<String, Product>, example = json!({
             "spotify": {
                 "name": "اسپاتیفای",
-                "logo": "/static/image/logo/spotify.png",
+                "logo": "/static/image/logo/spotify.webp",
                 "data": ["username", "password"],
                 "color": "#1db954",
                 "image": "/static/image/banner/spotify.png",
