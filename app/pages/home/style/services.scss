@@ -401,7 +401,11 @@
         align-items: center;
         justify-content: center;
 
-        background-color: rgb(255 255 255 / 20%);
+        background-color: color-mix(
+            in srgb,
+            var(--accent-color),
+            transparent 80%
+        );
         backdrop-filter: blur(2px);
 
         border: 2px solid rgba(255, 255, 255, 0.7);
@@ -410,6 +414,23 @@
         will-change: transform;
         transition: transform 2s ease-in-out;
         z-index: 3;
+
+        animation: float 6s ease-in-out infinite;
+
+        @keyframes float {
+            0% {
+                box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+                transform: translatey(0px);
+            }
+            50% {
+                box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+                transform: translatey(-20px);
+            }
+            100% {
+                box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+                transform: translatey(0px);
+            }
+        }
 
         @media screen and (max-width: 768px) {
             display: none;
@@ -432,15 +453,16 @@
             width: 70%;
 
             object-fit: contain;
+            transform: translateX(-2px);
         }
 
         &#bubble-one {
-            bottom: 40%;
-            right: 10%;
+            top: 30%;
+            right: 3%;
         }
         &#bubble-two {
             bottom: 25%;
-            left: 15%;
+            left: 4%;
         }
 
         @media screen and (max-width: 768px) {
