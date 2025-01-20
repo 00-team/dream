@@ -46,6 +46,7 @@ html[data-theme='light'] {
 
 .root {
     background-color: #121212;
+    color: var(--accent-color);
 
     @media screen and (max-width: 768px) {
         overflow: hidden;
