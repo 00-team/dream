@@ -49,11 +49,7 @@ section.contact {
         padding: 2.5em 2.5em;
 
         border-radius: 25px;
-        background-image: linear-gradient(
-            227deg,
-            #ce6eff,
-            var(--sixty-percent)
-        );
+        background-image: var(--contact-form-linear);
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
         color: black;
