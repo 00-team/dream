@@ -13,6 +13,8 @@ section.about {
 
     transition: background-color 1s ease;
 
+    z-index: 1;
+
     @media screen and (max-width: 768px) {
         min-height: 110vh;
     }
@@ -22,8 +24,6 @@ section.about {
     @media screen and (max-height: 600px) {
         min-height: 150vh;
     }
-
-    
 
     &::before {
         content: '';
