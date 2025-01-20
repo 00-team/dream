@@ -52,7 +52,7 @@ const Faq: Component = props => {
                 <div class='header-icon'>
                     <FaqIcon size={50} />
                 </div>
-                <h3 class='section_title'>سوالات متداول</h3>
+                <h3 class='title_hero'>سوالات متداول</h3>
                 <div class='header-icon reverse'>
                     <FaqIcon class='reverse' size={50} />
                 </div>
