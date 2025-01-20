@@ -10,9 +10,8 @@ section.faq-container {
     background-image: linear-gradient(
         to bottom,
         var(--sixty-percent),
-        transparent
+        var(--primary-color)
     );
-    color: var(--accent-color);
 
     overflow: hidden;
 
