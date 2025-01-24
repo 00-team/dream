@@ -15,83 +15,13 @@ main.products {
     position: relative;
     isolation: isolate;
 
-    background-color: white;
+    background-color: #6c30ae;
     background-size: 0vw;
 
     padding: 5vh 3vw;
     padding-top: calc(100px + 10vh);
 
-    background-image: linear-gradient(
-            112.5deg,
-            rgb(250, 109, 130) 0%,
-            rgb(250, 109, 130) 3%,
-            rgb(219, 107, 130) 3%,
-            rgb(219, 107, 130) 34%,
-            rgb(187, 104, 131) 34%,
-            rgb(187, 104, 131) 46%,
-            rgb(156, 102, 131) 46%,
-            rgb(156, 102, 131) 51%,
-            rgb(124, 99, 132) 51%,
-            rgb(124, 99, 132) 52%,
-            rgb(93, 97, 132) 52%,
-            rgb(93, 97, 132) 76%,
-            rgb(61, 94, 133) 76%,
-            rgb(61, 94, 133) 84%,
-            rgb(30, 92, 133) 84%,
-            rgb(30, 92, 133) 100%
-        ),
-        linear-gradient(
-            157.5deg,
-            rgb(250, 109, 130) 0%,
-            rgb(250, 109, 130) 3%,
-            rgb(219, 107, 130) 3%,
-            rgb(219, 107, 130) 34%,
-            rgb(187, 104, 131) 34%,
-            rgb(187, 104, 131) 46%,
-            rgb(156, 102, 131) 46%,
-            rgb(156, 102, 131) 51%,
-            rgb(124, 99, 132) 51%,
-            rgb(124, 99, 132) 52%,
-            rgb(93, 97, 132) 52%,
-            rgb(93, 97, 132) 76%,
-            rgb(61, 94, 133) 76%,
-            rgb(61, 94, 133) 84%,
-            rgb(30, 92, 133) 84%,
-            rgb(30, 92, 133) 100%
-        ),
-        linear-gradient(
-            45deg,
-            rgb(250, 109, 130) 0%,
-            rgb(250, 109, 130) 3%,
-            rgb(219, 107, 130) 3%,
-            rgb(219, 107, 130) 34%,
-            rgb(187, 104, 131) 34%,
-            rgb(187, 104, 131) 46%,
-            rgb(156, 102, 131) 46%,
-            rgb(156, 102, 131) 51%,
-            rgb(124, 99, 132) 51%,
-            rgb(124, 99, 132) 52%,
-            rgb(93, 97, 132) 52%,
-            rgb(93, 97, 132) 76%,
-            rgb(61, 94, 133) 76%,
-            rgb(61, 94, 133) 84%,
-            rgb(30, 92, 133) 84%,
-            rgb(30, 92, 133) 100%
-        ),
-        linear-gradient(90deg, rgb(71, 69, 135), rgb(26, 138, 241));
-    background-blend-mode: overlay, overlay, overlay, normal;
-
     z-index: 2;
-    animation: bg-anim 1s cubic-bezier(0.45, 0.02, 0.09, 0.98) forwards;
-
-    @keyframes bg-anim {
-        from {
-            background-size: 0vw;
-        }
-        to {
-            background-size: 100vw;
-        }
-    }
 
     @media screen and (max-width: 768px) {
         padding-top: 100px;
