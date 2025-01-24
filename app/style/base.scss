@@ -48,6 +48,8 @@ html[data-theme='light'] {
     background-color: #121212;
     color: var(--accent-color);
 
+    z-index: 1;
+
     @media screen and (max-width: 768px) {
         overflow: hidden;
     }
