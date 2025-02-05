@@ -4,7 +4,7 @@
         "logo": "/static/image/logo/spotify.webp",
         "data": ["email", "password"],
         "color": "#1db954",
-        "image": "/static/image/banner/spotify.jpg",
+        "image": "/static/image/banner/spotify.png",
         "plans": {
             "family.1": [950000, "1 ماهه Family - ترکیه"],
             "family.3": [2590000, "3 ماهه Family - ترکیه"],
