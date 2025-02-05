@@ -6,69 +6,10 @@
         "color": "#1db954",
         "image": "/static/image/banner/spotify.jpg",
         "plans": {
-            "family.1": [850000, "۱ ماهه Family - ترکیه"],
-            "family.3": [2290000, "۳ ماهه Family - ترکیه"],
-            "family.6": [4490000, "۶ ماهه Family - ترکیه"]
-        }
-    },
-    "youtube": {
-        "name": "یوتیوب پرمیوم",
-        "logo": "/static/image/logo/youtube.webp",
-        "data": ["email", "password"],
-        "color": "#ff0000",
-        "image": "/static/image/banner/youtube.jpg",
-        "plans": {
-            "family.1": [900000, "۱ ماهه Family"],
-            "family.3": [2500000, "۳ ماهه Family"],
-            "family.6": [4800000, "۶ ماهه Family"]
-        }
-    },
-    "applemusic": {
-        "name": "اپل موزیک",
-        "logo": "/static/image/logo/apple-music.webp",
-        "data": ["apple id", "telegram id"],
-        "color": "#f7215c",
-        "image": "/static/image/banner/applemusic.jpg",
-        "plans": {
-            "family.1": [880000, "۱ ماهه Family"],
-            "family.3": [2280000, "۳ ماهه Family"],
-            "family.6": [3980000, "۶ ماهه Family"]
-        }
-    },
-    "telegram": {
-        "name": "تلگرام پریمیوم",
-        "logo": "/static/image/logo/telegram.webp",
-        "data": ["telegram id"],
-        "color": "#2ba3d7",
-        "image": "/static/image/banner/telegram.jpg",
-        "plans": {
-            "gift.3": [9500000, "گیفت 3 ماهه "],
-            "gift.6": [12000000, "گیفت 6 ماهه "],
-            "gift.12": [20500000, "گیف 12 ماهه "]
-        }
-    },
-    "chatgpt": {
-        "name": "ChatGPT",
-        "logo": "/static/image/logo/chatgpt.webp",
-        "data": ["email", "password"],
-        "color": "#78eb96",
-        "image": "/static/image/banner/b-chatgpt.jpg",
-        "plans": {
-            "gift.1": [9500000, "اشتراک یک ماهه Plus "],
-            "gift.1t": [12000000, "اشتراک یک ماهه Team "]
-        }
-    },
-    "discord": {
-        "name": "دیسکورد نیترو",
-        "logo": "/static/image/logo/discord.webp",
-        "data": ["username", "password"],
-        "color": "#5f70be",
-        "image": "/static/image/banner/discord.jpg",
-        "plans": {
-            "classic.1": [1200000, "یک ماهه کلاسیک"],
-            "boost.1": [2600000, "یک ماهه بوست"],
-            "classic.12": [10500000, "کلاسیک 12 ماهه"],
-            "boost.12": [10500000, "بوست 12 ماهه"]
+            "family.1": [950000, "1 ماهه Family - ترکیه"],
+            "family.3": [2590000, "3 ماهه Family - ترکیه"],
+            "family.6": [4890000, "6 ماهه Family - ترکیه"],
+            "family.12": [9490000, "12 ماهه Family - ترکیه"]
         }
     }
 }
