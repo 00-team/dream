@@ -11,5 +11,41 @@
             "family.6": [4890000, "6 ماهه Family - ترکیه"],
             "family.12": [9490000, "1 ساله Family - ترکیه"]
         }
+    },
+        "telegram": {
+        "name": "تلگرام پریمیوم",
+        "logo": "/static/image/logo/telegram.webp",
+        "data": ["telegram id"],
+        "color": "#2ba3d7",
+        "image": "/static/image/banner/telegram.jpg",
+        "plans": {
+            "gift.3": [12000000, "گیفت 3 ماهه "],
+            "gift.6": [16000000, "گیفت 6 ماهه "],
+            "gift.12": [29000000, "گیف 12 ماهه "]
+        }
+    },
+        "chatgpt": {
+        "name": "ChatGPT",
+        "logo": "/static/image/logo/chatgpt.webp",
+        "data": ["email", "password"],
+        "color": "#78eb96",
+        "image": "/static/image/banner/b-chatgpt.jpg",
+        "plans": {
+            "gift.1": [2048000, "اشتراک یک ماهه Plus "],
+            "gift.1t": [25480000, "اشتراک یک ماهه Team "]
+        }
+    },
+        "discord": {
+        "name": "دیسکورد نیترو",
+        "logo": "/static/image/logo/discord.webp",
+        "data": ["username", "password"],
+        "color": "#5f70be",
+        "image": "/static/image/banner/discord.jpg",
+        "plans": {
+            "classic.1": [1439000, "یک ماهه کلاسیک"],
+            "boost.1": [3630000, "یک ماهه بوست"],
+            "classic.12": [12280000, "کلاسیک 12 ماهه"],
+            "boost.12": [32280000, "بوست 12 ماهه"]
+        }
     }
 }
