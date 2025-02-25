@@ -12,7 +12,7 @@
             "family.12": [9490000, "1 ساله Family - ترکیه"]
         }
     },
-        "telegram": {
+    "telegram": {
         "name": "تلگرام پریمیوم",
         "logo": "/static/image/logo/telegram.webp",
         "data": ["telegram id"],
@@ -24,18 +24,18 @@
             "gift.12": [29000000, "گیف 12 ماهه "]
         }
     },
-        "chatgpt": {
+    "chatgpt": {
         "name": "ChatGPT",
         "logo": "/static/image/logo/chatgpt.webp",
         "data": ["email", "password"],
         "color": "#78eb96",
-        "image": "/static/image/banner/b-chatgpt.jpg",
+        "image": "/static/image/banner/b-chatgpt.png",
         "plans": {
             "gift.1": [2048000, "اشتراک یک ماهه Plus "],
             "gift.1t": [25480000, "اشتراک یک ماهه Team "]
         }
     },
-        "discord": {
+    "discord": {
         "name": "دیسکورد نیترو",
         "logo": "/static/image/logo/discord.webp",
         "data": ["username", "password"],

@@ -23,6 +23,13 @@ export default defineConfig(env => {
     }
 
     return {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    api: 'modern',
+                },
+            },
+        },
         plugins: [tsconfigPaths(), solidPlugin({ hot: false })],
         server: {
             port: 8200,
